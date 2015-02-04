@@ -7,13 +7,13 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import no.hist.aitel.team12.util.InputField;
+import no.hist.aitel.team12.util.PasswordInputField;
 
-public class InputFieldTest {
+public class PasswordInputFieldTest {
 
-	public InputFieldTest() {
+	public PasswordInputFieldTest() {
 		JFrame frame = new JFrame("Title");
-		InputField ifld = new InputField("Input...", 20);
+		PasswordInputField ifld = new PasswordInputField("Password..", 20);
 		frame.add(ifld, BorderLayout.NORTH);
 		JButton btn = new JButton("Button");
 		frame.add(btn, BorderLayout.SOUTH);
@@ -40,7 +40,7 @@ public class InputFieldTest {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new InputFieldTest();
+				new PasswordInputFieldTest();
 			}
 		});
 	}
