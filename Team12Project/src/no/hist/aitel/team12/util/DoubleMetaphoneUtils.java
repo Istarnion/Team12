@@ -2,7 +2,7 @@ package no.hist.aitel.team12.util;
 import org.apache.commons.codec.language.DoubleMetaphone;
 /**
  * 
- * @author Ole Jørgen
+ * @author Ole Jorgen
  *
  */
 public class DoubleMetaphoneUtils {

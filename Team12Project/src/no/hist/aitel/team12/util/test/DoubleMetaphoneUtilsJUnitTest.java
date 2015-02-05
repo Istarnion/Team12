@@ -10,7 +10,7 @@ import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 import org.junit.Test;
 
 /**
- * @author Ole Jørgen
+ * @author Ole Jorgen
  *
  */
 public class DoubleMetaphoneUtilsJUnitTest {
