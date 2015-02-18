@@ -13,16 +13,18 @@ public class PasswordInputField extends JPasswordField {
 
 	private static final long serialVersionUID = -6023239195319430046L;
 
-private String defaultText;
-	
+	private String defaultText;
+
 	private Color defaultColor;
+
+	private final char defaultEcho;
 	
 	private boolean defaultShown = true;
-	
+
 	private boolean justFilled = false;
-	
+
 	private boolean justCleared = false;
-	
+
 	/**
 	 * @param text		The default text this input field should display until it recieves focus.
 	 * @param columns	The minimum amount of columns this text field shall be able to display.
@@ -31,9 +33,10 @@ private String defaultText;
 		super(columns);
 		this.defaultText = text;
 		this.defaultColor = super.getForeground();
+		defaultEcho = super.getEchoChar();
 		
 		setDefaultText();
-		
+
 		/* This block of code defines the inputting-behaviour */
 		super.addFocusListener(new FocusListener() {
 
@@ -47,7 +50,7 @@ private String defaultText;
 			@Override
 			public void focusLost(FocusEvent fe) {}
 		});
-		
+
 		super.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
@@ -86,12 +89,12 @@ private String defaultText;
 		};
 		SwingUtilities.invokeLater(rnbl);
 	}
-	
+
 	private void prepare(final char c) {
 		Runnable rnbl = new Runnable() {
 			@Override
 			public void run() {
-				setEchoChar('*');
+				setEchoChar(defaultEcho);
 				justCleared = true;
 				defaultShown = false;
 				setForeground(defaultColor);
