@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * InputField.java Team 12, 18 Feb 2015
+ *******************************************************************************/
+
 package no.hist.aitel.team12.util;
 
 import java.awt.Color;
@@ -10,7 +27,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
- * An extension of JTextField to support a default text that goes away when the field gets focus.
+ * An extension of JTextField to support a default text that goes away when the field gets focus. <br>
+ * This is the default text field in the Super Shopping Surfer application.
  * @author Hallgeir
  */
 public class InputField extends JTextField {
@@ -28,6 +46,10 @@ public class InputField extends JTextField {
 	private boolean justCleared = false;
 	
 	/**
+	 * Sole constructor.<br>
+	 * It is equal to JTextField(int columns), but with the additional default text property.<br>
+	 * Simply set this to an empty string to make it behave like the standard JTextField
+	 * 
 	 * @param text		The default text this input field should display until it recieves focus.
 	 * @param columns	The minimum amount of columns this text field shall be able to display.
 	 */

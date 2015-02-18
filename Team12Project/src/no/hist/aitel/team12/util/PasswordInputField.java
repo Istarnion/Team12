@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * PasswordInputField.java Team 12, 18 Feb 2015
+ *******************************************************************************/
+
 package no.hist.aitel.team12.util;
 
 import java.awt.Color;
@@ -9,6 +26,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * 
+ * This is the default password input for the Super Shopping Surfer application.<br>
+ * It extends JPasswordField from javax.swing and retains all of its features.<br>
+ * In addition, this password field shows an initial text within itself, that removes itself as the
+ * user begins typing.
+ * 
+ * @author Hallgeir
+ */
 public class PasswordInputField extends JPasswordField {
 
 	private static final long serialVersionUID = -6023239195319430046L;
@@ -26,6 +52,10 @@ public class PasswordInputField extends JPasswordField {
 	private boolean justCleared = false;
 
 	/**
+	 * Sole constructor.<br>
+	 * Identical to the constructor in JPasswordField, but with the additional default string property.
+	 * Provide an empty string to make the password field behave like its superclass.
+	 * 
 	 * @param text		The default text this input field should display until it recieves focus.
 	 * @param columns	The minimum amount of columns this text field shall be able to display.
 	 */
