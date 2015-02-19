@@ -12,32 +12,43 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * TextResources.java Team 12, 19 Feb 2015
+ * TextTest.java Team 12, 19 Feb 2015
  *******************************************************************************/
 
-package no.hist.aitel.team12.resources;
+package no.hist.aitel.team12.util.test;
 
-import java.util.ListResourceBundle;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Locale;
+
+import no.hist.aitel.team12.util.Text;
+
+import org.junit.Test;
 
 /**
- * This class contains the default English version of all string resources to be used.
- * Note that version number is not updated for each addition to the list.
+ * JUnit test for the Text utility class
  * 
  * @author Hallgeir
- * @version 1.0
  */
-public class TextResources extends ListResourceBundle {
+public class TextTest {
 
-	public TextResources() {
+	@Test
+	public void test() {
+		Locale[] lacales = Locale.getAvailableLocales();
+		Locale l = null;
+		for (Locale locale : lacales) {
+			if(locale.toString().equals("no")) {
+				l = locale;
+				break;
+			}
+		}
+		
+		Locale.setDefault(Locale.ENGLISH);
+		String y = Text.getString("y");
+		assertTrue(y.equals("Yes"));
+		
+		Locale.setDefault(l);
+		y = Text.getString("y");
+		assertTrue(y.equals("Ja"));
 	}
-
-	@Override
-	protected Object[][] getContents() {
-		return new Object[][] {
-				{"login", "Log in"},
-				{"y", "Yes"},
-				{"n", "No"}
-		};
-	}
-
 }
