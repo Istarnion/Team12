@@ -67,6 +67,7 @@ public class SqlTextArea extends RSyntaxTextArea {
 		lines = new JTextArea("1");
 		lines.setEditable(false);
 		lines.setBackground(Color.LIGHT_GRAY);
+		lines.setFont(this.getFont());
 		
 		SqlTextArea sta = this;
 		this.getDocument().addDocumentListener(new DocumentListener(){
