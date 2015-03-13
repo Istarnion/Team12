@@ -25,6 +25,7 @@ import org.junit.Test;
 
 /**
  * @author Ole Jorgen
+ * @version 1.0
  *
  */
 public class DoubleMetaphoneUtilsJUnitTest {
