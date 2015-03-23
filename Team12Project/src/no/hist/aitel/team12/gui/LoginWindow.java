@@ -3,62 +3,119 @@ package no.hist.aitel.team12.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 public class LoginWindow extends JFrame {
     private static final long serialVersionUID = 1L;
-    private String username;                // variabel sÂ vi kan skifte sprÂk
-    private String password;                // -||-
+    private static String username = "Username";                // variabel s√• vi kan skifte spr√•k
+    private static String password = "Password";                // -||-
+    private static String login = "Login";
 
     private JLabel info = new JLabel("Super Shopping Surfer");
     private JLabel userLabel = new JLabel(username);
     private JLabel passwordLabel = new JLabel(password);
     private JTextField userText = new JTextField(20);
     private JTextField passwordText = new JTextField(20);
-    private JButton loginbutton = new JButton();
+    private JButton loginButton = new JButton(login);
+
+    private static String[] languages = {"Norwegian", "English"};
+    private JComboBox<?> comboBox;
 
     public LoginWindow(){
-        setTitle("SSS");
+        super("SSS");
+        //setTitle("SSS");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel chooseLanguage = new JPanel();
-        chooseLanguage.add(new JLabel("Choose Language"));
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        model.addElement("Norwegian");
-        model.addElement("English");
-        model.addElement("Chinese");
-        JComboBox comboBox = new JComboBox(model);
+        comboBox = new JComboBox(languages);
 
-        LayoutManager layout = new FlowLayout();
-        setLayout(layout);
+        comboBox.addItemListener(
+                event -> {      // Hvis et spr√•k er selektert
+                    if (event.getStateChange() == ItemEvent.SELECTED) {
+                        if (event.getItem() == "English") {
+                            // Skift spr√•k p√• teksten
+                            username = "Username";
+                            password = "Password";
+                        } else if (event.getItem() == "Norwegian"){
+                            username = "Brukernavn";
+                            password = "Passord";
+                        }
+                    }
+                }
+        );
 
-        add(info);
-        add(comboBox);
-        add(userLabel);
-        add(passwordLabel);
-        add(userText);
-        add(passwordText);
-        add(loginbutton);
+       setLayout(new SpringLayout());
+        
+        //GridBagConstraints constraints = new GridBagConstraints();
+
+        add(new TopText(), SpringLayout.NORTH);
+        add(new InputPanel(), SpringLayout.SOUTH);
         pack();
 
         Buttonlistener listener = new Buttonlistener();
-        loginbutton.addActionListener(listener);
+        loginButton.addActionListener(listener);
+    }
+    
+    private class TopText extends JPanel{
+    	public TopText(){
+    		setLayout(new BorderLayout());
+    		add(info, BorderLayout.CENTER);
+    		add(comboBox, BorderLayout.SOUTH);
+    		
+    	}
     }
 
-    private class Buttonlistener implements ActionListener {
+    private class TextPanel extends JPanel{
+        public TextPanel(){
+            setLayout(new BorderLayout());
+            add(userLabel, BorderLayout.WEST);
+            add(userText, BorderLayout.EAST);
+        }
+    }
+
+    private class PasswordPanel extends JPanel{
+        public PasswordPanel(){
+            setLayout(new BorderLayout());
+            add(passwordLabel, BorderLayout.WEST);
+            add(passwordText, BorderLayout.EAST);
+        }
+    }
+    
+    private class InputPanel extends JPanel{
+    	public InputPanel(){
+    		setLayout(new BorderLayout());
+    		add(new TextPanel(), BorderLayout.NORTH);
+    		add(new PasswordPanel(), BorderLayout.CENTER);
+    		add(loginButton, BorderLayout.SOUTH);
+    	}
+    }
+    
+    
+    
+    
+    
+    // GUI \end
+
+    private class Buttonlistener implements ActionListener {			// Hjelpemetode for knapp
         public void actionPerformed(ActionEvent event){
             JButton button = (JButton) event.getSource();
-            if(button == loginbutton){
+            if(button == loginButton){
                 // logg inn
             }
         }
     }
+    public static void main(String[] args){
+        LoginWindow oneWindow = new LoginWindow();
+        oneWindow.setSize(500,500);
+        oneWindow.setVisible(true);
+    }
 
+    /*
     private class DropdownListener implements ListSelectionListener{
         public void valueChanged(ListSelectionEvent event){
             int index1 = event.getFirstIndex();
+            //Language chosenLanguage = (Language) comboBox.
             if (event.getValueIsAdjusting() == false){
 
             }
@@ -67,9 +124,12 @@ public class LoginWindow extends JFrame {
             JList listed = (JList) event.getSource();
         }
     }
+    */
 
 }
-class Language{
+
+
+class Language{							// Hjelpeklasse, n¯dvendig?
     private String navn;
 
     public Language(String navn) {
@@ -81,9 +141,3 @@ class Language{
     }
 }
 
-class LoginWindowTest{
-    public static void main(String[] args){
-        LoginWindow oneWindow = new LoginWindow();
-        oneWindow.setVisible(true);
-    }
-}
