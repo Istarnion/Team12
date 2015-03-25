@@ -7,129 +7,123 @@ import java.awt.event.ItemEvent;
 
 import javax.swing.*;
 
+import no.hist.aitel.team12.util.InputField;
+import no.hist.aitel.team12.util.PasswordInputField;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 public class LoginWindow extends JFrame {
     private static final long serialVersionUID = 1L;
-    private static String username = "Username";                // variabel så vi kan skifte språk
-    private static String password = "Password";                // -||-
+    private static String username = "Username";
+    private static String password = "Password";            
     private static String login = "Login";
 
     private JLabel info = new JLabel("Super Shopping Surfer");
     private JLabel userLabel = new JLabel(username);
     private JLabel passwordLabel = new JLabel(password);
-    private JTextField userText = new JTextField(20);
-    private JTextField passwordText = new JTextField(20);
+    private JTextField userText = new InputField("Username", 20);
+    private JPasswordField passwordText = new PasswordInputField("Password", 20);
     private JButton loginButton = new JButton(login);
+    
+    JFrame frame = new JFrame("SSS");
+    JPanel panel = new JPanel();
 
     private static String[] languages = {"Norwegian", "English"};
-    private JComboBox<?> comboBox;
-
-    public LoginWindow(){
-        super("SSS");
-        //setTitle("SSS");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    
+    @SuppressWarnings("rawtypes")
+	private JComboBox comboBox;
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    
+	public LoginWindow(){
         comboBox = new JComboBox(languages);
 
         comboBox.addItemListener(
-                event -> {      // Hvis et språk er selektert
+                event -> {      											// Listens to dropdownbox with languages
                     if (event.getStateChange() == ItemEvent.SELECTED) {
-                        if (event.getItem() == "English") {
-                            // Skift språk på teksten
-                            username = "Username";
-                            password = "Password";
-                        } else if (event.getItem() == "Norwegian"){
-                            username = "Brukernavn";
-                            password = "Passord";
+                    	String english = "English";
+                    	String norwegian = "Norwegian";
+                        if (event.getItem().equals(english)) {				// Changes language to the chosen one
+                        	
+                        	LoginWindow.username = "Username";
+                        	LoginWindow.password = "Password";
+                        } else if (event.getItem().equals(norwegian)){
+                        	LoginWindow.username = "Brukernavn";
+                        	LoginWindow.password = "Passord";
                         }
                     }
                 }
         );
 
-       setLayout(new SpringLayout());
+        panel.setLayout(new GridLayout(4, 1));
         
-        //GridBagConstraints constraints = new GridBagConstraints();
-
-        add(new TopText(), SpringLayout.NORTH);
-        add(new InputPanel(), SpringLayout.SOUTH);
-        pack();
+        panel.add(new TopText());
+        panel.add(new ChooserPanel());
+        panel.add(new TextPanel());
+		panel.add(new ButtonPanel());
+		
+		frame.add(panel);
+		frame.pack();
+		frame.setVisible(true);
 
         Buttonlistener listener = new Buttonlistener();
         loginButton.addActionListener(listener);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
+    //Gui-helpclasses
     private class TopText extends JPanel{
     	public TopText(){
-    		setLayout(new BorderLayout());
-    		add(info, BorderLayout.CENTER);
-    		add(comboBox, BorderLayout.SOUTH);
-    		
+    		setLayout(new FlowLayout());
+    		add(info);
     	}
     }
-
+    private class ChooserPanel extends JPanel{
+    	public ChooserPanel(){
+    		setLayout(new FlowLayout());
+    		add(comboBox);
+    	}
+    }
     private class TextPanel extends JPanel{
         public TextPanel(){
-            setLayout(new BorderLayout());
-            add(userLabel, BorderLayout.WEST);
-            add(userText, BorderLayout.EAST);
+            setLayout(new GridLayout(2,4));
+            add(userLabel);
+            add(userText);
+            add(passwordLabel);
+            add(passwordText);
         }
     }
-
-    private class PasswordPanel extends JPanel{
-        public PasswordPanel(){
-            setLayout(new BorderLayout());
-            add(passwordLabel, BorderLayout.WEST);
-            add(passwordText, BorderLayout.EAST);
-        }
-    }
-    
-    private class InputPanel extends JPanel{
-    	public InputPanel(){
-    		setLayout(new BorderLayout());
-    		add(new TextPanel(), BorderLayout.NORTH);
-    		add(new PasswordPanel(), BorderLayout.CENTER);
-    		add(loginButton, BorderLayout.SOUTH);
+    private class ButtonPanel extends JPanel{
+    	public ButtonPanel(){
+    		setLayout(new FlowLayout());
+    		add(loginButton);
     	}
     }
     
-    
-    
-    
-    
-    // GUI \end
+    // GUI-helpclasses \end
 
-    private class Buttonlistener implements ActionListener {			// Hjelpemetode for knapp
+    private class Buttonlistener implements ActionListener {			// Buttonlistener-login
         public void actionPerformed(ActionEvent event){
             JButton button = (JButton) event.getSource();
             if(button == loginButton){
-                // logg inn
+                														// Insert login-functionality
             }
         }
     }
-    public static void main(String[] args){
-        LoginWindow oneWindow = new LoginWindow();
-        oneWindow.setSize(500,500);
-        oneWindow.setVisible(true);
+    public static void main(String[] args){								// Main-method, just runs the code
+    	SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				new LoginWindow();
+				
+			}
+		});
     }
-
-    /*
-    private class DropdownListener implements ListSelectionListener{
-        public void valueChanged(ListSelectionEvent event){
-            int index1 = event.getFirstIndex();
-            //Language chosenLanguage = (Language) comboBox.
-            if (event.getValueIsAdjusting() == false){
-
-            }
-        }
-        public void actionPerformed(ActionEvent event){
-            JList listed = (JList) event.getSource();
-        }
-    }
-    */
-
 }
 
-
-class Language{							// Hjelpeklasse, n�dvendig?
+/*				Spr�k-klasse
+class Language{															// Hjelpeklasse, n�dvendig?
     private String navn;
 
     public Language(String navn) {
@@ -140,4 +134,5 @@ class Language{							// Hjelpeklasse, n�dvendig?
         return navn;
     }
 }
+*/
 
