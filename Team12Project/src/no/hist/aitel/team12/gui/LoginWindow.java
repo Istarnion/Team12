@@ -12,47 +12,67 @@ import no.hist.aitel.team12.util.PasswordInputField;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
 
-public class LoginWindow extends JFrame {
-    private static final long serialVersionUID = 1L;
-    private static String username = "Username";
-    private static String password = "Password";            
-    private static String login = "Login";
+public class LoginWindow extends JFrame implements ActionListener{
+    private static final long serialVersionUID = 1L;   
+    private String user = "Username";
+    private String pass = "Password";
+    private String login = "Login";
+    private JLabel languageInfo = new JLabel();
 
     private JLabel info = new JLabel("Super Shopping Surfer");
-    private JLabel userLabel = new JLabel(username);
-    private JLabel passwordLabel = new JLabel(password);
-    private JTextField userText = new InputField("Username", 20);
-    private JPasswordField passwordText = new PasswordInputField("Password", 20);
+    private JTextField userText = new InputField(user, 20);
+    private JPasswordField passwordText = new PasswordInputField(pass, 20);
     private JButton loginButton = new JButton(login);
     
     JFrame frame = new JFrame("SSS");
     JPanel panel = new JPanel();
 
-    private static String[] languages = {"Norwegian", "English"};
+    private String[] languages = {"Norwegian", "English"};
     
-    @SuppressWarnings("rawtypes")
-	private JComboBox comboBox;
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private JComboBox comboBox = new JComboBox(languages);
+	
+	public void setUser(String user){this.user = user;}
+	public void setPass(String pass){this.pass = pass;}
+	public void setLogin(String login){this.login = login;}
     
 	public LoginWindow(){
-        comboBox = new JComboBox(languages);
-
+		
+		comboBox.setSelectedIndex(1);
+		comboBox.addActionListener(this);
+		
+		
         comboBox.addItemListener(
-                event -> {      											// Listens to dropdownbox with languages
-                    if (event.getStateChange() == ItemEvent.SELECTED) {
-                    	String english = "English";
-                    	String norwegian = "Norwegian";
-                        if (event.getItem().equals(english)) {				// Changes language to the chosen one
-                        	
-                        	LoginWindow.username = "Username";
-                        	LoginWindow.password = "Password";
-                        } else if (event.getItem().equals(norwegian)){
-                        	LoginWindow.username = "Brukernavn";
-                        	LoginWindow.password = "Passord";
-                        }
+                event -> {      																		// Listens to dropdownbox with languages
+                    if (event.getSource() == comboBox) {
+                    	JComboBox cb = (JComboBox)event.getSource();
+                    	String msg = (String)cb.getSelectedItem();
+                    	switch (msg) {
+							case "Norwegian": 				 	// system.setLanguage = norwegian - Select language Norwegian
+								setUser("Brukernavn");
+								setPass("Passord");
+								setLogin("Logg inn");
+								languageInfo.setText("Norwegian selected");
+								break;
+                    	
+							case "English": 						//system.setLanguage = english	- Select language english
+								setUser("Username");
+								setPass("Password");
+								setLogin("Login");
+								languageInfo.setText("English selected");
+								break;
+								
+	
+							default:
+								setUser("Username");
+								setPass("Password");
+								setLogin("Login");															// No language selected
+								languageInfo.setText("No language selected");
+								break;
+						}
                     }
                 }
-        );
+                
+        ); 
 
         panel.setLayout(new GridLayout(4, 1));
         
@@ -68,8 +88,42 @@ public class LoginWindow extends JFrame {
         Buttonlistener listener = new Buttonlistener();
         loginButton.addActionListener(listener);
         
+        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+	/*
+	public void actionPerformed(ActionEvent event){
+		                    if (event.getSource() == comboBox) {
+                    	JComboBox cb = (JComboBox)event.getSource();
+                    	String msg = (String)cb.getSelectedItem();
+                    	switch (msg) {
+							case "Norwegian": 				 	// system.setLanguage = norwegian - Select language Norwegian
+								setUser("Brukernavn");
+								setPass("Passord");
+								setLogin("Logg inn");
+								languageInfo.setText("Norwegian selected");
+								break;
+                    	
+							case "English": 						//system.setLanguage = english	- Select language english
+								setUser("Username");
+								setPass("Password");
+								setLogin("Login");
+								languageInfo.setText("English selected");
+								break;
+								
+	
+							default:
+								setUser("Username");
+								setPass("Password");
+								setLogin("Login");															// No language selected
+								languageInfo.setText("No language selected");
+								break;
+								
+                    	}
+		                    }
+	}*/
+	
+	
     
     //Gui-helpclasses
     private class TopText extends JPanel{
@@ -86,11 +140,10 @@ public class LoginWindow extends JFrame {
     }
     private class TextPanel extends JPanel{
         public TextPanel(){
-            setLayout(new GridLayout(2,4));
-            add(userLabel);
+            setLayout(new GridLayout(3,1));
             add(userText);
-            add(passwordLabel);
             add(passwordText);
+            add(languageInfo);
         }
     }
     private class ButtonPanel extends JPanel{
@@ -120,19 +173,12 @@ public class LoginWindow extends JFrame {
 			}
 		});
     }
+    
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
-
-/*				Språk-klasse
-class Language{															// Hjelpeklasse, nødvendig?
-    private String navn;
-
-    public Language(String navn) {
-        this.navn = navn;
-    }
-
-    public String getNavn() {
-        return navn;
-    }
-}
-*/
 
