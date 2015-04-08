@@ -21,11 +21,8 @@ public class SplashScreen extends JFrame {
 
 	private static final long serialVersionUID = -5737793924816609257L;
 
-	public SplashScreen(){
-		createSplash();
-	}
 
-	private void createSplash(){
+	public void createSplash(){
 
 		JLabel splashImage = new JLabel(new ImageIcon(getClass().getResource("/images/Splashscreen.gif")));
 		JFrame frame = new JFrame();
@@ -39,8 +36,4 @@ public class SplashScreen extends JFrame {
 	    frame.setVisible(true);
 	}
 
-public static void main(String[] args) {
-    new SplashScreen();
-
-}
 }
