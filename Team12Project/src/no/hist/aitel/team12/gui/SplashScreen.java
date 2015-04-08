@@ -2,7 +2,6 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Window;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,10 +21,12 @@ public class SplashScreen{
 	
 	private JFrame frame;
 
+	/**
+	 * 
+	 */
 	public void createSplash(){
-
 		JLabel splashImage = new JLabel(new ImageIcon(getClass().getResource("/images/Splashscreen.gif")));
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setLayout(new BorderLayout());
 	    frame.setUndecorated(true);
@@ -36,6 +37,9 @@ public class SplashScreen{
 	    frame.setVisible(true);
 	}
 	
+	/**
+	 * 
+	 */
 	public void removeSplash(){
 		frame.dispose();
 	}

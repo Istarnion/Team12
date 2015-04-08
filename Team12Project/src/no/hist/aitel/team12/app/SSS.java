@@ -16,20 +16,29 @@
  *******************************************************************************/
 package no.hist.aitel.team12.app;
 
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
 
 public class SSS {
 
-	public SSS() {
-		SplashScreen splash = new SplashScreen();
-		splash.createSplash();
-		
-		LoginWindow loginWindow = new LoginWindow();
-		
-	}
+	private final static long MIN_SPLASH_TIME = 2000L;	// How long, minimum, the splash screen will be shown.
 	
 	public static void main(String[] args) {
-		new SSS();
+		// Splash Screen
+		SplashScreen splash = new SplashScreen();
+		splash.createSplash();
+		long timestamp = System.currentTimeMillis();
+		DatabaseFactory.setup();
+		while(System.currentTimeMillis() - timestamp < MIN_SPLASH_TIME) {
+			Thread.yield();
+		}
+		splash.removeSplash();
+		
+		// Login
+		LoginWindow loginWindow = new LoginWindow();
+		
+		// Depending on the user, setup the GUI
+				
 	}
 }

@@ -9,7 +9,7 @@ public class DatabaseFactory {
 	/**
 	 * @return A handle to the database
 	 */
-	public Database getDatabase() {
+	public static Database getDatabase() {
 		if(ready) {
 			return db;
 		}
@@ -21,7 +21,7 @@ public class DatabaseFactory {
 	 * 
 	 * @return True if we successfully connected to the database
 	 */
-	public boolean setup() {
+	public static boolean setup() {
 		return false;
 	}
 }

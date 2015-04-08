@@ -12,8 +12,6 @@ import javax.swing.*;
 
 import no.hist.aitel.team12.util.InputField;
 import no.hist.aitel.team12.util.PasswordInputField;
-//import no.hist.aitel.team12.util.Text;
-//import no.hist.aitel.team12.app.PasswordManager;
 
 /**
  * This class contains login-window, and will handle interaction from the user from program startup to a users homepage. 
@@ -98,6 +96,7 @@ public class LoginWindow extends JFrame{
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 
         Buttonlistener listener = new Buttonlistener();
         loginButton.addActionListener(listener);
@@ -146,9 +145,9 @@ public class LoginWindow extends JFrame{
 	            
 	            String user = userText.getText().trim();
 	            @SuppressWarnings("deprecation")
-				String pass = passwordText.getText().trim();
+				String pass = passwordText.getText();
 	            
-	            String sql = "select user, pass from _Tablename_ where user = '"+user+"'and pass = '"+pass+"' ";
+	            String sql = "select user, pass from <_Table_name_> where user = '"+user+"'and pass = '"+pass+"' ";		// !EXAMPLE!
 				rs = ((java.sql.Statement) st).executeQuery(sql);
 					
 	            int count = 0;
