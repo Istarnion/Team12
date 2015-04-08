@@ -23,6 +23,7 @@ import no.hist.aitel.team12.util.PasswordInputField;
  * @version 1.0
  *
  */
+
 public class LoginWindow extends JFrame{
     private static final long serialVersionUID = 1L;   
     private String user = "Username";
@@ -181,16 +182,6 @@ public class LoginWindow extends JFrame{
 			}
 		}
     
-    public static void main(String[] args){								// Main-method, just runs the code
-    	SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				new LoginWindow();
-				
-			}
-		});
-    }
     public int showLoginWindow(){
     	return 1;					//?
     }
