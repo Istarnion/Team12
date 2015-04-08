@@ -1,7 +1,11 @@
 package no.hist.aitel.team12.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * 
@@ -14,6 +18,8 @@ import java.awt.*;
 
 
 public class SplashScreen extends JFrame {
+
+	private static final long serialVersionUID = -5737793924816609257L;
 
 	public SplashScreen(){
 		createSplash();

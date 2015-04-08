@@ -61,10 +61,10 @@ public class SqlTextArea extends RSyntaxTextArea {
 	 * @param cols The number of columns in the SqlTextArea
 	 */
 	public SqlTextArea(int rows, int cols) {
-		super(rows, cols);
+		super(rows, cols-3);
 		super.setSyntaxEditingStyle(SYNTAX_STYLE_SQL);
 		
-		lines = new JTextArea("1");
+		lines = new JTextArea("001");
 		lines.setEditable(false);
 		lines.setBackground(Color.LIGHT_GRAY);
 		lines.setFont(this.getFont());
@@ -74,9 +74,9 @@ public class SqlTextArea extends RSyntaxTextArea {
 			public String getText(){
 				int caretPosition = sta.getDocument().getLength();
 				Element root = sta.getDocument().getDefaultRootElement();
-				String text = "1" + System.getProperty("line.separator");
+				String text = "001" + System.getProperty("line.separator");
 				for(int i = 2; i < root.getElementIndex( caretPosition ) + 2; i++){
-					text += i + System.getProperty("line.separator");
+					text += String.format("%03d", i) + System.getProperty("line.separator");
 				}
 				return text;
 			}
