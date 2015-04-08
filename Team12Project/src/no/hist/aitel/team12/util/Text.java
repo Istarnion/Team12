@@ -33,6 +33,7 @@ public class Text {
 
 	/**
 	 * This methods simply calls ResourceBundle.getBundle(TextResources.class.getName()).getString(key) internally.
+	 * This method is provided to shorten that method call.
 	 * 
 	 * @param key The key to the string resource needed.
 	 * @return The string requested.
