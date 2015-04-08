@@ -12,32 +12,24 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * TextResources_no.java Team 12, 19 Feb 2015
+ * SSS.java Team 12, 8 Apr 2015
  *******************************************************************************/
+package no.hist.aitel.team12.app;
 
-package no.hist.aitel.team12.resources;
+import no.hist.aitel.team12.gui.LoginWindow;
+import no.hist.aitel.team12.gui.SplashScreen;
 
-import java.util.ListResourceBundle;
+public class SSS {
 
-/**
- * This class contains the Norwegian translation of all string resources to be used.
- * Note that version number is not updated for each addition to the list.
- * 
- * @author Hallgeir
- * @version 1.0
- */
-public class TextResources_no extends ListResourceBundle {
-
-	public TextResources_no() {
+	public SSS() {
+		SplashScreen splash = new SplashScreen();
+		splash.createSplash();
+		
+		LoginWindow loginWindow = new LoginWindow();
+		
 	}
-
-	@Override
-	protected Object[][] getContents() {
-		return new Object[][] {
-				{"login", "Logg inn"},
-				{"y", "Ja"},
-				{"n", "Nei"},
-				{"sss", "Super Shopping Surfer"}
-		};
+	
+	public static void main(String[] args) {
+		new SSS();
 	}
 }
