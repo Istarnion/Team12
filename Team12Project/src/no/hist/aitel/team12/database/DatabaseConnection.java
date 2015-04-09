@@ -2,6 +2,8 @@ package no.hist.aitel.team12.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseConnection implements Database {
@@ -15,6 +17,8 @@ public class DatabaseConnection implements Database {
 
 			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_bronze?"
 					+ "user=team12&password=teamadmin12");
+			
+			ok = testConnection();
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -25,6 +29,8 @@ public class DatabaseConnection implements Database {
 			ok = false;
 		}
 		
+		
+		
 		return ok;
 	}
 	
@@ -32,7 +38,28 @@ public class DatabaseConnection implements Database {
 	public String getPasswordHash(String user) {
 		return null;
 	}
-
+	
+	@Override
+	public boolean testConnection() {
+		boolean ok;
+		try(PreparedStatement statement = connection.prepareStatement("SHOW TABLES")) {
+			
+			ResultSet result = statement.executeQuery();
+			
+			while(result.next()) {
+				System.out.println(result.getString(1));
+			}
+			result.close();
+			
+			ok = true;
+		}
+		catch (SQLException e) {
+			ok = false;
+		}
+		
+		return ok;
+	}
+	
 	@Override
 	public void teardown() {
 		try {

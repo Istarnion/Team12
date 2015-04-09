@@ -53,7 +53,6 @@ public class SSS {
 			System.exit(1);
 		}
 		else {
-			DatabaseFactory.getDatabase().teardown();
 			System.out.println("Everything went nicely with the database connection.");
 		}
 		
@@ -77,5 +76,8 @@ public class SSS {
 				System.out.println(user);
 				break;
 		}
+		
+		// Cleanup
+		DatabaseFactory.getDatabase().teardown();
 	}
 }
