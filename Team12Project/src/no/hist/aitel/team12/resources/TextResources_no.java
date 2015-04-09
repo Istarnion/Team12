@@ -37,7 +37,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"login", "Logg inn"},
 				{"y", "Ja"},
 				{"n", "Nei"},
-				{"sss", "Super Shopping Surfer"}
+				{"sss", "Super Shopping Surfer"},
+				{"pwd", "Passord"},
+				{"usr", "Brukernavn"}
 		};
 	}
 }

@@ -117,6 +117,11 @@ public class InputField extends JTextField {
 		});
 	}
 
+	public void setDefaultText(String text) {
+		defaultText = text;
+		setDefaultText();
+	}
+	
 	private void setDefaultText() {
 		Runnable rnbl = new Runnable() {
 			@Override

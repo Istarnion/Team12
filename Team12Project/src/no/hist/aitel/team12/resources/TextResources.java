@@ -37,7 +37,9 @@ public class TextResources extends ListResourceBundle {
 				{"login", "Log in"},
 				{"y", "Yes"},
 				{"n", "No"},
-				{"sss", "Super Shopping Surfer"}
+				{"sss", "Super Shopping Surfer"},
+				{"pwd", "Password"},
+				{"usr", "Username"}
 		};
 	}
 }

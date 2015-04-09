@@ -17,23 +17,37 @@
 package no.hist.aitel.team12.app;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
+import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
+import no.hist.aitel.team12.gui.SqlTab;
 
 public class SSS {
 
 	private final static long MIN_SPLASH_TIME = 2000L;	// How long, minimum, the splash screen will be shown.
 	
 	public static void main(String[] args) {
+		try {
+			// Set System L&F
+			UIManager.setLookAndFeel(
+					UIManager.getSystemLookAndFeelClassName());
+		} 
+		catch (Exception ex) {
+			System.out.println("Failed setting System laf. Reverting to Java defult.");
+		}
+		
 		// Splash Screen
 		SplashScreen splash = new SplashScreen();
 		splash.createSplash();
 		long timestamp = System.currentTimeMillis();
 		
 		if(!DatabaseFactory.setup()) {
-			JOptionPane.showMessageDialog(null, "Failed connecting to the database.\nPlease contact system administrator.",
+			JOptionPane.showMessageDialog(
+					null,
+					"Failed connecting to the database.\nPlease contact system administrator.",
 					"Connection failed",
 					JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
@@ -50,8 +64,18 @@ public class SSS {
 		
 		// Login
 		LoginWindow loginWindow = new LoginWindow();
+		final int user = loginWindow.showLoginWindow();
 		
 		// Depending on the user, setup the GUI
-		
+		switch(user) {
+			case 0:
+				SSSWindow window = new SSSWindow();
+				window.addTab("SQL", new SqlTab());
+				window.showWindow();
+				break;
+			default:
+				System.out.println(user);
+				break;
+		}
 	}
 }

@@ -105,6 +105,11 @@ public class PasswordInputField extends JPasswordField {
 		});
 	}
 
+	public void setDefaultText(String text) {
+		defaultText = text;
+		setDefaultText();
+	}
+	
 	private void setDefaultText() {
 		Runnable rnbl = new Runnable() {
 			@Override

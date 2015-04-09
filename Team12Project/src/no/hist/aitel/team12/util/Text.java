@@ -17,6 +17,7 @@
 
 package no.hist.aitel.team12.util;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import no.hist.aitel.team12.resources.TextResources;
@@ -29,6 +30,10 @@ import no.hist.aitel.team12.resources.TextResources;
  */
 public class Text {
 
+	public static Locale
+		NORWEGIAN = findNorwegianLocale(),
+		ENGLISH = Locale.ENGLISH;
+	
 	private Text() {}
 
 	/**
@@ -40,5 +45,19 @@ public class Text {
 	 */
 	public static String getString(String key) {
 		return ResourceBundle.getBundle(TextResources.class.getName()).getString(key);
+	}
+	
+	public static void setLocale(Locale l) {
+		Locale.setDefault(l);
+	}
+	
+	private static Locale findNorwegianLocale() {
+		Locale[] locales = Locale.getAvailableLocales();
+		for (Locale locale : locales) {
+			if(locale.toString().equals("no")) {
+				return locale;
+			}
+		}
+		return null;
 	}
 }
