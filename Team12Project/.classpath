@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="libs/RSyntaxTextArea-master/build/libs/rsyntaxtextarea-2.6.0-SNAPSHOT.jar" sourcepath="libs/RSyntaxTextArea-master/build/libs/rsyntaxtextarea-2.6.0-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.34-bin.jar"/>
 	<classpathentry kind="lib" path="libs/itextpdf-5.5.5.jar"/>
+	<classpathentry kind="lib" path="libs/javax.mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
