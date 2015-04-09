@@ -54,7 +54,7 @@ public class LoginWindow extends JFrame{
 	public LoginWindow(){
 		
 		comboBox.setSelectedIndex(1);
-		connect();
+		
 		
         comboBox.addItemListener(
                 event -> {      																		// Listener for dropdownbox with languages
@@ -165,24 +165,6 @@ public class LoginWindow extends JFrame{
 				e.printStackTrace();
 			}
         }
-    }
-    
-    public void connect() {											// Connecting to database !EXAMPLE!
-		try {
-			String driver = "x.x.x.X";
-			getClass();
-			Class.forName(driver);
-			
-			String db = "x:x:x";
-			con = DriverManager.getConnection(db);
-			st = con.createStatement();
-			
-		} catch(Exception e){
-			}
-		}
-    
-    public int showLoginWindow(){
-    	return 1;					//?
     }
 }
 

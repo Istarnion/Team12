@@ -8,11 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
- * 
- * @author Andreas Laptop
- *
  * Class creates a transparent JFrame that contains a JLabel 
  * with a transparent image (Splashscreen.gif)located in Resources/images.
+ * 
+ * @author Andreas
+ * @version 1.0
+ *
+ * 
  */
 
 
