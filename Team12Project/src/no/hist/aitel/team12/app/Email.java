@@ -7,6 +7,14 @@ import javax.mail.internet.*;
 import javax.mail.internet.MimeMessage.RecipientType;
 import javax.activation.*;
 
+/*
+ * This class takes use of the Java Mail library to send mails from in
+ *  this instance a gmail account.
+ * 
+ * @ Andreas
+ * @ Version 1.0
+ * 
+ */
 
 
 public class Email {
@@ -26,9 +34,11 @@ public class Email {
 		try{
 		mimeMessage.setFrom(new InternetAddress(from));
 		InternetAddress [] toAddress =  new InternetAddress[to.length];
+		
 		for(int i=0; i<to.length; i++){
 			toAddress [i] = new InternetAddress(to[i]);
 		}
+		
 		for (int i=0; i<toAddress.length; i++){
 			mimeMessage.addRecipient(RecipientType.TO, toAddress[i]);
 		}

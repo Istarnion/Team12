@@ -8,6 +8,15 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+/**
+ * This class takes the information from the Report class and generate a .pdf file
+ * with that information. The class uses the the iText library to create the .pdf file.
+ * 
+ * @author Andreas 
+ * @version 1.0
+ *
+ */
+
 
 public class PDFGenerator {
 
