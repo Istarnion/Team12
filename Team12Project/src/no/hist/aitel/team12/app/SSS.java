@@ -16,6 +16,8 @@
  *******************************************************************************/
 package no.hist.aitel.team12.app;
 
+import javax.swing.JOptionPane;
+
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
@@ -29,7 +31,18 @@ public class SSS {
 		SplashScreen splash = new SplashScreen();
 		splash.createSplash();
 		long timestamp = System.currentTimeMillis();
-		DatabaseFactory.setup();
+		
+		if(!DatabaseFactory.setup()) {
+			JOptionPane.showMessageDialog(null, "Failed connecting to the database.\nPlease contact system administrator.",
+					"Connection failed",
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+		else {
+			DatabaseFactory.getDatabase().teardown();
+			System.out.println("Everything went nicely with the database connection.");
+		}
+		
 		while(System.currentTimeMillis() - timestamp < MIN_SPLASH_TIME) {
 			Thread.yield();
 		}
@@ -39,6 +52,6 @@ public class SSS {
 		LoginWindow loginWindow = new LoginWindow();
 		
 		// Depending on the user, setup the GUI
-				
+		
 	}
 }

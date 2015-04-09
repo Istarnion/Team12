@@ -1,7 +1,12 @@
 package no.hist.aitel.team12.app;
 
-import java.awt.Image;
 import java.io.FileOutputStream;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 
 public class PDFGenerator {

@@ -2,7 +2,7 @@ package no.hist.aitel.team12.database;
 
 public class DatabaseFactory {
 	
-	private static Database db;
+	private static DatabaseConnection db;
 	
 	private static boolean ready = false;
 	
@@ -22,6 +22,8 @@ public class DatabaseFactory {
 	 * @return True if we successfully connected to the database
 	 */
 	public static boolean setup() {
-		return false;
+		db = new DatabaseConnection();
+		ready = db.connect();
+		return ready;
 	}
 }
