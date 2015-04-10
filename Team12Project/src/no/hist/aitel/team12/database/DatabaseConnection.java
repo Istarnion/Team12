@@ -114,4 +114,25 @@ public class DatabaseConnection implements Database {
 
 		return data;
 	}
+
+	@Override
+	public int getUserID(String username) {
+		int output = -1;
+		
+		try(PreparedStatement statement = connection.prepareStatement("SELECT employee_number FROM person WHERE username = ?")) {
+			
+			statement.setString(1, username);
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next()) {
+				output = result.getInt(1);
+			}
+			result.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return output;
+	}
 }

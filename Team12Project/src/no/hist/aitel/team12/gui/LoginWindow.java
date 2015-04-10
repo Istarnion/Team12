@@ -1,17 +1,21 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Locale;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.InputField;
 import no.hist.aitel.team12.util.PasswordInputField;
 import no.hist.aitel.team12.util.Text;
@@ -27,120 +31,116 @@ import no.hist.aitel.team12.util.Text;
 
 public class LoginWindow {
 
-	private JLabel info = new JLabel(Text.getString("sss"));
+	private JLabel logoLabel;
 	private InputField userText = new InputField(Text.getString("usr"), 20);
 	private PasswordInputField passwordText = new PasswordInputField(Text.getString("pwd"), 20);
-	private JButton loginButton = new JButton(Text.getString("login"));
+	private JButton loginButton;
+	private JButton cancelButton;
 
-	JFrame frame = new JFrame("SSS");
-	JPanel panel = new JPanel();
-
-	private String[] languages = {"Norwegian", "English"};
+	JFrame frame;
+	JPanel mainPanel;
+	JPanel buttonPanel;
 	
-	private JComboBox<String> comboBox = new JComboBox<String>(languages);
-
-	private JComboBox<ShoppingCentre> centreSelection;
+	private ImageIcon no, en;
+	
+	private BufferedImage logo;
+	
+	private JComboBox<ImageIcon> languageSelection;
 	
 	private int user = -2;
 	
-	public LoginWindow(ShoppingCentre[] shoppingCentres){
-		centreSelection = new JComboBox<ShoppingCentre>(shoppingCentres);
+	public LoginWindow(){
+		try {
+			no = new ImageIcon(ImageIO.read(getClass().getResource("/images/Norway-icon.png")));
+			en = new ImageIcon(ImageIO.read(getClass().getResource("/images/United-Kingdom-icon.png")));
+			
+			logo = ImageIO.read(getClass().getResource("/images/simpleLogo.png"));
+		} catch (IOException e) {
+			System.out.println("Failed loading language icons!");
+		}
+		
+		languageSelection = new JComboBox<ImageIcon>(new ImageIcon[] {no, en});
 	}
 
 	public void updateFields() {
 		userText.setDefaultText(Text.getString("usr"));
 		passwordText.setDefaultText(Text.getString("pwd"));
 		loginButton.setText(Text.getString("login"));
-	}
-
-	//Gui-helpclasses
-	private class TopText extends JPanel{
-		private static final long serialVersionUID = 1180991892671688640L;
-		public TopText(){
-			setLayout(new FlowLayout());
-			add(info);
-		}
-	}
-	private class ChooserPanel extends JPanel{
-		private static final long serialVersionUID = -1720583423271090517L;
-		public ChooserPanel(){
-			setLayout(new FlowLayout());
-			add(comboBox);
-		}
-	}
-	private class TextPanel extends JPanel{
-		private static final long serialVersionUID = 1L;
-		public TextPanel(){
-			setLayout(new GridLayout(3,1));
-			add(userText);
-			add(passwordText);
-		}
-	}
-	private class ButtonPanel extends JPanel{
-		private static final long serialVersionUID = 1L;
-		public ButtonPanel(){
-			setLayout(new FlowLayout());
-			add(loginButton);
-		}
-	}   
-	// GUI-helpclasses \end
-
-	private class Buttonlistener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent event){
-
-			//JButton button = (JButton) event.getSource();
-
-			String username = userText.getText().trim();
-
-			String pass = new String(passwordText.getPassword());	
-
-			user = 0;
-			
-		}
+		cancelButton.setText(Text.getString("cancel"));
 	}
 
 	public int showLoginWindow() {
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		frame.setUndecorated(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		comboBox.setSelectedIndex(1);
+		if(Locale.getDefault().equals(Text.ENGLISH)) {
+			languageSelection.setSelectedIndex(0);
+		}
+		else {
+			languageSelection.setSelectedIndex(1);
+		}
+		
 
-		comboBox.addItemListener(
-			event -> {      												// Listener for dropdownbox with languages
-				if (event.getSource() == comboBox) {
-					JComboBox<?> cb = (JComboBox<?>)event.getSource();
-					String msg = (String)cb.getSelectedItem();
-					switch (msg) {
-						case "Norwegian":
-							Text.setLocale(Text.NORWEGIAN);
-							updateFields();
-							break;
-						case "English":
-							Text.setLocale(Text.ENGLISH);
-							updateFields();
-							break;
-						default:
-							break;
-					}
+		languageSelection.addItemListener(
+			event -> {
+				JComboBox<?> cb = (JComboBox<?>)event.getSource();
+				ImageIcon msg = (ImageIcon)cb.getSelectedItem();
+				
+				if(msg.equals(no)) {
+					Text.setLocale(Text.NORWEGIAN);
+					updateFields();
+				}
+				else if(msg.equals(en)) {
+					Text.setLocale(Text.ENGLISH);
+					updateFields();
 				}
 			}
 		); 
 
-		panel.setLayout(new GridLayout(4, 1));
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridLayout(5, 1, 5, 2));
 
-		panel.add(new TopText());
-		panel.add(new ChooserPanel());
-		panel.add(centreSelection);
-		panel.add(new TextPanel());
-		panel.add(new ButtonPanel());
-
-		frame.add(panel);
+		logoLabel = new JLabel();
+		logoLabel.setIcon(new ImageIcon(logo));
+		frame.add(logoLabel, BorderLayout.NORTH);
+		
+		mainPanel.add(userText);
+		
+		mainPanel.add(passwordText);
+		
+		mainPanel.add(languageSelection);
+		
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(1, 2, 5, 2));
+		
+		loginButton = new JButton(Text.getString("login"));
+		loginButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				user = 0;
+			}
+		});
+		
+		cancelButton = new JButton(Text.getString("cancel"));
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				user = 0;
+			}
+		});
+		
+		buttonPanel.add(loginButton);
+		buttonPanel.add(cancelButton);
+		
+		mainPanel.add(buttonPanel);
+		
+		frame.add(mainPanel, BorderLayout.CENTER);
 		frame.pack();
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-
-		Buttonlistener listener = new Buttonlistener();
-		loginButton.addActionListener(listener);
 		
 		while(user < -1) {
 			Thread.yield();
