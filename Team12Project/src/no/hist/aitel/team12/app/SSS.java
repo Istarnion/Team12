@@ -27,14 +27,14 @@ import no.hist.aitel.team12.gui.SqlTab;
 
 public class SSS {
 
-	private final static long MIN_SPLASH_TIME = 2000L;	// How long, minimum, the splash screen will be shown.
+	private final static long MIN_SPLASH_TIME = 1500L;	// How long, minimum, the splash screen will be shown.
 	
 	public static void main(String[] args) {
 		try {
 			// Set System L&F
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
-		} 
+		}
 		catch (Exception ex) {
 			System.out.println("Failed setting System laf. Reverting to Java defult.");
 		}
@@ -62,7 +62,7 @@ public class SSS {
 		splash.removeSplash();
 		
 		// Login
-		LoginWindow loginWindow = new LoginWindow();
+		LoginWindow loginWindow = new LoginWindow(ShoppingCentre.getShoppingCentres(DatabaseFactory.getDatabase()));
 		final int user = loginWindow.showLoginWindow();
 		
 		// Depending on the user, setup the GUI

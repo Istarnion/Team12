@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.InputField;
 import no.hist.aitel.team12.util.PasswordInputField;
 import no.hist.aitel.team12.util.Text;
@@ -35,13 +36,15 @@ public class LoginWindow {
 	JPanel panel = new JPanel();
 
 	private String[] languages = {"Norwegian", "English"};
-
+	
 	private JComboBox<String> comboBox = new JComboBox<String>(languages);
 
+	private JComboBox<ShoppingCentre> centreSelection;
+	
 	private int user = -2;
 	
-	public LoginWindow(){
-
+	public LoginWindow(ShoppingCentre[] shoppingCentres){
+		centreSelection = new JComboBox<ShoppingCentre>(shoppingCentres);
 	}
 
 	public void updateFields() {
@@ -127,6 +130,7 @@ public class LoginWindow {
 
 		panel.add(new TopText());
 		panel.add(new ChooserPanel());
+		panel.add(centreSelection);
 		panel.add(new TextPanel());
 		panel.add(new ButtonPanel());
 
