@@ -1,5 +1,7 @@
 package no.hist.aitel.team12.database;
 
+import no.hist.aitel.team12.app.UserType;
+
 
 public interface Database {
 	
@@ -12,4 +14,6 @@ public interface Database {
 	public void teardown();
 	
 	public String[][] getShoppingCentreData();
+	
+	public UserType getUserType(int userId);
 }

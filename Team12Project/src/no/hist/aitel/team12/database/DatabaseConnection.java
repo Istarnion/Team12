@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import no.hist.aitel.team12.app.UserType;
+
 public class DatabaseConnection implements Database {
 
 	private Connection connection;
@@ -134,5 +136,43 @@ public class DatabaseConnection implements Database {
 		}
 		
 		return output;
+	}
+
+	@Override
+	public UserType getUserType(int userId) {
+		if(userId == 0) return UserType.SYS_ADMIN;
+		
+		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM ? WHERE employee_number = ?")) {
+			statement.setInt(2, userId);
+			
+			statement.setString(1, "centremanager");
+			ResultSet result = statement.executeQuery();
+			if(result.next()) {
+				result.close();
+				return UserType.CENTRE_MANAGER;
+			}
+			result.close();
+			
+			statement.setString(1, "customerservice");
+			result = statement.executeQuery();
+			if(result.next()) {
+				result.close();
+				return UserType.CENTRE_MANAGER;
+			}
+			result.close();
+			
+			statement.setString(1, "shopowner");
+			result = statement.executeQuery();
+			if(result.next()) {
+				result.close();
+				return UserType.CENTRE_MANAGER;
+			}
+			result.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

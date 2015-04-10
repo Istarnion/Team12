@@ -14,8 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import no.hist.aitel.team12.app.SSS;
 import no.hist.aitel.team12.util.InputField;
 import no.hist.aitel.team12.util.PasswordInputField;
 import no.hist.aitel.team12.util.Text;
@@ -30,7 +32,9 @@ import no.hist.aitel.team12.util.Text;
  */
 
 public class LoginWindow {
-
+	
+	private SSS sss;
+	
 	private JLabel logoLabel;
 	private InputField userText = new InputField(Text.getString("usr"), 20);
 	private PasswordInputField passwordText = new PasswordInputField(Text.getString("pwd"), 20);
@@ -47,9 +51,8 @@ public class LoginWindow {
 	
 	private JComboBox<ImageIcon> languageSelection;
 	
-	private int user = -2;
-	
-	public LoginWindow(){
+	public LoginWindow(SSS sss){
+		this.sss = sss;
 		try {
 			no = new ImageIcon(ImageIO.read(getClass().getResource("/images/Norway-icon.png")));
 			en = new ImageIcon(ImageIO.read(getClass().getResource("/images/United-Kingdom-icon.png")));
@@ -69,18 +72,19 @@ public class LoginWindow {
 		cancelButton.setText(Text.getString("cancel"));
 	}
 
-	public int showLoginWindow() {
+	public void showLoginWindow() {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		frame.setUndecorated(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		if(Locale.getDefault().equals(Text.ENGLISH)) {
-			languageSelection.setSelectedIndex(0);
+		Text.setLocale(Locale.getDefault());
+		if(Locale.getDefault().toString().equals(Text.ENGLISH.toString())) {
+			languageSelection.setSelectedIndex(1);
 		}
 		else {
-			languageSelection.setSelectedIndex(1);
+			languageSelection.setSelectedIndex(0);
 		}
 		
 
@@ -120,7 +124,9 @@ public class LoginWindow {
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				user = 0;
+				if(!sss.login(userText.getText(), new String(passwordText.getPassword()))) {
+					JOptionPane.showMessageDialog(frame, Text.getString("loginfail"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -128,7 +134,7 @@ public class LoginWindow {
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				user = 0;
+				SSS.exit();
 			}
 		});
 		
@@ -141,13 +147,10 @@ public class LoginWindow {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-		
-		while(user < -1) {
-			Thread.yield();
-		}
-		
+	}
+	
+	public void dispose() {
 		frame.dispose();
-		return user;
 	}
 }
 

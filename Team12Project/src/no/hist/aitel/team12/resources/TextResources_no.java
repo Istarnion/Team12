@@ -40,7 +40,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"n", "Nei"},
 				{"sss", "Super Shopping Surfer"},
 				{"pwd", "Passord"},
-				{"usr", "Brukernavn"}
+				{"usr", "Brukernavn"},
+				{"loginfail", "Innloging feilet.\nUgyldig brukernavn/passord."},
+				{"err", "Feil"}
 		};
 	}
 }

@@ -71,6 +71,8 @@ public class PasswordManager {
 	 * @return true if the inputed password is valid, false if not.
 	 */
 	public static boolean validatePasswordMatch(String inputPwd, String storedPwd) {
+		if(inputPwd == null || storedPwd == null) return false;
+		
 		String[] parts = storedPwd.split(":");
 		int iterations = Integer.parseInt(parts[0]);
 		byte[] salt = fromHex(parts[1]);
