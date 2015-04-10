@@ -1,7 +1,10 @@
 package no.hist.aitel.team12.gui;
 
-import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
 
-public class ReportTab extends JTabbedPane {
+
+public class ReportTab extends JPanel {
+
+	private static final long serialVersionUID = 1702730798516572398L;
 
 }

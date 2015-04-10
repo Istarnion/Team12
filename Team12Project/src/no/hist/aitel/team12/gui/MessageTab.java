@@ -2,9 +2,8 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 
@@ -14,7 +13,7 @@ public class MessageTab extends JPanel {
 	private static final long serialVersionUID = 7021415739968091789L;
 
 	
-	private JScrollPane inboxArea;
+	private JTextArea inboxArea;
 	
 	private JTextArea viewMessageArea;
 	
@@ -32,7 +31,7 @@ public class MessageTab extends JPanel {
 		
 		gbc.fill = GridBagConstraints.BOTH;
 		
-		inboxArea = new JScrollPane(rows, cols);
+		inboxArea = new JTextArea(rows, cols);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 4;

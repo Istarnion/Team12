@@ -18,12 +18,14 @@ public class SSSWindow extends JFrame {
 		add(tabbedPane);
 	}
 	
+	
 	public void addTab(String tabName, JPanel tab) {
-		tabbedPane.add(tabName, tab);
+		tabbedPane.add("<html><body leftmargin=15 topmargin=8 marginwidth=15 marginheight=5>" + tabName + "</body></html>", tab);
 	}
 	
 	public void showWindow() {
 		pack();
+		this.setLocationRelativeTo(null);
 		setVisible(true);
 	}
 }
