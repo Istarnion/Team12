@@ -135,6 +135,7 @@ public class SSS {
 	
 	public static void exit() {
 		DatabaseFactory.getDatabase().teardown();
+		System.out.println("Successful exit.");
 		System.exit(0);
 	}
 }

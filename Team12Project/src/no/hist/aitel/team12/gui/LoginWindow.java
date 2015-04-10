@@ -1,9 +1,12 @@
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Locale;
@@ -16,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.app.SSS;
 import no.hist.aitel.team12.util.Text;
@@ -75,10 +79,11 @@ public class LoginWindow {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		frame.setUndecorated(true);
+		frame.getRootPane().setBorder(new LineBorder(Color.BLACK));
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		Text.setLocale(Locale.getDefault());
-		if(Locale.getDefault().toString().equals(Text.ENGLISH.toString())) {
+		if(Locale.getDefault().toString().startsWith(Text.ENGLISH.toString())) {
 			languageSelection.setSelectedIndex(1);
 		}
 		else {
@@ -125,6 +130,28 @@ public class LoginWindow {
 		
 		userText.addActionListener(loginListener);
 		passwordText.addActionListener(loginListener);
+		
+		/*  --------------------FOR DEBUG PURPOSES ONLY--------------------  */
+		userText.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if(ke.isControlDown()) {
+					if(ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+						sss.login("admin", "TeamAdmin12");
+					}
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+			}
+		});
+		/*  --------------------FOR DEBUG PURPOSES ONLY--------------------  */
 		
 		cancelButton = new JButton(Text.getString("cancel"));
 		cancelButton.addActionListener(new ActionListener() {
