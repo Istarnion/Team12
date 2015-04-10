@@ -12,7 +12,7 @@ public class ShoppingCentre extends Business {
 	
 	public ShoppingCentre(
 			int businessId, String businessName, Adress adress,
-			EmailAdress email, String telephone, String openingHours,
+			EmailAddress email, String telephone, String openingHours,
 			int centreId, int parkingSpaces, String description) {
 		
 		super(businessId, businessName, adress, email, telephone, openingHours);
@@ -62,7 +62,7 @@ public class ShoppingCentre extends Business {
 		for(int i=0; i<data.length; i++) {
 			output[i] = new ShoppingCentre(
 					Integer.parseInt(data[i][3]), data[i][7], new Adress(),
-					new EmailAdress(), data[i][11], data[i][12],
+					new EmailAddress(), data[i][11], data[i][12],
 					Integer.parseInt(data[i][4]), Integer.parseInt(data[i][5]), data[i][6]
 					);
 		}
