@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import no.hist.aitel.team12.app.Adress;
-import no.hist.aitel.team12.app.Business;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
@@ -87,7 +86,7 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public Business[] getShoppingCentreData() {
+	public ShoppingCentre[] getShoppingCentreData() {
 		ShoppingCentre[] centres = null;
 		ResultSet result = null;
 		int rows;
@@ -103,7 +102,7 @@ public class DatabaseConnection implements Database {
 			result.next();
 			centres = new ShoppingCentre[rows];
 
-			for(int i=0; i<rows; i++) {
+			for(int i=0; result.next(); i++) {
 				centres[i] = new ShoppingCentre(
 						result.getInt("business_id"), 
 						result.getString("business_name"), 
@@ -119,7 +118,6 @@ public class DatabaseConnection implements Database {
 						result.getInt("parking_spaces"), 
 						result.getString("text_description")
 						);
-				if(!result.next()) break;
 			}
 			
 			result.close();
