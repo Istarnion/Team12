@@ -40,7 +40,9 @@ public class TextResources extends ListResourceBundle {
 				{"n", "No"},
 				{"sss", "Super Shopping Surfer"},
 				{"pwd", "Password"},
-				{"usr", "Username"}
+				{"usr", "Username"},
+				{"loginfail", "Login failed.\nInvalid username/password."},
+				{"err", "Error"}
 		};
 	}
 }

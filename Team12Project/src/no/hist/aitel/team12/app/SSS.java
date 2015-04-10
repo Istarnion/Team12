@@ -24,13 +24,16 @@ import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
 import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
-import no.hist.aitel.team12.gui.SqlTab;
 
 public class SSS {
 
 	private final static long MIN_SPLASH_TIME = 1500L;	// How long, minimum, the splash screen will be shown.
 	
-	public static void main(String[] args) {
+	LoginWindow login;
+	
+	SSSWindow sssWindow;
+	
+	public SSS() {
 		try {
 			// Set System L&F
 			UIManager.setLookAndFeel(
@@ -63,30 +66,58 @@ public class SSS {
 		splash.removeSplash();
 		
 		// Login
-		LoginWindow loginWindow = new LoginWindow();
-		final int user = loginWindow.showLoginWindow();
-		
-		// Depending on the user, setup the GUI
-		switch(user) {
-			case 0:
-				SSSWindow window = new SSSWindow();
-				window.addTab("SQL", new SqlTab());
-				window.showWindow();
-				break;
-			default:
-				System.out.println(user);
-				break;
-		}
+		login = new LoginWindow(this);
+		login.showLoginWindow();
+	}
+	
+	public static void main(String[] args) {
+		new SSS();
 	}
 	
 	public boolean login(String username, String password) {
 		Database db = DatabaseFactory.getDatabase();
 		
-		int id = 0;
+		int id = db.getUserID(username);
+		System.out.println(id);
 		
 		boolean ok = PasswordManager.validatePasswordMatch(password, db.getPasswordHash(id));
 		
+		if(ok) {
+			login.dispose();
+			
+			setupWindow(id);
+		}
+		
 		return ok;
+	}
+	
+	private void setupWindow(int userId) {
+		UserType type = DatabaseFactory.getDatabase().getUserType(userId);
+		
+		sssWindow = new SSSWindow();
+		switch(type) {
+			case SYS_ADMIN:
+			{
+				
+			} break;
+			
+			case CENTRE_MANAGER:
+			{
+				
+			} break;
+			
+			case SHOP_OWNER:
+			{
+				
+			} break;
+			
+			case CUSTOMER_SERVICE:
+			{
+				
+			} break;
+		}
+		
+		sssWindow.showWindow();
 	}
 	
 	public static void exit() {
