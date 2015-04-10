@@ -9,34 +9,39 @@ import javax.swing.JTree;
 import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.app.Business;
+import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 
 public class OverviewTab extends JPanel {
 
 	private static final long serialVersionUID = 7700803662193994900L;
+	
+	private Database db;
+	
+	private Business[] businessArray;
 	
 	private JPanel leftPanel;
 	
 	private JPanel rightPanel;
 	
 	private JTree businessList;
-	
-	private Business[] businessArray;
+
 	
 	public OverviewTab() {
 		
+		db 					= DatabaseFactory.getDatabase();
+		businessArray 		= db.getShoppingCentreData();
+		leftPanel 			= new JPanel(new BorderLayout());
+		rightPanel 			= new JPanel(new BorderLayout());
+		businessList 		= new JTree(businessArray);
+		
 		this.setLayout(new BorderLayout());
-		
-		
-		
-		leftPanel = new JPanel(new BorderLayout());
-		rightPanel = new JPanel(new BorderLayout());
-		businessList = new JTree();
 		leftPanel.setPreferredSize(new Dimension(250, 0));		
 		businessList.setBorder(new LineBorder(Color.black));
 		
-		add(leftPanel, BorderLayout.WEST);
-		add(rightPanel, BorderLayout.CENTER);
-		
 		leftPanel.add(businessList, BorderLayout.CENTER);
+		add(leftPanel, BorderLayout.WEST);
+		add(rightPanel, BorderLayout.CENTER);	
 	}
 }

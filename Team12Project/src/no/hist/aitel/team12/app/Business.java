@@ -12,13 +12,13 @@ public class Business {
 	
 	private EmailAddress email;
 	
-	private String telephone;
+	private int telephone;
 	
-	private String openingHours;
+	private int openingHours;
 
 	public Business(
 			int businessId, String businessName, Adress adress,
-			EmailAddress email, String telephone, String openingHours) {
+			EmailAddress email, int telephone, int openingHours) {
 		this.businessId = businessId;
 		this.businessName = businessName;
 		this.adress = adress;
@@ -55,19 +55,19 @@ public class Business {
 		this.email = email;
 	}
 
-	public String getTelephone() {
+	public int getTelephone() {
 		return telephone;
 	}
 
-	public void setTelephone(String telephone) {
+	public void setTelephone(int telephone) {
 		this.telephone = telephone;
 	}
 
-	public String getOpeningHours() {
+	public int getOpeningHours() {
 		return openingHours;
 	}
 
-	public void setOpeningHours(String openingHours) {
+	public void setOpeningHours(int openingHours) {
 		this.openingHours = openingHours;
 	}
 

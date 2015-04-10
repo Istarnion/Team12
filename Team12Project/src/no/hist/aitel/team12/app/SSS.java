@@ -103,7 +103,7 @@ public class SSS {
 			{
 				sssWindow.addTab("Overview", new OverviewTab());
 				sssWindow.addTab("Messages", new MessageTab());
-				sssWindow.addTab("SQL", new SqlTab());
+				sssWindow.addTab("SQL", new SqlTab()); 
 			} break;
 			
 			case CENTRE_MANAGER:
