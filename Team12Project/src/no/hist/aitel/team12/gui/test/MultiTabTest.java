@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import no.hist.aitel.team12.gui.MessageTab;
+import no.hist.aitel.team12.gui.OverviewTab;
 import no.hist.aitel.team12.gui.SqlTab;
 
 public class MultiTabTest {
@@ -18,6 +19,7 @@ public class MultiTabTest {
 		
 		jtp.addTab("SQL", new SqlTab());
 		jtp.addTab("Messages", new MessageTab());
+		jtp.addTab("Overview", new OverviewTab());
 		frame.add(jtp);
 		frame.pack();
 		
