@@ -10,7 +10,7 @@ public class Business {
 	
 	private Adress adress;
 	
-	private EmailAdress email;
+	private EmailAddress email;
 	
 	private String telephone;
 	
@@ -18,7 +18,7 @@ public class Business {
 
 	public Business(
 			int businessId, String businessName, Adress adress,
-			EmailAdress email, String telephone, String openingHours) {
+			EmailAddress email, String telephone, String openingHours) {
 		this.businessId = businessId;
 		this.businessName = businessName;
 		this.adress = adress;
@@ -47,11 +47,11 @@ public class Business {
 		this.adress = adress;
 	}
 
-	public EmailAdress getEmail() {
+	public EmailAddress getEmail() {
 		return email;
 	}
 
-	public void setEmail(EmailAdress email) {
+	public void setEmail(EmailAddress email) {
 		this.email = email;
 	}
 
