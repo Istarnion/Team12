@@ -4,11 +4,11 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
-public class ModifyTab extends JPanel {
+public class UserTab extends JPanel {
 
 	private static final long serialVersionUID = -445246322816259272L;
 
-	public ModifyTab() {
+	public UserTab() {
 		this.setLayout(new BorderLayout());
 		
 	}

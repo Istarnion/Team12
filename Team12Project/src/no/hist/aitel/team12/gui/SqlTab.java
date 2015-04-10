@@ -11,8 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import no.hist.aitel.team12.util.SqlTextArea;
-
 public class SqlTab extends JPanel {
 
 	private static final long serialVersionUID = 6417537010099126929L;

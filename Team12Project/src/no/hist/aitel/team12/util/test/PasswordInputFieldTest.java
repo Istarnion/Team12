@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import no.hist.aitel.team12.util.PasswordInputField;
+import no.hist.aitel.team12.gui.PasswordInputField;
 
 public class PasswordInputFieldTest {
 

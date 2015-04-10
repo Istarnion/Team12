@@ -1,4 +1,4 @@
-package no.hist.aitel.team12.app;
+package no.hist.aitel.team12.util;
 
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;

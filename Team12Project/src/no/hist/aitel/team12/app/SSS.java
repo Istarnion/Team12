@@ -27,6 +27,7 @@ import no.hist.aitel.team12.gui.OverviewTab;
 import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
 import no.hist.aitel.team12.gui.SqlTab;
+import no.hist.aitel.team12.util.PasswordManager;
 
 public class SSS {
 

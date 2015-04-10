@@ -15,7 +15,7 @@
  * InputField.java Team 12, 18 Feb 2015
  *******************************************************************************/
 
-package no.hist.aitel.team12.util;
+package no.hist.aitel.team12.gui;
 
 import java.awt.Color;
 import java.awt.event.FocusEvent;

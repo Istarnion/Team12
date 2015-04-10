@@ -18,8 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import no.hist.aitel.team12.app.SSS;
-import no.hist.aitel.team12.util.InputField;
-import no.hist.aitel.team12.util.PasswordInputField;
 import no.hist.aitel.team12.util.Text;
 
 /**
