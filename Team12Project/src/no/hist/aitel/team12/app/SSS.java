@@ -19,6 +19,7 @@ package no.hist.aitel.team12.app;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
 import no.hist.aitel.team12.gui.SSSWindow;
@@ -62,7 +63,7 @@ public class SSS {
 		splash.removeSplash();
 		
 		// Login
-		LoginWindow loginWindow = new LoginWindow(ShoppingCentre.getShoppingCentres(DatabaseFactory.getDatabase()));
+		LoginWindow loginWindow = new LoginWindow();
 		final int user = loginWindow.showLoginWindow();
 		
 		// Depending on the user, setup the GUI
@@ -76,8 +77,20 @@ public class SSS {
 				System.out.println(user);
 				break;
 		}
+	}
+	
+	public boolean login(String username, String password) {
+		Database db = DatabaseFactory.getDatabase();
 		
-		// Cleanup
+		int id = 0;
+		
+		boolean ok = PasswordManager.validatePasswordMatch(password, db.getPasswordHash(id));
+		
+		return ok;
+	}
+	
+	public static void exit() {
 		DatabaseFactory.getDatabase().teardown();
+		System.exit(0);
 	}
 }

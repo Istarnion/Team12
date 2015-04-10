@@ -35,6 +35,7 @@ public class TextResources extends ListResourceBundle {
 	protected Object[][] getContents() {
 		return new Object[][] {
 				{"login", "Log in"},
+				{"cancel", "Cancel"},
 				{"y", "Yes"},
 				{"n", "No"},
 				{"sss", "Super Shopping Surfer"},
