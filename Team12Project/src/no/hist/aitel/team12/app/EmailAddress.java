@@ -20,8 +20,13 @@ public class EmailAddress {
 	public static boolean isValidEmailAddress(String emailAddress){
 		boolean result = true;
 		try {
-			InternetAddress emailAddr = new InternetAddress(emailAddress);
-			emailAddr.validate();
+			if (emailAddress.contains(".com") || emailAddress.contains(".no") || emailAddress.contains(".as")) {
+				InternetAddress emailAddr = new InternetAddress(emailAddress);
+				emailAddr.validate();
+			}else {
+				result = false;
+				System.out.println("Invalid E-Mail");
+			}
 			
 		} catch (AddressException e) {
 			// TODO: handle exception
