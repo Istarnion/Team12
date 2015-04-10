@@ -86,7 +86,7 @@ public class InputField extends JTextField {
 
 			@Override
 			public void caretUpdate(CaretEvent e) {
-				if(defaultShown && getCaretPosition() != 0) {
+				if(defaultShown && !justCleared && getCaretPosition() != 0) {
 					setCaretPosition(0);
 				}
 			}
