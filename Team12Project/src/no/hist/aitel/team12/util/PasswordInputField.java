@@ -23,6 +23,8 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JPasswordField;
 import javax.swing.SwingUtilities;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -67,6 +69,17 @@ public class PasswordInputField extends JPasswordField {
 		
 		setDefaultText();
 
+		super.addCaretListener(new CaretListener() {
+
+			@Override
+			public void caretUpdate(CaretEvent e) {
+				if(defaultShown && getCaretPosition() != 0) {
+					setCaretPosition(0);
+				}
+			}
+			
+		});
+		
 		/* This block of code defines the inputting-behaviour */
 		super.addFocusListener(new FocusListener() {
 

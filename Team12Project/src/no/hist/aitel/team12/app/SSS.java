@@ -22,8 +22,11 @@ import javax.swing.UIManager;
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
+import no.hist.aitel.team12.gui.MessageTab;
+import no.hist.aitel.team12.gui.OverviewTab;
 import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
+import no.hist.aitel.team12.gui.SqlTab;
 
 public class SSS {
 
@@ -78,7 +81,6 @@ public class SSS {
 		Database db = DatabaseFactory.getDatabase();
 		
 		int id = db.getUserID(username);
-		System.out.println(id);
 		
 		boolean ok = PasswordManager.validatePasswordMatch(password, db.getPasswordHash(id));
 		
@@ -98,22 +100,32 @@ public class SSS {
 		switch(type) {
 			case SYS_ADMIN:
 			{
-				
+				sssWindow.addTab("Overview", new OverviewTab());
+				sssWindow.addTab("Messages", new MessageTab());
+				sssWindow.addTab("SQL", new SqlTab());
 			} break;
 			
 			case CENTRE_MANAGER:
 			{
-				
+				System.out.println("Centre manager attempted login");
+				exit();
 			} break;
 			
 			case SHOP_OWNER:
 			{
-				
+				System.out.println("Shop owner attempted login");
+				exit();
 			} break;
 			
 			case CUSTOMER_SERVICE:
 			{
-				
+				System.out.println("Customer service attempted login");
+				exit();
+			} break;
+			default:
+			{
+				System.out.println("Invalid user type attempted login. User type: "+type);
+				exit();
 			} break;
 		}
 		

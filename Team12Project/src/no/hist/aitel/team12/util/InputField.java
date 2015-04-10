@@ -23,6 +23,8 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -79,6 +81,17 @@ public class InputField extends JTextField {
 //		});
 		
 		/* This block of code defines the inputting-behaviour */
+		
+		super.addCaretListener(new CaretListener() {
+
+			@Override
+			public void caretUpdate(CaretEvent e) {
+				if(defaultShown && getCaretPosition() != 0) {
+					setCaretPosition(0);
+				}
+			}
+			
+		});
 		
 		super.addFocusListener(new FocusListener() {
 

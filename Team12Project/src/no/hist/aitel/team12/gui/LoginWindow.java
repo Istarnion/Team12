@@ -104,6 +104,8 @@ public class LoginWindow {
 			}
 		); 
 
+		LoginListener loginListener = new LoginListener();
+		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(5, 1, 5, 2));
 
@@ -121,14 +123,10 @@ public class LoginWindow {
 		buttonPanel.setLayout(new GridLayout(1, 2, 5, 2));
 		
 		loginButton = new JButton(Text.getString("login"));
-		loginButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(!sss.login(userText.getText(), new String(passwordText.getPassword()))) {
-					JOptionPane.showMessageDialog(frame, Text.getString("loginfail"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
+		loginButton.addActionListener(loginListener);
+		
+		userText.addActionListener(loginListener);
+		passwordText.addActionListener(loginListener);
 		
 		cancelButton = new JButton(Text.getString("cancel"));
 		cancelButton.addActionListener(new ActionListener() {
@@ -151,6 +149,16 @@ public class LoginWindow {
 	
 	public void dispose() {
 		frame.dispose();
+	}
+	
+	private class LoginListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if(!sss.login(userText.getText(), new String(passwordText.getPassword()))) {
+				JOptionPane.showMessageDialog(frame, Text.getString("loginfail"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }
 
