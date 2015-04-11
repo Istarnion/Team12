@@ -9,7 +9,6 @@ import javax.swing.JTree;
 import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.app.Business;
-import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 

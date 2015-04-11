@@ -1,5 +1,10 @@
 package no.hist.aitel.team12.app;
 
+/**
+ * 
+ * @author Ole J. Skogstad
+ *
+ */
 public class Adress {
 
 	private String adress;
