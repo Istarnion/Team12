@@ -8,7 +8,7 @@ public class Business {
 	
 	private String businessName;
 	
-	private Adress adress;
+	private Address adress;
 	
 	private EmailAddress email;
 	
@@ -17,7 +17,7 @@ public class Business {
 	private int openingHours;
 
 	public Business(
-			int businessId, String businessName, Adress adress,
+			int businessId, String businessName, Address adress,
 			EmailAddress email, int telephone, int openingHours) {
 		this.businessId = businessId;
 		this.businessName = businessName;
@@ -39,11 +39,11 @@ public class Business {
 		this.businessName = businessName;
 	}
 
-	public Adress getAdress() {
+	public Address getAdress() {
 		return adress;
 	}
 
-	public void setAdress(Adress adress) {
+	public void setAdress(Address adress) {
 		this.adress = adress;
 	}
 

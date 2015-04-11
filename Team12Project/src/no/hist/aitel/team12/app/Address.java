@@ -5,9 +5,9 @@ package no.hist.aitel.team12.app;
  * @author Ole J. Skogstad
  *
  */
-public class Adress {
+public class Address {
 
-	private String adress;
+	private String address;
 	
 	private int zipcode;
 	
@@ -15,20 +15,20 @@ public class Adress {
 	
 	private String county;
 
-	public Adress(String adress, int zipcode, String municipality, String county) {
+	public Address(String address, int zipcode, String municipality, String county) {
 		super();
-		this.adress = adress;
+		this.address = address;
 		this.zipcode = zipcode;
 		this.municipality = municipality;
 		this.county = county;
 	}
 
 	public String getAdress() {
-		return adress;
+		return address;
 	}
 
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAdress(String address) {
+		this.address = address;
 	}
 
 	public int getZipcode() {

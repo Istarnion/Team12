@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import no.hist.aitel.team12.gui.PasswordInputField;
+import no.hist.aitel.team12.util.PasswordManager;
 
 public class PasswordInputFieldTest {
 
@@ -44,6 +45,7 @@ public class PasswordInputFieldTest {
 	}
 
 	public static void main(String[] args) {
+		System.out.println(PasswordManager.generatePasswordHash("TeamAdmin12"));
 		try {
 			// Set System L&F
 			UIManager.setLookAndFeel(

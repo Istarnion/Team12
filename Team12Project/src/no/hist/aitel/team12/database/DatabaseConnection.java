@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import no.hist.aitel.team12.app.Adress;
+import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
@@ -91,6 +91,51 @@ public class DatabaseConnection implements Database {
 		ResultSet result = null;
 		int rows;
 
+		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM supershoppingsurfer_bronze.centres_view")) {
+
+			result = statement.executeQuery();
+			result.last();
+			rows = result.getRow();
+			result.beforeFirst();
+			result.next();
+			centres = new ShoppingCentre[rows];
+
+			for(int i=0; i<rows; i++) {
+				centres[i] = new ShoppingCentre(
+						result.getInt("business_id"), 
+						result.getString("business_name"), 
+						new Address(
+							result.getString("address"),
+							result.getInt("zipcode"),
+							result.getString("municipality_name"),
+							result.getString("county_name")),
+						new EmailAddress(), 
+						result.getInt("telephone"), 
+						result.getInt("opening_hours"),
+						result.getInt("centre_id"), 
+						result.getInt("parking_spaces"), 
+						result.getString("text_description")
+						);
+			if(!result.next()) break;
+			}
+			
+			result.close();
+
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//getBuildingData(centres);
+
+		return centres;
+	}
+	
+	
+	public ShoppingCentre[] getBuildingData(ShoppingCentre[] centres) {
+		ResultSet result = null;
+		int rows;
+		
 		try(PreparedStatement statement = connection.prepareStatement(
 				"SELECT * FROM shoppingcentre LEFT JOIN business USING (business_id) LEFT JOIN zipcode USING (zipcode) LEFT JOIN municipality USING (municipality_id) LEFT JOIN county USING (county_id)"
 				)) {
@@ -106,8 +151,8 @@ public class DatabaseConnection implements Database {
 				centres[i] = new ShoppingCentre(
 						result.getInt("business_id"), 
 						result.getString("business_name"), 
-						new Adress(
-							result.getString("adress"),
+						new Address(
+							result.getString("address"),
 							result.getInt("zipcode"),
 							result.getString("municipality_name"),
 							result.getString("county_name")),
@@ -126,10 +171,8 @@ public class DatabaseConnection implements Database {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return centres;
 	}
-
 	@Override
 	public int getUserID(String username) {
 		int output = -1;

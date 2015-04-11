@@ -1,5 +1,7 @@
 package no.hist.aitel.team12.app;
 
+import java.util.ArrayList;
+
 public class ShoppingCentre extends Business {
 
 	public final int centreId;
@@ -7,15 +9,17 @@ public class ShoppingCentre extends Business {
 	private int parkingSpaces;
 
 	private String description;
+	
+	private ArrayList<Building> buildings;
 
 	public ShoppingCentre(
-			int businessId, String businessName, Adress adress,
+			int businessId, String businessName, Address adress,
 			EmailAddress email, int telephone, int openingHours,
 			int centreId, int parkingSpaces, String description) {
 
 		super(businessId, businessName, adress, email, telephone, openingHours);
 
-		this.centreId = centreId;
+		this.centreId = centreId; 
 		this.parkingSpaces = parkingSpaces;
 		this.description = description;
 	}

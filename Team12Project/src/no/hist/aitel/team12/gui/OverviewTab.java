@@ -35,6 +35,9 @@ public class OverviewTab extends JPanel {
 		rightPanel 			= new JPanel(new BorderLayout());
 		businessList 		= new JTree(businessArray);
 		
+		for(Business b : businessArray) {
+			System.out.println(b);
+		}
 		this.setLayout(new BorderLayout());
 		leftPanel.setPreferredSize(new Dimension(250, 0));		
 		businessList.setBorder(new LineBorder(Color.black));
