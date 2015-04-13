@@ -8,6 +8,8 @@ public class Establishment {
 	
 	private ArrayList<Revenue> revenue;
 	
+	private int floorNumber;
+	
 	public Establishment() {
 	
 	}

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
+import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
 
@@ -140,6 +141,7 @@ public class DatabaseConnection implements Database {
 				)) {
 
 			ArrayList<Building> buildings;
+			Building building;
 			for(ShoppingCentre centre : centres) {
 				statement.setInt(1, centre.getCentreId());
 				
@@ -147,7 +149,17 @@ public class DatabaseConnection implements Database {
 				
 				buildings = new ArrayList<Building>();
 				while(result.next()) {
+					building = new Building(
+							result.getInt("building_id"),
+							result.getString("building_name"),
+							result.getInt("floors")
+							);
 					
+//					building.setEstablishments((ArrayList<Establishment>)Arrays.asList(
+//							getEstablishmentsInBuilding(building.getBuilding_id())
+//							));
+					
+					buildings.add(building);
 				}
 				
 				result.close();
@@ -158,7 +170,19 @@ public class DatabaseConnection implements Database {
 		}
 	}
 	
-	
+	@Override
+	public Establishment[] getEstablishmentsInBuilding(int buildingID) {
+		Establishment[] establishments = null;
+		
+		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM establishment WHERE building_id = ?")) {
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return establishments;
+	}
 	
 	@Override
 	public int getUserID(String username) {

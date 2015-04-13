@@ -35,7 +35,11 @@ public class Building {
 		return floors;
 	}
 	
+	public void setEstablishments(ArrayList<Establishment> establishments) {
+		this.establishments = establishments;
+	}
 	
-	
-	
+	public ArrayList<Establishment> getEstablishments() {
+		return establishments;
+	}
 }
