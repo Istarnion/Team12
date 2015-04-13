@@ -5,7 +5,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import no.hist.aitel.team12.app.SSS;
@@ -57,7 +56,7 @@ public class SSSWindow extends JFrame {
 	}
 	
 	
-	public void addTab(String tabName, JPanel tab) {
+	public void addTab(String tabName, SSSTab tab) {
 		tabbedPane.add("<html><body leftmargin=15 topmargin=8 marginwidth=15 marginheight=5>" + tabName + "</body></html>", tab);
 	}
 	

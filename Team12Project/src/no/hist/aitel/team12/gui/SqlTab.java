@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -16,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import no.hist.aitel.team12.database.DatabaseFactory;
 
-public class SqlTab extends JPanel {
+public class SqlTab extends SSSTab {
 
 	private static final long serialVersionUID = 6417537010099126929L;
 
@@ -174,5 +173,11 @@ public class SqlTab extends JPanel {
 					break;
 			}
 		}
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 }

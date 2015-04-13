@@ -92,7 +92,7 @@ public class DatabaseConnection implements Database {
 		ResultSet result = null;
 		int rows;
 
-		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM supershoppingsurfer_bronze.centres_view")) {
+		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM centres_view")) {
 
 			result = statement.executeQuery();
 			result.last();
