@@ -1,6 +1,5 @@
 package no.hist.aitel.team12.app;
 
-import java.util.ArrayList;
 
 public class Building {
 
@@ -10,7 +9,7 @@ public class Building {
 	
 	private int floors;
 	
-	private ArrayList<Establishment> establishments;
+	private Establishment[] establishments;
 
 	public Building(int building_id, String building_name, int floors) {
 		super();
@@ -35,11 +34,11 @@ public class Building {
 		return floors;
 	}
 	
-	public void setEstablishments(ArrayList<Establishment> establishments) {
+	public void setEstablishments(Establishment[] establishments) {
 		this.establishments = establishments;
 	}
 	
-	public ArrayList<Establishment> getEstablishments() {
+	public Establishment[] getEstablishments() {
 		return establishments;
 	}
 }

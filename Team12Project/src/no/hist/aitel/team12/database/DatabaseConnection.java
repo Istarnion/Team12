@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
@@ -156,9 +155,9 @@ public class DatabaseConnection implements Database {
 							result.getInt("floors")
 							);
 					
-					building.setEstablishments((ArrayList<Establishment>)Arrays.asList(
+					building.setEstablishments(
 							getEstablishmentsInBuilding(building.getBuilding_id())
-							));
+							);
 					
 					buildings.add(building);
 				}
@@ -176,7 +175,7 @@ public class DatabaseConnection implements Database {
 		Establishment[] establishments = null;
 		
 		try(PreparedStatement statement = connection.prepareStatement(
-				"SELECT * FROM establishment WHERE building_id = ? LEFT JOIN business USING (business_id)"
+				"SELECT * FROM establishment LEFT JOIN business USING (business_id) WHERE building_id = ?"
 				)) {
 			
 			statement.setInt(1, buildingID);
