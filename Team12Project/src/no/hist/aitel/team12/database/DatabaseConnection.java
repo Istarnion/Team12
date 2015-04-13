@@ -144,7 +144,6 @@ public class DatabaseConnection implements Database {
 			result.last();
 			rows = result.getRow();
 			result.beforeFirst();
-			result.next();
 			centres = new ShoppingCentre[rows];
 
 			for(int i=0; result.next(); i++) {
