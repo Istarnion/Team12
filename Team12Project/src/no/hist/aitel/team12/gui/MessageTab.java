@@ -3,12 +3,11 @@ package no.hist.aitel.team12.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 
 
-public class MessageTab extends JPanel {
+public class MessageTab extends SSSTab {
 	
 	private static final long serialVersionUID = 7021415739968091789L;
 
@@ -58,6 +57,12 @@ public class MessageTab extends JPanel {
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 		this.add(sendMessageArea, gbc);
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
