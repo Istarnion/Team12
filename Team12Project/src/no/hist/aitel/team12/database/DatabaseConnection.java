@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import no.hist.aitel.team12.app.Address;
+import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
@@ -97,53 +98,6 @@ public class DatabaseConnection implements Database {
 			result.last();
 			rows = result.getRow();
 			result.beforeFirst();
-			result.next();
-			centres = new ShoppingCentre[rows];
-
-			for(int i=0; i<rows; i++) {
-				centres[i] = new ShoppingCentre(
-						result.getInt("business_id"), 
-						result.getString("business_name"), 
-						new Address(
-							result.getString("address"),
-							result.getInt("zipcode"),
-							result.getString("municipality_name"),
-							result.getString("county_name")),
-						new EmailAddress(), 
-						result.getInt("telephone"), 
-						result.getInt("opening_hours"),
-						result.getInt("centre_id"), 
-						result.getInt("parking_spaces"), 
-						result.getString("text_description")
-						);
-			if(!result.next()) break;
-			}
-			
-			result.close();
-
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		//getBuildingData(centres);
-
-		return centres;
-	}
-	
-	
-	public ShoppingCentre[] getBuildingData(ShoppingCentre[] centres) {
-		ResultSet result = null;
-		int rows;
-		
-		try(PreparedStatement statement = connection.prepareStatement(
-				"SELECT * FROM shoppingcentre LEFT JOIN business USING (business_id) LEFT JOIN zipcode USING (zipcode) LEFT JOIN municipality USING (municipality_id) LEFT JOIN county USING (county_id)"
-				)) {
-
-			result = statement.executeQuery();
-			result.last();
-			rows = result.getRow();
-			result.beforeFirst();
 			centres = new ShoppingCentre[rows];
 
 			for(int i=0; result.next(); i++) {
@@ -170,8 +124,44 @@ public class DatabaseConnection implements Database {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		//getBuildingData(centres);
+
 		return centres;
 	}
+	
+	public Building[] getBuildingData(ShoppingCentre[] centres) {
+		Building[] buildings = null;
+		ResultSet result = null;
+		int rows;
+		
+		try(PreparedStatement statement = connection.prepareStatement(
+				"SELECT building_id, building_name, floors FROM building"
+				)) {
+
+			result = statement.executeQuery();
+			result.last();
+			rows = result.getRow();
+			result.beforeFirst();
+			buildings = new Building[rows];
+
+			for(int i=0; result.next(); i++) {
+				buildings[i] = new Building(
+						result.getInt("building_id"),
+						result.getString("building_name"),
+						result.getInt("floors")
+						);
+			}
+			
+			result.close();
+
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return buildings;
+	}
+	
 	@Override
 	public int getUserID(String username) {
 		int output = -1;
@@ -229,5 +219,49 @@ public class DatabaseConnection implements Database {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public String executeQuery(String sql) {
+		String out = null;
+		
+		try(PreparedStatement statement = connection.prepareStatement(sql)) {
+			ResultSet result = statement.executeQuery();
+			int columns = result.getMetaData().getColumnCount();
+			
+			StringBuilder sBuilder = new StringBuilder();
+			
+			while(result.next()) {
+				for(int i=0; i<columns; i++) {
+					sBuilder.append(result.getString(i+1));
+					sBuilder.append("\t");
+				}
+				sBuilder.append("\n");
+			}
+			out = sBuilder.toString();
+			
+			result.close();
+		}
+		catch(SQLException e) {
+			out = "SQL expression raised an exception:\n"+e.getMessage();
+		}
+		
+		return out;
+	}
+
+	@Override
+	public String executeUpdate(String sql) {
+		String out = null;
+		
+		try(PreparedStatement statement = connection.prepareStatement(sql)) {
+			int linesAffected = statement.executeUpdate();
+			
+			out = String.format("Update successful. %d lines affected", linesAffected);
+		}
+		catch(SQLException e) {
+			out = "SQL expression raised an exception: "+e.getMessage();
+		}
+		
+		return out;
 	}
 }

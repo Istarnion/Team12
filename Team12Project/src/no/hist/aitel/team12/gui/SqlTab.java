@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import no.hist.aitel.team12.database.DatabaseFactory;
+
 public class SqlTab extends JPanel {
 
 	private static final long serialVersionUID = 6417537010099126929L;
@@ -27,11 +29,15 @@ public class SqlTab extends JPanel {
 	
 	private ListenerGroup listener;
 	
-	private final static String EXECUTE_CMD = "EXECUTE";
+	private final static String
+		EXECUTE_CMD = "EXECUTE",
+		EXECUTE_ALL = "EXECUTEALL";
 	
 	public SqlTab() {
 		rows = 20;
 		cols = 50;
+		
+		listener = new ListenerGroup();
 		
 		this.setLayout(new GridBagLayout());
 		
@@ -79,13 +85,47 @@ public class SqlTab extends JPanel {
 		this.add(executeButton, gbc);
 	}
 
+	void executeBulk() {
+		String[] statements = sqlArea.getText().split(";");
+		
+		for(String statement : statements) {
+			executeStatement(statement.trim());
+		}
+	}
+	
+	void executeSingleStatement() {
+		System.out.println("Not yet implemented");
+	}
+	
+	private void executeStatement(String statement) {
+		if (statement == null) return;
+		
+		if(statement.toLowerCase().startsWith("select")) {
+			String result = DatabaseFactory.getDatabase().executeQuery(statement);
+			
+			resultArea.append("\n"+result+"\n");
+		}
+		else {
+			String result = DatabaseFactory.getDatabase().executeUpdate(statement);
+			
+			outputArea.setText(result);
+		}
+	}
+	
 	private class ListenerGroup implements ActionListener, KeyListener {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if(e.isControlDown()) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					actionPerformed(new ActionEvent(executeButton, ActionEvent.ACTION_PERFORMED, EXECUTE_CMD));
+				if(e.isShiftDown()) {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						actionPerformed(new ActionEvent(executeButton, ActionEvent.ACTION_PERFORMED, EXECUTE_ALL));
+					}
+				}
+				else {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						actionPerformed(new ActionEvent(executeButton, ActionEvent.ACTION_PERFORMED, EXECUTE_CMD));
+					}
 				}
 			}
 		}
@@ -99,7 +139,22 @@ public class SqlTab extends JPanel {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent ae) {
+			switch(ae.getActionCommand()) {
+				case EXECUTE_ALL:
+				{
+					executeBulk();
+				} break;
+				
+				case EXECUTE_CMD:
+				{
+					executeSingleStatement();
+				} break;
+				
+				default:
+					System.out.println("Invalid action command given in the sql tab.");
+					break;
+			}
 		}
 	}
 }
