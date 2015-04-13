@@ -9,6 +9,7 @@ import javax.swing.JTree;
 import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.app.Business;
+import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 
@@ -29,7 +30,7 @@ public class OverviewTab extends SSSTab {
 	public OverviewTab() {
 		
 		db 					= DatabaseFactory.getDatabase();
-		businessArray 		= db.getShoppingCentreData();
+		businessArray 		= ShoppingCentre.getPopulatedShoppingCentres();
 		leftPanel 			= new JPanel(new BorderLayout());
 		rightPanel 			= new JPanel(new BorderLayout());
 		businessList 		= new JTree(businessArray);
