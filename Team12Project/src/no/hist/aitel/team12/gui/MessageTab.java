@@ -1,9 +1,18 @@
+
 package no.hist.aitel.team12.gui;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
+
+
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 
@@ -12,59 +21,89 @@ public class MessageTab extends SSSTab {
 	private static final long serialVersionUID = 7021415739968091789L;
 
 	
-	private JTextArea inboxArea;
+	private JPanel inboxArea = new JPanel();
+	private JPanel comboArea = new JPanel();
+	private JPanel viewMessage = new JPanel();
+	private JTextArea viewMessageText = new JTextArea(18,172);
+	private JScrollPane viewMessageScroll = new JScrollPane();
+	private JPanel sendMessage = new JPanel();
+	private JTextArea sendMessageText = new JTextArea(18,172);
+	private JScrollPane sendMessageScroll = new JScrollPane(sendMessageText);
 	
-	private JTextArea viewMessageArea;
 	
-	private JTextArea sendMessageArea;
+	private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
+
 	
-	private int rows, cols;
+	// SuppressWarning added by eclipse to remove error message when running
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private JList inboxList = new JList(meldinger);
+	private JScrollPane scrollInbox = new JScrollPane(inboxList);
+	
+	
+	
+
 	
 	public MessageTab() {
-		rows = 20;
-		cols = 50;
 		
-		this.setLayout(new GridBagLayout());
+		setLayout(new BorderLayout());
+		inboxArea.setBackground(Color.BLUE);
+		comboArea.setBackground(Color.RED);
+		add(inboxArea,BorderLayout.WEST);
+		inboxArea.add(scrollInbox,BorderLayout.CENTER);
+		inboxList.addListSelectionListener(new inboxListner());
+		add(comboArea,BorderLayout.CENTER);
 		
-		GridBagConstraints gbc = new GridBagConstraints();
+		comboArea.setLayout(new BorderLayout());
+		comboArea.add(viewMessage, BorderLayout.NORTH);
+		comboArea.add(sendMessage,BorderLayout.SOUTH);
+		viewMessage.setBackground(Color.GREEN);
+		sendMessage.setBackground(Color.GRAY);
 		
-		gbc.fill = GridBagConstraints.BOTH;
+		viewMessage.add(viewMessageText, BorderLayout.CENTER);
+		viewMessageText.setEditable(false);
+		viewMessage.add(viewMessageScroll);
 		
-		inboxArea = new JTextArea(rows, cols);
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 4;
-		gbc.gridheight = 10;
-		this.add(inboxArea, gbc);
+		sendMessage.add(sendMessageText,BorderLayout.CENTER);
+		sendMessageText.setEditable(true);
+		comboArea.add(sendMessageScroll);
+		sendMessageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weighty = 0.1;
-		gbc.weightx = 0.9;
-		viewMessageArea = new JTextArea(1, cols*2);
-		viewMessageArea.setEditable(false);
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth = 5;
-		gbc.gridheight = 1;
-		this.add(viewMessageArea, gbc);
 		
-		gbc.weightx = 0.1;
-		gbc.fill = GridBagConstraints.NONE;
-		sendMessageArea = new JTextArea();
-		sendMessageArea.setEditable(true);
-		gbc.gridx = 5;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		this.add(sendMessageArea, gbc);
+		
+		
+		
+		
 	}
+	
+	private class inboxListner implements ListSelectionListener{
+		public void messageSelected(ListSelectionEvent e){
+			int select = inboxList.getSelectedIndex();
+			if(select >=0){
+				String message = (String)inboxList.getSelectedValue();
+				viewMessageText.setText(message);
+			}
+		}
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			messageSelected(e);
+			
+		}
+
+	}
+		
+		
+
 
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
 		
+		
+
+		
 	}
 
 
-}
+	}
 		
