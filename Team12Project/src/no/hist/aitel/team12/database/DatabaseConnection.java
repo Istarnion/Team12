@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import no.hist.aitel.team12.app.Address;
-import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
@@ -130,36 +129,30 @@ public class DatabaseConnection implements Database {
 		return centres;
 	}
 	
-	public Building[] getBuildingData(ShoppingCentre[] centres) {
-		Building[] buildings = null;
+	@Override
+	public void getBuildingData(ShoppingCentre[] centres) {
 		ResultSet result = null;
-		int rows;
 		
 		try(PreparedStatement statement = connection.prepareStatement(
-				"SELECT building_id, building_name, floors FROM building"
+				"SELECT building_id, building_name, floors FROM building WHERE centre_id = ?"
 				)) {
 
-			result = statement.executeQuery();
-			result.last();
-			rows = result.getRow();
-			result.beforeFirst();
-			buildings = new Building[rows];
-
-			for(int i=0; result.next(); i++) {
-				buildings[i] = new Building(
-						result.getInt("building_id"),
-						result.getString("building_name"),
-						result.getInt("floors")
-						);
+			for(ShoppingCentre centre : centres) {
+				statement.setInt(1, centre.getCentreId());
+				
+				result = statement.executeQuery();
+				
+	
+				while(result.next()) {
+					
+				}
+				
+				result.close();
 			}
-			
-			result.close();
-
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return buildings;
 	}
 	
 	@Override

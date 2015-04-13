@@ -91,9 +91,17 @@ public interface Database {
 	public ShoppingCentre[] getShoppingCentreData();
 	
 	/**
+	 * Fills the given centres with building data. The buildings are populated with associated establishments.
 	 * 
-	 * @param userId
-	 * @return
+	 * @param centres The centres that needs to be populated with data.
+	 */
+	public void getBuildingData(ShoppingCentre[] centres);
+	
+	/**
+	 * Finds the UserType of the user.
+	 * 
+	 * @param userId	The user in question
+	 * @return			The type of the user
 	 */
 	public UserType getUserType(int userId);
 }
