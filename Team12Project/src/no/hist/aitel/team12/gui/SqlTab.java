@@ -8,18 +8,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
-import no.hist.aitel.team12.util.SqlTextArea;
+import no.hist.aitel.team12.database.DatabaseFactory;
 
-public class SqlTab extends JPanel {
+public class SqlTab extends SSSTab {
 
 	private static final long serialVersionUID = 6417537010099126929L;
 
 	private SqlTextArea sqlArea;
 	
-	private JTextArea resultArea;
+	private JTable resultTable;
 	
 	private JTextArea outputArea;
 	
@@ -29,11 +31,15 @@ public class SqlTab extends JPanel {
 	
 	private ListenerGroup listener;
 	
-	private final static String EXECUTE_CMD = "EXECUTE";
+	private final static String
+		EXECUTE_CMD = "EXECUTE",
+		EXECUTE_ALL = "EXECUTEALL";
 	
 	public SqlTab() {
 		rows = 20;
 		cols = 50;
+		
+		listener = new ListenerGroup();
 		
 		this.setLayout(new GridBagLayout());
 		
@@ -50,13 +56,14 @@ public class SqlTab extends JPanel {
 		gbc.gridheight = 1;
 		this.add(sqlArea.generateScrollPane(), gbc);
 		
-		resultArea = new JTextArea(rows, cols);
-		resultArea.setEditable(false);
+		resultTable = new JTable();
+		JScrollPane resultTablePane = new JScrollPane(resultTable);
+		resultTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		gbc.gridx = 3;
 		gbc.gridy = 0;
 		gbc.gridwidth = 3;
 		gbc.gridheight = 1;
-		this.add(resultArea, gbc);
+		this.add(resultTablePane, gbc);
 		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weighty = 0.1;
@@ -81,13 +88,61 @@ public class SqlTab extends JPanel {
 		this.add(executeButton, gbc);
 	}
 
+	void executeBulk() {
+		String[] statements = sqlArea.getText().split(";");
+		
+		for(String statement : statements) {
+			executeStatement(statement.trim());
+		}
+	}
+	
+	void executeSingleStatement() {
+		System.out.println("Not yet implemented");
+	}
+	
+	private void executeStatement(String statement) {
+		if (statement == null) return;
+		
+		if(statement.toLowerCase().startsWith("select")) {
+			String[][] result = DatabaseFactory.getDatabase().executeQuery(statement);
+			if(result.length == 1) {
+				outputArea.setText(result[0][0]);
+			}
+			else {
+				outputArea.setText("");
+		
+				String[][] content = new String[result.length-1][result[0].length];
+				for(int row=0; row<content.length; row++) {
+					for(int col=0; col<content[0].length; col++) {
+						content[row][col] = result[row+1][col];
+					}
+				}
+				
+				DefaultTableModel tableModel = new DefaultTableModel(content, result[0]);
+				resultTable.setModel(tableModel);
+			}
+		}
+		else {
+			String result = DatabaseFactory.getDatabase().executeUpdate(statement);
+			
+			outputArea.setText(result);
+		}
+	}
+	
 	private class ListenerGroup implements ActionListener, KeyListener {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if(e.isControlDown()) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					actionPerformed(new ActionEvent(executeButton, ActionEvent.ACTION_PERFORMED, EXECUTE_CMD));
+				if(e.isShiftDown()) {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						actionPerformed(new ActionEvent(executeButton, ActionEvent.ACTION_PERFORMED, EXECUTE_ALL));
+					}
+				}
+				else {
+					if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+						actionPerformed(new ActionEvent(executeButton, ActionEvent.ACTION_PERFORMED, EXECUTE_CMD));
+					}
 				}
 			}
 		}
@@ -101,7 +156,28 @@ public class SqlTab extends JPanel {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent ae) {
+			switch(ae.getActionCommand()) {
+				case EXECUTE_ALL:
+				{
+					executeBulk();
+				} break;
+				
+				case EXECUTE_CMD:
+				{
+					executeSingleStatement();
+				} break;
+				
+				default:
+					System.out.println("Invalid action command given in the sql tab.");
+					break;
+			}
 		}
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 }

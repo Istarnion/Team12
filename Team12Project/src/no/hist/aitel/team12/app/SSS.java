@@ -19,23 +19,30 @@ package no.hist.aitel.team12.app;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
 import no.hist.aitel.team12.gui.MessageTab;
+import no.hist.aitel.team12.gui.OverviewTab;
 import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
 import no.hist.aitel.team12.gui.SqlTab;
+import no.hist.aitel.team12.util.PasswordManager;
 
 public class SSS {
 
-	private final static long MIN_SPLASH_TIME = 2000L;	// How long, minimum, the splash screen will be shown.
+	private final static long MIN_SPLASH_TIME = 1500L;	// How long, minimum, the splash screen will be shown.
 	
-	public static void main(String[] args) {
+	LoginWindow login;
+	
+	SSSWindow sssWindow;
+	
+	public SSS() {
 		try {
 			// Set System L&F
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
-		} 
+		}
 		catch (Exception ex) {
 			System.out.println("Failed setting System laf. Reverting to Java defult.");
 		}
@@ -63,23 +70,72 @@ public class SSS {
 		splash.removeSplash();
 		
 		// Login
-		LoginWindow loginWindow = new LoginWindow();
-		final int user = loginWindow.showLoginWindow();
+		login = new LoginWindow(this);
+		login.showLoginWindow();
+	}
+	
+	public static void main(String[] args) {
+		new SSS();
+	}
+	
+	public boolean login(String username, String password) {
+		Database db = DatabaseFactory.getDatabase();
 		
-		// Depending on the user, setup the GUI
-		switch(user) {
-			case 0:
-				SSSWindow window = new SSSWindow();
-				window.addTab("SQL", new SqlTab());
-				window.addTab("Message", new MessageTab());
-				window.showWindow();
-				break;
-			default:
-				System.out.println(user);
-				break;
+		int id = db.getUserID(username);
+		
+		boolean ok = PasswordManager.validatePasswordMatch(password, db.getPasswordHash(id));
+		
+		if(ok) {
+			login.dispose();
+			
+			setupWindow(id);
 		}
 		
-		// Cleanup
+		return ok;
+	}
+	
+	private void setupWindow(int userId) {
+		UserType type = DatabaseFactory.getDatabase().getUserType(userId);
+		
+		sssWindow = new SSSWindow();
+		switch(type) {
+			case SYS_ADMIN:
+			{
+				sssWindow.addTab("Overview", new OverviewTab());
+				sssWindow.addTab("Messages", new MessageTab());
+				sssWindow.addTab("SQL", new SqlTab()); 
+			} break;
+			
+			case CENTRE_MANAGER:
+			{
+				System.out.println("Centre manager attempted login");
+				exit();
+			} break;
+			
+			case SHOP_OWNER:
+			{
+				System.out.println("Shop owner attempted login");
+				exit();
+			} break;
+			
+			case CUSTOMER_SERVICE:
+			{
+				System.out.println("Customer service attempted login");
+				exit();
+			} break;
+			default:
+			{
+				System.out.println("Invalid user type attempted login. User type: "+type);
+				exit();
+			} break;
+		}
+		
+		sssWindow.showWindow();
+	}
+	
+	public static void exit() {
 		DatabaseFactory.getDatabase().teardown();
+		System.out.println("Successful exit.");
+		System.exit(0);
 	}
 }

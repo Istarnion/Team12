@@ -2,7 +2,7 @@ package no.hist.aitel.team12.app.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import no.hist.aitel.team12.app.PasswordManager;
+import no.hist.aitel.team12.util.PasswordManager;
 
 import org.junit.Test;
 

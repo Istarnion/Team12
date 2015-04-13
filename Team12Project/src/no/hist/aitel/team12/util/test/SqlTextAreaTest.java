@@ -21,7 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import no.hist.aitel.team12.util.SqlTextArea;
+import no.hist.aitel.team12.gui.SqlTextArea;
 
 public class SqlTextAreaTest {
 

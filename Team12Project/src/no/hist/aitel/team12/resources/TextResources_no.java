@@ -35,11 +35,14 @@ public class TextResources_no extends ListResourceBundle {
 	protected Object[][] getContents() {
 		return new Object[][] {
 				{"login", "Logg inn"},
+				{"cancel", "Avbryt"},
 				{"y", "Ja"},
 				{"n", "Nei"},
 				{"sss", "Super Shopping Surfer"},
 				{"pwd", "Passord"},
-				{"usr", "Brukernavn"}
+				{"usr", "Brukernavn"},
+				{"loginfail", "Innloging feilet.\nUgyldig brukernavn/passord."},
+				{"err", "Feil"}
 		};
 	}
 }

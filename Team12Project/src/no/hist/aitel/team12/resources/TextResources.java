@@ -35,11 +35,14 @@ public class TextResources extends ListResourceBundle {
 	protected Object[][] getContents() {
 		return new Object[][] {
 				{"login", "Log in"},
+				{"cancel", "Cancel"},
 				{"y", "Yes"},
 				{"n", "No"},
 				{"sss", "Super Shopping Surfer"},
 				{"pwd", "Password"},
-				{"usr", "Username"}
+				{"usr", "Username"},
+				{"loginfail", "Login failed.\nInvalid username/password."},
+				{"err", "Error"}
 		};
 	}
 }
