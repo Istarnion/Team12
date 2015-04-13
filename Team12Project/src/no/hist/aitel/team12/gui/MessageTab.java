@@ -28,7 +28,7 @@ public class MessageTab extends SSSTab {
 	private JScrollPane viewMessageScroll = new JScrollPane();
 	private JPanel sendMessage = new JPanel();
 	private JTextArea sendMessageText = new JTextArea(18,172);
-	private JScrollPane sendMessageScroll = new JScrollPane(sendMessageText);
+	private JScrollPane sendMessageScroll = new JScrollPane();
 	
 	
 	private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
@@ -65,7 +65,7 @@ public class MessageTab extends SSSTab {
 		
 		sendMessage.add(sendMessageText,BorderLayout.CENTER);
 		sendMessageText.setEditable(true);
-		comboArea.add(sendMessageScroll);
+		sendMessage.add(sendMessageScroll);
 		sendMessageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		
