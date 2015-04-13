@@ -3,8 +3,7 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-
-
+import java.awt.GridLayout;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -23,12 +22,12 @@ public class MessageTab extends SSSTab {
 	
 	private JPanel inboxArea = new JPanel();
 	private JPanel comboArea = new JPanel();
-	private JPanel viewMessage = new JPanel();
-	private JTextArea viewMessageText = new JTextArea(18,172);
-	private JScrollPane viewMessageScroll = new JScrollPane();
-	private JPanel sendMessage = new JPanel();
-	private JTextArea sendMessageText = new JTextArea(18,172);
-	private JScrollPane sendMessageScroll = new JScrollPane();
+	private JPanel viewMessagePanel = new JPanel();
+	private JTextArea viewMessageText;
+	private JScrollPane viewMessageScroll;
+	private JPanel sendMessagePanel = new JPanel();
+	private JTextArea sendMessageText;
+	private JScrollPane sendMessageScroll;
 	
 	
 	private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
@@ -46,32 +45,37 @@ public class MessageTab extends SSSTab {
 	public MessageTab() {
 		
 		setLayout(new BorderLayout());
-		inboxArea.setBackground(Color.BLUE);
-		comboArea.setBackground(Color.RED);
+		
 		add(inboxArea,BorderLayout.WEST);
 		inboxArea.add(scrollInbox,BorderLayout.CENTER);
 		inboxList.addListSelectionListener(new inboxListner());
 		add(comboArea,BorderLayout.CENTER);
 		
-		comboArea.setLayout(new BorderLayout());
-		comboArea.add(viewMessage, BorderLayout.NORTH);
-		comboArea.add(sendMessage,BorderLayout.SOUTH);
-		viewMessage.setBackground(Color.GREEN);
-		sendMessage.setBackground(Color.GRAY);
+		// Colors for debugging
+		inboxArea.setBackground(Color.BLUE);
+		comboArea.setBackground(Color.RED);
+		viewMessagePanel.setBackground(Color.pink);
+		sendMessagePanel.setBackground(Color.CYAN);
 		
-		viewMessage.add(viewMessageText, BorderLayout.CENTER);
+		comboArea.setLayout(new GridLayout(2, 1));
+		comboArea.add(viewMessagePanel);
+		comboArea.add(sendMessagePanel);
+		
+		viewMessageText = new JTextArea();
+		viewMessageScroll = new JScrollPane(viewMessageText);
+		viewMessageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		viewMessagePanel.setLayout(new BorderLayout());
+		viewMessagePanel.add(viewMessageScroll, BorderLayout.CENTER);
 		viewMessageText.setEditable(false);
-		viewMessage.add(viewMessageScroll);
 		
-		sendMessage.add(sendMessageText,BorderLayout.CENTER);
-		sendMessageText.setEditable(true);
-		sendMessage.add(sendMessageScroll);
+		sendMessageText = new JTextArea();
+		sendMessageScroll = new JScrollPane(sendMessageText);
 		sendMessageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		
-		
-		
-		
+		sendMessagePanel.setLayout(new BorderLayout());
+		sendMessagePanel.add(sendMessageScroll, BorderLayout.CENTER);
+		sendMessageText.setEditable(true);
 		
 	}
 	

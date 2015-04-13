@@ -8,8 +8,6 @@ public class Business {
 	
 	private String businessName;
 	
-	private Address address;
-	
 	private EmailAddress email;
 	
 	private int telephone;
@@ -17,11 +15,10 @@ public class Business {
 	private int openingHours;
 
 	public Business(
-			int businessId, String businessName, Address address,
+			int businessId, String businessName,
 			EmailAddress email, int telephone, int openingHours) {
 		this.businessId = businessId;
 		this.businessName = businessName;
-		this.address = address;
 		this.email = email;
 		this.telephone = telephone;
 		this.openingHours = openingHours;
@@ -37,14 +34,6 @@ public class Business {
 
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
-	}
-
-	public Address getAdress() {
-		return address;
-	}
-
-	public void setAdress(Address adress) {
-		this.address = adress;
 	}
 
 	public EmailAddress getEmail() {

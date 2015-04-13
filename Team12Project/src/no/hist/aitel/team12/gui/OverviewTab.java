@@ -26,7 +26,6 @@ public class OverviewTab extends SSSTab {
 	
 	private JTree businessList;
 
-	
 	public OverviewTab() {
 		
 		db 					= DatabaseFactory.getDatabase();
