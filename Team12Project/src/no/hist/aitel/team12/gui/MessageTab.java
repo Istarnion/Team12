@@ -3,12 +3,16 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -47,6 +51,7 @@ public class MessageTab extends SSSTab {
 		setLayout(new BorderLayout());
 		
 		add(inboxArea,BorderLayout.WEST);
+		inboxArea.setLayout(new BorderLayout());
 		inboxArea.add(scrollInbox,BorderLayout.CENTER);
 		inboxList.addListSelectionListener(new inboxListner());
 		add(comboArea,BorderLayout.CENTER);
@@ -61,23 +66,105 @@ public class MessageTab extends SSSTab {
 		comboArea.add(viewMessagePanel);
 		comboArea.add(sendMessagePanel);
 		
+		// VIEWMESSAGE AREA
+		
 		viewMessageText = new JTextArea();
 		viewMessageScroll = new JScrollPane(viewMessageText);
 		viewMessageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		viewMessagePanel.setLayout(new BorderLayout());
-		viewMessagePanel.add(viewMessageScroll, BorderLayout.CENTER);
+		viewMessagePanel.setLayout(new GridBagLayout());
+		GridBagConstraints constraintsViewMsg = new GridBagConstraints();
+		
+		// Field for from
+		JTextField from = new JTextField();
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 0;
+		constraintsViewMsg.gridwidth = 6;
+		constraintsViewMsg.anchor = GridBagConstraints.WEST;
+		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
+		viewMessagePanel.add(from,constraintsViewMsg);
+		
+		// Button for replying to message
+		JButton reply = new JButton("Reply");
+		constraintsViewMsg.gridx = 6;
+		constraintsViewMsg.gridy = 0;
+		constraintsViewMsg.anchor = GridBagConstraints.EAST;
+		viewMessagePanel.add(reply, constraintsViewMsg);
+		
+		// Field for message subject
+		JTextField subject = new JTextField();
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 1;
+		constraintsViewMsg.anchor = GridBagConstraints.WEST;
+		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
+		viewMessagePanel.add(subject, constraintsViewMsg);
+		
+		// Field for viewing selected message
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 2;
+		constraintsViewMsg.anchor = GridBagConstraints.WEST;
+		constraintsViewMsg.gridheight = 1;
+		constraintsViewMsg.gridwidth = 6;
+		constraintsViewMsg.weightx = 1;
+		constraintsViewMsg.fill = GridBagConstraints.BOTH;
+		constraintsViewMsg.weightx = 1.0;
+		constraintsViewMsg.weighty = 1.0;
+		viewMessagePanel.add(viewMessageScroll, constraintsViewMsg);
 		viewMessageText.setEditable(false);
+		
+		
+		// SENDMESSAGE AREA
 		
 		sendMessageText = new JTextArea();
 		sendMessageScroll = new JScrollPane(sendMessageText);
 		sendMessageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		sendMessagePanel.setLayout(new BorderLayout());
-		sendMessagePanel.add(sendMessageScroll, BorderLayout.CENTER);
+		
+		
+		sendMessagePanel.setLayout(new GridBagLayout());
+		GridBagConstraints constraintsSendMsg = new GridBagConstraints();
+		
+		// Field for from
+		JTextField to = new JTextField();
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 0;
+		constraintsViewMsg.gridwidth = 6;
+		constraintsViewMsg.anchor = GridBagConstraints.WEST;
+		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
+		sendMessagePanel.add(to,constraintsViewMsg);
+		
+		// Button for replying to message
+		JButton send = new JButton("Send");
+		constraintsViewMsg.gridx = 6;
+		constraintsViewMsg.gridy = 0;
+		constraintsViewMsg.anchor = GridBagConstraints.EAST;
+		sendMessagePanel.add(send, constraintsViewMsg);
+		
+		// Field for message subject
+		JTextField subjectto = new JTextField();
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 1;
+		constraintsViewMsg.anchor = GridBagConstraints.WEST;
+		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
+		sendMessagePanel.add(subjectto, constraintsViewMsg);
+		
+		// Field for viewing selected message
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 2;
+		constraintsViewMsg.anchor = GridBagConstraints.WEST;
+		constraintsViewMsg.gridheight = 1;
+		constraintsViewMsg.gridwidth = 6;
+		constraintsViewMsg.weightx = 1;
+		constraintsViewMsg.fill = GridBagConstraints.BOTH;
+		constraintsViewMsg.weightx = 1.0;
+		constraintsViewMsg.weighty = 1.0;
+
+		sendMessagePanel.add(sendMessageScroll, constraintsSendMsg);
 		sendMessageText.setEditable(true);
 		
 	}
+	
+	// LISTNERS
 	
 	private class inboxListner implements ListSelectionListener{
 		public void messageSelected(ListSelectionEvent e){
