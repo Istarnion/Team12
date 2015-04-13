@@ -28,6 +28,9 @@ public class UserTab extends SSSTab {
 	public UserTab() {
 		this.setLayout(new BorderLayout());
 		
+		mainPanel = new JPanel();
+		buttonPanel = new JPanel();
+		
 		this.add(mainPanel, BorderLayout.WEST);
 		
 		this.add(buttonPanel, BorderLayout.EAST);

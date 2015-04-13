@@ -27,6 +27,7 @@ import no.hist.aitel.team12.gui.OverviewTab;
 import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
 import no.hist.aitel.team12.gui.SqlTab;
+import no.hist.aitel.team12.gui.UserTab;
 import no.hist.aitel.team12.util.PasswordManager;
 
 public class SSS {
@@ -102,6 +103,7 @@ public class SSS {
 			case SYS_ADMIN:
 			{
 				sssWindow.addTab("Overview", new OverviewTab());
+				sssWindow.addTab("Users", new UserTab());
 				sssWindow.addTab("Messages", new MessageTab());
 				sssWindow.addTab("SQL", new SqlTab()); 
 			} break;
