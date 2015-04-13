@@ -96,8 +96,8 @@ public class SSS {
 	
 	private void setupWindow(int userId) {
 		UserType type = DatabaseFactory.getDatabase().getUserType(userId);
-		
 		sssWindow = new SSSWindow();
+		
 		switch(type) {
 			case SYS_ADMIN:
 			{
