@@ -38,7 +38,7 @@ public interface Database {
 	 * @param sql The statement to be run.
 	 * @return	The result of the query.
 	 */
-	public String executeQuery(String sql);
+	public String[][] executeQuery(String sql);
 	
 	/**
 	 * This is a general purpose sql update, only to be used from the SqlTab by the system administrator

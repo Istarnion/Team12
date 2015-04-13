@@ -222,28 +222,34 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public String executeQuery(String sql) {
-		String out = null;
+	public String[][] executeQuery(String sql) {
+		String[][] out = null;
 		
 		try(PreparedStatement statement = connection.prepareStatement(sql)) {
 			ResultSet result = statement.executeQuery();
 			int columns = result.getMetaData().getColumnCount();
+			int rows;
 			
-			StringBuilder sBuilder = new StringBuilder();
+			result.last();
+			rows = result.getRow();
+			result.beforeFirst();
 			
-			while(result.next()) {
-				for(int i=0; i<columns; i++) {
-					sBuilder.append(result.getString(i+1));
-					sBuilder.append("\t");
-				}
-				sBuilder.append("\n");
+			out = new String[rows+1][columns];
+			for(int i=0; i<result.getMetaData().getColumnCount(); i++) {
+				out[0][i] = result.getMetaData().getColumnLabel(i+1);
 			}
-			out = sBuilder.toString();
+			
+			for(int row=1; result.next(); row++) {  
+				for(int col=0; col<columns; col++) {
+					out[row][col] = result.getString(col+1);
+				}
+			}
 			
 			result.close();
 		}
 		catch(SQLException e) {
-			out = "SQL expression raised an exception:\n"+e.getMessage();
+			out = new String[1][1];
+			out[0][0] = "SQL expression raised an exception: "+e.getMessage();
 		}
 		
 		return out;
