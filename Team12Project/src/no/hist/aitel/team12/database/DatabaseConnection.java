@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
@@ -23,7 +24,7 @@ public class DatabaseConnection implements Database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_bronze?"
+			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
 					+ "user=team12&password=teamadmin12");
 
 			ok = testConnection();
@@ -111,7 +112,7 @@ public class DatabaseConnection implements Database {
 							result.getInt("zipcode"),
 							result.getString("municipality_name"),
 							result.getString("county_name")),
-						new EmailAddress(), 
+						new EmailAddress(result.getString("email")), 
 						result.getInt("telephone"), 
 						result.getInt("opening_hours"),
 						result.getInt("centre_id"), 
@@ -155,9 +156,9 @@ public class DatabaseConnection implements Database {
 							result.getInt("floors")
 							);
 					
-//					building.setEstablishments((ArrayList<Establishment>)Arrays.asList(
-//							getEstablishmentsInBuilding(building.getBuilding_id())
-//							));
+					building.setEstablishments((ArrayList<Establishment>)Arrays.asList(
+							getEstablishmentsInBuilding(building.getBuilding_id())
+							));
 					
 					buildings.add(building);
 				}
@@ -174,7 +175,30 @@ public class DatabaseConnection implements Database {
 	public Establishment[] getEstablishmentsInBuilding(int buildingID) {
 		Establishment[] establishments = null;
 		
-		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM establishment WHERE building_id = ?")) {
+		try(PreparedStatement statement = connection.prepareStatement(
+				"SELECT * FROM establishment WHERE building_id = ? LEFT JOIN business USING (business_id)"
+				)) {
+			
+			statement.setInt(1, buildingID);
+			ResultSet result = statement.executeQuery();
+			
+			result.last();
+			int rows = result.getRow();
+			result.beforeFirst();	
+			
+			establishments = new Establishment[rows];
+			for(int i=0; result.next(); i++) {
+				establishments[i] = new Establishment(
+						result.getInt("business_id"),
+						result.getString("business_name"),
+						new EmailAddress(result.getString("email")),
+						result.getInt("telephone"),
+						result.getInt("opening_hours"),
+						result.getInt("floor_number"),
+						result.getInt("establishment_id")
+						);
+			}
+			result.close();
 			
 		}
 		catch(SQLException e) {

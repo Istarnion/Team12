@@ -103,7 +103,11 @@ public class SqlTab extends SSSTab {
 	private void executeStatement(String statement) {
 		if (statement == null) return;
 		
-		if(statement.toLowerCase().startsWith("select")) {
+		if(statement.isEmpty()) return;
+		
+		String actionType = statement.split(" ")[0].toLowerCase();
+		
+		if(actionType.startsWith("select")) {
 			String[][] result = DatabaseFactory.getDatabase().executeQuery(statement);
 			if(result.length == 1) {
 				outputArea.setText(result[0][0]);
@@ -122,10 +126,13 @@ public class SqlTab extends SSSTab {
 				resultTable.setModel(tableModel);
 			}
 		}
-		else {
+		else if(actionType.startsWith("insert") || actionType.startsWith("update") || actionType.startsWith("delete")) {
 			String result = DatabaseFactory.getDatabase().executeUpdate(statement);
 			
 			outputArea.setText(result);
+		}
+		else {
+			System.out.println("Invalid SQL action type: "+actionType);
 		}
 	}
 	

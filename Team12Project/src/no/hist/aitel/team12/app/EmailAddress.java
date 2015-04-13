@@ -17,6 +17,10 @@ public class EmailAddress {
 	private String emailAddress;
 	
 	
+	public EmailAddress(String address) {
+		emailAddress = address;
+	}
+	
 	public static boolean isValidEmailAddress(String emailAddress){
 		boolean result = true;
 		try {

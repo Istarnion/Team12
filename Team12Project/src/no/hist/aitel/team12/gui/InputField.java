@@ -62,24 +62,6 @@ public class InputField extends JTextField {
 		
 		setDefaultText();
 		
-		/* This commented out block defines the focus-behaviour */
-//		super.addFocusListener(new FocusListener() {
-//
-//			@Override
-//			public void focusGained(FocusEvent e) {
-//				if(defaultShown) {
-//					prepare();
-//				}
-//			}
-//
-//			@Override
-//			public void focusLost(FocusEvent e) {
-//				if(getText().equals("")) {
-//					setDefaultText();
-//				}
-//			}
-//		});
-		
 		/* This block of code defines the inputting-behaviour */
 		
 		super.addCaretListener(new CaretListener() {
