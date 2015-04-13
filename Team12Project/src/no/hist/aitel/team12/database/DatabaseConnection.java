@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import no.hist.aitel.team12.app.Address;
+import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
@@ -137,12 +139,13 @@ public class DatabaseConnection implements Database {
 				"SELECT building_id, building_name, floors FROM building WHERE centre_id = ?"
 				)) {
 
+			ArrayList<Building> buildings;
 			for(ShoppingCentre centre : centres) {
 				statement.setInt(1, centre.getCentreId());
 				
 				result = statement.executeQuery();
 				
-	
+				buildings = new ArrayList<Building>();
 				while(result.next()) {
 					
 				}
@@ -154,6 +157,8 @@ public class DatabaseConnection implements Database {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	@Override
 	public int getUserID(String username) {

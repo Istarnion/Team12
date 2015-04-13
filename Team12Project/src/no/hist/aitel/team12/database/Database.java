@@ -16,6 +16,7 @@
  *******************************************************************************/
 package no.hist.aitel.team12.database;
 
+import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.PasswordManager;
@@ -96,6 +97,14 @@ public interface Database {
 	 * @param centres The centres that needs to be populated with data.
 	 */
 	public void getBuildingData(ShoppingCentre[] centres);
+	
+	/**
+	 * Retrieves all establishment in a certain building
+	 * 
+	 * @param buildingID The ID of the building in question
+	 * @return	The array
+	 */
+	public Establishment[] getEstablishmentsInBuilding(int buildingID);
 	
 	/**
 	 * Finds the UserType of the user.
