@@ -41,4 +41,9 @@ public class Building {
 	public Establishment[] getEstablishments() {
 		return establishments;
 	}
+	
+	@Override
+	public String toString() {
+		return building_name;
+	}
 }

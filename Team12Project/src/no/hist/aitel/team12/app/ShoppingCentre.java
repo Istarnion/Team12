@@ -1,7 +1,5 @@
 package no.hist.aitel.team12.app;
 
-import java.util.ArrayList;
-
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 
@@ -13,7 +11,7 @@ public class ShoppingCentre extends Business {
 
 	private String description;
 	
-	private ArrayList<Building> buildings;
+	private Building[] buildings;
 
 	private Address address;
 	
@@ -50,11 +48,11 @@ public class ShoppingCentre extends Business {
 		return centreId;
 	}
 
-	public ArrayList<Building> getBuildings() {
+	public Building[] getBuildings() {
 		return buildings;
 	}
 
-	public void setBuildings(ArrayList<Building> buildings) {
+	public void setBuildings(Building[] buildings) {
 		this.buildings = buildings;
 	}
 

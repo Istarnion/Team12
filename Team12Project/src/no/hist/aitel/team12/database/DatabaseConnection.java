@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
@@ -140,15 +139,18 @@ public class DatabaseConnection implements Database {
 				"SELECT building_id, building_name, floors FROM building WHERE centre_id = ?"
 				)) {
 
-			ArrayList<Building> buildings;
+			Building[] buildings;
 			Building building;
 			for(ShoppingCentre centre : centres) {
 				statement.setInt(1, centre.getCentreId());
 				
 				result = statement.executeQuery();
+				result.last();
+				int rows = result.getRow();
+				result.beforeFirst();
 				
-				buildings = new ArrayList<Building>();
-				while(result.next()) {
+				buildings = new Building[rows];
+				for(int i=0; result.next(); i++) {
 					building = new Building(
 							result.getInt("building_id"),
 							result.getString("building_name"),
@@ -159,10 +161,12 @@ public class DatabaseConnection implements Database {
 							getEstablishmentsInBuilding(building.getBuilding_id())
 							);
 					
-					buildings.add(building);
+					buildings[i] = building;
+					
 				}
 				
 				result.close();
+				centre.setBuildings(buildings);
 			}
 		}
 		catch (SQLException e) {
