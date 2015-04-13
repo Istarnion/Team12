@@ -120,10 +120,13 @@ public class PasswordInputField extends JPasswordField {
 
 	public void setDefaultText(String text) {
 		defaultText = text;
-		setDefaultText();
+		if(defaultShown) {
+			setDefaultText();
+		}
 	}
 	
 	private void setDefaultText() {
+		if (justFilled) return;
 		Runnable rnbl = new Runnable() {
 			@Override
 			public void run() {
@@ -139,6 +142,7 @@ public class PasswordInputField extends JPasswordField {
 	}
 
 	private void prepare(final char c) {
+		if (justCleared) return;
 		Runnable rnbl = new Runnable() {
 			@Override
 			public void run() {
