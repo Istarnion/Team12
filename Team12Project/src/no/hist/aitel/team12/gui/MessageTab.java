@@ -126,38 +126,38 @@ public class MessageTab extends SSSTab {
 		
 		// Field for from
 		JTextField to = new JTextField();
-		constraintsViewMsg.gridx = 0;
-		constraintsViewMsg.gridy = 0;
-		constraintsViewMsg.gridwidth = 6;
-		constraintsViewMsg.anchor = GridBagConstraints.WEST;
-		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
-		sendMessagePanel.add(to,constraintsViewMsg);
+		constraintsSendMsg.gridx = 0;
+		constraintsSendMsg.gridy = 0;
+		constraintsSendMsg.gridwidth = 6;
+		constraintsSendMsg.anchor = GridBagConstraints.WEST;
+		constraintsSendMsg.fill = GridBagConstraints.HORIZONTAL;
+		sendMessagePanel.add(to,constraintsSendMsg);
 		
 		// Button for replying to message
 		JButton send = new JButton("Send");
-		constraintsViewMsg.gridx = 6;
-		constraintsViewMsg.gridy = 0;
-		constraintsViewMsg.anchor = GridBagConstraints.EAST;
-		sendMessagePanel.add(send, constraintsViewMsg);
+		constraintsSendMsg.gridx = 6;
+		constraintsSendMsg.gridy = 0;
+		constraintsSendMsg.anchor = GridBagConstraints.EAST;
+		sendMessagePanel.add(send, constraintsSendMsg);
 		
 		// Field for message subject
 		JTextField subjectto = new JTextField();
-		constraintsViewMsg.gridx = 0;
-		constraintsViewMsg.gridy = 1;
-		constraintsViewMsg.anchor = GridBagConstraints.WEST;
-		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
-		sendMessagePanel.add(subjectto, constraintsViewMsg);
+		constraintsSendMsg.gridx = 0;
+		constraintsSendMsg.gridy = 1;
+		constraintsSendMsg.anchor = GridBagConstraints.WEST;
+		constraintsSendMsg.fill = GridBagConstraints.HORIZONTAL;
+		sendMessagePanel.add(subjectto, constraintsSendMsg);
 		
 		// Field for viewing selected message
-		constraintsViewMsg.gridx = 0;
-		constraintsViewMsg.gridy = 2;
-		constraintsViewMsg.anchor = GridBagConstraints.WEST;
-		constraintsViewMsg.gridheight = 1;
-		constraintsViewMsg.gridwidth = 6;
-		constraintsViewMsg.weightx = 1;
-		constraintsViewMsg.fill = GridBagConstraints.BOTH;
-		constraintsViewMsg.weightx = 1.0;
-		constraintsViewMsg.weighty = 1.0;
+		constraintsSendMsg.gridx = 0;
+		constraintsSendMsg.gridy = 2;
+		constraintsSendMsg.anchor = GridBagConstraints.WEST;
+		constraintsSendMsg.gridheight = 1;
+		constraintsSendMsg.gridwidth = 6;
+		constraintsSendMsg.weightx = 1;
+		constraintsSendMsg.fill = GridBagConstraints.BOTH;
+		constraintsSendMsg.weightx = 1.0;
+		constraintsSendMsg.weighty = 1.0;
 
 		sendMessagePanel.add(sendMessageScroll, constraintsSendMsg);
 		sendMessageText.setEditable(true);
