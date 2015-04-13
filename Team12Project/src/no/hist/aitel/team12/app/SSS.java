@@ -21,6 +21,7 @@ import javax.swing.UIManager;
 
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.gui.LoginWindow;
+import no.hist.aitel.team12.gui.MessageTab;
 import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
 import no.hist.aitel.team12.gui.SqlTab;
@@ -70,6 +71,7 @@ public class SSS {
 			case 0:
 				SSSWindow window = new SSSWindow();
 				window.addTab("SQL", new SqlTab());
+				window.addTab("Message", new MessageTab());
 				window.showWindow();
 				break;
 			default:
