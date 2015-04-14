@@ -17,6 +17,7 @@
 package no.hist.aitel.team12.database;
 
 import no.hist.aitel.team12.app.Establishment;
+import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.PasswordManager;
@@ -113,4 +114,11 @@ public interface Database {
 	 * @return			The type of the user
 	 */
 	public UserType getUserType(int userId);
+
+	/**
+	 * 
+	 * @param username	The user in question
+	 * @return			A list of all messages, sent and recieved
+	 */
+	public Message[] getMessages(String username);
 }

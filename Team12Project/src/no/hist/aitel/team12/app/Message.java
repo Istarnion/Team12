@@ -19,6 +19,9 @@ package no.hist.aitel.team12.app;
 
 import java.sql.Timestamp;
 
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
+
 public class Message {
 	
 	private final String to;
@@ -54,6 +57,12 @@ public class Message {
 	
 	public Timestamp getTimestamp() {
 		return timestamp;
+	}
+	
+	public static Message[] getUserMessages(String username) {
+		Database db = DatabaseFactory.getDatabase();
+		Message[] messages = db.getMessages(username);
+		return messages;
 	}
 	
 	

@@ -94,13 +94,13 @@ public class SSS {
 		if(ok) {
 			login.dispose();
 			
-			setupWindow(id);
+			setupWindow(id, username);
 		}
 		
 		return ok;
 	}
 	
-	private void setupWindow(int userId) {
+	private void setupWindow(int userId, String username) {
 		UserType type = DatabaseFactory.getDatabase().getUserType(userId);
 		sssWindow = new SSSWindow();
 		
@@ -109,7 +109,7 @@ public class SSS {
 			{
 				sssWindow.addTab(Text.getString("overview"),	new OverviewTab());
 				sssWindow.addTab(Text.getString("usrs"),		new UserTab());
-				sssWindow.addTab(Text.getString("msgs"),		new MessageTab());
+				sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 				sssWindow.addTab(Text.getString("sql"),			new SqlTab()); 
 			} break;
 			

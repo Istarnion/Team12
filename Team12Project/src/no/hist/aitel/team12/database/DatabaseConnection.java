@@ -10,6 +10,7 @@ import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Establishment;
+import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
 
@@ -318,5 +319,11 @@ public class DatabaseConnection implements Database {
 		}
 		
 		return out;
+	}
+	
+
+	@Override
+	public Message[] getMessages(String username) {
+		return null;
 	}
 }

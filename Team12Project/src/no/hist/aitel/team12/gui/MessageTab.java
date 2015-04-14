@@ -16,6 +16,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.util.Text;
 
 
@@ -33,7 +34,7 @@ public class MessageTab extends SSSTab {
 	private JPanel sendMessagePanel = new JPanel();
 	private JTextArea sendMessageText;
 	private JScrollPane sendMessageScroll;
-
+	private Message[] messages;
 
 	private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
 
@@ -44,10 +45,12 @@ public class MessageTab extends SSSTab {
 
 
 
-	public MessageTab() {
+	public MessageTab(String username) {
 
+		messages = Message.getUserMessages(username);
+		
 		setLayout(new BorderLayout());
-
+		
 		add(inboxArea,BorderLayout.WEST);
 		inboxArea.setLayout(new BorderLayout());
 		inboxArea.add(scrollInbox,BorderLayout.CENTER);
@@ -197,12 +200,8 @@ public class MessageTab extends SSSTab {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-
-
-
-
 	}
+
 
 
 }
