@@ -22,29 +22,38 @@ import java.sql.Timestamp;
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 
+
+/**
+ * 
+ * @author Gjermund
+ * @version 1.0
+ * 
+ */
+
+
 public class Message {
 	
-	private final String to;
-	private final String from;
+	private final String reciever;
+	private final String sender;
 	private final String subject;
 	private final String content;
 	
 	private final Timestamp timestamp;
 	
-	public Message(String to, String from, String subject, String content, Timestamp timestamp) {
-		this.to = to;
-		this.from = from;
+	public Message(String reciever, String sender, String subject, String content, Timestamp timestamp) {
+		this.reciever = reciever;
+		this.sender = sender;
 		this.subject = subject;
 		this.content = content;
 		this.timestamp = timestamp;
 	}
 	
-	public String getTo() {
-		return to;
+	public String getReciever() {
+		return reciever;
 	}
 	
-	public String getFrom() {
-		return from;
+	public String getSender() {
+		return sender;
 	}
 	
 	public String getSubject() {
@@ -58,6 +67,13 @@ public class Message {
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
+	
+	/**
+	 * Method for retrieving messages relevant for a specific user.
+	 * 
+	 * @param username The user in question
+	 * @return The messages relevant for this user
+	 */
 	
 	public static Message[] getUserMessages(String username) {
 		Database db = DatabaseFactory.getDatabase();
