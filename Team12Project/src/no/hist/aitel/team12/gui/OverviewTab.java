@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -42,8 +41,6 @@ public class OverviewTab extends SSSTab {
 	private JPanel logoCard, centreCard, buildingCard, establishmentCard;
 
 	private CardLayout cardLayout;
-
-	private JTextField name; 
 
 	public OverviewTab() {
 
@@ -160,6 +157,4 @@ public class OverviewTab extends SSSTab {
 	public void refresh() {
 		rightPanel.repaint();
 	}
-
-
 }

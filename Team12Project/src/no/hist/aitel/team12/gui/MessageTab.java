@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -25,29 +26,55 @@ public class MessageTab extends SSSTab {
 
 	private static final long serialVersionUID = 7021415739968091789L;
 
-
 	private JPanel inboxArea = new JPanel();
+
 	private JPanel comboArea = new JPanel();
+	
 	private JPanel viewMessagePanel = new JPanel();
+	
 	private JTextArea viewMessageText;
+	
 	private JScrollPane viewMessageScroll;
+	
 	private JPanel sendMessagePanel = new JPanel();
+	
 	private JTextArea sendMessageText;
+	
 	private JScrollPane sendMessageScroll;
+	
 	private Message[] messages;
+	
+	private ArrayList<Message> outbox;
+	private ArrayList<Message> inbox;
+	private ArrayList<Message> trash;
 
-	private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
+	//private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
 
-	private JList<String> inboxList = new JList<String>(meldinger);
+	private JList<Message> inboxList;
+	
 	private JScrollPane scrollInbox = new JScrollPane(inboxList);
 
-
-
-
-
+	
 	public MessageTab(String username) {
+		
+		outbox = new ArrayList<Message>();
+		inbox = new ArrayList<Message>();
+		trash = new ArrayList<Message>();
+
 
 		messages = Message.getUserMessages(username);
+		for(Message m : messages) {
+			if(m.isDeleted()) {
+				trash.add(m);
+			}
+			else if(m.getSender() == username) {
+				outbox.add(m);
+			}
+			else {
+				inbox.add(m);
+			}
+		}
+		inboxList = new JList<Message>(messages);
 		
 		setLayout(new BorderLayout());
 		
@@ -182,8 +209,8 @@ public class MessageTab extends SSSTab {
 		public void messageSelected(ListSelectionEvent e){
 			int select = inboxList.getSelectedIndex();
 			if(select >=0){
-				String message = inboxList.getSelectedValue();
-				viewMessageText.setText(message);
+				Message message = inboxList.getSelectedValue();
+				viewMessageText.setText(message.getContent());
 			}
 		}
 

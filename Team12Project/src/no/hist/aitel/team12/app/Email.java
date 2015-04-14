@@ -1,11 +1,13 @@
 package no.hist.aitel.team12.app;
 
-import java.util.*;
+import java.util.Properties;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
-import javax.activation.*;
 
 /*
  * This class takes use of the Java Mail library to send mails from in

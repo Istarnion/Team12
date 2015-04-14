@@ -47,4 +47,8 @@ public class Establishment extends Business {
 	public void setFloorNumber(int floorNumber) {
 		this.floorNumber = floorNumber;
 	}
+
+	public int getEstablishmentId() {
+		return establishmentId;
+	}
 }

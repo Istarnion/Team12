@@ -34,18 +34,24 @@ import no.hist.aitel.team12.database.DatabaseFactory;
 public class Message {
 	
 	private final String reciever;
+
 	private final String sender;
+	
 	private final String subject;
+	
 	private final String content;
+	
+	private boolean deleted;
 	
 	private final Timestamp timestamp;
 	
-	public Message(String reciever, String sender, String subject, String content, Timestamp timestamp) {
-		this.reciever = reciever;
-		this.sender = sender;
-		this.subject = subject;
-		this.content = content;
-		this.timestamp = timestamp;
+	public Message(String reciever, String sender, String subject, String content, Timestamp timestamp, boolean deleted) {
+		this.reciever 		= reciever;
+		this.sender 		= sender;
+		this.subject 		= subject;
+		this.content		= content;
+		this.timestamp 		= timestamp;
+		this.deleted 		= deleted;
 	}
 	
 	public String getReciever() {
@@ -68,6 +74,14 @@ public class Message {
 		return timestamp;
 	}
 	
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+	
 	/**
 	 * Method for retrieving messages relevant for a specific user.
 	 * 
@@ -80,6 +94,13 @@ public class Message {
 		Message[] messages = db.getMessages(username);
 		return messages;
 	}
+	
+	@Override
+	public String toString() {
+		return subject;
+	}
+
+
 	
 	
 }
