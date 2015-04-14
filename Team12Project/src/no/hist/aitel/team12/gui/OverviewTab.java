@@ -81,15 +81,24 @@ public class OverviewTab extends SSSTab {
 			public void valueChanged(TreeSelectionEvent event) {
 				rightPanel.remove(logoLabel);
 				
-				if(((DefaultMutableTreeNode) businessList.getLastSelectedPathComponent()).getUserObject() instanceof ShoppingCentre) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) businessList.getLastSelectedPathComponent();
+				
+				if(node == null) {
+					rightPanel.add(logoLabel, BorderLayout.CENTER);
+				}
+				
+				else if(node.getUserObject() instanceof ShoppingCentre) {
 					
 				}
 
-				if(((DefaultMutableTreeNode) businessList.getLastSelectedPathComponent()).getUserObject() instanceof Building) {
+				else if(node.getUserObject() instanceof Building) {
 					
 				}
 				
-				if(((DefaultMutableTreeNode) businessList.getLastSelectedPathComponent()).getUserObject() instanceof Establishment) {
+				else if(node.getUserObject() instanceof Establishment) {
+				}
+				else {
+					// log error
 				}
 				refresh();
 			}
@@ -104,7 +113,7 @@ public class OverviewTab extends SSSTab {
 		leftPanel.setPreferredSize(new Dimension(250, 0));		
 		
 		leftPanel.add(scrollPane, BorderLayout.CENTER);
-		rightPanel.add(logoLabel);
+		rightPanel.add(logoLabel, BorderLayout.CENTER);
 		add(leftPanel, BorderLayout.WEST);
 		add(rightPanel, BorderLayout.CENTER);	
 	}

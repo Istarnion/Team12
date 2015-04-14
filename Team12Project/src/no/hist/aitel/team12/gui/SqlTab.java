@@ -14,6 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.util.Text;
 
 public class SqlTab extends SSSTab {
 
@@ -78,7 +79,7 @@ public class SqlTab extends SSSTab {
 		
 		gbc.weightx = 0.1;
 		gbc.fill = GridBagConstraints.NONE;
-		executeButton = new JButton("Execute");
+		executeButton = new JButton(Text.getString("exe"));
 		executeButton.addActionListener(listener);
 		executeButton.setActionCommand(EXECUTE_CMD);
 		gbc.gridx = 5;

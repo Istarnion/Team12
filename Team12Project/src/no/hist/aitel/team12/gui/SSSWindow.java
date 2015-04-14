@@ -6,6 +6,8 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import no.hist.aitel.team12.app.SSS;
 
@@ -51,6 +53,15 @@ public class SSSWindow extends JFrame {
 		
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setPreferredSize(new Dimension(1200, 675));
+		
+		tabbedPane.addChangeListener(new ChangeListener() {
+
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				((SSSTab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())).refresh();
+			}
+			
+		});
 		
 		add(tabbedPane);
 	}

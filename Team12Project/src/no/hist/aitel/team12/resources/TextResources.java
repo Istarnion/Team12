@@ -42,7 +42,19 @@ public class TextResources extends ListResourceBundle {
 				{"pwd", "Password"},
 				{"usr", "Username"},
 				{"loginfail", "Login failed.\nInvalid username/password."},
-				{"err", "Error"}
+				{"err", "Error"},
+				{"send", "Send"},
+				{"reply", "Reply"},
+				{"from", "From"},
+				{"to", "To"},
+				{"sub", "Subject"},
+				{"exe", "Execute"},
+				{"overview", "Overview"},
+				{"msgs", "Messages"},
+				{"usrs", "Users"},
+				{"sql", "SQL"},
+				{"rport", "Report"},
+				{"tckts", "Tickets"}
 		};
 	}
 }

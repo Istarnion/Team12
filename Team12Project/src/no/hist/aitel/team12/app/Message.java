@@ -26,8 +26,7 @@ public class Message {
 	private final String subject;
 	private final String content;
 	
-	private Timestamp timestamp;
-	
+	private final Timestamp timestamp;
 	
 	public Message(String to, String from, String subject, String content, Timestamp timestamp) {
 		this.to = to;

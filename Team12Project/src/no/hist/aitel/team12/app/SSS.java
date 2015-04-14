@@ -29,6 +29,7 @@ import no.hist.aitel.team12.gui.SplashScreen;
 import no.hist.aitel.team12.gui.SqlTab;
 import no.hist.aitel.team12.gui.UserTab;
 import no.hist.aitel.team12.util.PasswordManager;
+import no.hist.aitel.team12.util.Text;
 
 public class SSS {
 
@@ -37,6 +38,8 @@ public class SSS {
 	LoginWindow login;
 	
 	SSSWindow sssWindow;
+	
+	private static SSS sss;
 	
 	public SSS() {
 		try {
@@ -73,6 +76,8 @@ public class SSS {
 		// Login
 		login = new LoginWindow(this);
 		login.showLoginWindow();
+		
+		sss = this;
 	}
 	
 	public static void main(String[] args) {
@@ -102,10 +107,10 @@ public class SSS {
 		switch(type) {
 			case SYS_ADMIN:
 			{
-				sssWindow.addTab("Overview", new OverviewTab());
-				sssWindow.addTab("Users", new UserTab());
-				sssWindow.addTab("Messages", new MessageTab());
-				sssWindow.addTab("SQL", new SqlTab()); 
+				sssWindow.addTab(Text.getString("overview"),	new OverviewTab());
+				sssWindow.addTab(Text.getString("usrs"),		new UserTab());
+				sssWindow.addTab(Text.getString("msgs"),		new MessageTab());
+				sssWindow.addTab(Text.getString("sql"),			new SqlTab()); 
 			} break;
 			
 			case CENTRE_MANAGER:
@@ -135,9 +140,28 @@ public class SSS {
 		sssWindow.showWindow();
 	}
 	
+	/**
+	 * A clean exit for the SSSApplication.
+	 * The database connection is taken down, and all windows are disposed of.
+	 */
 	public static void exit() {
 		DatabaseFactory.getDatabase().teardown();
+		if(sss.login != null) sss.login.dispose();
+		if(sss.sssWindow != null) sss.sssWindow.dispose();
 		System.out.println("Successful exit.");
 		System.exit(0);
+	}
+	
+	/**
+	 * In case of a fatal error, this method will display an error message as the application is taken down.
+	 * 
+	 * @param errMsg	The text that will be displayed in the error message
+	 */
+	public static void exitWithError(String errMsg) {
+		DatabaseFactory.getDatabase().teardown();
+		if(sss.login != null) sss.login.dispose();
+		if(sss.sssWindow != null) sss.sssWindow.dispose();
+		JOptionPane.showMessageDialog(null, errMsg, Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+		System.exit(1);
 	}
 }

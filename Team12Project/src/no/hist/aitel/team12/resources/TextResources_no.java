@@ -42,7 +42,19 @@ public class TextResources_no extends ListResourceBundle {
 				{"pwd", "Passord"},
 				{"usr", "Brukernavn"},
 				{"loginfail", "Innloging feilet.\nUgyldig brukernavn/passord."},
-				{"err", "Feil"}
+				{"err", "Feil"},
+				{"send", "Send"},
+				{"reply", "Svar"},
+				{"from", "Fra"},
+				{"to", "Til"},
+				{"sub", "Emne"},
+				{"exe", "Kjør"},
+				{"overview", "Oversikt"},
+				{"msgs", "Meldinger"},
+				{"usrs", "Brukere"},
+				{"sql", "SQL"},
+				{"rport", "Rapport"},
+				{"tckts", "Hendvendelser"}
 		};
 	}
 }
