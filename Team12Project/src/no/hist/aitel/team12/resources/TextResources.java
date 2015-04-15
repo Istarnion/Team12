@@ -56,7 +56,7 @@ public class TextResources extends ListResourceBundle {
 				{"rport", "Report"},
 				{"tckts", "Tickets"},
 				{"finance", "Finance"},
-				{"Reg","Register"},
+				{"reg","Register"},
 				{"storeTxt", "Finance report for: "},
 				{"cntrTxt", "On: "},
 				{"fDate", "From date: "},

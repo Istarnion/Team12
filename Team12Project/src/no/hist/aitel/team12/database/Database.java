@@ -127,6 +127,24 @@ public interface Database {
 	public UserType getUserType(int userId);
 
 	/**
+	 * Retrieves the corresponding centre ID to a user
+	 * 
+	 * @param userID	The user ID
+	 * @return			The centreID related to a user. 0 in the case of the system admin, -1 if invalid user
+	 */
+	public int getCentreID(int userID);
+	
+	/**
+	 * Retrieves the establishment ID for a shop owner.
+	 * 
+	 * Returns -1 if an invalid user ID is supplied.
+	 * 
+	 * @param userID	The ID of a shop owner
+	 * @return	The establishment ID
+	 */
+	public int getEstablishmentID(int userID);
+	
+	/**
 	 * 
 	 * @param username	The user in question
 	 * @return			A list of all messages, sent and recieved

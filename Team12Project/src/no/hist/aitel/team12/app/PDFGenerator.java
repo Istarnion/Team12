@@ -22,6 +22,8 @@ public class PDFGenerator {
 
 	public static void main (String[]args){
 		
+		
+		
 		Document document = new Document();
 		document.setPageSize(PageSize.A4);
 		
