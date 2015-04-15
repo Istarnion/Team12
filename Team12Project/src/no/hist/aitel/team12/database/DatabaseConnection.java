@@ -10,9 +10,11 @@ import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Establishment;
+import no.hist.aitel.team12.app.IntHashMap;
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
+import bak.pcj.list.IntArrayList;
 
 public class DatabaseConnection implements Database {
 
@@ -86,6 +88,109 @@ public class DatabaseConnection implements Database {
 		}
 
 		return ok;
+	}
+
+	@Override
+	public ShoppingCentre[] getShoppingCentres(int userID) {
+
+		IntHashMap<ShoppingCentre>	centres = null;
+
+		String	centreQuery = null,
+				buildingQuery = null,
+				establishmentQuery = null;
+		UserType userType = getUserType(userID);
+		switch(userType) {
+			case SYS_ADMIN:
+				centreQuery = "SELECT * FROM centres_view";
+				buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building";
+				establishmentQuery = "SELECT * FROM establishment_view";
+				break;
+			case CENTRE_MANAGER:
+			case SHOP_OWNER:
+			case CUSTOMER_SERVICE:
+				centreQuery = "SELECT * FROM centres_view WHERE centre_id = ";	// THIS DOES NOT WORK JUST NOW
+				break;
+			default:
+				break;
+		}
+
+		try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
+			centres = new IntHashMap<ShoppingCentre>();
+
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				centres.put(result.getInt("centre_id"), new ShoppingCentre(
+						result.getInt("business_id"),
+						result.getString("business_name"),
+						new Address(
+								result.getString("address"),
+								result.getInt("zipcode"),
+								result.getString("municipality_name"),
+								result.getString("county_name")),
+								new EmailAddress(result.getString("email")),
+								result.getInt("telephone"),
+								result.getInt("opening_hours"),
+								result.getInt("centre_id"),
+								result.getInt("parking_spaces"),
+								result.getString("text_description")
+						));
+			}
+
+			result.close();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		try(PreparedStatement statement = connection.prepareStatement(buildingQuery)) {
+			Building building;
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				building = new Building(
+						result.getInt("building_id"),
+						result.getString("building_name"),
+						result.getInt("floors")
+						);
+				centres.get(result.getInt("centre_id")).addBuilding(building);
+			}
+
+			result.close();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
+			Establishment estab;
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				estab = new Establishment(
+						result.getInt("business_id"),
+						result.getString("business_name"),
+						new EmailAddress(result.getString("email")),
+						result.getInt("telephone"),
+						result.getInt("opening_hours"),
+						result.getInt("floor_number"),
+						result.getInt("establishment_id")
+						);
+				centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
+			}
+
+			result.close();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ShoppingCentre[] output = null;
+		if(centres != null) {
+			output = new ShoppingCentre[centres.size()];
+			IntArrayList keys = centres.getKeys();
+			for(int i=0; i<keys.size(); i++) {
+				output[i] = centres.get(keys.get(i));
+			}
+		}
+		return output;
 	}
 
 	@Override
@@ -339,7 +444,7 @@ public class DatabaseConnection implements Database {
 			result.beforeFirst();
 
 			messages = new Message[rows];
-			
+
 			for(int i=0; result.next(); i++) {
 				messages[i] = new Message(
 						result.getString("reciever"),

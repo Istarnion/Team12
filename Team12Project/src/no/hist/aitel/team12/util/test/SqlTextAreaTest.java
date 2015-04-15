@@ -28,7 +28,7 @@ public class SqlTextAreaTest {
 	public SqlTextAreaTest() {
 		JFrame frame = new JFrame("Title");
 		
-		SqlTextArea sta = new SqlTextArea(20, 60);
+		SqlTextArea sta = new SqlTextArea(20, 60, true);
 		frame.add(sta.generateScrollPane());
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,5 +1,7 @@
 package no.hist.aitel.team12.app;
 
+import java.util.Arrays;
+
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 
@@ -13,6 +15,8 @@ public class ShoppingCentre extends Business {
 	
 	private Building[] buildings;
 
+	private int numBuildings;
+	
 	private Address address;
 	
 	public ShoppingCentre(
@@ -54,8 +58,27 @@ public class ShoppingCentre extends Business {
 
 	public void setBuildings(Building[] buildings) {
 		this.buildings = buildings;
+		numBuildings = buildings.length;
 	}
 
+	public void addBuilding(Building b) {
+		if(buildings == null) buildings = new Building[2];
+		if(numBuildings == buildings.length) {
+			buildings = Arrays.copyOf(buildings, buildings.length*2);
+			buildings[numBuildings++] = b;
+		}
+		else {
+			buildings[numBuildings++] = b;
+		}
+	}
+	
+	public Building findBuilding(int buildingId) {
+		for(Building b : buildings) {
+			if(b.getBuilding_id() == buildingId) return b;
+		}
+		return null;
+	}
+	
 	public Address getAddress() {
 		return address;
 	}
@@ -65,10 +88,11 @@ public class ShoppingCentre extends Business {
 	}
 
 	public static ShoppingCentre[] getPopulatedShoppingCentres() {
+		long timestamp = System.currentTimeMillis();
 		Database db = DatabaseFactory.getDatabase();
-		ShoppingCentre[] centres = db.getShoppingCentreData();
+		ShoppingCentre[] centres = db.getShoppingCentres(1);
 		
-		db.getBuildingData(centres);
+		System.out.println(((double)(System.currentTimeMillis()-timestamp)/1000)+" seconds to complete.");
 		
 		return centres;
 	}

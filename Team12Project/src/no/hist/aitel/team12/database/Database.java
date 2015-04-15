@@ -84,6 +84,17 @@ public interface Database {
 	public void teardown();
 	
 	/**
+	 * Finds all shopping centres in the database related to the user in question.
+	 * For the SysAdmin (UserID = 1) this means every shopping centre.
+	 * 
+	 * These shopping centre objects is fully set up with buildings and establishments
+	 * 
+	 * @param userID	The user ID of the user
+	 * @return			The related shopping centres
+	 */
+	public ShoppingCentre[] getShoppingCentres(int userID);
+	
+	/**
 	 * Retrieves an array of all shopping centres in the database. <br>
 	 * Note that they are not initialized with buildings (and thus neither with shops).
 	 * This can be done using the getBuildingData() method.

@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
@@ -26,8 +27,10 @@ public class MessageTab extends SSSTab {
 
 	private static final long serialVersionUID = 7021415739968091789L;
 
-	private JPanel inboxArea = new JPanel();
+	private JTabbedPane inboxArea = new JTabbedPane();
 
+	private JPanel inboxPanel, outboxPanel, trashPanel;
+	
 	private JPanel comboArea = new JPanel();
 	
 	private JPanel viewMessagePanel = new JPanel();
@@ -42,6 +45,10 @@ public class MessageTab extends SSSTab {
 	
 	private JScrollPane sendMessageScroll;
 	
+	private JTextField
+		subject, subjectto,
+		from, to;
+	
 	private Message[] messages;
 	
 	private ArrayList<Message> outbox;
@@ -50,38 +57,64 @@ public class MessageTab extends SSSTab {
 
 	//private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
 
-	private JList<Message> inboxList;
+	private JList<Message> inboxList, outboxList, trashList;
 	
-	private JScrollPane scrollInbox = new JScrollPane(inboxList);
-
+	private JScrollPane scrollInbox, scrollOutbox, scrollTrash;
 	
 	public MessageTab(String username) {
 		
-		outbox = new ArrayList<Message>();
-		inbox = new ArrayList<Message>();
-		trash = new ArrayList<Message>();
-
+		outbox	= new ArrayList<Message>();
+		inbox	= new ArrayList<Message>();
+		trash	= new ArrayList<Message>();
 
 		messages = Message.getUserMessages(username);
 		for(Message m : messages) {
 			if(m.isDeleted()) {
 				trash.add(m);
 			}
-			else if(m.getSender() == username) {
+			else if(m.getSender().equals(username)) {
 				outbox.add(m);
 			}
 			else {
 				inbox.add(m);
 			}
 		}
-		inboxList = new JList<Message>(messages);
+		
+		inboxArea.setTabPlacement(JTabbedPane.BOTTOM);
+		
+		inboxList = new JList<Message>(inbox.toArray(new Message[outbox.size()]));
+		inboxList.addListSelectionListener(new inboxListner());
+		
+		scrollInbox = new JScrollPane(inboxList);
+		
+		inboxPanel = new JPanel();
+		inboxPanel.setLayout(new BorderLayout());
+		inboxPanel.add(scrollInbox,BorderLayout.CENTER);
+		
+		outboxList = new JList<Message> (outbox.toArray(new Message[outbox.size()]));
+		outboxList.addListSelectionListener(new inboxListner());
+		
+		scrollOutbox = new JScrollPane(outboxList);
+		
+		outboxPanel = new JPanel();
+		outboxPanel.setLayout(new BorderLayout());
+		outboxPanel.add(scrollOutbox, BorderLayout.CENTER);
+		
+		trashList = new JList<Message> (trash.toArray(new Message[outbox.size()]));
+		trashList.addListSelectionListener(new inboxListner());
+		
+		scrollTrash = new JScrollPane(trashList);
+		
+		trashPanel = new JPanel();
+		trashPanel.setLayout(new BorderLayout());
+		trashPanel.add(scrollTrash, BorderLayout.CENTER);
+		
+		inboxArea.add(inboxPanel, "inbox");
+		inboxArea.add(outboxPanel, "outbox");
+		inboxArea.add(trashPanel, "trash");
 		
 		setLayout(new BorderLayout());
-		
 		add(inboxArea,BorderLayout.WEST);
-		inboxArea.setLayout(new BorderLayout());
-		inboxArea.add(scrollInbox,BorderLayout.CENTER);
-		inboxList.addListSelectionListener(new inboxListner());
 		add(comboArea,BorderLayout.CENTER);
 
 		// Colors for debugging
@@ -104,7 +137,7 @@ public class MessageTab extends SSSTab {
 		GridBagConstraints constraintsViewMsg = new GridBagConstraints();
 
 		// Field for from
-		JTextField from = new JTextField();
+		from = new JTextField();
 		constraintsViewMsg.gridx = 0;
 		constraintsViewMsg.gridy = 0;
 		constraintsViewMsg.gridwidth = 1;
@@ -125,7 +158,7 @@ public class MessageTab extends SSSTab {
 		viewMessagePanel.add(reply, constraintsViewMsg);
 
 		// Field for message subject
-		JTextField subject = new JTextField();
+		subject = new JTextField();
 		constraintsViewMsg.gridx = 0;
 		constraintsViewMsg.gridy = 1;
 		constraintsViewMsg.gridwidth = 2;
@@ -153,13 +186,11 @@ public class MessageTab extends SSSTab {
 		sendMessageScroll = new JScrollPane(sendMessageText);
 		sendMessageScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-
-
 		sendMessagePanel.setLayout(new GridBagLayout());
 		GridBagConstraints constraintsSendMsg = new GridBagConstraints();
 
 		// Field for from
-		JTextField to = new JTextField();
+		to = new JTextField();
 		constraintsSendMsg.gridx = 0;
 		constraintsSendMsg.gridy = 0;
 		constraintsSendMsg.gridwidth = 1;
@@ -180,7 +211,7 @@ public class MessageTab extends SSSTab {
 		sendMessagePanel.add(send, constraintsSendMsg);
 
 		// Field for message subject
-		JTextField subjectto = new JTextField();
+		subjectto = new JTextField();
 		constraintsSendMsg.gridx = 0;
 		constraintsSendMsg.gridy = 1;
 		constraintsSendMsg.gridwidth = 2;
@@ -206,24 +237,19 @@ public class MessageTab extends SSSTab {
 	// LISTNERS
 
 	private class inboxListner implements ListSelectionListener{
-		public void messageSelected(ListSelectionEvent e){
-			int select = inboxList.getSelectedIndex();
-			if(select >=0){
-				Message message = inboxList.getSelectedValue();
-				viewMessageText.setText(message.getContent());
-			}
+		public void messageSelected(Message m){
+			viewMessageText.setText(m.getContent());
+			from.setText(m.getSender());
+			subject.setText(m.getSubject());
 		}
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			messageSelected(e);
-
+			JList<?> source = (JList<?>) e.getSource();
+			Message msg = (Message)source.getSelectedValue();
+			if(msg != null) messageSelected(msg);
 		}
-
 	}
-
-
-
 
 	@Override
 	public void refresh() {
