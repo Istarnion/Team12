@@ -13,6 +13,7 @@ import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
+import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 
 public class DatabaseConnection implements Database {
 
@@ -361,5 +362,81 @@ public class DatabaseConnection implements Database {
 
 
 		return messages;
+	}
+	
+	@Override
+	public boolean createUser	(String firstName, String lastName, String address, int zipCode, 
+								String email, int telephone, int salary, String username, String passwordHash) {
+		
+		String firstNameDMP = DoubleMetaphoneUtils.encodeString(firstName);
+		String lastNameDMP = DoubleMetaphoneUtils.encodeString(lastName);
+		
+		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO person(first_name, first_name_dmp, last_name, last_name_dmp, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			statement.setString(1, firstName);
+			statement.setString(2, firstNameDMP);
+			statement.setString(3, lastName);
+			statement.setString(4, lastNameDMP);
+			statement.setString(5, address);
+			statement.setInt(6, zipCode);
+			statement.setString(7, email);
+			statement.setInt(8, telephone);
+			statement.setInt(9, salary);
+			
+			
+		} 
+		
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO user(username, passwordHash, employee_number) VALUES(?, ?, LAST_INSERT_ID())")) {
+			statement.setString(1, username);
+			statement.setString(2, passwordHash);	
+		}
+		
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean createPersonnel	(String firstName, String lastName, String address, int zipCode, 
+									String email, int telephone, int salary, String title, int centreID) {
+		
+		String firstNameDMP = DoubleMetaphoneUtils.encodeString(firstName);
+		String lastNameDMP = DoubleMetaphoneUtils.encodeString(lastName);
+		
+		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO person(first_name, first_name_dmp, last_name, last_name_dmp, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			statement.setString(1, firstName);
+			statement.setString(2, firstNameDMP);
+			statement.setString(3, lastName);
+			statement.setString(4, lastNameDMP);
+			statement.setString(5, address);
+			statement.setInt(6, zipCode);
+			statement.setString(7, email);
+			statement.setInt(8, telephone);
+			statement.setInt(9, salary);
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO personnel(title, centre_id, employee_number) VALUES(?, ?, LAST_INSERT_ID())")) {
+			
+			statement.setString(1, title);
+			statement.setInt(2, centreID);
+		} 
+		
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 }
