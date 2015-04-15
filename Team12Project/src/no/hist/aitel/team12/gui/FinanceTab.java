@@ -3,18 +3,24 @@ package no.hist.aitel.team12.gui;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
 
+import no.hist.aitel.team12.app.PDFGenerator;
 import no.hist.aitel.team12.util.Text;
 
 public class FinanceTab extends SSSTab {
@@ -23,31 +29,23 @@ public class FinanceTab extends SSSTab {
 	
 	private JPanel financeView = new JPanel();
 	
-	private JPanel selection = new JPanel(); 
+	private JLabel showPDF = new JLabel();
 	
-	private JPanel pdfView = new JPanel();
+	private JScrollPane pdfScroll; 
 	
-	private JTextArea pdfText;
-	
-	
+	private  JPanel pdfView;
 	
 	
 	public FinanceTab(String username){
 		
-		financeView.setLayout(new GridLayout(2,1));
-		financeView.add(selection);
-		financeView.add(pdfView);
+		financeView.setLayout(new GridBagLayout());
+		GridBagConstraints slctcons = new GridBagConstraints();
 		add(financeView);
 		
 		// Colors for Debugging
 		
 		financeView.setBackground(Color.BLUE);
-		pdfView.setBackground(Color.GREEN);
-		selection.setBackground(Color.RED);
 		
-		
-		selection.setLayout(new GridBagLayout());
-		GridBagConstraints slctcons = new GridBagConstraints();
 		
 		// Selection View
 		// Row 1
@@ -59,7 +57,7 @@ public class FinanceTab extends SSSTab {
 		slctcons.weightx = 1;
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		selection.add(info, slctcons);
+		financeView.add(info, slctcons);
 		
 		// Row 2
 		JLabel fDate = new JLabel (Text.getString("fDate"));
@@ -70,7 +68,7 @@ public class FinanceTab extends SSSTab {
 		slctcons.weightx = 1;
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		selection.add(fDate,slctcons);
+		financeView.add(fDate,slctcons);
 		
 		JXDatePicker fromDate = new JXDatePicker();
 		fromDate.setDate(Calendar.getInstance().getTime());
@@ -82,7 +80,7 @@ public class FinanceTab extends SSSTab {
         slctcons.weightx = 1;
         slctcons.weighty = .025;
         slctcons.fill = GridBagConstraints.HORIZONTAL;
-        selection.add(fromDate,slctcons);
+        financeView.add(fromDate,slctcons);
 		
     	JLabel tDate = new JLabel (Text.getString("tDate"));
     	slctcons.gridx = 2;
@@ -92,7 +90,7 @@ public class FinanceTab extends SSSTab {
 		slctcons.weightx = 1;
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		selection.add(tDate,slctcons);
+		financeView.add(tDate,slctcons);
         
         JXDatePicker toDate = new JXDatePicker();
 		toDate.setDate(Calendar.getInstance().getTime());
@@ -104,7 +102,7 @@ public class FinanceTab extends SSSTab {
         slctcons.weightx = 1;
         slctcons.weighty = .025;
         slctcons.fill = GridBagConstraints.HORIZONTAL;
-        selection.add(toDate,slctcons);
+        financeView.add(toDate,slctcons);
              
 		JTextField incomeAmount = new JTextField();
 		slctcons.gridx = 4;
@@ -115,7 +113,7 @@ public class FinanceTab extends SSSTab {
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
 		incomeAmount.setEditable(true);
-		selection.add(incomeAmount, slctcons);
+		financeView.add(incomeAmount, slctcons);
 		
 		JButton reg = new JButton(Text.getString("reg"));
 		slctcons.gridx = 5;
@@ -125,7 +123,7 @@ public class FinanceTab extends SSSTab {
 		slctcons.weightx = 1;
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		selection.add(reg, slctcons);
+		financeView.add(reg, slctcons);
 		
 		// Row 3
 		
@@ -137,7 +135,7 @@ public class FinanceTab extends SSSTab {
 		slctcons.weightx = 1;
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		selection.add(pdfFDate,slctcons);
+		financeView.add(pdfFDate,slctcons);
 		
 		JXDatePicker pdfFromDate = new JXDatePicker();
 		fromDate.setDate(Calendar.getInstance().getTime());
@@ -149,7 +147,7 @@ public class FinanceTab extends SSSTab {
         slctcons.weightx = 1;
         slctcons.weighty = .025;
         slctcons.fill = GridBagConstraints.HORIZONTAL;
-        selection.add(pdfFromDate,slctcons);
+        financeView.add(pdfFromDate,slctcons);
 		
     	JLabel pdfTDate = new JLabel (Text.getString("tDate"));
     	slctcons.gridx = 2;
@@ -159,7 +157,7 @@ public class FinanceTab extends SSSTab {
 		slctcons.weightx = 1;
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		selection.add(pdfTDate,slctcons);
+		financeView.add(pdfTDate,slctcons);
         
         JXDatePicker pdfToDate = new JXDatePicker();
 		toDate.setDate(Calendar.getInstance().getTime());
@@ -171,9 +169,10 @@ public class FinanceTab extends SSSTab {
         slctcons.weightx = 1;
         slctcons.weighty = .025;
         slctcons.fill = GridBagConstraints.HORIZONTAL;
-        selection.add(pdfToDate,slctcons);
+        financeView.add(pdfToDate,slctcons);
              
 		JButton showPdf = new JButton(Text.getString("spdf"));
+		showPdf.addActionListener(new Buttonlistener());
 		slctcons.gridx = 5;
 		slctcons.gridy = 3;
 		slctcons.gridwidth = 1;
@@ -181,28 +180,26 @@ public class FinanceTab extends SSSTab {
 		slctcons.weightx = 1;
 		slctcons.weighty = .025;
 		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		selection.add(showPdf, slctcons);
-		
-		
+		financeView.add(showPdf, slctcons);
 		
 		// PDF View
-		pdfView.setLayout(new GridBagLayout());
-		GridBagConstraints pvc = new GridBagConstraints();
 		
-		pdfText = new JTextArea();
-		pvc.gridx = 0;
-		pvc.gridy = 0;
-		pvc.weightx = 1;
-		pvc.weighty = .025;
-		pvc.fill = GridBagConstraints.BOTH;
-		pdfView.add(pdfText, pvc);
+		
+		pdfScroll = new JScrollPane(showPDF);
+		pdfScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		slctcons.gridx = 0;
+		slctcons.gridy = 4;
+		slctcons.weightx = 1;
+		slctcons.weighty = .025;
+		slctcons.fill = GridBagConstraints.BOTH;
+		financeView.add(pdfScroll,slctcons);
 		
 		JButton savePdf = new JButton(Text.getString("svpdf"));
-		pvc.gridx = 1;
-		pvc.gridy = 1;
-		pvc.weightx = 1;
-		pvc.weighty = .025;
-		pdfView.add(savePdf, pvc);
+		slctcons.gridx = 5;
+		slctcons.gridy = 5;
+		slctcons.weightx = 1;
+		slctcons.weighty = .025;
+		financeView.add(savePdf, slctcons);
 
 	
 		
@@ -210,6 +207,23 @@ public class FinanceTab extends SSSTab {
 		
 		
 		
+		
+	}
+	
+	private class Buttonlistener implements ActionListener{
+		public void actionPerformed(ActionEvent f){
+			PDFGenerator.generatePDF();
+			try {
+				Image img = PDFGenerator.showPDF();
+				showPDF.setIcon(new ImageIcon(img));
+				showPDF.repaint();
+				System.out.println("Show PDF trykket");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+		}
 		
 	}
 	
