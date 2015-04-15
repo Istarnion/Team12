@@ -1,55 +1,50 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JList;
+//import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JTextArea;
+
+import no.hist.aitel.team12.database.*;
 
 public class UserTab extends SSSTab {
 
 	private static final long serialVersionUID = -445246322816259272L;
 	
-	private JButton newUser;
-	
-	private JButton editUser;
-	
-	private JList<?> centerList;
+	private JButton newUser = new JButton("New User");	
+	private JButton editUser = new JButton("Edit User");
+	//private JList<?> centerList;
 
 	private JPanel buttonPanel;
-
-	private JPanel mainPanel;
 	
-	private JTable userTable;
+	private JTextArea userTable;
 
 	public UserTab() {
-		this.setLayout(new BorderLayout());
-		
+		this.setLayout(new GridLayout(1,2));
 		buttonPanel = new JPanel();
 		
-		userTable = new JTable();
-		JScrollPane userTablePane = new JScrollPane(userTable);
-		userTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		userTable = new JTextArea(1,100);
+		userTable.setEditable(false);
 		
-		this.add(userTablePane, BorderLayout.WEST);
-		this.add(buttonPanel, BorderLayout.EAST);
+		buttonPanel.setLayout(new GridLayout(3,1));
+		buttonPanel.add(newUser);		
+		buttonPanel.add(editUser);
 		
+		this.add(userTable);
+		this.add(buttonPanel);
 		
 	}
 	
+	public void setUserTable(DatabaseConnection databaseConnection, int userID){
+		userTable.setText(databaseConnection.getUserTable(userID)[0][0]);
+	}
+	
+	
 	public void showUserTab(){
-		
-		
-		
-		buttonPanel = new JPanel();
-		
-		buttonPanel.add(newUser);		
-		buttonPanel.add(editUser);
-		mainPanel.add(centerList);
 		
 		ButtonListener buttonListener = new ButtonListener();
 		editUser.addActionListener(buttonListener);
