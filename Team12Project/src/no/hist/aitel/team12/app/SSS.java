@@ -21,6 +21,7 @@ import javax.swing.UIManager;
 
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.gui.FinanceTab;
 import no.hist.aitel.team12.gui.LoginWindow;
 import no.hist.aitel.team12.gui.MessageTab;
 import no.hist.aitel.team12.gui.OverviewTab;
@@ -111,6 +112,7 @@ public class SSS {
 				sssWindow.addTab(Text.getString("usrs"),		new UserTab());
 				sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 				sssWindow.addTab(Text.getString("sql"),			new SqlTab()); 
+				sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
 			} break;
 			
 			case CENTRE_MANAGER:
