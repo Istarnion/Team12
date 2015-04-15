@@ -57,15 +57,15 @@ public class SSSWindow extends JFrame {
 		
 		try {
 			List<BufferedImage> icons = new ArrayList<BufferedImage>(3);
-			icons.add(ImageIO.read(getClass().getResource("/images/tinyIcon.png")));
-			icons.add(ImageIO.read(getClass().getResource("/images/mediumIcon")));
-			icons.add(ImageIO.read(getClass().getResource("/images/bigIcon.png")));
+			icons.add(ImageIO.read(getClass().getResource("/images/micro.png")));
+			icons.add(ImageIO.read(getClass().getResource("/images/tiny")));
+			icons.add(ImageIO.read(getClass().getResource("/images/medium.png")));
 			
 			super.setIconImages(icons);
 		}
 		catch(Exception e) {
 			System.out.println("Failed loading the frame icon images. Reverting to default\n\t"+
-					"The icons are expected to be named: 'tinyIcon.png', 'mediumIcon.png' and 'bigIcon.png'");
+					"The icons are expected to be named: 'micro.png', 'tiny.png' and 'medium.png'");
 		}
 		
 		tabbedPane = new JTabbedPane();
