@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
-
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
@@ -16,11 +14,8 @@ import no.hist.aitel.team12.app.IntHashMap;
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
-<<<<<<< HEAD
-import bak.pcj.list.IntArrayList;
-=======
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
->>>>>>> d403453aec93851f0680044cace20e025ed0935e
+import bak.pcj.list.IntArrayList;
 
 public class DatabaseConnection implements Database {
 
