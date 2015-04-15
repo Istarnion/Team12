@@ -82,6 +82,7 @@ public class Message {
 		this.deleted = deleted;
 	}
 	
+	
 	/**
 	 * Method for retrieving messages relevant for a specific user.
 	 * 

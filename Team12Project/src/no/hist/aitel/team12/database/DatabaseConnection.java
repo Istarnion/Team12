@@ -350,16 +350,13 @@ public class DatabaseConnection implements Database {
 						result.getBoolean("deleted")
 						);
 			}
-
-
 		} 
 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-
-
+		
 		return messages;
 	}
+
 }
