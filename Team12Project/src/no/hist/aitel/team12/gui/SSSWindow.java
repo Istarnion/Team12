@@ -3,7 +3,11 @@ package no.hist.aitel.team12.gui;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -50,6 +54,19 @@ public class SSSWindow extends JFrame {
 			public void windowOpened(WindowEvent e) {
 			}
 		});
+		
+		try {
+			List<BufferedImage> icons = new ArrayList<BufferedImage>(3);
+			icons.add(ImageIO.read(getClass().getResource("/images/tinyIcon.png")));
+			icons.add(ImageIO.read(getClass().getResource("/images/mediumIcon")));
+			icons.add(ImageIO.read(getClass().getResource("/images/bigIcon.png")));
+			
+			super.setIconImages(icons);
+		}
+		catch(Exception e) {
+			System.out.println("Failed loading the frame icon images. Reverting to default\n\t"+
+					"The icons are expected to be named: 'tinyIcon.png', 'mediumIcon.png' and 'bigIcon.png'");
+		}
 		
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setPreferredSize(new Dimension(1200, 675));

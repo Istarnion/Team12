@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -152,6 +154,17 @@ public class MessageTab extends SSSTab {
 
 		// Button for replying to message
 		JButton reply = new JButton(Text.getString("reply"));
+		reply.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!from.getText().isEmpty() && !subject.getText().isEmpty()) {
+					to.setText(from.getText());
+					subjectto.setText("RE: "+subject.getText());
+				}
+			}
+			
+		});
 		constraintsViewMsg.gridx = 1;
 		constraintsViewMsg.gridy = 0;
 		constraintsViewMsg.gridwidth = 1;
