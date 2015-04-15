@@ -132,4 +132,37 @@ public interface Database {
 	 * @return			A list of all messages, sent and recieved
 	 */
 	public Message[] getMessages(String username);
+
+	/**
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @param address
+	 * @param zipCode
+	 * @param email
+	 * @param telephone
+	 * @param salary
+	 * @param username
+	 * @param passwordHash
+	 * @return
+	 */
+	public boolean createUser	(String firstName, String lastName, String address, int zipCode, 
+			String email, int telephone, int salary, String username, String passwordHash);
+	
+	
+	/**
+	 * 
+	 * @param firstName
+	 * @param lastName
+	 * @param address
+	 * @param zipCode
+	 * @param email
+	 * @param telephone
+	 * @param sallary
+	 * @param title
+	 * @param centreID
+	 * @return
+	 */
+	public boolean createPersonnel	(String firstName, String lastName, String address, int zipCode, 
+			String email, int telephone, int sallary, String title, int centreID);
 }

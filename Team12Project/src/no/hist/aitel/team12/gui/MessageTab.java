@@ -52,7 +52,9 @@ public class MessageTab extends SSSTab {
 	private Message[] messages;
 	
 	private ArrayList<Message> outbox;
+	
 	private ArrayList<Message> inbox;
+	
 	private ArrayList<Message> trash;
 
 	//private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
@@ -115,6 +117,7 @@ public class MessageTab extends SSSTab {
 		
 		setLayout(new BorderLayout());
 		add(inboxArea,BorderLayout.WEST);
+
 		add(comboArea,BorderLayout.CENTER);
 
 		// Colors for debugging
