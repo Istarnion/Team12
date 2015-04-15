@@ -102,21 +102,26 @@ public class DatabaseConnection implements Database {
 		UserType userType = getUserType(userID);
 		switch(userType) {
 		case SYS_ADMIN:
+		{
 			centreQuery = "SELECT * FROM centres_view";
 			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building";
 			establishmentQuery = "SELECT * FROM establishment_view";
-			break;
+		} break;
 		case CENTRE_MANAGER:
 		case CUSTOMER_SERVICE:
-			centreQuery = "SELECT * FROM centres_view WHERE centre_id = ";
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building";
+		{
+			int centreId = getCentreID(userID);
+			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building WHERE centre_id = "+centreId;
 			establishmentQuery = "SELECT * FROM establishment_view";
-			break;
+		} break;
 		case SHOP_OWNER:
-			centreQuery = "SELECT * FROM centres_view WHERE centre_id = ";
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building";
-			establishmentQuery = "SELECT * FROM establishment_view WHERE establishment_id = ";
-			break;
+		{
+			int centreId = getCentreID(userID);
+			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building WHERE centre_id = "+centreId;
+			establishmentQuery = "SELECT * FROM establishment_view WHERE establishment_id = "+getEstablishmentID(userID);
+		} break;
 		default:
 			break;
 		}
