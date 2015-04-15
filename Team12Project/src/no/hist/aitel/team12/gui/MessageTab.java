@@ -45,7 +45,9 @@ public class MessageTab extends SSSTab {
 	private Message[] messages;
 	
 	private ArrayList<Message> outbox;
+	
 	private ArrayList<Message> inbox;
+	
 	private ArrayList<Message> trash;
 
 	//private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
@@ -54,13 +56,11 @@ public class MessageTab extends SSSTab {
 	
 	private JScrollPane scrollInbox = new JScrollPane(inboxList);
 
-	
 	public MessageTab(String username) {
 		
 		outbox = new ArrayList<Message>();
 		inbox = new ArrayList<Message>();
 		trash = new ArrayList<Message>();
-
 
 		messages = Message.getUserMessages(username);
 		for(Message m : messages) {
@@ -74,14 +74,15 @@ public class MessageTab extends SSSTab {
 				inbox.add(m);
 			}
 		}
+		
 		inboxList = new JList<Message>(messages);
-		
 		setLayout(new BorderLayout());
-		
 		add(inboxArea,BorderLayout.WEST);
+		
 		inboxArea.setLayout(new BorderLayout());
 		inboxArea.add(scrollInbox,BorderLayout.CENTER);
 		inboxList.addListSelectionListener(new inboxListner());
+		
 		add(comboArea,BorderLayout.CENTER);
 
 		// Colors for debugging
@@ -217,9 +218,7 @@ public class MessageTab extends SSSTab {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			messageSelected(e);
-
 		}
-
 	}
 
 
