@@ -1,79 +1,72 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JList;
+//import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+
+import no.hist.aitel.team12.database.*;
 
 public class UserTab extends SSSTab {
 
 	private static final long serialVersionUID = -445246322816259272L;
 	
-	private JButton newUser;
-	
-	private JButton editUser;
-	
-	private JList<?> centerList;
+	private JButton newUser = new JButton("New User");	
+	private JButton editUser = new JButton("Edit User");
+	//private JList<?> centerList;
 
 	private JPanel buttonPanel;
-
-	private JPanel mainPanel;
 	
-	private JTextArea outputArea = new JTextArea(20, 50);
+	private JTextArea userTable;
 
 	public UserTab() {
-		this.setLayout(new BorderLayout());
-		
-		mainPanel = new JPanel();
+		this.setLayout(new GridLayout(1,2));
 		buttonPanel = new JPanel();
 		
-		this.add(mainPanel, BorderLayout.WEST);
+		userTable = new JTextArea(1,100);
+		userTable.setEditable(false);
 		
-		this.add(buttonPanel, BorderLayout.EAST);
+		buttonPanel.setLayout(new GridLayout(3,1));
+		buttonPanel.add(newUser);		
+		buttonPanel.add(editUser);
 		
-		
+		this.add(userTable);
+		this.add(buttonPanel);
 		
 	}
+	
+	public void setUserTable(DatabaseConnection databaseConnection, int userID){
+		userTable.setText(databaseConnection.getUserTable(userID)[0][0]);
+	}
+	
 	
 	public void showUserTab(){
-	
-		mainPanel = new JPanel();
-		mainPanel.add(centerList);
-		mainPanel.add(outputArea);
 		
-		
-		
-		buttonPanel = new JPanel();
-		
-		buttonPanel.add(newUser);
-		@SuppressWarnings("unused")
-		NewUserListener newUserListener = new NewUserListener();
-		
-		buttonPanel.add(editUser);
-		@SuppressWarnings("unused")
-		EditUserListener editUserListener = new EditUserListener();
+		ButtonListener buttonListener = new ButtonListener();
+		editUser.addActionListener(buttonListener);
+		newUser.addActionListener(buttonListener);
 		
 	}
 	
-	private class NewUserListener implements ActionListener{
+	private class ButtonListener implements ActionListener{
 
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+		public void actionPerformed(ActionEvent event) {
 			
-		}
-		
-	}
-	
-	private class EditUserListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			JButton button = new JButton();
+			
+			if (button == newUser) {
+		/* ------------------------------Create new user------------------------------------ */ 
+				
+				
+				
+			}else if (button == editUser) {
+		/* ------------------------------Edit existing user--------------------------------- */ 
+				
+			}
 			
 		}
 		

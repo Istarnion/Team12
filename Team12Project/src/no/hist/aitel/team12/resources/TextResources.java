@@ -62,7 +62,9 @@ public class TextResources extends ListResourceBundle {
 				{"fDate", "From date: "},
 				{"tDate", "To date: "},
 				{"spdf", "Show PDF"},
-				{"svpdf", "Save PDF"}
+				{"svpdf", "Save PDF"},
+				{"newuser", "New User"},
+				{"edituser", "Edit User"}
 		};
 	}
 }

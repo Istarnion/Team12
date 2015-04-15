@@ -620,4 +620,25 @@ public class DatabaseConnection implements Database {
 
 		return true;
 	}
+	
+	public String[][] getUserTable(int userID){
+		String statement;
+		
+		if (getUserType(userID) == UserType.SYS_ADMIN ){
+			statement = "'SELECT * from person;'";
+		}else if (getUserType(userID) == UserType.CENTRE_MANAGER) {
+			statement = "'Select employee_number, first_name, last_name, zipcode, adress, email, telephone, salary from person;'";
+		}else if (getUserType(userID) == UserType.CUSTOMER_SERVICE) {
+			statement = "'Select employee_number, first_name, last_name, email, telephone from person;'";
+		}else if (getUserType(userID) == UserType.SHOP_OWNER) {
+			statement = "'Select employee_number, first_name, last_name, email, telephone from person;'";
+		}else {
+			statement = "'null'";
+		}
+		
+		String[][] output = DatabaseFactory.getDatabase().executeQuery(statement);
+		
+		return output;
+		
+	}
 }
