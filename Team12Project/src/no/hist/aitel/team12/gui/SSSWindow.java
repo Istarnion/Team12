@@ -58,7 +58,7 @@ public class SSSWindow extends JFrame {
 		try {
 			List<BufferedImage> icons = new ArrayList<BufferedImage>(3);
 			icons.add(ImageIO.read(getClass().getResource("/images/micro.png")));
-			icons.add(ImageIO.read(getClass().getResource("/images/tiny")));
+			icons.add(ImageIO.read(getClass().getResource("/images/tiny.png")));
 			icons.add(ImageIO.read(getClass().getResource("/images/medium.png")));
 			
 			super.setIconImages(icons);

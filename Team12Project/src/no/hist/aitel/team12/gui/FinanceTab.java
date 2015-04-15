@@ -33,14 +33,13 @@ public class FinanceTab extends SSSTab {
 	
 	private JScrollPane pdfScroll; 
 	
-	private  JPanel pdfView;
 	
 	
 	public FinanceTab(String username){
 		
 		financeView.setLayout(new GridBagLayout());
-		GridBagConstraints slctcons = new GridBagConstraints();
-		add(financeView);
+		GridBagConstraints gbc = new GridBagConstraints();
+		
 		
 		// Colors for Debugging
 		
@@ -50,158 +49,163 @@ public class FinanceTab extends SSSTab {
 		// Selection View
 		// Row 1
 		JLabel info = new JLabel(Text.getString("storeTxt")+Text.getString("cntrTxt"));
-		slctcons.gridx = 0;
-		slctcons.gridy = 1;
-		slctcons.gridwidth = 5;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		financeView.add(info, slctcons);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridwidth = 5;
+		gbc.gridheight = 1;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		//gbc.anchor = GridBagConstraints.WEST;
+		financeView.add(info, gbc);
 		
 		// Row 2
 		JLabel fDate = new JLabel (Text.getString("fDate"));
-		slctcons.gridx = 0;
-		slctcons.gridy = 2;
-		slctcons.gridwidth = 1;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		financeView.add(fDate,slctcons);
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0.1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		//gbc.anchor = GridBagConstraints.WEST;
+		financeView.add(fDate,gbc);
 		
 		JXDatePicker fromDate = new JXDatePicker();
 		fromDate.setDate(Calendar.getInstance().getTime());
         fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        slctcons.gridx = 1;
-        slctcons.gridy = 2;
-        slctcons.gridwidth = 1;
-        slctcons.gridheight = 1;
-        slctcons.weightx = 1;
-        slctcons.weighty = .025;
-        slctcons.fill = GridBagConstraints.HORIZONTAL;
-        financeView.add(fromDate,slctcons);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.30;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        financeView.add(fromDate,gbc);
 		
     	JLabel tDate = new JLabel (Text.getString("tDate"));
-    	slctcons.gridx = 2;
-		slctcons.gridy = 2;
-		slctcons.gridwidth = 1;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		financeView.add(tDate,slctcons);
+    	gbc.gridx = 2;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0.1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		financeView.add(tDate,gbc);
         
         JXDatePicker toDate = new JXDatePicker();
 		toDate.setDate(Calendar.getInstance().getTime());
         toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        slctcons.gridx = 3;
-        slctcons.gridy = 2;
-        slctcons.gridwidth = 1;
-        slctcons.gridheight = 1;
-        slctcons.weightx = 1;
-        slctcons.weighty = .025;
-        slctcons.fill = GridBagConstraints.HORIZONTAL;
-        financeView.add(toDate,slctcons);
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.3;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        financeView.add(toDate,gbc);
              
 		JTextField incomeAmount = new JTextField();
-		slctcons.gridx = 4;
-		slctcons.gridy = 2;
-		slctcons.gridwidth = 1;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 4;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0.15;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		incomeAmount.setEditable(true);
-		financeView.add(incomeAmount, slctcons);
+		financeView.add(incomeAmount, gbc);
 		
 		JButton reg = new JButton(Text.getString("reg"));
-		slctcons.gridx = 5;
-		slctcons.gridy = 2;
-		slctcons.gridwidth = 1;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		financeView.add(reg, slctcons);
+		gbc.gridx = 5;
+		gbc.gridy = 2;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0.05;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		financeView.add(reg, gbc);
 		
 		// Row 3
 		
 		JLabel pdfFDate = new JLabel(Text.getString("fDate"));
-		slctcons.gridx = 0;
-		slctcons.gridy = 3;
-		slctcons.gridwidth = 1;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		financeView.add(pdfFDate,slctcons);
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0.1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		//gbc.anchor = GridBagConstraints.WEST;
+		financeView.add(pdfFDate,gbc);
 		
 		JXDatePicker pdfFromDate = new JXDatePicker();
 		fromDate.setDate(Calendar.getInstance().getTime());
         fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        slctcons.gridx = 1;
-        slctcons.gridy = 3;
-        slctcons.gridwidth = 1;
-        slctcons.gridheight = 1;
-        slctcons.weightx = 1;
-        slctcons.weighty = .025;
-        slctcons.fill = GridBagConstraints.HORIZONTAL;
-        financeView.add(pdfFromDate,slctcons);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.3;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        financeView.add(pdfFromDate,gbc);
 		
     	JLabel pdfTDate = new JLabel (Text.getString("tDate"));
-    	slctcons.gridx = 2;
-		slctcons.gridy = 3;
-		slctcons.gridwidth = 1;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		financeView.add(pdfTDate,slctcons);
+    	gbc.gridx = 2;
+		gbc.gridy = 3;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0.1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		financeView.add(pdfTDate,gbc);
         
         JXDatePicker pdfToDate = new JXDatePicker();
 		toDate.setDate(Calendar.getInstance().getTime());
         toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        slctcons.gridx = 3;
-        slctcons.gridy = 3;
-        slctcons.gridwidth = 1;
-        slctcons.gridheight = 1;
-        slctcons.weightx = 1;
-        slctcons.weighty = .025;
-        slctcons.fill = GridBagConstraints.HORIZONTAL;
-        financeView.add(pdfToDate,slctcons);
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 0.3;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        financeView.add(pdfToDate,gbc);
              
 		JButton showPdf = new JButton(Text.getString("spdf"));
 		showPdf.addActionListener(new Buttonlistener());
-		slctcons.gridx = 5;
-		slctcons.gridy = 3;
-		slctcons.gridwidth = 1;
-		slctcons.gridheight = 1;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.HORIZONTAL;
-		financeView.add(showPdf, slctcons);
+		gbc.gridx = 5;
+		gbc.gridy = 3;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		gbc.weightx = 0.2;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		financeView.add(showPdf, gbc);
 		
 		// PDF View
 		
 		
 		pdfScroll = new JScrollPane(showPDF);
 		pdfScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		slctcons.gridx = 0;
-		slctcons.gridy = 4;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		slctcons.fill = GridBagConstraints.BOTH;
-		financeView.add(pdfScroll,slctcons);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		//gbc.anchor = GridBagConstraints.WEST;
+		financeView.add(pdfScroll,gbc);
 		
 		JButton savePdf = new JButton(Text.getString("svpdf"));
-		slctcons.gridx = 5;
-		slctcons.gridy = 5;
-		slctcons.weightx = 1;
-		slctcons.weighty = .025;
-		financeView.add(savePdf, slctcons);
+		gbc.gridx = 5;
+		gbc.gridy = 5;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		//gbc.anchor  = GridBagConstraints.EAST;
+		financeView.add(savePdf, gbc);
 
-	
+		add(financeView);
 		
 	
 		
