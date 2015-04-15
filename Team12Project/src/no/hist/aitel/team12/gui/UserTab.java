@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class UserTab extends SSSTab {
 
@@ -23,57 +24,54 @@ public class UserTab extends SSSTab {
 
 	private JPanel mainPanel;
 	
-	private JTextArea outputArea = new JTextArea(20, 50);
+	private JTable userTable;
 
 	public UserTab() {
 		this.setLayout(new BorderLayout());
 		
-		mainPanel = new JPanel();
 		buttonPanel = new JPanel();
 		
-		this.add(mainPanel, BorderLayout.WEST);
+		userTable = new JTable();
+		JScrollPane userTablePane = new JScrollPane(userTable);
+		userTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
+		this.add(userTablePane, BorderLayout.WEST);
 		this.add(buttonPanel, BorderLayout.EAST);
-		
 		
 		
 	}
 	
 	public void showUserTab(){
-	
-		mainPanel = new JPanel();
-		mainPanel.add(centerList);
-		mainPanel.add(outputArea);
 		
 		
 		
 		buttonPanel = new JPanel();
 		
-		buttonPanel.add(newUser);
-		@SuppressWarnings("unused")
-		NewUserListener newUserListener = new NewUserListener();
-		
+		buttonPanel.add(newUser);		
 		buttonPanel.add(editUser);
-		@SuppressWarnings("unused")
-		EditUserListener editUserListener = new EditUserListener();
+		mainPanel.add(centerList);
+		
+		ButtonListener buttonListener = new ButtonListener();
+		editUser.addActionListener(buttonListener);
+		newUser.addActionListener(buttonListener);
 		
 	}
 	
-	private class NewUserListener implements ActionListener{
+	private class ButtonListener implements ActionListener{
 
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+		public void actionPerformed(ActionEvent event) {
 			
-		}
-		
-	}
-	
-	private class EditUserListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			JButton button = new JButton();
+			
+			if (button == newUser) {
+		/* ------------------------------Create new user------------------------------------ */ 
+				
+				
+				
+			}else if (button == editUser) {
+		/* ------------------------------Edit existing user--------------------------------- */ 
+				
+			}
 			
 		}
 		
