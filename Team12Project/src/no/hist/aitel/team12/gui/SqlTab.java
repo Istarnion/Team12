@@ -126,7 +126,7 @@ public class SqlTab extends SSSTab {
 		if(actionType.startsWith("select")) {
 			long timestamp = System.currentTimeMillis();
 			String[][] result = DatabaseFactory.getDatabase().executeQuery(statement);
-			if(result.length == 1) {
+			if(result.length == 1 && result[0].length == 1) {
 				outputArea.setText(result[0][0]);
 			}
 			else {

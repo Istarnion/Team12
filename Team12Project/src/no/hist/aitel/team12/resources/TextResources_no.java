@@ -62,7 +62,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"fDate","Fra dato: "},
 				{"tDate","Til dato: "},
 				{"spdf", "Vis PDF"},
-				{"svpdf", " Lagre PDF"}
+				{"svpdf", " Lagre PDF"},
+				{"newuser", "Ny bruker"},
+				{"edituser", "Endre bruker"}
 		};
 	}
 }

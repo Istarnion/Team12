@@ -29,7 +29,9 @@ import com.sun.pdfview.PDFPage;
 
 public class PDFGenerator {
 
+
 	public static void generatePDF(){
+
 
 		Document document = new Document();
 		document.setPageSize(PageSize.A4);

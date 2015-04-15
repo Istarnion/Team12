@@ -56,13 +56,15 @@ public class TextResources extends ListResourceBundle {
 				{"rport", "Report"},
 				{"tckts", "Tickets"},
 				{"finance", "Finance"},
-				{"Reg","Register"},
+				{"reg","Register"},
 				{"storeTxt", "Finance report for: "},
 				{"cntrTxt", "On: "},
 				{"fDate", "From date: "},
 				{"tDate", "To date: "},
 				{"spdf", "Show PDF"},
-				{"svpdf", "Save PDF"}
+				{"svpdf", "Save PDF"},
+				{"newuser", "New User"},
+				{"edituser", "Edit User"}
 		};
 	}
 }

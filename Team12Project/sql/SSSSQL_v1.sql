@@ -210,6 +210,14 @@ ENGINE = InnoDB;
 -- Creating views
 CREATE VIEW centres_view AS SELECT * FROM shoppingcentre LEFT JOIN business USING (business_id) LEFT JOIN zipcode USING (zipcode) LEFT JOIN municipality USING (municipality_id) LEFT JOIN county USING (county_id);
 
+CREATE VIEW establishment_view AS (
+	SELECT e.business_id, business_name, email, telephone, opening_hours, floor_number, establishment_id, centre_id, building_id
+	FROM establishment e
+	LEFT JOIN business USING (business_id)
+	LEFT JOIN building USING (building_id)
+	LEFT JOIN shoppingcentre USING (centre_id)
+);
+
 -- Inserts all norwegian zipcodes, districts, municipalities and counties
 
 INSERT INTO county(county_id,county_name)

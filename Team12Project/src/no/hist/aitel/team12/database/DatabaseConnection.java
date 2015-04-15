@@ -101,18 +101,29 @@ public class DatabaseConnection implements Database {
 				establishmentQuery = null;
 		UserType userType = getUserType(userID);
 		switch(userType) {
-			case SYS_ADMIN:
-				centreQuery = "SELECT * FROM centres_view";
-				buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building";
-				establishmentQuery = "SELECT * FROM establishment_view";
-				break;
-			case CENTRE_MANAGER:
-			case SHOP_OWNER:
-			case CUSTOMER_SERVICE:
-				centreQuery = "SELECT * FROM centres_view WHERE centre_id = ";	// THIS DOES NOT WORK JUST NOW
-				break;
-			default:
-				break;
+		case SYS_ADMIN:
+		{
+			centreQuery = "SELECT * FROM centres_view";
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building";
+			establishmentQuery = "SELECT * FROM establishment_view";
+		} break;
+		case CENTRE_MANAGER:
+		case CUSTOMER_SERVICE:
+		{
+			int centreId = getCentreID(userID);
+			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building WHERE centre_id = "+centreId;
+			establishmentQuery = "SELECT * FROM establishment_view";
+		} break;
+		case SHOP_OWNER:
+		{
+			int centreId = getCentreID(userID);
+			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building WHERE centre_id = "+centreId;
+			establishmentQuery = "SELECT * FROM establishment_view WHERE establishment_id = "+getEstablishmentID(userID);
+		} break;
+		default:
+			break;
 		}
 
 		try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
@@ -160,7 +171,7 @@ public class DatabaseConnection implements Database {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
 			Establishment estab;
 			ResultSet result = statement.executeQuery();
@@ -182,7 +193,7 @@ public class DatabaseConnection implements Database {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		ShoppingCentre[] output = null;
 		if(centres != null) {
 			output = new ShoppingCentre[centres.size()];
@@ -378,6 +389,61 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
+	public int getCentreID(int userID) {
+		UserType userType = getUserType(userID);
+
+		if(userType == UserType.SYS_ADMIN) return 0;
+		String query;
+		switch(userType) {
+			case CUSTOMER_SERVICE:
+				query = "SELECT centre_id FROM customerservice WHERE employee_number = "+userID;
+				break;
+			case CENTRE_MANAGER:
+				query = "SELECT centre_id FROM centremanager WHERE employee_number = "+userID;
+				break;
+			case SHOP_OWNER:
+				query =
+				"SELECT centre_id FROM establishmentowner e LEFT JOIN establishment USING (establishment_id) LEFT JOIN building USING (building_id) WHERE employee_number = "+userID;
+				break;
+			default:
+				return -1;
+		}
+
+		try(PreparedStatement statement = connection.prepareStatement(query)) {
+
+			ResultSet result = statement.executeQuery();
+
+			if(result.next()) {
+				return result.getInt("centre_id");
+			}
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+	@Override
+	public int getEstablishmentID(int userID) {
+
+		try(PreparedStatement statement = connection.prepareStatement("SELECT establishment_id FROM establishmentowner WHERE employee_number = "+userID)) {
+
+			ResultSet result = statement.executeQuery();
+
+			if(result.next()) {
+				return result.getInt("establishment_id");
+			}
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		return -1;
+	}
+
+	@Override
 	public String[][] executeQuery(String sql) {
 		String[][] out = null;
 
@@ -547,7 +613,7 @@ public class DatabaseConnection implements Database {
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 			connection.commit();
 			connection.setAutoCommit(true);
 
@@ -558,5 +624,26 @@ public class DatabaseConnection implements Database {
 
 
 		return true;
+	}
+	
+	public String[][] getUserTable(int userID){
+		String statement;
+		
+		if (getUserType(userID) == UserType.SYS_ADMIN ){
+			statement = "'SELECT * from person;'";
+		}else if (getUserType(userID) == UserType.CENTRE_MANAGER) {
+			statement = "'Select employee_number, first_name, last_name, zipcode, adress, email, telephone, salary from person;'";
+		}else if (getUserType(userID) == UserType.CUSTOMER_SERVICE) {
+			statement = "'Select employee_number, first_name, last_name, email, telephone from person;'";
+		}else if (getUserType(userID) == UserType.SHOP_OWNER) {
+			statement = "'Select employee_number, first_name, last_name, email, telephone from person;'";
+		}else {
+			statement = "'null'";
+		}
+		
+		String[][] output = DatabaseFactory.getDatabase().executeQuery(statement);
+		
+		return output;
+		
 	}
 }
