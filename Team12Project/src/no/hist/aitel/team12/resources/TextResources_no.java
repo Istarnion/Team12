@@ -54,7 +54,15 @@ public class TextResources_no extends ListResourceBundle {
 				{"usrs", "Brukere"},
 				{"sql", "SQL"},
 				{"rport", "Rapport"},
-				{"tckts", "Hendvendelser"}
+				{"tckts", "Hendvendelser"},
+				{"finance", "Finans"},
+				{"reg","Registrer"},
+				{"cntrTxt"," På: "},
+				{"storeTxt"," Finans rapportering for: "},
+				{"fDate","Fra dato: "},
+				{"tDate","Til dato: "},
+				{"spdf", "Vis PDF"},
+				{"svpdf", " Lagre PDF"}
 		};
 	}
 }

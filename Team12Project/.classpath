@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.34-bin.jar"/>
 	<classpathentry kind="lib" path="libs/itextpdf-5.5.5.jar"/>
 	<classpathentry kind="lib" path="libs/javax.mail.jar"/>
+	<classpathentry kind="lib" path="libs/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
