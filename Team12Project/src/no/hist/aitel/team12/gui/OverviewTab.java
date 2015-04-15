@@ -78,14 +78,18 @@ public class OverviewTab extends SSSTab {
 		DefaultMutableTreeNode buildingNode;
 		for(ShoppingCentre c : businessArray) {
 			centreNode = new DefaultMutableTreeNode(c);
-			for(Building b : c.getBuildings()) {
-				buildingNode = new DefaultMutableTreeNode(b);
-				for(Establishment e : b.getEstablishments()) {
-					buildingNode.add(new DefaultMutableTreeNode(e));
+			if(c != null && c.getBuildings() != null) {
+				for(Building b : c.getBuildings()) {
+					buildingNode = new DefaultMutableTreeNode(b);
+					if(b != null && b.getEstablishments() != null) {
+						for(Establishment e : b.getEstablishments()) {
+							if(e != null) buildingNode.add(new DefaultMutableTreeNode(e));
+						}
+						centreNode.add(buildingNode);
+					}
 				}
-				centreNode.add(buildingNode);
+				root.add(centreNode);
 			}
-			root.add(centreNode);
 		}
 
 		businessList = new JTree(root);

@@ -26,6 +26,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.Element;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.Style;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 
 /**
  * <p>
@@ -59,8 +61,9 @@ public class SqlTextArea extends RSyntaxTextArea {
 	 * 
 	 * @param rows The number of rows in the SqlTextArea
 	 * @param cols The number of columns in the SqlTextArea
+	 * @param dark If the color scheme should be dark, with bright text
 	 */
-	public SqlTextArea(int rows, int cols) {
+	public SqlTextArea(int rows, int cols, boolean dark) {
 		super(rows, cols-3);
 		super.setSyntaxEditingStyle(SYNTAX_STYLE_SQL);
 		
@@ -68,6 +71,19 @@ public class SqlTextArea extends RSyntaxTextArea {
 		lines.setEditable(false);
 		lines.setBackground(Color.LIGHT_GRAY);
 		lines.setFont(this.getFont());
+		
+		if(dark) {
+			super.setCaretColor(Color.GREEN);
+			super.setForeground(Color.WHITE);
+			super.setBackground(Color.BLACK);
+			super.setCurrentLineHighlightColor(Color.DARK_GRAY);
+			SyntaxScheme scheme = super.getSyntaxScheme();
+			scheme.setStyle(SyntaxScheme.RESERVED_WORD,					new Style(Color.GREEN));
+			scheme.setStyle(SyntaxScheme.OPERATOR,						new Style(Color.WHITE));
+			scheme.setStyle(SyntaxScheme.LITERAL_STRING_DOUBLE_QUOTE,	new Style(Color.YELLOW));
+			scheme.setStyle(SyntaxScheme.LITERAL_CHAR, 					new Style(Color.PINK));
+			scheme.setStyle(SyntaxScheme.LITERAL_NUMBER_DECIMAL_INT, 	new Style(Color.YELLOW));
+		}
 		
 		SqlTextArea sta = this;
 		this.getDocument().addDocumentListener(new DocumentListener(){
@@ -121,8 +137,8 @@ public class SqlTextArea extends RSyntaxTextArea {
 	 * @param cols The number of columns in the SqlTextArea
 	 * @return a SqlTextArea object contained in a JScrollPane, with line numbers added.
 	 */
-	public static JScrollPane createSqlTextArea(int rows, int cols) {
-		SqlTextArea sta = new SqlTextArea(rows, cols);
+	public static JScrollPane createSqlTextArea(int rows, int cols, boolean dark) {
+		SqlTextArea sta = new SqlTextArea(rows, cols, dark);
 		return sta.generateScrollPane();
 	}
 }

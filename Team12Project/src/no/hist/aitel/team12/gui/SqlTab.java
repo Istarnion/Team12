@@ -46,43 +46,43 @@ public class SqlTab extends SSSTab {
 
 		GridBagConstraints gbc = new GridBagConstraints();
 
+		sqlArea = new SqlTextArea(rows, cols, true);
+		sqlArea.addKeyListener(listener);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.5;
 		gbc.weighty = 0.9;
-		sqlArea = new SqlTextArea(rows, cols);
-		sqlArea.addKeyListener(listener);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 3;
+		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 		this.add(sqlArea.generateScrollPane(), gbc);
 
 		resultTable = new JTable();
 		JScrollPane resultTablePane = new JScrollPane(resultTable);
 		resultTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		gbc.gridx = 3;
+		gbc.gridx = 1;
 		gbc.gridy = 0;
-		gbc.gridwidth = 3;
+		gbc.gridwidth = 2;
 		gbc.gridheight = 1;
 		this.add(resultTablePane, gbc);
 
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.weighty = 0.1;
-		gbc.weightx = 0.9;
 		outputArea = new JTextArea(1, cols*2);
 		outputArea.setEditable(false);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weighty = 0.1;
+		gbc.weightx = 1;
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		gbc.gridwidth = 5;
+		gbc.gridwidth = 2;
 		gbc.gridheight = 1;
 		this.add(outputArea, gbc);
 
-		gbc.weightx = 0.1;
-		gbc.fill = GridBagConstraints.NONE;
 		executeButton = new JButton(Text.getString("exe"));
 		executeButton.addActionListener(listener);
 		executeButton.setActionCommand(EXECUTE_CMD);
-		gbc.gridx = 5;
+		gbc.weightx = 0.1;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.gridx = 2;
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
@@ -124,6 +124,7 @@ public class SqlTab extends SSSTab {
 		String actionType = statement.split(" ")[0].toLowerCase();
 
 		if(actionType.startsWith("select")) {
+			long timestamp = System.currentTimeMillis();
 			String[][] result = DatabaseFactory.getDatabase().executeQuery(statement);
 			if(result.length == 1) {
 				outputArea.setText(result[0][0]);
@@ -140,7 +141,9 @@ public class SqlTab extends SSSTab {
 
 				DefaultTableModel tableModel = new DefaultTableModel(content, result[0]);
 				resultTable.setModel(tableModel);
+				outputArea.setText("Time to execute: "+((double)(System.currentTimeMillis()-timestamp)/1000)+"s");
 			}
+			
 		}
 		else if(actionType.startsWith("insert") || actionType.startsWith("update") || actionType.startsWith("delete")) {
 			String result = DatabaseFactory.getDatabase().executeUpdate(statement);
@@ -200,7 +203,6 @@ public class SqlTab extends SSSTab {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-
+		sqlArea.requestFocus();
 	}
 }
