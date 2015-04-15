@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
@@ -340,7 +342,7 @@ public class DatabaseConnection implements Database {
 			result.beforeFirst();
 
 			messages = new Message[rows];
-			
+
 			for(int i=0; result.next(); i++) {
 				messages[i] = new Message(
 						result.getString("reciever"),
@@ -363,80 +365,95 @@ public class DatabaseConnection implements Database {
 
 		return messages;
 	}
-	
+
 	@Override
 	public boolean createUser	(String firstName, String lastName, String address, int zipCode, 
-								String email, int telephone, int salary, String username, String passwordHash) {
-		
+			String email, int telephone, int salary, String username, String passwordHash) {
+
 		String firstNameDMP = DoubleMetaphoneUtils.encodeString(firstName);
 		String lastNameDMP = DoubleMetaphoneUtils.encodeString(lastName);
-		
-		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO person(first_name, first_name_dmp, last_name, last_name_dmp, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-			statement.setString(1, firstName);
-			statement.setString(2, firstNameDMP);
-			statement.setString(3, lastName);
-			statement.setString(4, lastNameDMP);
-			statement.setString(5, address);
-			statement.setInt(6, zipCode);
-			statement.setString(7, email);
-			statement.setInt(8, telephone);
-			statement.setInt(9, salary);
-			
-			
+
+
+		try(PreparedStatement personStatement = connection.prepareStatement("INSERT INTO person(first_name, first_name_dmp, last_name, last_name_dmp, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			connection.setAutoCommit(false);
+			personStatement.setString(1, firstName);
+			personStatement.setString(2, firstNameDMP);
+			personStatement.setString(3, lastName);
+			personStatement.setString(4, lastNameDMP);
+			personStatement.setString(5, address);
+			personStatement.setInt(6, zipCode);
+			personStatement.setString(7, email);
+			personStatement.setInt(8, telephone);
+			personStatement.setInt(9, salary);
+
+			personStatement.executeUpdate();
+
+
+			try(PreparedStatement userStatement = connection.prepareStatement("INSERT INTO user(username, password_hash, employee_number) VALUES(?, ?, LAST_INSERT_ID())")) {
+				userStatement.setString(1, username);
+				userStatement.setString(2, passwordHash);
+
+				userStatement.executeUpdate();
+			}
+
+			catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+
+			connection.commit();
+			connection.setAutoCommit(true);
 		} 
-		
+
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO user(username, passwordHash, employee_number) VALUES(?, ?, LAST_INSERT_ID())")) {
-			statement.setString(1, username);
-			statement.setString(2, passwordHash);	
-		}
-		
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean createPersonnel	(String firstName, String lastName, String address, int zipCode, 
-									String email, int telephone, int salary, String title, int centreID) {
-		
+			String email, int telephone, int salary, String title, int centreID) {
+
 		String firstNameDMP = DoubleMetaphoneUtils.encodeString(firstName);
 		String lastNameDMP = DoubleMetaphoneUtils.encodeString(lastName);
-		
-		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO person(first_name, first_name_dmp, last_name, last_name_dmp, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-			statement.setString(1, firstName);
-			statement.setString(2, firstNameDMP);
-			statement.setString(3, lastName);
-			statement.setString(4, lastNameDMP);
-			statement.setString(5, address);
-			statement.setInt(6, zipCode);
-			statement.setString(7, email);
-			statement.setInt(8, telephone);
-			statement.setInt(9, salary);
+
+		try(PreparedStatement personStatement = connection.prepareStatement("INSERT INTO person(first_name, first_name_dmp, last_name, last_name_dmp, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+			connection.setAutoCommit(false);
+			personStatement.setString(1, firstName);
+			personStatement.setString(2, firstNameDMP);
+			personStatement.setString(3, lastName);
+			personStatement.setString(4, lastNameDMP);
+			personStatement.setString(5, address);
+			personStatement.setInt(6, zipCode);
+			personStatement.setString(7, email);
+			personStatement.setInt(8, telephone);
+			personStatement.setInt(9, salary);
+
+			personStatement.executeUpdate();
+
+			try(PreparedStatement personnelStatement = connection.prepareStatement("INSERT INTO personnel(title, centre_id, employee_number) VALUES(?, ?, LAST_INSERT_ID())")) {
+
+				personnelStatement.setString(1, title);
+				personnelStatement.setInt(2, centreID);
+
+				personnelStatement.executeUpdate();
+			} 
+
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
 			
-			
+			connection.commit();
+			connection.setAutoCommit(true);
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO personnel(title, centre_id, employee_number) VALUES(?, ?, LAST_INSERT_ID())")) {
-			
-			statement.setString(1, title);
-			statement.setInt(2, centreID);
-		} 
-		
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
+
+
 		return true;
 	}
 }
