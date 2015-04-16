@@ -123,7 +123,7 @@ public class SqlTab extends SSSTab {
 
 		String actionType = statement.split(" ")[0].toLowerCase();
 
-		if(actionType.startsWith("select")) {
+		if(actionType.startsWith("select") || actionType.startsWith("show")) {
 			long timestamp = System.currentTimeMillis();
 			String[][] result = DatabaseFactory.getDatabase().executeQuery(statement);
 			if(result.length == 1 && result[0].length == 1) {
@@ -143,9 +143,11 @@ public class SqlTab extends SSSTab {
 				resultTable.setModel(tableModel);
 				outputArea.setText("Time to execute: "+((double)(System.currentTimeMillis()-timestamp)/1000)+"s");
 			}
-			
 		}
-		else if(actionType.startsWith("insert") || actionType.startsWith("update") || actionType.startsWith("delete")) {
+		else if(actionType.startsWith("insert") ||
+				actionType.startsWith("update") ||
+				actionType.startsWith("delete") ||
+				actionType.startsWith("alter")) {
 			String result = DatabaseFactory.getDatabase().executeUpdate(statement);
 
 			outputArea.setText(result);

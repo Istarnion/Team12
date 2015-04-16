@@ -28,7 +28,8 @@ public class DatabaseConnection implements Database {
 
 			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
 					+ "user=team12&password=teamadmin12");
-
+			com.mysql.jdbc.Connection c;
+			
 			ok = testConnection();
 		}
 		catch(SQLException e) {
