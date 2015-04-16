@@ -16,18 +16,19 @@ import javax.swing.JLabel;
  *
  * 
  */
-
-
-
 public class SplashScreen{
 	
 	private JFrame frame;
 
+	private static JLabel splashImage;
+	
 	/**
-	 * 
+	 * Displays the splash screen
 	 */
 	public void createSplash(){
-		JLabel splashImage = new JLabel(new ImageIcon(getClass().getResource("/images/Splashscreen.gif")));
+		if(splashImage == null) {
+			splashImage = new JLabel(new ImageIcon(getClass().getResource("/images/Splashscreen.gif")));
+		}
 		frame = new JFrame();
 	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setLayout(new BorderLayout());
@@ -40,7 +41,7 @@ public class SplashScreen{
 	}
 	
 	/**
-	 * 
+	 * Takes the splash screen down, disposing resources
 	 */
 	public void removeSplash(){
 		frame.dispose();
