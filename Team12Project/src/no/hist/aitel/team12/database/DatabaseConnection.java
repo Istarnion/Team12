@@ -47,6 +47,8 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public void teardown() {
+
+		
 		try {
 			connection.close();
 		}
@@ -95,7 +97,12 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public ShoppingCentre[] getShoppingCentres(int userID) {
-
+		try {
+			if(connection.isClosed()) return null;
+		} catch (SQLException e1) {
+			return null;
+		}
+		
 		IntHashMap<ShoppingCentre>	centres = null;
 
 		String	centreQuery = null,
@@ -628,7 +635,10 @@ public class DatabaseConnection implements Database {
 		return true;
 	}
 	
-	public String[][] getUserTable(int userID){
+	public String getUserStatement(){
+		
+		int userID = getUserID(null);
+		
 		String statement;
 		
 		if (getUserType(userID) == UserType.SYS_ADMIN ){
@@ -643,9 +653,33 @@ public class DatabaseConnection implements Database {
 			statement = "'null'";
 		}
 		
-		String[][] output = DatabaseFactory.getDatabase().executeQuery(statement);
-		
-		return output;
+		return statement;
 		
 	}
+
+	@Override
+	public boolean sendMessage(String sender, String reciever, String content,
+			String subject) {
+
+		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO message (sender, reciever, content, subject, timestamp) VALUES (?, ?, ?, ?, NOW())")) {
+		
+			connection.setAutoCommit(false);
+			
+			statement.setString(1, sender);
+			statement.setString(2, reciever);
+			statement.setString(3, content);
+			statement.setString(4, subject);
+			
+			statement.executeUpdate();
+			connection.commit();
+			connection.setAutoCommit(true);
+		} 
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 }

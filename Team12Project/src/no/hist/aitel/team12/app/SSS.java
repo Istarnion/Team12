@@ -127,7 +127,7 @@ public class SSS {
 				switch(type) {
 					case SYS_ADMIN:
 					{
-						sssWindow.addTab(Text.getString("overview"),	new OverviewTab());
+						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId));
 						sssWindow.addTab(Text.getString("usrs"),		new UserTab());
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 						sssWindow.addTab(Text.getString("sql"),			new SqlTab()); 

@@ -17,6 +17,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import no.hist.aitel.team12.app.Building;
+import no.hist.aitel.team12.app.CentreBuffer;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
 
@@ -26,49 +27,51 @@ public class OverviewTab extends SSSTab {
 
 	private ShoppingCentre[] businessArray;
 
-	private JPanel leftPanel;
-
-	private JPanel rightPanel;
-
 	private JTree businessList;
 
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneLeft, scrollPaneRight;
 
 	private JLabel logoLabel;
 
 	private BufferedImage logo;
 
-	private JPanel logoCard, centreCard, buildingCard, establishmentCard;
+	private JPanel leftPanel, rightPanel, namePanel, logoCard, centreCard, buildingCard, establishmentCard;
 
 	private CardLayout cardLayout;
 
-	public OverviewTab() {
+	private CentreBuffer cb;
 
+	public OverviewTab(int userID) {
+
+		cb = new CentreBuffer(2, 2, userID);
+		
 		try {
 			logo = ImageIO.read(getClass().getResource("/images/simpleLogo.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}		
 
-		businessArray 		= ShoppingCentre.getPopulatedShoppingCentres();
+
+		while(businessArray == null) {
+			Thread.yield();
+			businessArray 		= cb.getCentres();
+		}
+		
 		leftPanel 			= new JPanel(new BorderLayout());
 		cardLayout			= new CardLayout();
-		rightPanel 			= new JPanel(cardLayout);
+		rightPanel 			= new JPanel(new BorderLayout());
+		
+		namePanel			= new JPanel();
 		logoLabel 			= new JLabel();
 		logoCard 			= new JPanel();
 		centreCard			= new JPanel();
 		buildingCard		= new JPanel();
 		establishmentCard	= new JPanel();
 
-		
+
 
 		logoLabel.setIcon(new ImageIcon(logo));
 		logoCard.add(logoLabel);
-		rightPanel.add(logoCard, "logoCard");
-		rightPanel.add(centreCard, "centreCard");
-		rightPanel.add(buildingCard, "buildingCard");
-		rightPanel.add(establishmentCard, "establishmentCard");
-		
 		
 
 
@@ -94,15 +97,15 @@ public class OverviewTab extends SSSTab {
 
 		businessList = new JTree(root);
 		businessList.setRootVisible(false);
-		
 
-		scrollPane = new JScrollPane(businessList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+		scrollPaneLeft = new JScrollPane(businessList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		this.setLayout(new BorderLayout());
-		
+
 		leftPanel.setPreferredSize(new Dimension(250, 0));		
 
-		leftPanel.add(scrollPane, BorderLayout.CENTER);
+		leftPanel.add(scrollPaneLeft, BorderLayout.CENTER);
 		add(leftPanel, BorderLayout.WEST);
 		add(rightPanel, BorderLayout.CENTER);
 		setUpListener();
@@ -113,16 +116,16 @@ public class OverviewTab extends SSSTab {
 	public void updateCentreCard(ShoppingCentre centre) {
 
 	}
-	
+
 	public void updateBuildingCard(Building building) {
-		
-	}
-	
-	public void updateEstablishmentCard(Establishment establishment) {
-		
+
 	}
 
-	
+	public void updateEstablishmentCard(Establishment establishment) {
+
+	}
+
+
 	public void setUpListener() {
 		businessList.addTreeSelectionListener(new TreeSelectionListener() {
 
@@ -132,7 +135,7 @@ public class OverviewTab extends SSSTab {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) businessList.getLastSelectedPathComponent();
 
 				if(node == null) {
-					cardLayout.show(rightPanel, "logoCard");
+					cardLayout.show(scrollPaneRight, "logoCard");
 				}
 
 				else if(node.getUserObject() instanceof ShoppingCentre) {
@@ -156,7 +159,7 @@ public class OverviewTab extends SSSTab {
 			}
 		});
 	}
-	
+
 	@Override
 	public void refresh() {
 		rightPanel.repaint();
