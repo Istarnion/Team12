@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-//import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,6 +12,13 @@ import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import no.hist.aitel.team12.database.*;
+
+//import javax.swing.JList;
+/**
+ * 
+ * @author Roger
+ *
+ */
 
 public class UserTab extends SSSTab {
 
@@ -52,20 +58,15 @@ public class UserTab extends SSSTab {
 		
 	}
 	
-	public void setUserTable(DatabaseConnection databaseConnection){
+	public void setUserTable(DatabaseConnection databaseConnection, int userID){
 		
+		//int userID = 
 		
-		//username =  
-		//userID = databaseConnection.getUserID(username);
+		String statement = databaseConnection.getUserStatement(userID);
+		String[][] output = DatabaseFactory.getDatabase().executeQuery(statement);
 		
-		String[][] output = DatabaseFactory.getDatabase().executeQuery(databaseConnection.getUserStatement());
-		
-		userTable.setText(output[0][0]);
-		
-		String[][] content = new String[output.length-1][output[0].length];
-		
-		for(int row=0; row<content.length; row++) {
-			
+		String[][] content = new String[output.length-1][output[0].length];		
+		for(int row=0; row<content.length; row++) {			
 			for(int col=0; col<content[0].length; col++) {
 				content[row][col] = output[row+1][col];
 			}
