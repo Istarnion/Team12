@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -218,6 +219,22 @@ public class MessageTab extends SSSTab {
 
 		// Button for replying to message
 		JButton send = new JButton(Text.getString("send"));
+		send.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Message.sendMessage(username, to.getText(), sendMessageText.getText(), subjectto.getText());
+				JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
+				to.setText("");
+				sendMessageText.setText("");
+				subjectto.setText("");
+				}
+				
+			
+	
+			
+		});
+		
 		constraintsSendMsg.gridx = 1;
 		constraintsSendMsg.gridy = 0;
 		constraintsSendMsg.gridwidth = 1;

@@ -1,13 +1,12 @@
 package no.hist.aitel.team12.app;
 
-import java.util.Properties;
-
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
+
+import java.util.*;
+
+import no.hist.aitel.team12.util.Text;
 
 /*
  * This class takes use of the Java Mail library to send mails from in
@@ -21,60 +20,70 @@ import javax.mail.internet.MimeMessage.RecipientType;
 
 public class Email {
 	
-	public static boolean sendMail (String from, String password,String message, String to[]){
-		String host = "smtp.gmail.com";
+	public static final String FROM = "supershoppingsurfer@gmail.com";
+	public static final String PASSWORD = "teamadmin12";
+	public static final String SUBJECT = Text.getString("regsub");
+	public static final String HOST = "smtp.gmail.com";
+	
+	public static void main(String[]args){
+		try{
+			sendEmail("Dette er en test","andreasborsheim91@gmail.com");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void sendEmail(String message, String toAddress) throws Exception{
+		//String toAaddress = "andreasborsheim@gmail.com";
+		//String to = toAddress.getEmailAddress();  
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable","true");
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.user", from);
-		props.put("mail.smtp.password", password);
-		props.put("mail.smtp.port",587);
+		props.setProperty("mail.transport.protocol", "smtp");
+		props.setProperty("mail.host", HOST);
+		
 		props.put("mail.smtp.auth", "true");
-		Session session =  Session.getDefaultInstance(props,null);
-		MimeMessage mimeMessage = new MimeMessage(session);
+		props.put("mail.smtp.port",587);
+		props.setProperty("mail.user",FROM);
+		props.setProperty("mail.password",PASSWORD);
 		
-		try{
-		mimeMessage.setFrom(new InternetAddress(from));
-		InternetAddress [] toAddress =  new InternetAddress[to.length];
+		//props.put("mail.smtp.starttls.enable","true");
+		//props.put("mail.smtp.host", host);
 		
-		for(int i=0; i<to.length; i++){
-			toAddress [i] = new InternetAddress(to[i]);
-		}
+		//props.put("mail.smtp.user", from);
+		//props.put("mail.smtp.password", password);
 		
-		for (int i=0; i<toAddress.length; i++){
-			mimeMessage.addRecipient(RecipientType.TO, toAddress[i]);
-		}
-		// add subject
-		mimeMessage.setSubject("mail using javamail api");
-		//set message to mimeMessage
-		mimeMessage.setText(message);
-		Transport transport =  session.getTransport("smtp");
-		transport.connect(host,from,password);
-		transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
-		transport.close();
-		return true;
-		}catch(MessagingException me){
-			me.printStackTrace();		
-		}
 		
-		return false;
+		
+		Session session = Session.getDefaultInstance(props,null);
+		session.setDebug(true);
+		
+		Transport transport = session.getTransport("smtp");
+		
+	    MimeMessage msg = new MimeMessage(session);
+	    msg.setSentDate(new Date());
+	    msg.setSubject(SUBJECT);
+	    msg.setFrom(new InternetAddress(FROM));
+	    msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(toAddress));
+	    msg.setText(message);
+	    
+	    
+	    transport.connect(HOST,FROM,PASSWORD);
+	    transport.sendMessage(msg, msg.getRecipients(javax.mail.Message.RecipientType.TO));
+	    transport.close();    
 	}
-
-
-	   public static void main(String [] args)  { 
-		   String [] to =  {"andy_8795@hotmail.com","anbors@outlook.com"};
-		   if(Email.sendMail
-				   ("andreasborsheim91@gmail.com",
-						   "**Password**",
-						   " Dette er en test på bruk av javamail", 
-						   to)){
-			   System.out.println("Email sent !!");
-		   }else{
-			   System.out.println("Some error occurred ");
-		   }
-						   
-	   }
-	}
-	
+}
+	    //transport.connect(host,from,password);
+	        //transport.sendMessage(msg, msg.getAllRecipients());
+	        //transport.close();
+	       
+	        
+      //  } catch (Exception e) {
+	        //    e.printStackTrace();
+	//	}
+		
 	
 
+
+
+  
