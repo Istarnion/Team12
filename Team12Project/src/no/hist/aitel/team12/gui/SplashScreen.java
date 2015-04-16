@@ -2,7 +2,11 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,6 +34,19 @@ public class SplashScreen{
 			splashImage = new JLabel(new ImageIcon(getClass().getResource("/images/Splashscreen.gif")));
 		}
 		frame = new JFrame();
+		try {
+			List<BufferedImage> icons = new ArrayList<BufferedImage>(3);
+			icons.add(ImageIO.read(getClass().getResource("/images/micro.png")));
+			icons.add(ImageIO.read(getClass().getResource("/images/tiny.png")));
+			icons.add(ImageIO.read(getClass().getResource("/images/medium.png")));
+			
+			frame.setIconImages(icons);
+		}
+		catch(Exception e) {
+			System.out.println("Failed loading the frame icon images. Reverting to default\n\t"+
+					"The icons are expected to be named: 'micro.png', 'tiny.png' and 'medium.png'");
+		}
+		
 	    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setLayout(new BorderLayout());
 	    frame.setUndecorated(true);
