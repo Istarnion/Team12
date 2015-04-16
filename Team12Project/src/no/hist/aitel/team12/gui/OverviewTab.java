@@ -182,9 +182,9 @@ public class OverviewTab extends SSSTab {
 
 		leftPanel.add(scrollPaneLeft, BorderLayout.CENTER);
 		
-		add(leftPanel, BorderLayout.WEST);
+		this.add(leftPanel, BorderLayout.WEST);
 		
-		add(rightPanel, BorderLayout.CENTER);
+		this.add(rightPanel, BorderLayout.CENTER);
 		
 		setUpListener();
 	}
@@ -267,7 +267,6 @@ public class OverviewTab extends SSSTab {
 				else if(node.getUserObject() instanceof Building) {
 					DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent();
 					centreNameText.setText(nodeParent.getUserObject().toString());
-					System.out.println(centreNameText.getText());
 					updateBuildingCard((Building)node.getUserObject());
 					cardLayout.show(cardPanel, "buildingCard");					
 				}
@@ -281,7 +280,7 @@ public class OverviewTab extends SSSTab {
 				else {
 					// log error
 				}
-				refresh();
+				//refresh();
 			}
 		});
 	}
