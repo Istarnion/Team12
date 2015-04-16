@@ -74,8 +74,11 @@ public class CentreBuffer {
 		thread = new Thread("CentreBufferThread") {
 			@Override
 			public void run() {
+				ShoppingCentre[] carray;
 				while(!this.isInterrupted()) {
-					centreBuffers[currentIndex++] = db.getShoppingCentres(userID);
+					carray = db.getShoppingCentres(userID);
+					if(carray == null) break;
+					centreBuffers[currentIndex++] = carray;
 					if(currentIndex >= centreBuffers.length) currentIndex = 0;
 					safePointer++;
 					if(safePointer >= centreBuffers.length) safePointer = 0;

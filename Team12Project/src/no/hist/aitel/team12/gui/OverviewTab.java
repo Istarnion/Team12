@@ -135,7 +135,7 @@ public class OverviewTab extends SSSTab {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) businessList.getLastSelectedPathComponent();
 
 				if(node == null) {
-					cardLayout.show(rightPanel, "logoCard");
+					cardLayout.show(scrollPaneRight, "logoCard");
 				}
 
 				else if(node.getUserObject() instanceof ShoppingCentre) {
