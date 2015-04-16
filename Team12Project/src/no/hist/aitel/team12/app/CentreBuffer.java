@@ -71,7 +71,7 @@ public class CentreBuffer {
 	private void run() {
 		Database db = DatabaseFactory.getDatabase();
 		
-		thread = new Thread() {
+		thread = new Thread("CentreBufferThread") {
 			@Override
 			public void run() {
 				while(!this.isInterrupted()) {

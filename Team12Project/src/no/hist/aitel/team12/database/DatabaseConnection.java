@@ -47,6 +47,15 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public void teardown() {
+		// First, close all CentreBuffer threads that may be running
+		Thread[] threads = new Thread[Thread.activeCount()];
+		Thread.enumerate(threads);
+		for(Thread t : threads) {
+			if(t != null && t.getName().startsWith("CentreBufferThread")) {
+				t.interrupt();
+			}
+		}
+		
 		try {
 			connection.close();
 		}
