@@ -165,31 +165,31 @@ business_id INTEGER,
 followup_ticket_id INTEGER,
 CONSTRAINT ticket_FK FOREIGN KEY (business_id) REFERENCES business (business_id),
 CONSTRAINT ticket_FK_followup FOREIGN KEY (followup_ticket_id) REFERENCES ticket (ticket_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE centremanager(
 centre_id INTEGER PRIMARY KEY,
 employee_number INTEGER,
 CONSTRAINT centremanager_FK FOREIGN KEY (centre_id) REFERENCES shoppingcentre (centre_id),
 CONSTRAINT centremanager_FK_employee FOREIGN KEY (employee_number) REFERENCES person (employee_number)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE customerservice(
 employee_number INTEGER PRIMARY KEY,
 centre_id INTEGER,
 CONSTRAINT customerservice_FK FOREIGN KEY (centre_id) REFERENCES shoppingcentre (centre_id),
 CONSTRAINT customerserivce_FK_employee FOREIGN KEY (employee_number) REFERENCES person (employee_number)
-) 
-ENGINE = InnoDB;
+); 
+-- ENGINE = InnoDB;
 
 CREATE TABLE establishmentowner(
 establishment_id INTEGER PRIMARY KEY, 
 employee_number INTEGER, 
 CONSTRAINT establishmentowner_FK FOREIGN KEY (establishment_id) REFERENCES establishment (establishment_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE message(
 message_id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -202,8 +202,8 @@ deleted BOOLEAN,
 deleted_timestamp TIMESTAMP,
 CONSTRAINT message_FK_sender FOREIGN KEY (sender) REFERENCES user (username),
 CONSTRAINT message_FK_reciever FOREIGN KEY (reciever) REFERENCES user (username)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 
 
