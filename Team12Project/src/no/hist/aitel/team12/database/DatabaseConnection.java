@@ -47,6 +47,8 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public void teardown() {
+
+		
 		try {
 			connection.close();
 		}
@@ -95,7 +97,12 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public ShoppingCentre[] getShoppingCentres(int userID) {
-
+		try {
+			if(connection.isClosed()) return null;
+		} catch (SQLException e1) {
+			return null;
+		}
+		
 		IntHashMap<ShoppingCentre>	centres = null;
 
 		String	centreQuery = null,
@@ -628,7 +635,10 @@ public class DatabaseConnection implements Database {
 		return true;
 	}
 	
-	public String[][] getUserTable(int userID){
+	public String getUserStatement(){
+		
+		int userID = getUserID(null);
+		
 		String statement;
 		
 		if (getUserType(userID) == UserType.SYS_ADMIN ){
@@ -643,9 +653,7 @@ public class DatabaseConnection implements Database {
 			statement = "'null'";
 		}
 		
-		String[][] output = DatabaseFactory.getDatabase().executeQuery(statement);
-		
-		return output;
+		return statement;
 		
 	}
 
