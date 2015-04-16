@@ -17,6 +17,7 @@
 package no.hist.aitel.team12.app;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import no.hist.aitel.team12.database.Database;
@@ -102,44 +103,64 @@ public class SSS {
 	}
 	
 	private void setupWindow(int userId, String username) {
-		UserType type = DatabaseFactory.getDatabase().getUserType(userId);
-		sssWindow = new SSSWindow();
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				SplashScreen splash = new SplashScreen();
+				splash.createSplash();
+				
+				while(sssWindow == null || !sssWindow.isVisible()) {
+					Thread.yield();
+				}
+				
+				splash.removeSplash();
+			}
+		};
+		thread.start();
 		
-		switch(type) {
-			case SYS_ADMIN:
-			{
-				sssWindow.addTab(Text.getString("overview"),	new OverviewTab());
-				sssWindow.addTab(Text.getString("usrs"),		new UserTab());
-				sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
-				sssWindow.addTab(Text.getString("sql"),			new SqlTab()); 
-				sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
-			} break;
-			
-			case CENTRE_MANAGER:
-			{
-				System.out.println("Centre manager attempted login");
-				exit();
-			} break;
-			
-			case SHOP_OWNER:
-			{
-				System.out.println("Shop owner attempted login");
-				exit();
-			} break;
-			
-			case CUSTOMER_SERVICE:
-			{
-				System.out.println("Customer service attempted login");
-				exit();
-			} break;
-			default:
-			{
-				System.out.println("Invalid user type attempted login. User type: "+type);
-				exit();
-			} break;
-		}
-		
-		sssWindow.showWindow();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				UserType type = DatabaseFactory.getDatabase().getUserType(userId);
+				sssWindow = new SSSWindow();
+				
+				switch(type) {
+					case SYS_ADMIN:
+					{
+						sssWindow.addTab(Text.getString("overview"),	new OverviewTab());
+						sssWindow.addTab(Text.getString("usrs"),		new UserTab());
+						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
+						sssWindow.addTab(Text.getString("sql"),			new SqlTab()); 
+						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
+					} break;
+					
+					case CENTRE_MANAGER:
+					{
+						System.out.println("Centre manager attempted login");
+						exit();
+					} break;
+					
+					case SHOP_OWNER:
+					{
+						System.out.println("Shop owner attempted login");
+						exit();
+					} break;
+					
+					case CUSTOMER_SERVICE:
+					{
+						System.out.println("Customer service attempted login");
+						exit();
+					} break;
+					default:
+					{
+						System.out.println("Invalid user type attempted login. User type: "+type);
+						exit();
+					} break;
+				}
+				
+				sssWindow.showWindow();
+			}
+		});
 	}
 	
 	/**
