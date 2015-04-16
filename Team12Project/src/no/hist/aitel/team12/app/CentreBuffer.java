@@ -79,16 +79,18 @@ public class CentreBuffer {
 					if(currentIndex >= centreBuffers.length) currentIndex = 0;
 					safePointer++;
 					if(safePointer >= centreBuffers.length) safePointer = 0;
-					
 					try {
 						Thread.sleep(restTime);
 					}
 					catch(InterruptedException e) {
 						System.out.println("Buffering thread was interrupted!\n\t"+e.getMessage());
 					}
+					
 				}
 			}
 		};
+		thread.setDaemon(true);
+		thread.start();
 	}
 	
 	/**
