@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -109,7 +111,7 @@ public class FinanceTab extends SSSTab {
              
         // Row 9
 		JButton showPdf = new JButton(Text.getString("spdf"));
-		showPdf.addActionListener(new Buttonlistener());
+		//showPdf.addActionListener(new Buttonlistener());
 		sidebar.add(showPdf);
 		
 		JButton savePdf = new JButton(Text.getString("svpdf"));
@@ -127,20 +129,45 @@ public class FinanceTab extends SSSTab {
 
 		//add(pdfView, BorderLayout.CENTER);
 		
+		Buttonlistener  ButtonListener = new Buttonlistener();
+		showPdf.addActionListener(ButtonListener);
+		reg.addActionListener(ButtonListener);
+		savePdf.addActionListener(ButtonListener);
+		
+		
+		
 	}
+	
+	
+
 	
 	private class Buttonlistener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent f){
-			PDFGenerator.generatePDF();
-			try {
-				Image img = PDFGenerator.showPDF();
-				pdfLabel.setIcon(new ImageIcon(img));
-				pdfLabel.repaint();
-				System.out.println("Show PDF trykket");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			JButton pressedButton = (JButton)f.getSource();
+			String buttonName = pressedButton.getText();
+			
+			if(buttonName.equals(Text.getString("spdf"))){
+				PDFGenerator.generatePDF();
+				try {
+					Image img = PDFGenerator.showPDF();
+					pdfLabel.setIcon(new ImageIcon(img));
+					pdfLabel.repaint();
+					System.out.println("Show PDF trykket");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else if(buttonName.equals(Text.getString("reg"))){
+				
+				System.out.println("Register Revenue button pressed");
+			}else{
+				JFileChooser fileSaver = new JFileChooser(); 
+				int returnVal = fileSaver.showOpenDialog(null);
+				if(returnVal == JFileChooser.APPROVE_OPTION){
+					
+				}
+				System.out.println("Save pdf button pressed");
 			}
 			 
 		}
