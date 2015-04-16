@@ -8,6 +8,9 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+
+
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -15,6 +18,8 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
+
+
 
 
 /**
@@ -57,6 +62,7 @@ public class PDFGenerator {
 	}
 
 	public static java.awt.Image showPDF() throws IOException{
+		
 		File file = new File ("budgetdoc.pdf");
 		RandomAccessFile raf = new RandomAccessFile(file, "r");
 		FileChannel channel = raf.getChannel();
@@ -64,7 +70,8 @@ public class PDFGenerator {
 		PDFFile pdffile = new PDFFile(buf);
 
 		PDFPage page = pdffile.getPage(0);
-
+		
+		
 		Rectangle rect = new Rectangle(0,0,
 				(int)page.getBBox().getWidth(),
 				(int)page.getBBox().getHeight());
