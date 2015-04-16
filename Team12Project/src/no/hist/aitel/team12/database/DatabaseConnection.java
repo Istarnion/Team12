@@ -17,6 +17,7 @@ import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 import bak.pcj.list.IntArrayList;
 
+
 public class DatabaseConnection implements Database {
 
 	private Connection connection;
@@ -28,6 +29,7 @@ public class DatabaseConnection implements Database {
 
 			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
 					+ "user=team12&password=teamadmin12");
+			connection.setAutoCommit(false);
 
 			ok = testConnection();
 		}

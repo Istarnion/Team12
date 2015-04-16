@@ -1,4 +1,4 @@
-use supershoppingsurfer_silver;
+use supershoppingsurfer_bronze;
 
 SET foreign_key_checks = 0;
 
@@ -33,8 +33,8 @@ CREATE TABLE county(
 county_id TINYINT PRIMARY KEY,
 county_name VARCHAR(30),
 county_name_dmp VARCHAR(30)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE municipality(
 municipality_id INTEGER PRIMARY KEY,
@@ -42,8 +42,8 @@ municipality_name VARCHAR(30),
 municipality_name_dmp VARCHAR(30),
 county_id TINYINT,
 CONSTRAINT municipality_FK FOREIGN KEY (county_id) REFERENCES county (county_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 
 CREATE TABLE zipcode(
@@ -52,8 +52,8 @@ district VARCHAR(30),
 district_dmp VARCHAR(30),
 municipality_id INTEGER,
 CONSTRAINT zipcode_FK FOREIGN KEY (municipality_id) REFERENCES municipality (municipality_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE person(
 employee_number INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -67,16 +67,16 @@ email VARCHAR(30),
 telephone INTEGER,
 salary INTEGER,
 CONSTRAINT person_FK_zip FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE user(
 username VARCHAR(10) PRIMARY KEY,
 password_hash CHAR(156),
 employee_number INTEGER NOT NULL,
 CONSTRAINT user_FK FOREIGN KEY (employee_number) REFERENCES person (employee_number)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 
 
@@ -88,8 +88,8 @@ email VARCHAR(30),
 telephone INTEGER,
 opening_hours INTEGER,
 text_description VARCHAR(1000)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE shoppingcentre(
 centre_id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -99,8 +99,8 @@ zipcode INTEGER(4) ZEROFILL,
 parking_spaces INTEGER,
 CONSTRAINT shoppingcentre_FK FOREIGN KEY (business_id) REFERENCES business (business_id),
 CONSTRAINT business FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE building(
 building_id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -110,8 +110,8 @@ building_name_dmp VARCHAR(30),
 floors INTEGER,
 area INTEGER,
 CONSTRAINT building_FK FOREIGN KEY (centre_id) REFERENCES shoppingcentre (centre_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE establishment(
 establishment_id INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -120,14 +120,14 @@ building_id INTEGER,
 floor_number SMALLINT,
 CONSTRAINT establishment_FK FOREIGN KEY (building_id) REFERENCES building (building_id),
 CONSTRAINT establishment_FK_business FOREIGN KEY (business_id) REFERENCES business (business_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE trade(
 trade_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 trade_name VARCHAR(30)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE establishmenttrade(
 establishment_id INTEGER,
@@ -135,8 +135,8 @@ trade_id INTEGER,
 PRIMARY KEY(establishment_id, trade_id),
 CONSTRAINT estabtrade_FK FOREIGN KEY (establishment_id) REFERENCES establishment (establishment_id),
 CONSTRAINT estabtrade_FK_trade FOREIGN KEY (trade_id) REFERENCES trade (trade_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE revenue(
 business_id INTEGER,
@@ -144,8 +144,8 @@ month DATE,
 turnover_month INTEGER,
 PRIMARY KEY (business_id, month),
 CONSTRAINT revenue_FK FOREIGN KEY (business_id) REFERENCES business (business_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE personnel(
 employee_number INTEGER PRIMARY KEY,
@@ -153,8 +153,8 @@ centre_id INTEGER,
 title VARCHAR(30),
 CONSTRAINT personnel_FK FOREIGN KEY (employee_number) REFERENCES person (employee_number),
 CONSTRAINT personnel_FK_centre FOREIGN KEY (centre_id) REFERENCES shoppingcentre (centre_id)
-)
-ENGINE = InnoDB;
+);
+-- ENGINE = InnoDB;
 
 CREATE TABLE ticket(
 ticket_id INTEGER AUTO_INCREMENT PRIMARY KEY,

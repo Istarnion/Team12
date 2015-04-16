@@ -1,4 +1,4 @@
-use supershoppingsurfer_silver;
+use supershoppingsurfer_bronze;
 
 -- Create some buidlings
 
