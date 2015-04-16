@@ -648,4 +648,30 @@ public class DatabaseConnection implements Database {
 		return output;
 		
 	}
+
+	@Override
+	public boolean sendMessage(String sender, String reciever, String content,
+			String subject) {
+
+		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO message (sender, reciever, content, subject, timestamp) VALUES (?, ?, ?, ?, NOW())")) {
+		
+			connection.setAutoCommit(false);
+			
+			statement.setString(1, sender);
+			statement.setString(2, reciever);
+			statement.setString(3, content);
+			statement.setString(4, subject);
+			
+			statement.executeUpdate();
+			connection.commit();
+			connection.setAutoCommit(true);
+		} 
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 }

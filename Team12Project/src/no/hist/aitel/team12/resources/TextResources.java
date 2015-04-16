@@ -64,7 +64,8 @@ public class TextResources extends ListResourceBundle {
 				{"spdf", "Show PDF"},
 				{"svpdf", "Save PDF"},
 				{"newuser", "New User"},
-				{"edituser", "Edit User"}
+				{"edituser", "Edit User"},
+				{"msgConfirmation", "The message has been sent"}
 		};
 	}
 }
