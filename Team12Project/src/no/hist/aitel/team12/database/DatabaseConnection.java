@@ -47,8 +47,6 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public void teardown() {
-
-		
 		try {
 			connection.close();
 		}
@@ -247,14 +245,12 @@ public class DatabaseConnection implements Database {
 			}
 
 			result.close();
-
+			
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		//getBuildingData(centres);
-
+		
 		return centres;
 	}
 
@@ -285,7 +281,7 @@ public class DatabaseConnection implements Database {
 							);
 
 					building.setEstablishments(
-							getEstablishmentsInBuilding(building.getBuilding_id())
+							getEstablishmentsInBuilding(building.getBuildingId())
 							);
 
 					buildings[i] = building;

@@ -74,7 +74,7 @@ public class ShoppingCentre extends Business {
 	
 	public Building findBuilding(int buildingId) {
 		for(Building b : buildings) {
-			if(b.getBuilding_id() == buildingId) return b;
+			if(b.getBuildingId() == buildingId) return b;
 		}
 		return null;
 	}
