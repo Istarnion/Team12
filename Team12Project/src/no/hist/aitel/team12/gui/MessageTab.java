@@ -247,7 +247,7 @@ public class MessageTab extends SSSTab {
 					JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
 				}
 				else {
-					// Log error
+					JOptionPane.showMessageDialog(null, Text.getString("err"));
 				}
 				to.setText("");
 				sendMessageText.setText("");
