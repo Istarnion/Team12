@@ -73,7 +73,11 @@ public class TextResources extends ListResourceBundle {
 				{"zip","Zip code"},
 				{"email","E-mail"},
 				{"tel","Telephone"},
-				{"sal","Sallary"}
+				{"sal","Sallary"},
+				{"reverr", "Revenue field is empty"},
+				{"rev", "Revenue"},
+				{"pdferr", " Cannont show finance report.\nDate from/to is missing."},
+				{"pdfdaterr", "From date must be before to date"}
 
 		};
 	}

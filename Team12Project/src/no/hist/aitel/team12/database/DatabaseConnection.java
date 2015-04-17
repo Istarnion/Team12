@@ -294,6 +294,27 @@ public class DatabaseConnection implements Database {
 	}
 	
 	@Override
+	public boolean isUserInDb(String username) {
+		boolean found = false;
+		
+		try(PreparedStatement statement = connection.prepareStatement("SELECT employee_number FROM user WHERE username = ?")) {
+
+			statement.setString(1, username);
+			ResultSet result = statement.executeQuery();
+
+			if(result.next()) {
+				found = true;
+			}
+			result.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return found;
+	}
+	
+	@Override
 	public UserType getUserType(int userId) {
 		if(userId == 1) return UserType.SYS_ADMIN;
 
@@ -438,7 +459,7 @@ public class DatabaseConnection implements Database {
 
 
 	@Override
-	public Message[] getMessages(String username) {
+	public synchronized Message[] getMessages(String username) {
 		Message[] messages = null;
 		ResultSet result = null;
 		int rows;
@@ -465,15 +486,11 @@ public class DatabaseConnection implements Database {
 						result.getBoolean("deleted")
 						);
 			}
-
-
 		} 
 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-
 
 		return messages;
 	}
@@ -607,8 +624,7 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public boolean sendMessage(String sender, String reciever, String content,
-			String subject) {
+	public boolean sendMessage(String sender, String reciever, String content, String subject) {
 
 		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO message (sender, reciever, content, subject, timestamp) VALUES (?, ?, ?, ?, NOW())")) {
 		
@@ -625,7 +641,7 @@ public class DatabaseConnection implements Database {
 		} 
 		
 		catch (SQLException e) {
-			e.printStackTrace();
+			return false;
 		}
 		
 		return false;

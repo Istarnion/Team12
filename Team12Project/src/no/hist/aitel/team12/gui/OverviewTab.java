@@ -246,7 +246,7 @@ public class OverviewTab extends SSSTab {
 
 			@Override
 			public void valueChanged(TreeSelectionEvent event) {
-
+				
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) businessList.getLastSelectedPathComponent();
 				
 				if(node == null) {
@@ -270,7 +270,7 @@ public class OverviewTab extends SSSTab {
 					DefaultMutableTreeNode nodeParent = (DefaultMutableTreeNode) node.getParent().getParent();
 					centreNameText.setText(nodeParent.getUserObject().toString());
 					updateEstablishmentCard((Establishment)node.getUserObject());
-					cardLayout.show(cardPanel, "establishmentCard");				
+					cardLayout.show(cardPanel, "establishmentCard");
 				}
 				else {
 					// log error

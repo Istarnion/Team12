@@ -69,6 +69,14 @@ public interface Database {
 	public String getUsername(int userID);
 	
 	/**
+	 * Checks if a username is currently in the db
+	 * 
+	 * @param username The username to check
+	 * @return 
+	 */
+	public boolean isUserInDb(String username);
+	
+	/**
 	 * Finds the hashed and salted password for the user indicated by the user ID.
 	 * Use the PasswordManager class to validate passwords.
 	 * 
