@@ -6,9 +6,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.ImageIcon;
@@ -144,12 +144,7 @@ public class FinanceTab extends SSSTab {
 		reg.addActionListener(ButtonListener);
 		savePdf.addActionListener(ButtonListener);
 
-
-
 	}
-
-
-
 
 	private class Buttonlistener implements ActionListener{
 		@Override
@@ -171,10 +166,10 @@ public class FinanceTab extends SSSTab {
 						pdfLabel.repaint();
 						System.out.println("Show PDF trykket");
 					}else{
-						JOptionPane.showMessageDialog(null, Text.getString("pdfdaterr"));
+						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, Text.getString("pdferr"));
+					JOptionPane.showMessageDialog(null, Text.getString("pdfdaterr"));
 				}
 
 			}
@@ -190,13 +185,9 @@ public class FinanceTab extends SSSTab {
 
 						try{
 							revenue = Long.parseLong(incomeAmount.getText());
-							//Calendar calFrom = Calendar.getInstance();
-							//calFrom.setTime(fromDate.getDate());
 							int yearFrom = calFrom.get(Calendar.YEAR);
 							String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
 
-							//Calendar  calTo = Calendar.getInstance();
-							//calTo.setTime(toDate.getDate());
 							int yearTo = calTo.get(Calendar.YEAR);
 							String monthTo = calTo.getDisplayName(Calendar.MONTH,Calendar.LONG_FORMAT,Locale.getDefault());
 
@@ -206,30 +197,34 @@ public class FinanceTab extends SSSTab {
 							JOptionPane.showMessageDialog(null, Text.getString("reverr"));
 						}
 					}else{
-						JOptionPane.showMessageDialog(null, Text.getString("pdfdaterr"));
+						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, "Dato felt kan ikke være tom");
+					JOptionPane.showMessageDialog(null, Text.getString("ravdaterr"));
 				}
 
-				}
-				else{
-					JFileChooser fileSaver = new JFileChooser(); 
-					int returnVal = fileSaver.showOpenDialog(null);
-					if(returnVal == JFileChooser.APPROVE_OPTION){
-
+			}
+			else{
+				JFileChooser fileSaver = new JFileChooser(); 
+				int returnVal = fileSaver.showOpenDialog(null);
+				if(returnVal == JFileChooser.APPROVE_OPTION){
+					File outFile = fileSaver.getSelectedFile();
+					if(outFile!=null){
+						
 					}
-					System.out.println("Save pdf button pressed");
+				
 				}
-
+				System.out.println("Save pdf button pressed");
 			}
 
 		}
 
-		@Override
-		public void refresh() {
-			// TODO Auto-generated method stub
+	}
 
-		}
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
 
 	}
+
+}
