@@ -69,9 +69,15 @@ public class TextResources extends ListResourceBundle {
 				{"msgConfirmation", "The message has been sent"},
 				{"reverr", "Revenue field is empty"},
 				{"rev", "Revenue"},
+<<<<<<< HEAD
 				{"pdfdaterr", " Cannont show finance report.\nDate from/to is missing."},
 				{"daterr", "From date must be before to date"},
 				{"revdaterr", "Could not register revenue.\nDate from/to is missing."}
+=======
+				{"pdferr", " Cannont show finance report.\nDate from/to is missing."},
+				{"pdfdaterr", "From date must be before to date"},
+				{"createuser","Save user"}
+>>>>>>> 1d47b7841317d7782235fb23d14e378de1f9029c
 
 		};
 	}

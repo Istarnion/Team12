@@ -26,49 +26,53 @@ public class UserTab extends SSSTab {
 
 	private static final long serialVersionUID = -445246322816259272L;
 	
-	private JButton newUser = new JButton("New User");	
-	private JButton editUser = new JButton("Edit User");
+	private JButton newUser = new JButton(Text.getString("newuser"));	
+	private JButton editUser = new JButton(Text.getString("edituser"));
 	//private JList<?> centerList;
-	JLabel header;
+	JLabel header = new JLabel("Username");
 	
-	InputField firstName = new InputField(Text.getString("firstname" + ": "), 20);
-	InputField lastName = new InputField(Text.getString("lastname"+ ": "), 20);
-	InputField address = new InputField(Text.getString("adr"+ ": "), 20);
-	InputField zipCode = new InputField(Text.getString("zip"+ ": "), 4);
-	InputField electronicmail = new InputField(Text.getString("email"+ ": "), 30);
-	InputField telephone = new InputField(Text.getString("tel"+ ": "), 12);
-	InputField salary = new InputField(Text.getString("sal"+ ": "), 20);
-	InputField username = new InputField(Text.getString("usr"+ ": "), 20);
-	InputField password = new InputField(Text.getString("pwd"+ ": "), 20);
-
+	InputField firstName = new InputField(Text.getString("firstname"), 20);
+	InputField lastName = new InputField(Text.getString("lastname"), 20);
+	InputField address = new InputField(Text.getString("adr"), 20);
+	InputField zipCode = new InputField(Text.getString("zip"), 4);
+	InputField electronicmail = new InputField(Text.getString("email"), 30);
+	InputField telephone = new InputField(Text.getString("tel"), 12);
+	InputField salary = new InputField(Text.getString("sal"), 20);
+	InputField username = new InputField(Text.getString("usr"), 20);
+	InputField password = new InputField(Text.getString("pwd"), 20);
+	JButton createUser = new JButton(Text.getString("createuser"));
+	
 	private JPanel buttonPanel;
 
 	private JTable resultTable;
+	
+	private JPanel mainPanel;
 
 	public UserTab() {
 		this.setLayout(new BorderLayout());
 		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		
 		JPanel topPanel = new JPanel();
 		//header = new JLabel(databaseConnection.getUserID());
-		header.setText(Text.getString("usr"));
 		topPanel.add(header);
-		this.add(topPanel, BorderLayout.NORTH);
-		
+		mainPanel.add(topPanel, BorderLayout.NORTH);
 
-		JPanel mainPanel = new JPanel();
-		  mainPanel.add(firstName);
-		  mainPanel.add(lastName);
-		  mainPanel.add(address);
-		  mainPanel.add(zipCode);
-		  mainPanel.add(electronicmail);
-		  mainPanel.add(telephone);
-		  mainPanel.add(salary);
-		  mainPanel.add(username);
-		  mainPanel.add(password);
+		JPanel uPanel = new JPanel();
+		uPanel.setLayout(new GridLayout(11,3));
+		uPanel.add(firstName);
+		uPanel.add(lastName);
+		uPanel.add(address);
+		uPanel.add(zipCode);
+		uPanel.add(electronicmail);
+		uPanel.add(telephone);
+		uPanel.add(salary);
+		uPanel.add(username);
+		uPanel.add(password);
+		mainPanel.add(uPanel, BorderLayout.CENTER);
 
 		this.add(mainPanel, BorderLayout.CENTER);
-
-		
 
 		JPanel userPanel = new JPanel();
 		userPanel.setLayout(new BorderLayout());
@@ -113,7 +117,6 @@ public class UserTab extends SSSTab {
 
 		public void actionPerformed(ActionEvent event) {
 			
-			@SuppressWarnings("unused")
 			Database db;
 			
 			JButton button = new JButton();
@@ -135,9 +138,16 @@ public class UserTab extends SSSTab {
 				
 				DatabaseFactory.setup();
 				db = DatabaseFactory.getDatabase();
+				
+		/* ----------------------- Show the save-button for the saving a new user ----------*/
+				JPanel bottomPanel = new JPanel();
+				bottomPanel.add(createUser);
+				mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+				
 				try {
-					/*
-					 Object newUser = db.createUser(
+					
+					 @SuppressWarnings("unused")
+					Object newUser = db.createUser(
 							firstName.getText(), 
 							lastName.getText(), 
 							address.getText(), 
@@ -148,8 +158,10 @@ public class UserTab extends SSSTab {
 							username.getText(), 
 							password.getText());
 					 
-					 User.setUser(newUser);
-					 */
+					 //User.setUser(newUser);
+					 
+					
+					 
 					
 				} catch (Exception e) {
 					// TODO: handle exception
