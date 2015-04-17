@@ -66,7 +66,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"newuser", "Ny bruker"},
 				{"edituser", "Endre bruker"},
 				{"regsub", "SuperShoppingSurfer - Ny bruker registrert "},
-				{"msgConfirmation", "Meldingen er sendt"}
+				{"msgConfirmation", "Meldingen er sendt"},
+				{"reverr", " Ingen fortjeneste er skrevet inn"},
+				{"rev", "Fortjeneste"}
 		};
 	}
 }

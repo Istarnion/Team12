@@ -66,7 +66,9 @@ public class TextResources extends ListResourceBundle {
 				{"newuser", "New User"},
 				{"edituser", "Edit User"},
 				{"regsub", "SuperShoppingSurfer - New user created"},
-				{"msgConfirmation", "The message has been sent"}
+				{"msgConfirmation", "The message has been sent"},
+				{"reverr", "Revenue field is empty"},
+				{"rev", "Revenue"}
 
 		};
 	}

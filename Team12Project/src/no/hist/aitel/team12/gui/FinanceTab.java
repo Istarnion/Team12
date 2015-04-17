@@ -8,11 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -37,6 +40,12 @@ public class FinanceTab extends SSSTab {
 	
 	private  JPanel pdfView;
 	
+	private JXDatePicker fromDate;
+	
+	private JXDatePicker toDate;
+	
+	private InputField incomeAmount;
+	
 	public FinanceTab(String username){
 		
 		this.setLayout(new BorderLayout());
@@ -60,7 +69,7 @@ public class FinanceTab extends SSSTab {
 		JLabel fDate = new JLabel (Text.getString("fDate"), SwingConstants.RIGHT);
 		sidebar.add(fDate);
 		
-		JXDatePicker fromDate = new JXDatePicker();
+		fromDate = new JXDatePicker();
 		fromDate.setDate(Calendar.getInstance().getTime());
         fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
         sidebar.add(fromDate);
@@ -69,13 +78,13 @@ public class FinanceTab extends SSSTab {
     	JLabel tDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
 		sidebar.add(tDate);
         
-        JXDatePicker toDate = new JXDatePicker();
+        toDate = new JXDatePicker();
 		toDate.setDate(Calendar.getInstance().getTime());
         toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
         sidebar.add(toDate);
              
         // Row 4
-		InputField incomeAmount = new InputField("Revenue..", 10);
+		incomeAmount = new InputField(Text.getString("rev"), 10);
 		sidebar.add(incomeAmount);
 		
 		JButton reg = new JButton(Text.getString("reg"));
@@ -109,7 +118,6 @@ public class FinanceTab extends SSSTab {
              
         // Row 9
 		JButton showPdf = new JButton(Text.getString("spdf"));
-		//showPdf.addActionListener(new Buttonlistener());
 		sidebar.add(showPdf);
 		
 		JButton savePdf = new JButton(Text.getString("svpdf"));
@@ -125,7 +133,7 @@ public class FinanceTab extends SSSTab {
 		pdfView.add(pdfLabel, BorderLayout.CENTER);
 		add(pdfScroll, BorderLayout.CENTER);
 
-		//add(pdfView, BorderLayout.CENTER);
+	
 		
 		Buttonlistener  ButtonListener = new Buttonlistener();
 		showPdf.addActionListener(ButtonListener);
@@ -153,8 +161,23 @@ public class FinanceTab extends SSSTab {
 				System.out.println("Show PDF trykket");
 			}
 			else if(buttonName.equals(Text.getString("reg"))){
-				
-				System.out.println("Register Revenue button pressed");
+				long revenue;
+				try{
+					revenue = Long.parseLong(incomeAmount.getText());Calendar calFrom = Calendar.getInstance();
+					calFrom.setTime(fromDate.getDate());
+					int yearFrom = calFrom.get(Calendar.YEAR);
+					String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
+					
+					Calendar  calTo = Calendar.getInstance();
+					calTo.setTime(toDate.getDate());
+					int yearTo = calTo.get(Calendar.YEAR);
+					String monthTo = calTo.getDisplayName(Calendar.MONTH,Calendar.LONG_FORMAT,Locale.getDefault());
+					
+					System.out.println("Register Revenue button pressed"+"/n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ monthTo + yearTo + revenue);
+					
+				}catch(NumberFormatException nfe){
+					JOptionPane.showMessageDialog(null, Text.getString("reverr"));
+				}
 			}
 			else{
 				JFileChooser fileSaver = new JFileChooser(); 
