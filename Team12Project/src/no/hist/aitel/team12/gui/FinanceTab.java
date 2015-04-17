@@ -31,171 +31,205 @@ import org.jdesktop.swingx.JXDatePicker;
 public class FinanceTab extends SSSTab {
 
 	private static final long serialVersionUID = 2799861967861410870L;
-	
+
 	private JPanel sidebar = new JPanel();
-	
+
 	private JLabel pdfLabel = new JLabel();
-	
+
 	private JScrollPane pdfScroll; 
-	
+
 	private  JPanel pdfView;
-	
+
 	private JXDatePicker fromDate;
-	
+
 	private JXDatePicker toDate;
-	
+
+	private JXDatePicker pdfFromDate;
+
+	private JXDatePicker pdfToDate;
+
 	private InputField incomeAmount;
-	
+
 	public FinanceTab(String username){
-		
+
 		this.setLayout(new BorderLayout());
-		
+
 		GridLayout grid = new GridLayout(14, 2);	// Two columns, fourteen rows (so the bottom ones are empty)
 		grid.setVgap(4);
 		grid.setHgap(2);
 		sidebar.setLayout(grid);
-		
+
 		add(sidebar, BorderLayout.WEST);
-		
-		
+
+
 		// Selection View
 		// Row 1
 		JLabel info = new JLabel(Text.getString("storeTxt")+Text.getString("cntrTxt"));
 		sidebar.add(info);
-		
+
 		sidebar.add(new JLabel());
-		
+
 		// Row 2
 		JLabel fDate = new JLabel (Text.getString("fDate"), SwingConstants.RIGHT);
 		sidebar.add(fDate);
-		
+
 		fromDate = new JXDatePicker();
 		fromDate.setDate(Calendar.getInstance().getTime());
-        fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        sidebar.add(fromDate);
-		
-        // Row 3
-    	JLabel tDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
+		fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		sidebar.add(fromDate);
+
+		// Row 3
+		JLabel tDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
 		sidebar.add(tDate);
-        
-        toDate = new JXDatePicker();
+
+		toDate = new JXDatePicker();
 		toDate.setDate(Calendar.getInstance().getTime());
-        toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        sidebar.add(toDate);
-             
-        // Row 4
+		toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		sidebar.add(toDate);
+
+		// Row 4
 		incomeAmount = new InputField(Text.getString("rev"), 10);
 		sidebar.add(incomeAmount);
-		
+
 		JButton reg = new JButton(Text.getString("reg"));
 		sidebar.add(reg);
-		
+
 		// Row 5
 		sidebar.add(new JLabel());
 		sidebar.add(new JLabel());
-		
+
 		// Row 6
 		sidebar.add(new JSeparator());
 		sidebar.add(new JSeparator());
-		
+
 		// Row 7
 		JLabel pdfFDate = new JLabel(Text.getString("fDate"), SwingConstants.RIGHT);
 		sidebar.add(pdfFDate);
-		
-		JXDatePicker pdfFromDate = new JXDatePicker();
+
+		pdfFromDate = new JXDatePicker();
 		fromDate.setDate(Calendar.getInstance().getTime());
-        fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        sidebar.add(pdfFromDate);
-		
-        // Row 8
-    	JLabel pdfTDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
+		fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		sidebar.add(pdfFromDate);
+
+		// Row 8
+		JLabel pdfTDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
 		sidebar.add(pdfTDate);
-        
-        JXDatePicker pdfToDate = new JXDatePicker();
+
+		pdfToDate = new JXDatePicker();
 		toDate.setDate(Calendar.getInstance().getTime());
-        toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-        sidebar.add(pdfToDate);
-             
-        // Row 9
+		toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		sidebar.add(pdfToDate);
+
+		// Row 9
 		JButton showPdf = new JButton(Text.getString("spdf"));
 		sidebar.add(showPdf);
-		
+
 		JButton savePdf = new JButton(Text.getString("svpdf"));
 		sidebar.add(savePdf);
-		
+
 		// PDF View
 		pdfView = new JPanel(new BorderLayout());
 		pdfScroll = new JScrollPane(pdfView);
 		pdfScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
+
 		pdfLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pdfLabel.setBorder(new LineBorder(Color.BLACK, 1));
 		pdfView.add(pdfLabel, BorderLayout.CENTER);
 		add(pdfScroll, BorderLayout.CENTER);
 
-	
-		
+
+
 		Buttonlistener  ButtonListener = new Buttonlistener();
 		showPdf.addActionListener(ButtonListener);
 		reg.addActionListener(ButtonListener);
 		savePdf.addActionListener(ButtonListener);
-		
-		
-		
-	}
-	
-	
 
-	
+
+
+	}
+
+
+
+
 	private class Buttonlistener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent f){
 			JButton pressedButton = (JButton)f.getSource();
 			String buttonName = pressedButton.getText();
-			
+
 			if(buttonName.equals(Text.getString("spdf"))){
-				PDFGenerator.generatePDF();
-				Image img = PDFGenerator.showPDF();
-				pdfLabel.setIcon(new ImageIcon(img));
-				pdfLabel.repaint();
-				System.out.println("Show PDF trykket");
+				if(pdfFromDate.getDate()!=null && pdfToDate.getDate()!=null){
+					Calendar pdfCalF = Calendar.getInstance();
+					Calendar pdfCalT = Calendar.getInstance();
+					pdfCalF.setTime(pdfFromDate.getDate());
+					pdfCalT.setTime(pdfToDate.getDate());
+
+					if(pdfCalF.before(pdfCalT)||pdfCalF.equals(pdfCalT)){
+						PDFGenerator.generatePDF();
+						Image img = PDFGenerator.showPDF();
+						pdfLabel.setIcon(new ImageIcon(img));
+						pdfLabel.repaint();
+						System.out.println("Show PDF trykket");
+					}else{
+						JOptionPane.showMessageDialog(null, Text.getString("pdfdaterr"));
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, Text.getString("pdferr"));
+				}
+
 			}
 			else if(buttonName.equals(Text.getString("reg"))){
-				long revenue;
-				try{
-					revenue = Long.parseLong(incomeAmount.getText());Calendar calFrom = Calendar.getInstance();
+				if(fromDate.getDate()!=null && toDate.getDate()!=null){
+					long revenue;
+					Calendar calFrom = Calendar.getInstance();
 					calFrom.setTime(fromDate.getDate());
-					int yearFrom = calFrom.get(Calendar.YEAR);
-					String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
-					
 					Calendar  calTo = Calendar.getInstance();
 					calTo.setTime(toDate.getDate());
-					int yearTo = calTo.get(Calendar.YEAR);
-					String monthTo = calTo.getDisplayName(Calendar.MONTH,Calendar.LONG_FORMAT,Locale.getDefault());
-					
-					System.out.println("Register Revenue button pressed"+"/n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ monthTo + yearTo + revenue);
-					
-				}catch(NumberFormatException nfe){
-					JOptionPane.showMessageDialog(null, Text.getString("reverr"));
-				}
-			}
-			else{
-				JFileChooser fileSaver = new JFileChooser(); 
-				int returnVal = fileSaver.showOpenDialog(null);
-				if(returnVal == JFileChooser.APPROVE_OPTION){
-					
-				}
-				System.out.println("Save pdf button pressed");
-			}
-			 
-		}
-		
-	}
-	
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		
-	}
 
-}
+					if(calFrom.before(calTo)||calFrom.equals(calTo)){
+
+						try{
+							revenue = Long.parseLong(incomeAmount.getText());
+							//Calendar calFrom = Calendar.getInstance();
+							//calFrom.setTime(fromDate.getDate());
+							int yearFrom = calFrom.get(Calendar.YEAR);
+							String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
+
+							//Calendar  calTo = Calendar.getInstance();
+							//calTo.setTime(toDate.getDate());
+							int yearTo = calTo.get(Calendar.YEAR);
+							String monthTo = calTo.getDisplayName(Calendar.MONTH,Calendar.LONG_FORMAT,Locale.getDefault());
+
+							System.out.println("Register Revenue button pressed"+"\n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ monthTo + yearTo + revenue);
+
+						}catch(NumberFormatException nfe){
+							JOptionPane.showMessageDialog(null, Text.getString("reverr"));
+						}
+					}else{
+						JOptionPane.showMessageDialog(null, Text.getString("pdfdaterr"));
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "Dato felt kan ikke være tom");
+				}
+
+				}
+				else{
+					JFileChooser fileSaver = new JFileChooser(); 
+					int returnVal = fileSaver.showOpenDialog(null);
+					if(returnVal == JFileChooser.APPROVE_OPTION){
+
+					}
+					System.out.println("Save pdf button pressed");
+				}
+
+			}
+
+		}
+
+		@Override
+		public void refresh() {
+			// TODO Auto-generated method stub
+
+		}
+
+	}

@@ -68,7 +68,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"regsub", "SuperShoppingSurfer - Ny bruker registrert "},
 				{"msgConfirmation", "Meldingen er sendt"},
 				{"reverr", " Ingen fortjeneste er skrevet inn"},
-				{"rev", "Fortjeneste"}
+				{"rev", "Fortjeneste"},
+				{"pdferr", "Kan ikke vise finansrapport.\nDato fra/til er ikke valgt"},
+				{"pdfdaterr", "Fra dato må være før til dato"}
 		};
 	}
 }

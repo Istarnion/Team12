@@ -68,7 +68,9 @@ public class TextResources extends ListResourceBundle {
 				{"regsub", "SuperShoppingSurfer - New user created"},
 				{"msgConfirmation", "The message has been sent"},
 				{"reverr", "Revenue field is empty"},
-				{"rev", "Revenue"}
+				{"rev", "Revenue"},
+				{"pdferr", " Cannont show finance report.\nDate from/to is missing."},
+				{"pdfdaterr", "From date must be before to date"}
 
 		};
 	}
