@@ -586,25 +586,40 @@ public class DatabaseConnection implements Database {
 		return true;
 	}
 	
-	public String getUserStatement(){
+	public String getUserStatement(int userID){
 		
-		int userID = getUserID(null);
+		UserType userType = getUserType(userID);
 		
-		String statement;
-		
-		if (getUserType(userID) == UserType.SYS_ADMIN ){
-			statement = "'SELECT * from person;'";
-		}else if (getUserType(userID) == UserType.CENTRE_MANAGER) {
-			statement = "'Select employee_number, first_name, last_name, zipcode, adress, email, telephone, salary from person;'";
-		}else if (getUserType(userID) == UserType.CUSTOMER_SERVICE) {
-			statement = "'Select employee_number, first_name, last_name, email, telephone from person;'";
-		}else if (getUserType(userID) == UserType.SHOP_OWNER) {
-			statement = "'Select employee_number, first_name, last_name, email, telephone from person;'";
-		}else {
-			statement = "'null'";
+		String query;
+		switch(userType) {
+			case SYS_ADMIN:
+				query = ""
+						+ "SELECT * "
+						+ "from person;";
+			case CUSTOMER_SERVICE:
+				query = ""
+						+ "Select employee_number, first_name, last_name, email, telephone "
+						+ "from person;";
+				break;
+			case CENTRE_MANAGER:
+				query = ""
+						+ "Select employee_number, first_name, last_name, zipcode, address, email, telephone, salary "
+						+ "from person;";
+				break;
+			case SHOP_OWNER:
+				query = ""
+						+ "Select employee_number, first_name, last_name, email, telephone "
+						+ "from person;";
+				break;
+				
+			default:
+				return null;
 		}
+
+			return query;
+	
+
 		
-		return statement;
 		
 	}
 
