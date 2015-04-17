@@ -112,7 +112,7 @@ public class PDFGenerator {
 		int spacing = 5;
 		BufferedImage img = new BufferedImage(rect.width, (rect.height+spacing)*numPages-spacing, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = img.createGraphics();
-		g.setColor(Color.GRAY);
+		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		for(int i=0; i<numPages; i++) {
 			g.drawImage(pages[i], 0, i*(rect.height+spacing), rect.width, rect.height, null);
