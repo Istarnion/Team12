@@ -77,7 +77,8 @@ public class TextResources extends ListResourceBundle {
 				{"reverr", "Revenue field is empty"},
 				{"rev", "Revenue"},
 				{"pdferr", " Cannont show finance report.\nDate from/to is missing."},
-				{"pdfdaterr", "From date must be before to date"}
+				{"pdfdaterr", "From date must be before to date"},
+				{"createuser","Save user"}
 
 		};
 	}
