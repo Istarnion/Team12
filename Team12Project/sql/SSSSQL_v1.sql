@@ -85,18 +85,19 @@ CREATE TABLE business(
 business_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 business_name VARCHAR(30),
 business_name_dmp VARCHAR(30),
+address VARCHAR(30),
+zipcode INTEGER(4) ZEROFILL,
 email VARCHAR(30),
 telephone INTEGER,
 opening_hours INTEGER,
-text_description VARCHAR(1000)
+text_description VARCHAR(1000),
+CONSTRAINT business_FK FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)
 );
 -- ENGINE = InnoDB;
 
 CREATE TABLE shoppingcentre(
 centre_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 business_id INTEGER,
-address VARCHAR(30),
-zipcode INTEGER(4) ZEROFILL,
 parking_spaces INTEGER,
 CONSTRAINT shoppingcentre_FK FOREIGN KEY (business_id) REFERENCES business (business_id),
 CONSTRAINT business FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)

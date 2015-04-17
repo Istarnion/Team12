@@ -8,7 +8,11 @@ public class Business {
 	
 	private String businessName;
 	
+	private String description;
+	
 	private EmailAddress email;
+	
+	private Address address;
 	
 	private int telephone;
 	
@@ -16,12 +20,14 @@ public class Business {
 
 	public Business(
 			int businessId, String businessName,
-			EmailAddress email, int telephone, int openingHours) {
+			EmailAddress email, int telephone, int openingHours, String description, Address address) {
 		this.businessId = businessId;
 		this.businessName = businessName;
 		this.email = email;
 		this.telephone = telephone;
 		this.openingHours = openingHours;
+		this.description = description;
+		this.address = address;
 	}
 
 	public String getBusinessnameDmp() {
@@ -64,6 +70,22 @@ public class Business {
 		return businessId;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@Override
 	public String toString() {
 		return businessName;

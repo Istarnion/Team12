@@ -79,7 +79,7 @@ public class TextResources extends ListResourceBundle {
 				{"lastname","Last name"},
 				{"adr","Address"},
 				{"zip","Zip code"},
-				{"tel","phone"},
+				{"tel","Phone"},
 				{"sal","Salary"},
 				{"reverr", "Revenue field is empty"},
 				{"rev", "Revenue"},

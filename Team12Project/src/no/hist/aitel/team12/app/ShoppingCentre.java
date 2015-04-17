@@ -10,26 +10,21 @@ public class ShoppingCentre extends Business {
 	public final int centreId;
 
 	private int parkingSpaces;
-
-	private String description;
 	
 	private Building[] buildings;
 
 	private int numBuildings;
 	
-	private Address address;
 	
 	public ShoppingCentre(
 			int businessId, String businessName, Address address,
 			EmailAddress email, int telephone, int openingHours,
 			int centreId, int parkingSpaces, String description) {
 
-		super(businessId, businessName, email, telephone, openingHours);
+		super(businessId, businessName, email, telephone, openingHours, description, address);
 
 		this.centreId = centreId; 
 		this.parkingSpaces = parkingSpaces;
-		this.description = description;
-		this.address = address;
 	}
 
 	public int getParkingSpaces() {
@@ -40,13 +35,6 @@ public class ShoppingCentre extends Business {
 		this.parkingSpaces = parkingSpaces;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 	public int getCentreId() {
 		return centreId;
@@ -79,13 +67,6 @@ public class ShoppingCentre extends Business {
 		return null;
 	}
 	
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
 
 	public static ShoppingCentre[] getPopulatedShoppingCentres() {
 		long timestamp = System.currentTimeMillis();

@@ -15,10 +15,10 @@ public class Establishment extends Business {
 	public Establishment(
 			int businessId,	String businessName,	EmailAddress email,
 			int telephone,	int openingHours,		int floorNumber,
-			int establishmentId
+			int establishmentId, String description, Address address
 			) {
 		
-		super(businessId, businessName, email, telephone, openingHours);
+		super(businessId, businessName, email, telephone, openingHours, description, address);
 		
 		this.establishmentId = establishmentId;
 		this.floorNumber = floorNumber;
