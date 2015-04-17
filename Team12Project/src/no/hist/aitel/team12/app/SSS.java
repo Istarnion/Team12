@@ -96,6 +96,8 @@ public class SSS {
 		if(ok) {
 			login.dispose();
 			
+			DataBuffer.setup(2, 2, id, id);
+			
 			setupWindow(id, username);
 		}
 		

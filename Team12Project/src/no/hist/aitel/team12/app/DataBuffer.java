@@ -20,15 +20,15 @@ import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 
 /**
- * This class creates a separate thread and continously pulls data from the db, causing the ShoppingCentre array it provides
- * through <code>getCentres()</code> to generally be up to date with the db.
+ * This class creates a separate thread and continously pulls data from the db, causing the arrays it provides
+ * through <code>getCentres()</code> and <code>getMessages()</code> to generally be up to date with the db.
  * <br>
  * Between each pull from the db, the threads sleeps for a while to avoid killing the server and/or client CPU.
  * 
  * @author Hallgeir
  * @version 1.0
  */
-public class CentreBuffer {
+public class DataBuffer {
 
 	private final long restTime;
 	
@@ -38,12 +38,17 @@ public class CentreBuffer {
 	
 	private ShoppingCentre[][] centreBuffers;
 	
+	private Message[][] messageBuffers;
+	
 	private Thread thread;
 	
-	private final int userID;
+	private final int centreUserID, messageUserID;
 	
-	public CentreBuffer(float restTime, int numBuffers, int userID) {
-		this.userID = userID;
+	private static DataBuffer dataBuffer;
+	
+	private DataBuffer(float restTime, int numBuffers, int userID, int messageUserID) {
+		this.centreUserID = userID;
+		this.messageUserID = messageUserID;
 		if(restTime < 0.5f) {
 			System.out.println("Provided restTime is too small: "+restTime+". Setting to 0.5 seconds");
 			restTime = 0.5f;
@@ -52,43 +57,45 @@ public class CentreBuffer {
 		this.restTime = (long)(restTime*1000.0f);
 		
 		centreBuffers = new ShoppingCentre[numBuffers][];
+		messageBuffers = new Message[numBuffers][];
 		
 		run();
 	}
-	
-	public CentreBuffer(float restTime, int userID) {
-		this(restTime, 2, userID);
-	}
-	
-	public CentreBuffer(int numBuffers, int userID) {
-		this(1.0f, numBuffers, userID);
-	}
-	
-	public CentreBuffer() {
-		this(1.0f, 2, 1);
-	}
 
+	public static void setup(float restTime, int numBuffers, int userID, int messageUserID) {
+		dataBuffer = new DataBuffer(restTime, numBuffers, userID, messageUserID);
+	}
+	
 	private void run() {
 		Database db = DatabaseFactory.getDatabase();
 		
-		thread = new Thread("CentreBufferThread") {
+		thread = new Thread("DataBufferThread") {
 			@Override
 			public void run() {
 				ShoppingCentre[] carray;
+				Message[] marray;
+				
+				String username = db.getUsername(messageUserID);
 				while(!this.isInterrupted()) {
-					carray = db.getShoppingCentres(userID);
+					carray = db.getShoppingCentres(centreUserID);
 					if(carray == null) break;
-					centreBuffers[currentIndex++] = carray;
+					centreBuffers[currentIndex] = carray;
+					
+					marray = db.getMessages(username);
+					if(marray == null) break;
+					messageBuffers[currentIndex] = marray;
+					
+					currentIndex++;
 					if(currentIndex >= centreBuffers.length) currentIndex = 0;
 					safePointer++;
 					if(safePointer >= centreBuffers.length) safePointer = 0;
+					
 					try {
 						Thread.sleep(restTime);
 					}
 					catch(InterruptedException e) {
 						System.out.println("Buffering thread was interrupted!\n\t"+e.getMessage());
 					}
-					
 				}
 			}
 		};
@@ -101,9 +108,25 @@ public class CentreBuffer {
 	 * 
 	 * @return An array of shopping centres, fully populated. Null if no buffer is ready yet.
 	 */
-	public ShoppingCentre[] getCentres() {
-		if(safePointer >= 0) {
-			return centreBuffers[safePointer];
+	public static ShoppingCentre[] getCentres() {
+		if(dataBuffer == null) return null;
+		if(dataBuffer.safePointer >= 0) {
+			return dataBuffer.centreBuffers[dataBuffer.safePointer];
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Finds the most up to date, safe buffer of shopping centres
+	 * 
+	 * @return An array of shopping centres, fully populated. Null if no buffer is ready yet.
+	 */
+	public static Message[] getMessages() {
+		if(dataBuffer == null) return null;
+		if(dataBuffer.safePointer >= 0) {
+			return dataBuffer.messageBuffers[dataBuffer.safePointer];
 		}
 		else {
 			return null;

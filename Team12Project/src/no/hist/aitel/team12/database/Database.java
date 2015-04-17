@@ -61,6 +61,14 @@ public interface Database {
 	public int getUserID(String username);
 	
 	/**
+	 * Method for retrieving the username through the userID. Using ints for comparisons are more reliable than Strings.
+	 * 
+	 * @param userID	The ID of the user
+	 * @return			The username corresponding to the ID
+	 */
+	public String getUsername(int userID);
+	
+	/**
 	 * Finds the hashed and salted password for the user indicated by the user ID.
 	 * Use the PasswordManager class to validate passwords.
 	 * 
@@ -93,22 +101,6 @@ public interface Database {
 	 * @return			The related shopping centres
 	 */
 	public ShoppingCentre[] getShoppingCentres(int userID);
-	
-	/**
-	 * Retrieves an array of all shopping centres in the database. <br>
-	 * Note that they are not initialized with buildings (and thus neither with shops).
-	 * This can be done using the getBuildingData() method.
-	 * 
-	 * @return An array of shoppingCentres, containing every centre in the database
-	 */
-	public ShoppingCentre[] getShoppingCentreData();
-	
-	/**
-	 * Fills the given centres with building data. The buildings are populated with associated establishments.
-	 * 
-	 * @param centres The centres that needs to be populated with data.
-	 */
-	public void getBuildingData(ShoppingCentre[] centres);
 	
 	/**
 	 * Retrieves all establishment in a certain building
@@ -183,4 +175,7 @@ public interface Database {
 	 */
 	public boolean createPersonnel	(String firstName, String lastName, String address, int zipCode, 
 			String email, int telephone, int sallary, String title, int centreID);
+	
+	
+	public boolean sendMessage (String sender, String reciever, String content, String subject);
 }

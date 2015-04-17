@@ -101,7 +101,13 @@ public class Message {
 		return subject;
 	}
 
-
+	public static boolean sendMessage(String sender, String reciever, String content,
+			String subject) {
+		Database db = DatabaseFactory.getDatabase();
+		db.sendMessage(sender, reciever, content, subject);
+		
+		return true;
+	}
 	
 	
 }

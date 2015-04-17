@@ -9,17 +9,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.util.Text;
 
@@ -32,46 +36,49 @@ public class MessageTab extends SSSTab {
 	private JTabbedPane inboxArea = new JTabbedPane();
 
 	private JPanel inboxPanel, outboxPanel, trashPanel;
-	
+
 	private JPanel comboArea = new JPanel();
-	
+
 	private JPanel viewMessagePanel = new JPanel();
-	
+
 	private JTextArea viewMessageText;
-	
+
 	private JScrollPane viewMessageScroll;
-	
+
 	private JPanel sendMessagePanel = new JPanel();
-	
+
 	private JTextArea sendMessageText;
-	
+
 	private JScrollPane sendMessageScroll;
-	
+
 	private JTextField
-		subject, subjectto,
-		from, to;
-	
+	subject, subjectto,
+	from, to;
+
 	private Message[] messages;
-	
+
 	private ArrayList<Message> outbox;
-	
+
 	private ArrayList<Message> inbox;
-	
+
 	private ArrayList<Message> trash;
 
 	//private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
 
 	private JList<Message> inboxList, outboxList, trashList;
-	
+
 	private JScrollPane scrollInbox, scrollOutbox, scrollTrash;
-	
+
+	private String username;
+
 	public MessageTab(String username) {
-		
+		this.username = username;
+
 		outbox	= new ArrayList<Message>();
 		inbox	= new ArrayList<Message>();
 		trash	= new ArrayList<Message>();
 
-		messages = Message.getUserMessages(username);
+		messages = DataBuffer.getMessages();
 		for(Message m : messages) {
 			if(m.isDeleted()) {
 				trash.add(m);
@@ -83,40 +90,54 @@ public class MessageTab extends SSSTab {
 				inbox.add(m);
 			}
 		}
+
+		setupGUI();
 		
+		Timer timer = new Timer(5000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				refresh();
+			}
+			
+		});
+		timer.start();
+	}
+
+	private void setupGUI() {
 		inboxArea.setTabPlacement(JTabbedPane.BOTTOM);
-		
+
 		inboxList = new JList<Message>(inbox.toArray(new Message[outbox.size()]));
 		inboxList.addListSelectionListener(new inboxListner());
-		
+
 		scrollInbox = new JScrollPane(inboxList);
-		
+
 		inboxPanel = new JPanel();
 		inboxPanel.setLayout(new BorderLayout());
 		inboxPanel.add(scrollInbox,BorderLayout.CENTER);
-		
+
 		outboxList = new JList<Message> (outbox.toArray(new Message[outbox.size()]));
 		outboxList.addListSelectionListener(new inboxListner());
-		
+
 		scrollOutbox = new JScrollPane(outboxList);
-		
+
 		outboxPanel = new JPanel();
 		outboxPanel.setLayout(new BorderLayout());
 		outboxPanel.add(scrollOutbox, BorderLayout.CENTER);
-		
+
 		trashList = new JList<Message> (trash.toArray(new Message[outbox.size()]));
 		trashList.addListSelectionListener(new inboxListner());
-		
+
 		scrollTrash = new JScrollPane(trashList);
-		
+
 		trashPanel = new JPanel();
 		trashPanel.setLayout(new BorderLayout());
 		trashPanel.add(scrollTrash, BorderLayout.CENTER);
-		
+
 		inboxArea.add(inboxPanel, "inbox");
 		inboxArea.add(outboxPanel, "outbox");
 		inboxArea.add(trashPanel, "trash");
-		
+
 		setLayout(new BorderLayout());
 		add(inboxArea,BorderLayout.WEST);
 
@@ -163,7 +184,7 @@ public class MessageTab extends SSSTab {
 					subjectto.setText("RE: "+subject.getText());
 				}
 			}
-			
+
 		});
 		constraintsViewMsg.gridx = 1;
 		constraintsViewMsg.gridy = 0;
@@ -218,6 +239,23 @@ public class MessageTab extends SSSTab {
 
 		// Button for replying to message
 		JButton send = new JButton(Text.getString("send"));
+		send.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(Message.sendMessage(username, to.getText(), sendMessageText.getText(), subjectto.getText())) {
+					JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
+				}
+				else {
+					// Log error
+				}
+				to.setText("");
+				sendMessageText.setText("");
+				subjectto.setText("");
+				refresh();
+			}
+		});
+
 		constraintsSendMsg.gridx = 1;
 		constraintsSendMsg.gridy = 0;
 		constraintsSendMsg.gridwidth = 1;
@@ -247,9 +285,8 @@ public class MessageTab extends SSSTab {
 		constraintsSendMsg.fill = GridBagConstraints.BOTH;
 		sendMessagePanel.add(sendMessageScroll, constraintsSendMsg);
 		sendMessageText.setEditable(true);
-
 	}
-
+	
 	// LISTNERS
 
 	private class inboxListner implements ListSelectionListener{
@@ -269,9 +306,27 @@ public class MessageTab extends SSSTab {
 
 	@Override
 	public void refresh() {
+		DefaultListModel<Message> inboxModel = new DefaultListModel<Message>();
+		DefaultListModel<Message> outboxModel = new DefaultListModel<Message>();
+		DefaultListModel<Message> trashModel = new DefaultListModel<Message>();
+
+		messages = DataBuffer.getMessages();
+		for(Message m : messages) {
+			if(m.isDeleted()) {
+				trashModel.addElement(m);
+			}
+			else if(m.getSender().equals(username)) {
+				outboxModel.addElement(m);
+			}
+			else {
+				inboxModel.addElement(m);
+			}
+		}
+
+
+		inboxList.setModel(inboxModel);
+		outboxList.setModel(outboxModel);
+		trashList.setModel(trashModel);
 	}
-
-
-
 }
 

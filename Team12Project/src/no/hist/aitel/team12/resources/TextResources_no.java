@@ -64,7 +64,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"spdf", "Vis PDF"},
 				{"svpdf", " Lagre PDF"},
 				{"newuser", "Ny bruker"},
-				{"edituser", "Endre bruker"}
+				{"edituser", "Endre bruker"},
+				{"regsub", "SuperShoppingSurfer - Ny bruker registrert "},
+				{"msgConfirmation", "Meldingen er sendt"}
 		};
 	}
 }

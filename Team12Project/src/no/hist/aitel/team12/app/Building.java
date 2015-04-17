@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 public class Building {
 
-	private int building_id;
+	private int buildingId;
 	
-	private String building_name;
+	private String buildingName;
 	
 	private int floors;
 	
@@ -15,23 +15,23 @@ public class Building {
 
 	private int numEstablishments;
 	
-	public Building(int building_id, String building_name, int floors) {
+	public Building(int buildingId, String buildingName, int floors) {
 		super();
-		this.building_id = building_id;
-		this.building_name = building_name;
+		this.buildingId = buildingId;
+		this.buildingName = buildingName;
 		this.floors = floors;
 	}
 
-	public String getBuilding_name() {
-		return building_name;
+	public String getBuildingName() {
+		return buildingName;
 	}
 
-	public void setBuilding_name(String building_name) {
-		this.building_name = building_name;
+	public void setBuildingName(String buildingName) {
+		this.buildingName = buildingName;
 	}
 
-	public int getBuilding_id() {
-		return building_id;
+	public int getBuildingId() {
+		return buildingId;
 	}
 
 	public int getFloors() {
@@ -60,6 +60,6 @@ public class Building {
 	
 	@Override
 	public String toString() {
-		return building_name;
+		return buildingName;
 	}
 }

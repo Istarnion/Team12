@@ -1,15 +1,31 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * PDFGenerator.java Team 12, 17 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.app;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-
-
-
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
@@ -18,9 +34,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
-
-
-
 
 /**
  * This class takes the information from the Report class and generate a .pdf file
@@ -31,59 +44,81 @@ import com.sun.pdfview.PDFPage;
  *
  */
 
-
 public class PDFGenerator {
 
-
 	public static void generatePDF(){
-
 
 		Document document = new Document();
 		document.setPageSize(PageSize.A4);
 
-		try{
-			PdfWriter.getInstance(document, new FileOutputStream("budgetdoc.pdf"));
+		try(FileOutputStream fos = new FileOutputStream("budgetdoc.pdf")) {
+			PdfWriter writer = PdfWriter.getInstance(document, fos);
 
 			document.open();
 			//Watermark
-			Image image1 = Image.getInstance("Resources/images/watermark1.png");
-			image1.scaleToFit(PageSize.A4);
-			document.add(image1);
+			Image image = Image.getInstance("Resources/images/watermark1.png");
+			image.scaleToFit(PageSize.A4);
+			document.add(image);
 			// adds report generated in Report class 
 			Paragraph paragraph = new Paragraph();
 			paragraph.add("This is a test 1");
 			document.add(paragraph);
 			document.close();
-		} catch (Exception e){
+
+			writer.close();
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public static java.awt.Image showPDF() {
+		File file = new File ("budgetdoc.pdf");
+		Rectangle rect = null;
+		int numPages = 0;
+		java.awt.Image[] pages = null;
+
+		try(
+				RandomAccessFile raf = new RandomAccessFile(file, "r");
+				FileChannel channel = raf.getChannel();
+				) {
+
+			ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+			PDFFile pdffile = new PDFFile(buf);
+
+			numPages = pdffile.getNumPages();
+			pages = new java.awt.Image[numPages];
+			PDFPage page;
+			rect = null;
+			for(int i=0; i<numPages; i++) {
+				page = pdffile.getPage(i);
+				rect = new Rectangle(
+						0,0,
+						(int)page.getBBox().getWidth(),
+						(int)page.getBBox().getHeight());
+				pages[i] = page.getImage(
+						rect.width, rect.height, //width & height
+						rect, // clip rect
+						null, // null for the ImageObserver
+						true, // fill background with white
+						true  // block until drawing is done
+						);
+			}
+		}
+		catch(IOException e) {
 			e.printStackTrace();
 		}
 
+		int spacing = 5;
+		BufferedImage img = new BufferedImage(rect.width, (rect.height+spacing)*numPages-spacing, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = img.createGraphics();
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(0, 0, img.getWidth(), img.getHeight());
+		for(int i=0; i<numPages; i++) {
+			g.drawImage(pages[i], 0, i*(rect.height+spacing), rect.width, rect.height, null);
+		}
+		g.dispose();
 
-	}
-
-	public static java.awt.Image showPDF() throws IOException{
-		
-		File file = new File ("budgetdoc.pdf");
-		RandomAccessFile raf = new RandomAccessFile(file, "r");
-		FileChannel channel = raf.getChannel();
-		ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
-		PDFFile pdffile = new PDFFile(buf);
-
-		PDFPage page = pdffile.getPage(0);
-		
-		
-		Rectangle rect = new Rectangle(0,0,
-				(int)page.getBBox().getWidth(),
-				(int)page.getBBox().getHeight());
-
-		java.awt.Image img = page.getImage(
-				rect.width, rect.height, //width & height
-				rect, // clip rect
-				null, // null for the ImageObserver
-				true, // fill background with white
-				true  // block until drawing is done
-				);
-		channel.close();
 		return img;
 
 	}

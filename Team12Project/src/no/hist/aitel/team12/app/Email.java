@@ -1,5 +1,22 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Email.java Team 12, 17 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.app;
 
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -7,7 +24,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
+
+import no.hist.aitel.team12.util.Text;
+mport no.hist.aitel.team12.util.Text;
 
 /*
  * This class takes use of the Java Mail library to send mails from in
@@ -15,66 +34,63 @@ import javax.mail.internet.MimeMessage.RecipientType;
  * 
  * @ Andreas
  * @ Version 1.0
- * 
  */
-
-
 public class Email {
-	
-	public static boolean sendMail (String from, String password,String message, String to[]){
-		String host = "smtp.gmail.com";
+
+	private static final String FROM = "supershoppingsurfer@gmail.com";
+	private static final String PASSWORD = "teamadmin12";
+	private static final String SUBJECT = Text.getString("regsub");
+	private static final String HOST = "smtp.gmail.com";
+
+	/**
+	 * Sends a mail to a new user. The subject line is constant, but the content can be whatever is sent in here.
+	 * 
+	 * @param message	A string containing the message to be sent.
+	 * @param toAddress	The target email address.
+	 */
+	public static void sendEmail(String message, String toAddress) { 
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable","true");
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.user", from);
-		props.put("mail.smtp.password", password);
-		props.put("mail.smtp.port",587);
+		props.setProperty("mail.transport.protocol", "smtp");
+		props.setProperty("mail.host", HOST);
+
 		props.put("mail.smtp.auth", "true");
-		Session session =  Session.getDefaultInstance(props,null);
-		MimeMessage mimeMessage = new MimeMessage(session);
-		
-		try{
-		mimeMessage.setFrom(new InternetAddress(from));
-		InternetAddress [] toAddress =  new InternetAddress[to.length];
-		
-		for(int i=0; i<to.length; i++){
-			toAddress [i] = new InternetAddress(to[i]);
+		props.put("mail.smtp.port",587);
+		props.setProperty("mail.user",FROM);
+		props.setProperty("mail.password",PASSWORD);
+
+		Session session = Session.getDefaultInstance(props,null);
+		session.setDebug(true);
+
+		Transport transport = null;
+		try {
+			transport = session.getTransport("smtp");
+
+			MimeMessage msg = new MimeMessage(session);
+			msg.setSentDate(new Date());
+			msg.setSubject(SUBJECT);
+			msg.setFrom(new InternetAddress(FROM));
+			msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(toAddress));
+			msg.setText(message);
+
+
+			transport.connect(HOST,FROM,PASSWORD);
+			transport.sendMessage(msg, msg.getRecipients(javax.mail.Message.RecipientType.TO));
+			transport.close();
 		}
-		
-		for (int i=0; i<toAddress.length; i++){
-			mimeMessage.addRecipient(RecipientType.TO, toAddress[i]);
+		catch(MessagingException e) {
+			e.printStackTrace();
 		}
-		// add subject
-		mimeMessage.setSubject("mail using javamail api");
-		//set message to mimeMessage
-		mimeMessage.setText(message);
-		Transport transport =  session.getTransport("smtp");
-		transport.connect(host,from,password);
-		transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
-		transport.close();
-		return true;
-		}catch(MessagingException me){
-			me.printStackTrace();		
+		finally {
+			if(transport != null) {
+				try {
+					transport.close();
+				}
+				catch(MessagingException e) {
+					System.err.println("Failed to close the mail Transport.");
+					e.printStackTrace();
+				}
+			}
 		}
-		
-		return false;
 	}
-
-
-	   public static void main(String [] args)  { 
-		   String [] to =  {"andy_8795@hotmail.com","anbors@outlook.com"};
-		   if(Email.sendMail
-				   ("andreasborsheim91@gmail.com",
-						   "**Password**",
-						   " Dette er en test på bruk av javamail", 
-						   to)){
-			   System.out.println("Email sent !!");
-		   }else{
-			   System.out.println("Some error occurred ");
-		   }
-						   
-	   }
-	}
-	
-	
-
+}
