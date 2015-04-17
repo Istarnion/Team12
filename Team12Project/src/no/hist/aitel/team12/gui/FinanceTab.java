@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -205,20 +207,35 @@ public class FinanceTab extends SSSTab {
 
 			}
 			else{
-				JFileChooser fileSaver = new JFileChooser(); 
-				int returnVal = fileSaver.showOpenDialog(null);
-				if(returnVal == JFileChooser.APPROVE_OPTION){
-					File outFile = fileSaver.getSelectedFile();
-					if(outFile!=null){
-						
-					}
-				
+				try {
+					OutputWrite(getSaveLocation());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				System.out.println("Save pdf button pressed");
+				
 			}
-
+			System.out.println("Save pdf button pressed");
 		}
 
+	}
+
+
+	 File getSaveLocation() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);  
+		int result = chooser.showSaveDialog(this);
+
+		if (result == JFileChooser.APPROVE_OPTION) { 
+			return chooser.getSelectedFile();
+		} else {
+			return null;
+		}
+	}
+
+	public void OutputWrite(File saveLocation)throws FileNotFoundException {
+		PrintWriter file = 
+				new PrintWriter(new File(saveLocation, "budgetdoc.pdf"));
 	}
 
 	@Override
