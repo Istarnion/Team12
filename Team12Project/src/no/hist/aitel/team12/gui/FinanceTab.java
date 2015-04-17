@@ -169,7 +169,7 @@ public class FinanceTab extends SSSTab {
 						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, Text.getString("pdfdaterr"));
+					JOptionPane.showMessageDialog(null, Text.getString("pdferr"));
 				}
 
 			}
@@ -200,7 +200,7 @@ public class FinanceTab extends SSSTab {
 						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, Text.getString("ravdaterr"));
+					JOptionPane.showMessageDialog(null, Text.getString("revdaterr"));
 				}
 
 			}
