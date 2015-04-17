@@ -67,9 +67,19 @@ public class TextResources extends ListResourceBundle {
 				{"edituser", "Edit User"},
 				{"regsub", "SuperShoppingSurfer - New user created"},
 				{"msgConfirmation", "The message has been sent"},
+				{"firstname","First name"},
+				{"lastname","Last name"},
+				{"adr","Address"},
+				{"zip","Zip code"},
+				{"email","Email address"},
+				{"tel","phone"},
+				{"sal","Salary"},
 				{"reverr", "Revenue field is empty"},
-				{"rev", "Revenue"}
-
+				{"rev", "Revenue"},
+				{"revdaterr", "Could not register revenue.\nDate from/to is missing."},
+				{"pdferr", " Cannont show finance report.\nDate from/to is missing."},	
+				{"daterr", "From date must be before to date"},
+				{"createuser","Save user"}
 		};
 	}
 }

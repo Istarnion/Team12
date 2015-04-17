@@ -67,8 +67,19 @@ public class TextResources_no extends ListResourceBundle {
 				{"edituser", "Endre bruker"},
 				{"regsub", "SuperShoppingSurfer - Ny bruker registrert "},
 				{"msgConfirmation", "Meldingen er sendt"},
+				{"firstname","Fornavn"},
+				{"lastname","Etternavn"},
+				{"adr","Adresse"},
+				{"zip","Postboks"},
+				{"email","Epostadresse"},
+				{"tel","Telefon"},
+				{"sal","Lønn"},
 				{"reverr", " Ingen fortjeneste er skrevet inn"},
-				{"rev", "Fortjeneste"}
+				{"rev", "Fortjeneste"},
+				{"revdaterr", "Kan ikke registrere fortjeneste.\nDato fra/til mangler."},
+				{"pdferr", "Kan ikke vise finansrapport.\nDato fra/til er ikke valgt"},
+				{"daterr", "Fra dato må være før til dato"},
+				{"createuser","Lagre bruker"}
 		};
 	}
 }
