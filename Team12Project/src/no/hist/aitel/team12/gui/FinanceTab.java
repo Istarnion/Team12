@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.app.PDFGenerator;
@@ -155,6 +156,7 @@ public class FinanceTab extends SSSTab {
 			String buttonName = pressedButton.getText();
 
 			if(buttonName.equals(Text.getString("spdf"))){
+
 				if(pdfFromDate.getDate()!=null && pdfToDate.getDate()!=null){
 					Calendar pdfCalF = Calendar.getInstance();
 					Calendar pdfCalT = Calendar.getInstance();
@@ -162,11 +164,29 @@ public class FinanceTab extends SSSTab {
 					pdfCalT.setTime(pdfToDate.getDate());
 
 					if(pdfCalF.before(pdfCalT)||pdfCalF.equals(pdfCalT)){
-						PDFGenerator.generatePDF();
-						Image img = PDFGenerator.showPDF();
-						pdfLabel.setIcon(new ImageIcon(img));
-						pdfLabel.repaint();
-						System.out.println("Show PDF trykket");
+						SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+
+							@Override
+							protected Void doInBackground() throws Exception {
+								PDFGenerator.generatePDF();
+								Image img = PDFGenerator.showPDF();
+								pdfLabel.setIcon(new ImageIcon(img));
+								pdfLabel.repaint();
+								return null;
+							}
+							
+							@Override
+							protected void done() {
+								pressedButton.setText(Text.getString("spdf"));
+								pressedButton.setEnabled(true);
+							}
+							
+						};
+						pressedButton.setText(Text.getString("generating"));
+						pressedButton.setEnabled(false);
+						worker.execute();
+
+
 					}else{
 						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 					}

@@ -66,8 +66,6 @@ public class MessageTab extends SSSTab {
 
 	private ArrayList<Message> trash;
 
-	//private static final String [] meldinger ={"Kalle Kallesen - Årsfest brio", "James Bond - Nattåpent desember", "Dr. Dre - styremøte kommende torsdag"," Kari UtenTraaa - Åpningstider i julen", "Lols Mc. Lolsen - test blalalbv","Kaptein Sabeltann -test slutt"};
-
 	private JList<Message> inboxList, outboxList, trashList;
 
 	private JScrollPane scrollInbox, scrollOutbox, scrollTrash;

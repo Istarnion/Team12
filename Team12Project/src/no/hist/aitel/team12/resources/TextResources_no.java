@@ -86,7 +86,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"revdaterr", "Kan ikke registrere fortjeneste.\nDato fra/til mangler."},
 				{"pdferr", "Kan ikke vise finansrapport.\nDato fra/til er ikke valgt"},
 				{"daterr", "Fra dato må være før til dato"},
-				{"createuser","Lagre bruker"}
+				{"createuser","Lagre bruker"},
+				{"generating", "Genererer ..."}
 		};
 	}
 }

@@ -34,9 +34,9 @@ public class EstablishmentCard extends JPanel {
 		buttonListener 		= new ButtonListener();
 		
 		businessNameLabel	= new JLabel(Text.getString("businessName") + ": ");
-		addressLabel		= new JLabel(Text.getString("address") + ": ");
+		addressLabel		= new JLabel(Text.getString("adr") + ": ");
 		emailLabel			= new JLabel(Text.getString("email") + ": ");
-		telephoneLabel		= new JLabel(Text.getString("telephone") + ": ");
+		telephoneLabel		= new JLabel(Text.getString("tel") + ": ");
 		openingHrsLabel		= new JLabel(Text.getString("openingHrs") + ": ");
 		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ");
 		

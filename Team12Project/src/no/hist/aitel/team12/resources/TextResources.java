@@ -86,7 +86,8 @@ public class TextResources extends ListResourceBundle {
 				{"revdaterr", "Could not register revenue.\nDate from/to is missing."},
 				{"pdferr", " Cannont show finance report.\nDate from/to is missing."},	
 				{"daterr", "From date must be before to date"},
-				{"createuser","Save user"}
+				{"createuser","Save user"},
+				{"generating", "Generating ..." }
 
 		};
 	}
