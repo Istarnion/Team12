@@ -69,7 +69,7 @@ public class DataBuffer {
 	private void run() {
 		Database db = DatabaseFactory.getDatabase();
 		
-		thread = new Thread("CentreBufferThread") {
+		thread = new Thread("DataBufferThread") {
 			@Override
 			public void run() {
 				ShoppingCentre[] carray;

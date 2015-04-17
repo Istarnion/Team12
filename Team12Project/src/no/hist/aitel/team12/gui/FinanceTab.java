@@ -6,10 +6,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -149,19 +147,16 @@ public class FinanceTab extends SSSTab {
 			
 			if(buttonName.equals(Text.getString("spdf"))){
 				PDFGenerator.generatePDF();
-				try {
-					Image img = PDFGenerator.showPDF();
-					pdfLabel.setIcon(new ImageIcon(img));
-					pdfLabel.repaint();
-					System.out.println("Show PDF trykket");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if(buttonName.equals(Text.getString("reg"))){
+				Image img = PDFGenerator.showPDF();
+				pdfLabel.setIcon(new ImageIcon(img));
+				pdfLabel.repaint();
+				System.out.println("Show PDF trykket");
+			}
+			else if(buttonName.equals(Text.getString("reg"))){
 				
 				System.out.println("Register Revenue button pressed");
-			}else{
+			}
+			else{
 				JFileChooser fileSaver = new JFileChooser(); 
 				int returnVal = fileSaver.showOpenDialog(null);
 				if(returnVal == JFileChooser.APPROVE_OPTION){
