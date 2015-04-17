@@ -627,7 +627,7 @@ public class DatabaseConnection implements Database {
 	public boolean sendMessage(String sender, String reciever, String content, String subject) {
 
 		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO message (sender, reciever, content, subject, timestamp) VALUES (?, ?, ?, ?, NOW())")) {
-		
+			
 			connection.setAutoCommit(false);
 			
 			statement.setString(1, sender);
@@ -636,15 +636,17 @@ public class DatabaseConnection implements Database {
 			statement.setString(4, subject);
 			
 			statement.executeUpdate();
+			
 			connection.commit();
 			connection.setAutoCommit(true);
 		} 
 		
 		catch (SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
 		
-		return false;
+		return true;
 	}
 	
 }
