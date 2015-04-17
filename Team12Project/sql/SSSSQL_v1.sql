@@ -1,4 +1,4 @@
-use supershoppingsurfer_bronze;
+use supershoppingsurfer_silver;
 
 SET foreign_key_checks = 0;
 
@@ -24,7 +24,8 @@ personnel
 ;
 
 DROP VIEW IF EXISTS 
-centres_view
+centres_view,
+establishment_view
 ;
 
 SET foreign_key_checks = 1;
@@ -208,8 +209,14 @@ CONSTRAINT message_FK_reciever FOREIGN KEY (reciever) REFERENCES user (username)
 
 
 -- Creating views
-CREATE VIEW centres_view AS SELECT * FROM shoppingcentre LEFT JOIN business USING (business_id) LEFT JOIN zipcode USING (zipcode) LEFT JOIN municipality USING (municipality_id) LEFT JOIN county USING (county_id);
-
+CREATE VIEW centres_view AS (
+	SELECT * 
+    FROM shoppingcentre 
+    LEFT JOIN business USING (business_id) 
+    LEFT JOIN zipcode USING (zipcode) 
+    LEFT JOIN municipality USING (municipality_id) 
+    LEFT JOIN county USING (county_id)
+);
 CREATE VIEW establishment_view AS (
 	SELECT e.business_id, business_name, email, telephone, opening_hours, floor_number, establishment_id, centre_id, building_id
 	FROM establishment e

@@ -66,7 +66,17 @@ public class TextResources extends ListResourceBundle {
 				{"newuser", "New User"},
 				{"edituser", "Edit User"},
 				{"regsub", "SuperShoppingSurfer - New user created"},
-				{"msgConfirmation", "The message has been sent"}
+				{"msgConfirmation", "The message has been sent"},
+				{"businessName", "Business name"},
+				{"email", "Email"},
+				{"telephone", "Telephone"},
+				{"openingHrs", "Opening Hours"},
+				{"address", "Address"},
+				{"textDescription", "Description"},
+				{"edit", "Edit"},
+				{"save", "Save"},
+				{"nrOfFloors", "Number of floors"},
+				{"area", "Areal"}
 
 		};
 	}

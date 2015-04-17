@@ -66,7 +66,17 @@ public class TextResources_no extends ListResourceBundle {
 				{"newuser", "Ny bruker"},
 				{"edituser", "Endre bruker"},
 				{"regsub", "SuperShoppingSurfer - Ny bruker registrert "},
-				{"msgConfirmation", "Meldingen er sendt"}
+				{"msgConfirmation", "Meldingen er sendt"},
+				{"businessName", "Foretningsnavn"},
+				{"email", "E-post"},
+				{"telephone", "Telefon"},
+				{"openingHrs", "Åpningstider"},
+				{"address", "Adresse"},
+				{"textDescription", "Beskrivelse"},
+				{"edit", "Rediger"},
+				{"save", "Lagre"},
+				{"nrOfFloors", "Antall etasjer"},
+				{"area", "Area"}
 		};
 	}
 }

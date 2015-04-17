@@ -26,7 +26,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import no.hist.aitel.team12.util.Text;
-mport no.hist.aitel.team12.util.Text;
 
 /*
  * This class takes use of the Java Mail library to send mails from in
