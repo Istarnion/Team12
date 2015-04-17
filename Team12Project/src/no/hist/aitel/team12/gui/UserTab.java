@@ -1,71 +1,104 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-//import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import no.hist.aitel.team12.database.*;
+import no.hist.aitel.team12.util.Text;
+
+//import javax.swing.JList;
+/**
+ * 
+ * @author Roger
+ *
+ */
 
 public class UserTab extends SSSTab {
 
 	private static final long serialVersionUID = -445246322816259272L;
 	
-	private JButton newUser = new JButton("New User");	
-	private JButton editUser = new JButton("Edit User");
+	private JButton newUser = new JButton(Text.getString("newuser"));	
+	private JButton editUser = new JButton(Text.getString("edituser"));
 	//private JList<?> centerList;
-
-	private JPanel buttonPanel;
+	JLabel header = new JLabel("Username");
 	
-	private JTextArea userTable;
+	InputField firstName = new InputField(Text.getString("firstname"), 20);
+	InputField lastName = new InputField(Text.getString("lastname"), 20);
+	InputField address = new InputField(Text.getString("adr"), 20);
+	InputField zipCode = new InputField(Text.getString("zip"), 4);
+	InputField electronicmail = new InputField(Text.getString("email"), 30);
+	InputField telephone = new InputField(Text.getString("tel"), 12);
+	InputField salary = new InputField(Text.getString("sal"), 20);
+	InputField username = new InputField(Text.getString("usr"), 20);
+	InputField password = new InputField(Text.getString("pwd"), 20);
+	JButton createUser = new JButton(Text.getString("createuser"));
+	
+	private JPanel buttonPanel;
 
 	private JTable resultTable;
+	
+	private JPanel mainPanel;
 
 	public UserTab() {
-		this.setLayout(new GridLayout(1,2));
-		buttonPanel = new JPanel();
+		this.setLayout(new BorderLayout());
 		
-		userTable = new JTextArea(1,100);
-		userTable.setEditable(false);
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
 		
+		JPanel topPanel = new JPanel();
+		//header = new JLabel(databaseConnection.getUserID());
+		topPanel.add(header);
+		mainPanel.add(topPanel, BorderLayout.NORTH);
+
+		JPanel uPanel = new JPanel();
+		uPanel.setLayout(new GridLayout(11,3));
+		uPanel.add(firstName);
+		uPanel.add(lastName);
+		uPanel.add(address);
+		uPanel.add(zipCode);
+		uPanel.add(electronicmail);
+		uPanel.add(telephone);
+		uPanel.add(salary);
+		uPanel.add(username);
+		uPanel.add(password);
+		mainPanel.add(uPanel, BorderLayout.CENTER);
+
+		this.add(mainPanel, BorderLayout.CENTER);
+
+		JPanel userPanel = new JPanel();
+		userPanel.setLayout(new BorderLayout());
 		resultTable = new JTable();
 		JScrollPane resultTablePane = new JScrollPane(resultTable);
 		resultTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		userPanel.add(resultTablePane, BorderLayout.CENTER);
 		
-		buttonPanel.setLayout(new GridLayout(3,3));
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(1,2));
 		buttonPanel.add(newUser);		
 		buttonPanel.add(editUser);
-		
-		this.add(resultTablePane);
-		this.add(buttonPanel);
-		
 		ButtonListener buttonListener = new ButtonListener();
 		editUser.addActionListener(buttonListener);
 		newUser.addActionListener(buttonListener);
+		userPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
+		this.add(userPanel, BorderLayout.WEST);
 	}
 	
-	public void setUserTable(DatabaseConnection databaseConnection){
+	public void setUserTable(DatabaseConnection databaseConnection, int userID){
 		
-		
-		//username =  
-		//userID = databaseConnection.getUserID(username);
-		
-		String[][] output = DatabaseFactory.getDatabase().executeQuery(databaseConnection.getUserStatement());
-		
-		userTable.setText(output[0][0]);
-		
-		String[][] content = new String[output.length-1][output[0].length];
-		
-		for(int row=0; row<content.length; row++) {
-			
+		String statement = databaseConnection.getUserStatement(userID);
+		String[][] output = DatabaseFactory.getDatabase().executeQuery(statement);
+		String[][] content = new String[output.length-1][output[0].length];		
+		for(int row=0; row<content.length; row++) {			
 			for(int col=0; col<content[0].length; col++) {
 				content[row][col] = output[row+1][col];
 			}
@@ -74,6 +107,8 @@ public class UserTab extends SSSTab {
 		DefaultTableModel tableModel = new DefaultTableModel(content, output[0]);
 		resultTable.setModel(tableModel);
 		}
+
+		
 		
 		
 	}
@@ -82,11 +117,55 @@ public class UserTab extends SSSTab {
 
 		public void actionPerformed(ActionEvent event) {
 			
+			Database db;
+			
 			JButton button = new JButton();
 			
 			if (button == newUser) {
-		/* ------------------------------Create new user------------------------------------ */ 
+		/* ------------------------------Create new user------------------------------------ */
+				/**
+				 * 
+				 * String firstName;
+				 * String lastName;
+				 * String address;
+				 * int zipCode;
+				 * String email;
+				 * int telephone;
+				 * int salary;
+				 * String username;
+				 * String password;
+				*/
 				
+				DatabaseFactory.setup();
+				db = DatabaseFactory.getDatabase();
+				
+		/* ----------------------- Show the save-button for the saving a new user ----------*/
+				JPanel bottomPanel = new JPanel();
+				bottomPanel.add(createUser);
+				mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+				
+				try {
+					
+					 @SuppressWarnings("unused")
+					Object newUser = db.createUser(
+							firstName.getText(), 
+							lastName.getText(), 
+							address.getText(), 
+							Integer.parseInt(zipCode.getText()), 
+							electronicmail.getText(), 
+							Integer.parseInt(telephone.getText()), 
+							Integer.parseInt(salary.getText()), 
+							username.getText(), 
+							password.getText());
+					 
+					 //User.setUser(newUser);
+					 
+					
+					 
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				
 				
 			}else if (button == editUser) {

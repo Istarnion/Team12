@@ -69,14 +69,24 @@ public class TextResources_no extends ListResourceBundle {
 				{"msgConfirmation", "Meldingen er sendt"},
 				{"businessName", "Foretningsnavn"},
 				{"email", "E-post"},
-				{"telephone", "Telefon"},
 				{"openingHrs", "Åpningstider"},
-				{"address", "Adresse"},
 				{"textDescription", "Beskrivelse"},
 				{"edit", "Rediger"},
 				{"save", "Lagre"},
 				{"nrOfFloors", "Antall etasjer"},
-				{"area", "Area"}
+				{"area", "Area"},
+				{"firstname","Fornavn"},
+				{"lastname","Etternavn"},
+				{"adr","Adresse"},
+				{"zip","Postboks"},
+				{"tel","Telefon"},
+				{"sal","Lønn"},
+				{"reverr", " Ingen fortjeneste er skrevet inn"},
+				{"rev", "Fortjeneste"},
+				{"revdaterr", "Kan ikke registrere fortjeneste.\nDato fra/til mangler."},
+				{"pdferr", "Kan ikke vise finansrapport.\nDato fra/til er ikke valgt"},
+				{"daterr", "Fra dato må være før til dato"},
+				{"createuser","Lagre bruker"}
 		};
 	}
 }

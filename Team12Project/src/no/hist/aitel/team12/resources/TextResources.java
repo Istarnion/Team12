@@ -69,14 +69,24 @@ public class TextResources extends ListResourceBundle {
 				{"msgConfirmation", "The message has been sent"},
 				{"businessName", "Business name"},
 				{"email", "Email"},
-				{"telephone", "Telephone"},
 				{"openingHrs", "Opening Hours"},
-				{"address", "Address"},
 				{"textDescription", "Description"},
 				{"edit", "Edit"},
 				{"save", "Save"},
 				{"nrOfFloors", "Number of floors"},
-				{"area", "Areal"}
+				{"area", "Areal"},
+				{"firstname","First name"},
+				{"lastname","Last name"},
+				{"adr","Address"},
+				{"zip","Zip code"},
+				{"tel","phone"},
+				{"sal","Salary"},
+				{"reverr", "Revenue field is empty"},
+				{"rev", "Revenue"},
+				{"revdaterr", "Could not register revenue.\nDate from/to is missing."},
+				{"pdferr", " Cannont show finance report.\nDate from/to is missing."},	
+				{"daterr", "From date must be before to date"},
+				{"createuser","Save user"}
 
 		};
 	}

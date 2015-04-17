@@ -19,12 +19,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Message;
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
 
 
@@ -92,14 +95,14 @@ public class MessageTab extends SSSTab {
 		}
 
 		setupGUI();
-		
+
 		Timer timer = new Timer(5000, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				refresh();
 			}
-			
+
 		});
 		timer.start();
 	}
@@ -237,22 +240,50 @@ public class MessageTab extends SSSTab {
 		constraintsSendMsg.fill = GridBagConstraints.HORIZONTAL;
 		sendMessagePanel.add(to,constraintsSendMsg);
 
-		// Button for replying to message
+		// Button for sending to message
 		JButton send = new JButton(Text.getString("send"));
 		send.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(Message.sendMessage(username, to.getText(), sendMessageText.getText(), subjectto.getText())) {
-					JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
-				}
-				else {
-					// Log error
-				}
-				to.setText("");
-				sendMessageText.setText("");
-				subjectto.setText("");
-				refresh();
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					boolean messageSent;
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						Database db = DatabaseFactory.getDatabase();
+
+						if(db.isUserInDb(to.getText()) && Message.sendMessage(username, to.getText(), sendMessageText.getText(), subjectto.getText())){
+							JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
+							messageSent = true;
+						}
+						else {
+							JOptionPane.showMessageDialog(null, Text.getString("err"));
+							messageSent = false;
+						}
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						if(messageSent) {
+							to.setText("");
+							sendMessageText.setText("");
+							subjectto.setText("");
+							refresh();
+						}
+						send.setEnabled(true);
+						send.setText(Text.getString("send"));
+					}
+
+				};
+
+
+				send.setEnabled(false);
+				send.setText("sending...");
+				worker.execute();
+
+
 			}
 		});
 
@@ -286,7 +317,7 @@ public class MessageTab extends SSSTab {
 		sendMessagePanel.add(sendMessageScroll, constraintsSendMsg);
 		sendMessageText.setEditable(true);
 	}
-	
+
 	// LISTNERS
 
 	private class inboxListner implements ListSelectionListener{

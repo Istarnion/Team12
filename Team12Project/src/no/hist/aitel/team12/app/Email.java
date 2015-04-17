@@ -27,6 +27,7 @@ import javax.mail.internet.MimeMessage;
 
 import no.hist.aitel.team12.util.Text;
 
+
 /*
  * This class takes use of the Java Mail library to send mails from in
  *  this instance a gmail account.
@@ -47,7 +48,7 @@ public class Email {
 	 * @param message	A string containing the message to be sent.
 	 * @param toAddress	The target email address.
 	 */
-	public static void sendEmail(String message, String toAddress) { 
+	public static void sendEmail(String message, EmailAddress toAddress) { 
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable","true");
 		props.setProperty("mail.transport.protocol", "smtp");
@@ -69,7 +70,7 @@ public class Email {
 			msg.setSentDate(new Date());
 			msg.setSubject(SUBJECT);
 			msg.setFrom(new InternetAddress(FROM));
-			msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(toAddress));
+			msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(toAddress.getEmailAddress()));
 			msg.setText(message);
 
 
