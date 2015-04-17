@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.util.Text;
 
@@ -66,13 +68,16 @@ public class MessageTab extends SSSTab {
 	
 	private JScrollPane scrollInbox, scrollOutbox, scrollTrash;
 	
+	private String username;
+	
 	public MessageTab(String username) {
+		this.username = username;
 		
 		outbox	= new ArrayList<Message>();
 		inbox	= new ArrayList<Message>();
 		trash	= new ArrayList<Message>();
 
-		messages = Message.getUserMessages(username);
+		messages = DataBuffer.getMessages();
 		for(Message m : messages) {
 			if(m.isDeleted()) {
 				trash.add(m);
@@ -286,6 +291,27 @@ public class MessageTab extends SSSTab {
 
 	@Override
 	public void refresh() {
+		DefaultListModel<Message> inboxModel = new DefaultListModel<Message>();
+		DefaultListModel<Message> outboxModel = new DefaultListModel<Message>();
+		DefaultListModel<Message> trashModel = new DefaultListModel<Message>();
+		
+		messages = DataBuffer.getMessages();
+		for(Message m : messages) {
+			if(m.isDeleted()) {
+				trashModel.addElement(m);
+			}
+			else if(m.getSender().equals(username)) {
+				outboxModel.addElement(m);
+			}
+			else {
+				inboxModel.addElement(m);
+			}
+		}
+		
+		
+		inboxList.setModel(inboxModel);
+		outboxList.setModel(outboxModel);
+		trashList.setModel(trashModel);
 	}
 
 

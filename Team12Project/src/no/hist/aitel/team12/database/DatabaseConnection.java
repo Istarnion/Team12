@@ -29,6 +29,8 @@ public class DatabaseConnection implements Database {
 
 			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
 					+ "user=team12&password=teamadmin12");
+			
+			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			connection.setAutoCommit(false);
 
 			ok = testConnection();
@@ -94,7 +96,7 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public ShoppingCentre[] getShoppingCentres(int userID) {
+	public synchronized ShoppingCentre[] getShoppingCentres(int userID) {
 		try {
 			if(connection.isClosed()) return null;
 		} catch (SQLException e1) {
@@ -213,91 +215,6 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public ShoppingCentre[] getShoppingCentreData() {
-		ShoppingCentre[] centres = null;
-		ResultSet result = null;
-		int rows;
-
-		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM centres_view")) {
-
-			result = statement.executeQuery();
-			result.last();
-			rows = result.getRow();
-			result.beforeFirst();
-			centres = new ShoppingCentre[rows];
-
-			for(int i=0; result.next(); i++) {
-				centres[i] = new ShoppingCentre(
-						result.getInt("business_id"), 
-						result.getString("business_name"), 
-						new Address(
-								result.getString("address"),
-								result.getInt("zipcode"),
-								result.getString("municipality_name"),
-								result.getString("county_name")),
-								new EmailAddress(result.getString("email")), 
-								result.getInt("telephone"), 
-								result.getInt("opening_hours"),
-								result.getInt("centre_id"), 
-								result.getInt("parking_spaces"), 
-								result.getString("text_description")
-						);
-			}
-
-			result.close();
-			
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return centres;
-	}
-
-	@Override
-	public void getBuildingData(ShoppingCentre[] centres) {
-		ResultSet result = null;
-
-		try(PreparedStatement statement = connection.prepareStatement(
-				"SELECT building_id, building_name, floors FROM building WHERE centre_id = ?"
-				)) {
-
-			Building[] buildings;
-			Building building;
-			for(ShoppingCentre centre : centres) {
-				statement.setInt(1, centre.getCentreId());
-
-				result = statement.executeQuery();
-				result.last();
-				int rows = result.getRow();
-				result.beforeFirst();
-
-				buildings = new Building[rows];
-				for(int i=0; result.next(); i++) {
-					building = new Building(
-							result.getInt("building_id"),
-							result.getString("building_name"),
-							result.getInt("floors")
-							);
-
-					building.setEstablishments(
-							getEstablishmentsInBuilding(building.getBuildingId())
-							);
-
-					buildings[i] = building;
-
-				}
-
-				result.close();
-				centre.setBuildings(buildings);
-			}
-		}
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
 	public Establishment[] getEstablishmentsInBuilding(int buildingID) {
 		Establishment[] establishments = null;
 
@@ -355,6 +272,27 @@ public class DatabaseConnection implements Database {
 		return output;
 	}
 
+	@Override
+	public String getUsername(int userID) {
+		String output = null;
+
+		try(PreparedStatement statement = connection.prepareStatement("SELECT username FROM user WHERE employee_number = ?")) {
+
+			statement.setInt(1, userID);
+			ResultSet result = statement.executeQuery();
+
+			if(result.next()) {
+				output = result.getString(1);
+			}
+			result.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return output;
+	}
+	
 	@Override
 	public UserType getUserType(int userId) {
 		if(userId == 1) return UserType.SYS_ADMIN;

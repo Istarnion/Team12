@@ -22,7 +22,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import no.hist.aitel.team12.app.Building;
-import no.hist.aitel.team12.app.CentreBuffer;
+import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
 
@@ -53,15 +53,10 @@ public class OverviewTab extends SSSTab {
 
 	private CardLayout cardLayout;
 
-	private CentreBuffer cb;
-
 	public OverviewTab(int userID) {
 		
 		// Set layout for this tab
 		this.setLayout(new BorderLayout());
-		
-		// Starts the CentreBuffer
-		cb = new CentreBuffer(2, 2, userID);
 		
 		// Get image of logo
 		try {
@@ -73,7 +68,7 @@ public class OverviewTab extends SSSTab {
 		// Populate businessArray from CentreBuffer
 		while(businessArray == null) {
 			Thread.yield();
-			businessArray 		= cb.getCentres();
+			businessArray 		= DataBuffer.getCentres();
 		}
 
 
