@@ -87,7 +87,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"pdferr", "Kan ikke vise finansrapport.\nDato fra/til er ikke valgt"},
 				{"daterr", "Fra dato må være før til dato"},
 				{"createuser","Lagre bruker"},
-				{"generating", "Genererer ..."}
+				{"generating", "Genererer ..."},
+				{"newTrade", "Legg til bransje"},
+				{"trades", "Bransjer"}
 		};
 	}
 }

@@ -8,33 +8,33 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import no.hist.aitel.team12.app.Establishment;
-import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.util.Text;
 
 public class EstablishmentCard extends JPanel {
 
 	private static final long serialVersionUID = 9040445246335124938L;
 	
+	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, tradesLabel;
+
 	private JTextField businessName, email, telephone, openingHours, address;
 	
-	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel;
-	
-	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton;
+	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, newTradeButton;
 	
 	private JTextArea textDescription;
 	
-	private JComboBox<Trade> tradeList;
+	private JComboBox<String> tradeList;
 	
 	private ButtonListener buttonListener;
 	
 	public EstablishmentCard(int userID) {
 		
-		this.setLayout(new GridLayout(6,3));
+		this.setLayout(new GridLayout(7,3));
 		
 		buttonListener 		= new ButtonListener();
 		
@@ -44,6 +44,7 @@ public class EstablishmentCard extends JPanel {
 		telephoneLabel		= new JLabel(Text.getString("tel") + ": ");
 		openingHrsLabel		= new JLabel(Text.getString("openingHrs") + ": ");
 		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ");
+		tradesLabel			= new JLabel(Text.getString("trades"));
 		
 		businessName		= new JTextField("");
 		address				= new JTextField("");
@@ -51,7 +52,11 @@ public class EstablishmentCard extends JPanel {
 		telephone			= new JTextField("");
 		openingHours		= new JTextField("");
 		textDescription		= new JTextArea("");
-		textDescription.setPreferredSize(new Dimension(100,200));
+		tradeList			= new JComboBox<String>();
+
+		
+		textDescription.setPreferredSize(new Dimension(50,50));
+		
 		
 		businessButton		= new JButton(Text.getString("edit"));
 		addressButton		= new JButton(Text.getString("edit"));
@@ -59,6 +64,7 @@ public class EstablishmentCard extends JPanel {
 		telephoneButton		= new JButton(Text.getString("edit"));
 		openingHrsButton	= new JButton(Text.getString("edit"));
 		textDescrButton		= new JButton(Text.getString("edit"));
+		newTradeButton		= new JButton(Text.getString("newTrade"));
 		
 		businessName.setEditable(false);
 		address.setEditable(false);
@@ -80,6 +86,9 @@ public class EstablishmentCard extends JPanel {
 		telephoneButton.addActionListener(buttonListener);
 		openingHrsButton.addActionListener(buttonListener);
 		textDescrButton.addActionListener(buttonListener);
+		newTradeButton.addActionListener(buttonListener);
+		
+		
 		
 		this.add(businessNameLabel);
 		this.add(businessName);
@@ -105,6 +114,9 @@ public class EstablishmentCard extends JPanel {
 		this.add(textDescription);
 		this.add(textDescrButton);
 		
+		this.add(tradesLabel);
+		this.add(tradeList);
+		this.add(newTradeButton);
 		
 	}
 	
@@ -115,6 +127,10 @@ public class EstablishmentCard extends JPanel {
 		telephone.setText(String.valueOf(establishment.getTelephone()));
 		openingHours.setText(String.valueOf(establishment.getOpeningHours()));
 		textDescription.setText(establishment.getDescription());
+		tradeList.removeAllItems();
+		for(String s : establishment.getTrades()) {
+			tradeList.addItem(s);
+		}
 		
 		businessName.setEditable(false);
 		address.setEditable(false);
@@ -122,6 +138,7 @@ public class EstablishmentCard extends JPanel {
 		telephone.setEditable(false);
 		openingHours.setEditable(false);
 		textDescription.setEditable(false);
+
 		
 		businessButton.setText(Text.getString("edit"));
 		addressButton.setText(Text.getString("edit"));
@@ -133,6 +150,9 @@ public class EstablishmentCard extends JPanel {
 	
 	private class ButtonListener implements ActionListener {
 
+		public void newTrade() {
+			JOptionPane.showMessageDialog(null, "button pressed");
+		}
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			JButton pressedButton = (JButton) event.getSource();
@@ -200,6 +220,10 @@ public class EstablishmentCard extends JPanel {
 					textDescrButton.setText(Text.getString("edit"));
 				}
 			}
+			else if(pressedButton.equals(newTradeButton)) {
+				newTrade();
+			}
+			
 		}
 	
 	}

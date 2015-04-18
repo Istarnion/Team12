@@ -23,6 +23,7 @@ public class Establishment extends Business {
 		
 		this.establishmentId = establishmentId;
 		this.floorNumber = floorNumber;
+		this.trades = trades;
 	}
 
 	public ArrayList<String> getTrades() {
@@ -33,6 +34,7 @@ public class Establishment extends Business {
 		this.trades = trades;
 	}
 
+	@Override
 	public ArrayList<Revenue> getRevenue() {
 		return revenue;
 	}

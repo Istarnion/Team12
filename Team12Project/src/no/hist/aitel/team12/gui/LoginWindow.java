@@ -74,6 +74,12 @@ public class LoginWindow {
 		passwordText.setDefaultText(Text.getString("pwd"));
 		loginButton.setText(Text.getString("login"));
 		cancelButton.setText(Text.getString("cancel"));
+		
+		userText.repaint();
+		passwordText.repaint();
+		loginButton.repaint();
+		cancelButton.repaint();
+		
 	}
 
 	public void showLoginWindow() {
@@ -113,12 +119,12 @@ public class LoginWindow {
 				
 				if(msg.equals(no)) {
 					Text.setLocale(Text.NORWEGIAN);
-					updateFields();
 				}
 				else if(msg.equals(en)) {
 					Text.setLocale(Text.ENGLISH);
-					updateFields();
+					
 				}
+				updateFields();
 			}
 		); 
 
