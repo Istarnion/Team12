@@ -1,5 +1,6 @@
 package no.hist.aitel.team12.app;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import no.hist.aitel.team12.database.Database;
@@ -14,14 +15,13 @@ public class ShoppingCentre extends Business {
 	private Building[] buildings;
 
 	private int numBuildings;
-	
-	
+		
 	public ShoppingCentre(
 			int businessId, String businessName, Address address,
 			EmailAddress email, int telephone, int openingHours,
-			int centreId, int parkingSpaces, String description) {
+			int centreId, int parkingSpaces, String description, ArrayList<Revenue> revenue) {
 
-		super(businessId, businessName, email, telephone, openingHours, description, address);
+		super(businessId, businessName, email, telephone, openingHours, description, address, revenue);
 
 		this.centreId = centreId; 
 		this.parkingSpaces = parkingSpaces;
@@ -81,5 +81,13 @@ public class ShoppingCentre extends Business {
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+
+	public int getArea() {
+		int areaSum = 0;
+//		for(Building b : buildings) {
+//			areaSum += b.getArea();
+//		}
+		return areaSum;
 	}
 }

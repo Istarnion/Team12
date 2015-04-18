@@ -1,16 +1,19 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import no.hist.aitel.team12.app.Establishment;
+import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.util.Text;
 
 public class EstablishmentCard extends JPanel {
@@ -24,6 +27,8 @@ public class EstablishmentCard extends JPanel {
 	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton;
 	
 	private JTextArea textDescription;
+	
+	private JComboBox<Trade> tradeList;
 	
 	private ButtonListener buttonListener;
 	
@@ -46,6 +51,7 @@ public class EstablishmentCard extends JPanel {
 		telephone			= new JTextField("");
 		openingHours		= new JTextField("");
 		textDescription		= new JTextArea("");
+		textDescription.setPreferredSize(new Dimension(100,200));
 		
 		businessButton		= new JButton(Text.getString("edit"));
 		addressButton		= new JButton(Text.getString("edit"));
@@ -104,11 +110,11 @@ public class EstablishmentCard extends JPanel {
 	
 	public void updateCard(Establishment establishment) {
 		businessName.setText(establishment.getBusinessName());
-		address.setText("Adress needs to be moved to business class");
+		address.setText(establishment.getAddress().getAdress());
 		email.setText(establishment.getEmail().getEmailAddress());
 		telephone.setText(String.valueOf(establishment.getTelephone()));
 		openingHours.setText(String.valueOf(establishment.getOpeningHours()));
-		textDescription.setText("description needs to be moved to business class");
+		textDescription.setText(establishment.getDescription());
 		
 		businessName.setEditable(false);
 		address.setEditable(false);

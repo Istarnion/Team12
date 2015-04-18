@@ -59,7 +59,7 @@ public class BuildingCard extends JPanel {
 
 	public void updateCard(Building building) {
 		nrOfFloors.setText(String.valueOf(building.getFloors()));
-		area.setText("We need a getArea in building");
+		area.setText(String.valueOf(building.getArea()));
 		
 		nrOfFloors.setEditable(false);
 		area.setEditable(false);

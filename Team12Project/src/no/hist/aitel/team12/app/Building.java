@@ -9,17 +9,20 @@ public class Building {
 	
 	private String buildingName;
 	
+	private int area;
+	
 	private int floors;
 	
 	private Establishment[] establishments;
 
 	private int numEstablishments;
 	
-	public Building(int buildingId, String buildingName, int floors) {
+	public Building(int buildingId, String buildingName, int floors, int area) {
 		super();
-		this.buildingId = buildingId;
-		this.buildingName = buildingName;
-		this.floors = floors;
+		this.buildingId		= buildingId;
+		this.buildingName 	= buildingName;
+		this.floors 		= floors;
+		this.area 			= area;
 	}
 
 	public String getBuildingName() {
@@ -61,5 +64,9 @@ public class Building {
 	@Override
 	public String toString() {
 		return buildingName;
+	}
+
+	public int getArea() {
+		return area;
 	}
 }

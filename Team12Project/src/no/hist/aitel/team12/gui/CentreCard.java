@@ -1,5 +1,6 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +49,9 @@ public class CentreCard extends JPanel {
 		openingHours		= new JTextField("");
 		area				= new JTextField("");
 		textDescription		= new JTextArea("");
+		textDescription.setPreferredSize(new Dimension(100,200));
 
+		
 		businessButton		= new JButton(Text.getString("edit"));
 		addressButton		= new JButton(Text.getString("edit"));
 		emailButton			= new JButton(Text.getString("edit"));
@@ -114,12 +117,12 @@ public class CentreCard extends JPanel {
 
 	public void updateCard(ShoppingCentre centre) {
 		businessName.setText(centre.getBusinessName());
-		address.setText("Adress needs to be moved to business class");
+		address.setText(centre.getAddress().getAdress());
 		email.setText(centre.getEmail().getEmailAddress());
 		telephone.setText(String.valueOf(centre.getTelephone()));
 		openingHours.setText(String.valueOf(centre.getOpeningHours()));
-		textDescription.setText("description needs to be moved to business class");
-		area.setText("we need to fix area, this should be sum of all building areas");
+		textDescription.setText(centre.getDescription());
+		area.setText(String.valueOf(centre.getArea()));
 
 		businessName.setEditable(false);
 		address.setEditable(false);

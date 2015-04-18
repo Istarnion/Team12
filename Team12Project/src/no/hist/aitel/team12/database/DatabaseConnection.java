@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
@@ -12,6 +14,7 @@ import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.IntHashMap;
 import no.hist.aitel.team12.app.Message;
+import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
@@ -153,7 +156,8 @@ public class DatabaseConnection implements Database {
 								result.getInt("opening_hours"),
 								result.getInt("centre_id"),
 								result.getInt("parking_spaces"),
-								result.getString("text_description")
+								result.getString("text_description"),
+								new ArrayList<Revenue>()
 						));
 			}
 
@@ -170,7 +174,8 @@ public class DatabaseConnection implements Database {
 				building = new Building(
 						result.getInt("building_id"),
 						result.getString("building_name"),
-						result.getInt("floors")
+						result.getInt("floors"),
+						1337
 						);
 				centres.get(result.getInt("centre_id")).addBuilding(building);
 			}
@@ -192,7 +197,11 @@ public class DatabaseConnection implements Database {
 						result.getInt("telephone"),
 						result.getInt("opening_hours"),
 						result.getInt("floor_number"),
-						result.getInt("establishment_id")
+						result.getInt("establishment_id"),
+						"This (description) needs to be changed in the DatabaseConnection / SELECTS",
+						new Address("generic address", 0000, "municipality", "county"),
+						new ArrayList<String>(Arrays.asList("fix", "trades", "in", "db", "oh", "and", "in", "database", "connection", "class")), 
+						new ArrayList<Revenue>()
 						);
 				centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
 			}
@@ -238,7 +247,11 @@ public class DatabaseConnection implements Database {
 						result.getInt("telephone"),
 						result.getInt("opening_hours"),
 						result.getInt("floor_number"),
-						result.getInt("establishment_id")
+						result.getInt("establishment_id"),
+						"This (description) needs to be changed in the DatabaseConnection / SELECTS",
+						new Address("generic address", 0000, "municipality", "county"),
+						new ArrayList<String>(Arrays.asList("fix", "trades", "in", "db", "oh", "and", "in", "database", "connection", "class")), 
+						new ArrayList<Revenue>()
 						);
 			}
 			result.close();

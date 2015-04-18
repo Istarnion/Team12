@@ -1,5 +1,7 @@
 package no.hist.aitel.team12.app;
 
+import java.util.ArrayList;
+
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 
 public class Business {
@@ -17,18 +19,24 @@ public class Business {
 	private int telephone;
 	
 	private int openingHours;
+	
+	private ArrayList<Revenue> revenue;
 
 	public Business(
 			int businessId, String businessName,
-			EmailAddress email, int telephone, int openingHours, String description, Address address) {
-		this.businessId = businessId;
-		this.businessName = businessName;
-		this.email = email;
-		this.telephone = telephone;
-		this.openingHours = openingHours;
-		this.description = description;
-		this.address = address;
-	}
+			EmailAddress email, int telephone,
+			int openingHours, String description, 
+			Address address, ArrayList<Revenue> revenue) {
+		
+		this.businessId 	= businessId;
+		this.businessName 	= businessName;
+		this.email 			= email;
+		this.telephone 		= telephone;
+		this.openingHours 	= openingHours;
+		this.description 	= description;
+		this.address 		= address;
+		this.revenue 		= revenue;
+		}
 
 	public String getBusinessnameDmp() {
 		return DoubleMetaphoneUtils.encodeString(businessName);
@@ -86,6 +94,9 @@ public class Business {
 		this.address = address;
 	}
 
+	public ArrayList<Revenue> getRevenue() {
+		return revenue;
+	}
 	@Override
 	public String toString() {
 		return businessName;

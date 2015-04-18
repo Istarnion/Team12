@@ -200,8 +200,6 @@ reciever VARCHAR(10),
 content VARCHAR(1000),
 subject VARCHAR(50),
 timestamp TIMESTAMP NOT NULL, 
-deleted BOOLEAN,
-deleted_timestamp TIMESTAMP,
 CONSTRAINT message_FK_sender FOREIGN KEY (sender) REFERENCES user (username),
 CONSTRAINT message_FK_reciever FOREIGN KEY (reciever) REFERENCES user (username)
 );
