@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -14,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.Text;
@@ -63,8 +63,8 @@ public class CentreCard extends JPanel {
 		textDescription		= new JTextArea("");
 		personnelList		= new JList<Personnel>();
 		
-		personnelScrollPane	= new JScrollPane(personnelList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		personnelScrollPane.add(personnelList);
+		personnelScrollPane	= new JScrollPane(personnelList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		//personnelScrollPane.add(personnelList);
 		
 		textDescription.setPreferredSize(new Dimension(50,50));
 		
@@ -144,13 +144,13 @@ public class CentreCard extends JPanel {
 		openingHours.setText(String.valueOf(centre.getOpeningHours()));
 		textDescription.setText(centre.getDescription());
 		area.setText(String.valueOf(centre.getArea()));
-		personnelList = new JList<Personnel>(centre.getPersonnel());
-		for(Person p : centre.getPersonnel()) {
-			System.out.println("found a person" + p);
+		
+		DefaultListModel<Personnel> listModel = new DefaultListModel<Personnel>();
+		for(Personnel p : centre.getPersonnel()) {
+			listModel.addElement(p);
 		}
-		System.out.println(personnelList.getModel().getSize());
-		personnelList.setBackground(Color.RED);
-		personnelList.repaint();
+		personnelList.setModel(listModel);
+		
 		textDescription.setBackground(Color.BLUE);
 		
 		businessName.setEditable(false);
