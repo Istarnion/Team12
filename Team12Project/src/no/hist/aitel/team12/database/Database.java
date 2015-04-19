@@ -187,10 +187,10 @@ public interface Database {
 	/**
 	 * 
 	 * @param sender
-	 * @param reciever
+	 * @param recievers
 	 * @param content
 	 * @param subject
 	 * @return
 	 */
-	public boolean sendMessage (String sender, String reciever, String content, String subject);
+	public boolean sendMessage (String sender, String[] recievers, String content, String subject);
 }
