@@ -85,6 +85,8 @@ public class OverviewTab extends SSSTab {
 		scrollPaneLeft 	= new JScrollPane(businessList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
 		scrollPaneRight	= new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
+		Font currentFont = businessList.getFont();
+		businessList.setFont(new Font(currentFont.getFontName(), currentFont.getStyle(), currentFont.getSize() + 3));
 		scrollPaneRight.setBorder(null);
 		namePanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 

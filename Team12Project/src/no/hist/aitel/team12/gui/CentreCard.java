@@ -63,7 +63,7 @@ public class CentreCard extends JPanel {
 		textDescription		= new JTextArea("");
 		personnelList		= new JList<Personnel>();
 		
-		personnelScrollPane	= new JScrollPane(personnelList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		personnelScrollPane	= new JScrollPane(personnelList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		personnelScrollPane.add(personnelList);
 		
 		textDescription.setPreferredSize(new Dimension(50,50));
