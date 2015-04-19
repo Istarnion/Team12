@@ -278,8 +278,7 @@ public class CentreCard extends JPanel {
 		@Override
 		public void valueChanged(ListSelectionEvent event) {
 			if (!event.getValueIsAdjusting()) {
-				System.out.println("list changed");
-				Personnel selectedPers = (Personnel) event.getSource();
+				Personnel selectedPers = personnelList.getSelectedValue();
 				persNameLabel.setText(Text.getString("name") + ": " + selectedPers);
 				persTitleLabel.setText(Text.getString("title") + ": " + selectedPers.getTitle());
 				persTelephoneLabel.setText(Text.getString("tel") + ": " + String.valueOf(selectedPers.getTelephone()));
