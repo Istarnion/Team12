@@ -90,7 +90,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"generating", "Genererer ..."},
 				{"newTrade", "Legg til bransje"},
 				{"trades", "Bransjer"},
-				{"personnel", "Personell"}
+				{"personnel", "Personell"},
+				{"name", "Navn"},
+				{"title", "Tittel"}
 		};
 	}
 }

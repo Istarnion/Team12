@@ -90,7 +90,10 @@ public class TextResources extends ListResourceBundle {
 				{"generating", "Generating ..." },
 				{"newTrade", "Add trade"},
 				{"trades", "Trades"},
-				{"personnel", "Personnel"}
+				{"personnel", "Personnel"},
+				{"name", "Name"},
+				{"title", "Title"}
+
 
 		};
 	}
