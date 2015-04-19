@@ -251,7 +251,7 @@ public class MessageTab extends SSSTab {
 
 						Database db = DatabaseFactory.getDatabase();
 
-						if(db.isUserInDb(to.getText()) && Message.sendMessage(username, to.getText(), sendMessageText.getText(), subjectto.getText())){
+						if(db.isUserInDb(to.getText()) && Message.sendMessage(username, to.getText().split(","), sendMessageText.getText(), subjectto.getText())){
 							JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
 							messageSent = true;
 						}

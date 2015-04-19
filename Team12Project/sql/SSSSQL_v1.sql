@@ -196,19 +196,41 @@ CONSTRAINT establishmentowner_FK FOREIGN KEY (establishment_id) REFERENCES estab
 
 CREATE TABLE message(
 message_id INTEGER AUTO_INCREMENT PRIMARY KEY,
-sender VARCHAR(10),
-reciever VARCHAR(10),
 content VARCHAR(1000),
 subject VARCHAR(50),
-timestamp TIMESTAMP NOT NULL, 
-CONSTRAINT message_FK_sender FOREIGN KEY (sender) REFERENCES user (username),
-CONSTRAINT message_FK_reciever FOREIGN KEY (reciever) REFERENCES user (username)
+timestamp TIMESTAMP NOT NULL
 );
 -- ENGINE = InnoDB;
 
+CREATE TABLE messageSender(
+message_id INTEGER NOT NULL,
+username VARCHAR(10) NOT NULL,
+trashed BOOLEAN NOT NULL DEFAULT false,
+CONSTRAINT message_FK_message FOREIGN KEY (message_id) REFERENCES message (message_id),
+CONSTRAINT message_FK_actor FOREIGN KEY (username) REFERENCES user (username)
+);
 
+CREATE TABLE messageReciever(
+message_id INTEGER NOT NULL,
+username VARCHAR(10) NOT NULL,
+trashed BOOLEAN NOT NULL DEFAULT false,
+CONSTRAINT message_FK_message FOREIGN KEY (message_id) REFERENCES message (message_id),
+CONSTRAINT message_FK_actor FOREIGN KEY (username) REFERENCES user (username)
+);
+
+CREATE INDEX sender_name_index		ON messageSender (username);
+CREATE INDEX sender_id_index		ON messageSender (message_id);
+CREATE INDEX reciever_name_index	ON messageReciever (username);
+CREATE INDEX reciever_id_index		ON messageReciever (message_id);
 
 -- Creating views
+CREATE VIEW message_view AS (
+	SELECT DISTINCT message_id, content, subject, timestamp, s.username AS 'Sender', r.username AS 'Reciever', (r.trashed OR s.trashed) AS 'trashed'
+	FROM message m
+	JOIN messageSender s USING(message_id)
+	JOIN messageReciever r USING (message_id)
+);
+
 CREATE VIEW centres_view AS (
 	SELECT * 
     FROM shoppingcentre 

@@ -534,7 +534,9 @@ public class DatabaseConnection implements Database {
 		ResultSet result = null;
 		int rows;
 
-		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM message WHERE sender = ? OR reciever = ?")) {
+		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM message_view WHERE sender = ? OR reciever = ?")) {
+
+			if(connection.isClosed()) return null;
 
 			statement.setString(1, username);
 			statement.setString(2, username);
@@ -548,12 +550,12 @@ public class DatabaseConnection implements Database {
 
 			for(int i=0; result.next(); i++) {
 				messages[i] = new Message(
-						result.getString("reciever"),
-						result.getString("sender"),
+						result.getString("Reciever"),
+						result.getString("Sender"),
 						result.getString("subject"),
 						result.getString("content"),
 						result.getTimestamp("timestamp"),
-						result.getBoolean("deleted")
+						result.getBoolean("trashed")
 						);
 			}
 		} 
@@ -694,18 +696,27 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public boolean sendMessage(String sender, String reciever, String content, String subject) {
+	public boolean sendMessage(String sender, String[] recievers, String content, String subject) {
 
-		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO message (sender, reciever, content, subject, timestamp) VALUES (?, ?, ?, ?, NOW())")) {
+		try(
+				PreparedStatement msg  = connection.prepareStatement("INSERT INTO message (content, subject, timestamp) VALUES (?, ?, NOW())");
+				PreparedStatement sndr = connection.prepareStatement("INSERT INTO messageSender (message_id, username) VALUES (LAST_INSERT_ID(), ?)");
+				PreparedStatement rcvr = connection.prepareStatement("INSERT INTO messageReciever (message_id, username) VALUES (LAST_INSERT_ID(), ?)");
+				) {
 
 			connection.setAutoCommit(false);
 
-			statement.setString(1, sender);
-			statement.setString(2, reciever);
-			statement.setString(3, content);
-			statement.setString(4, subject);
-
-			statement.executeUpdate();
+			msg.setString(1, content);
+			msg.setString(2, subject);
+			msg.executeUpdate();
+			
+			sndr.setString(1, sender);
+			sndr.executeUpdate();
+			
+			for(String s : recievers) {
+				rcvr.setString(1, s);
+				rcvr.executeUpdate();
+			}
 
 			connection.commit();
 			connection.setAutoCommit(true);
