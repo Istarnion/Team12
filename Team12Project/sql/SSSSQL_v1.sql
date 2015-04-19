@@ -162,7 +162,7 @@ CREATE TABLE ticket(
 ticket_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 content VARCHAR(1000),
 customer_email VARCHAR(30),
-status BOOLEAN,
+resolvedStatus BOOLEAN,
 employee_number INTEGER,
 business_id INTEGER,
 followup_ticket_id INTEGER,
