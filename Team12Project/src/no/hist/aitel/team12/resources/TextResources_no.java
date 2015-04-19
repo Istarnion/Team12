@@ -89,7 +89,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"createuser","Lagre bruker"},
 				{"generating", "Genererer ..."},
 				{"newTrade", "Legg til bransje"},
-				{"trades", "Bransjer"}
+				{"trades", "Bransjer"},
+				{"personnel", "Personell"}
 		};
 	}
 }

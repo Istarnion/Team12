@@ -13,18 +13,22 @@ public class ShoppingCentre extends Business {
 	private int parkingSpaces;
 	
 	private Building[] buildings;
+	
+	private Personnel[] personnel;
 
 	private int numBuildings;
 		
 	public ShoppingCentre(
 			int businessId, String businessName, Address address,
 			EmailAddress email, int telephone, int openingHours,
-			int centreId, int parkingSpaces, String description, ArrayList<Revenue> revenue) {
+			int centreId, int parkingSpaces, String description, 
+			ArrayList<Revenue> revenue, Personnel[] personnel) {
 
 		super(businessId, businessName, email, telephone, openingHours, description, address, revenue);
 
 		this.centreId = centreId; 
 		this.parkingSpaces = parkingSpaces;
+		this.personnel = personnel;
 	}
 
 	public int getParkingSpaces() {
@@ -89,5 +93,13 @@ public class ShoppingCentre extends Business {
 //			areaSum += b.getArea();
 //		}
 		return areaSum;
+	}
+
+	public Personnel[] getPersonnel() {
+		return personnel;
+	}
+
+	public void setPersonnel(Personnel[] personnel) {
+		this.personnel = personnel;
 	}
 }

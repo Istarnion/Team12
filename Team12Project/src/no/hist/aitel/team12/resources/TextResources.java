@@ -89,7 +89,8 @@ public class TextResources extends ListResourceBundle {
 				{"createuser","Save user"},
 				{"generating", "Generating ..." },
 				{"newTrade", "Add trade"},
-				{"trades", "Trades"}
+				{"trades", "Trades"},
+				{"personnel", "Personnel"}
 
 		};
 	}

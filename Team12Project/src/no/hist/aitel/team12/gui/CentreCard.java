@@ -1,5 +1,6 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -7,10 +8,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import no.hist.aitel.team12.app.Person;
+import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.Text;
 
@@ -20,17 +25,23 @@ public class CentreCard extends JPanel {
 
 	private JTextField businessName, email, telephone, openingHours, address, area;
 
-	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, areaLabel;
+	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, areaLabel, personnelLabel;
 
 	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
 
 	private JTextArea textDescription;
+	
+	private JList<Personnel> personnelList;
 
 	private ButtonListener buttonListener;
+	
+	private PersonnelListener personnelListener;
+	
+	private JScrollPane personnelScrollPane;
 
 	public CentreCard(int userID) {
 
-		this.setLayout(new GridLayout(7,3));
+		this.setLayout(new GridLayout(8,3));
 
 		buttonListener 		= new ButtonListener();
 
@@ -41,7 +52,8 @@ public class CentreCard extends JPanel {
 		openingHrsLabel		= new JLabel(Text.getString("openingHrs") + ": ");
 		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ");
 		areaLabel			= new JLabel(Text.getString("area") + ": ");
-
+		personnelLabel		= new JLabel(Text.getString("personnel") + ": ");
+		
 		businessName		= new JTextField("");
 		address				= new JTextField("");
 		email				= new JTextField("");
@@ -49,8 +61,12 @@ public class CentreCard extends JPanel {
 		openingHours		= new JTextField("");
 		area				= new JTextField("");
 		textDescription		= new JTextArea("");
-		textDescription.setPreferredSize(new Dimension(100,200));
-
+		personnelList		= new JList<Personnel>();
+		
+		personnelScrollPane	= new JScrollPane(personnelList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		personnelScrollPane.add(personnelList);
+		
+		textDescription.setPreferredSize(new Dimension(50,50));
 		
 		businessButton		= new JButton(Text.getString("edit"));
 		addressButton		= new JButton(Text.getString("edit"));
@@ -83,6 +99,8 @@ public class CentreCard extends JPanel {
 		openingHrsButton.addActionListener(buttonListener);
 		textDescrButton.addActionListener(buttonListener);
 		areaButton.addActionListener(buttonListener);
+		
+		
 
 		this.add(businessNameLabel);
 		this.add(businessName);
@@ -111,6 +129,9 @@ public class CentreCard extends JPanel {
 		this.add(textDescrLabel);
 		this.add(textDescription);
 		this.add(textDescrButton);
+		
+		this.add(personnelLabel);
+		this.add(personnelScrollPane);
 
 
 	}
@@ -123,7 +144,15 @@ public class CentreCard extends JPanel {
 		openingHours.setText(String.valueOf(centre.getOpeningHours()));
 		textDescription.setText(centre.getDescription());
 		area.setText(String.valueOf(centre.getArea()));
-
+		personnelList = new JList<Personnel>(centre.getPersonnel());
+		for(Person p : centre.getPersonnel()) {
+			System.out.println("found a person" + p);
+		}
+		System.out.println(personnelList.getModel().getSize());
+		personnelList.setBackground(Color.RED);
+		personnelList.repaint();
+		textDescription.setBackground(Color.BLUE);
+		
 		businessName.setEditable(false);
 		address.setEditable(false);
 		email.setEditable(false);
@@ -131,6 +160,7 @@ public class CentreCard extends JPanel {
 		openingHours.setEditable(false);
 		textDescription.setEditable(false);
 		area.setEditable(false);
+		
 
 		businessButton.setText(Text.getString("edit"));
 		addressButton.setText(Text.getString("edit"));
@@ -223,5 +253,16 @@ public class CentreCard extends JPanel {
 		}
 
 	}
+	
+	private class PersonnelListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			System.out.println("list changed");
+		}
+		
+	}
 }
+
+
 

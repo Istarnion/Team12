@@ -14,6 +14,7 @@ import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.IntHashMap;
 import no.hist.aitel.team12.app.Message;
+import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
@@ -32,8 +33,9 @@ public class DatabaseConnection implements Database {
 
 			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
 					+ "user=team12&password=teamadmin12");
-			
+
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
 			connection.setAutoCommit(false);
 
 			ok = testConnection();
@@ -105,7 +107,7 @@ public class DatabaseConnection implements Database {
 		} catch (SQLException e1) {
 			return null;
 		}
-		
+
 		IntHashMap<ShoppingCentre>	centres = null;
 
 		String	centreQuery = null,
@@ -157,7 +159,30 @@ public class DatabaseConnection implements Database {
 								result.getInt("centre_id"),
 								result.getInt("parking_spaces"),
 								result.getString("text_description"),
-								new ArrayList<Revenue>()
+								new ArrayList<Revenue>(),
+								new Personnel[] {
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+						}
 						));
 			}
 
@@ -199,9 +224,24 @@ public class DatabaseConnection implements Database {
 						result.getInt("floor_number"),
 						result.getInt("establishment_id"),
 						"This (description) needs to be changed in the DatabaseConnection / SELECTS",
-						new Address("generic address", 0000, "municipality", "county"),
-						new ArrayList<String>(Arrays.asList("fix", "trades", "in", "db", "oh", "and", "in", "database", "connection", "class")), 
-						new ArrayList<Revenue>()
+						new Address(
+								"generic address", 
+								0000, 
+								"municipality", 
+								"county"
+								),
+								new ArrayList<String>(Arrays.asList(
+										"fix", 
+										"trades", 
+										"in", 
+										"db", 
+										"oh", 
+										"and", 
+										"in", 
+										"database", 
+										"connection", 
+										"class")), 
+										new ArrayList<Revenue>()
 						);
 				centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
 			}
@@ -223,7 +263,7 @@ public class DatabaseConnection implements Database {
 		return output;
 	}
 
-	
+
 	@Override
 	public Establishment[] getEstablishmentsInBuilding(int buildingID) {
 		Establishment[] establishments = null;
@@ -250,9 +290,25 @@ public class DatabaseConnection implements Database {
 						result.getInt("floor_number"),
 						result.getInt("establishment_id"),
 						"This (description) needs to be changed in the DatabaseConnection / SELECTS",
-						new Address("generic address", 0000, "municipality", "county"),
-						new ArrayList<String>(Arrays.asList("fix", "trades", "in", "db", "oh", "and", "in", "database", "connection", "class")), 
-						new ArrayList<Revenue>()
+						new Address(
+								"generic address", 
+								0000, 
+								"municipality", 
+								"county"),
+								new ArrayList<String>(Arrays.asList(
+										"fix", 
+										"trades", 
+										"in", 
+										"db", 
+										"oh",
+										"and", 
+										"in", 
+										"database", 
+										"connection", 
+										"class"
+										)
+										), 
+										new ArrayList<Revenue>()
 						);
 			}
 			result.close();
@@ -306,11 +362,11 @@ public class DatabaseConnection implements Database {
 
 		return output;
 	}
-	
+
 	@Override
 	public boolean isUserInDb(String username) {
 		boolean found = false;
-		
+
 		try(PreparedStatement statement = connection.prepareStatement("SELECT employee_number FROM user WHERE username = ?")) {
 
 			statement.setString(1, username);
@@ -324,10 +380,10 @@ public class DatabaseConnection implements Database {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return found;
 	}
-	
+
 	@Override
 	public UserType getUserType(int userId) {
 		if(userId == 1) return UserType.SYS_ADMIN;
@@ -373,18 +429,18 @@ public class DatabaseConnection implements Database {
 		if(userType == UserType.SYS_ADMIN) return 0;
 		String query;
 		switch(userType) {
-			case CUSTOMER_SERVICE:
-				query = "SELECT centre_id FROM customerservice WHERE employee_number = "+userID;
-				break;
-			case CENTRE_MANAGER:
-				query = "SELECT centre_id FROM centremanager WHERE employee_number = "+userID;
-				break;
-			case SHOP_OWNER:
-				query =
-				"SELECT centre_id FROM establishmentowner e LEFT JOIN establishment USING (establishment_id) LEFT JOIN building USING (building_id) WHERE employee_number = "+userID;
-				break;
-			default:
-				return -1;
+		case CUSTOMER_SERVICE:
+			query = "SELECT centre_id FROM customerservice WHERE employee_number = "+userID;
+			break;
+		case CENTRE_MANAGER:
+			query = "SELECT centre_id FROM centremanager WHERE employee_number = "+userID;
+			break;
+		case SHOP_OWNER:
+			query =
+			"SELECT centre_id FROM establishmentowner e LEFT JOIN establishment USING (establishment_id) LEFT JOIN building USING (building_id) WHERE employee_number = "+userID;
+			break;
+		default:
+			return -1;
 		}
 
 		try(PreparedStatement statement = connection.prepareStatement(query)) {
@@ -599,68 +655,68 @@ public class DatabaseConnection implements Database {
 
 		return true;
 	}
-	
+
 	public String getUserStatement(int userID){
-		
+
 		UserType userType = getUserType(userID);
-		
+
 		String query;
 		switch(userType) {
-			case SYS_ADMIN:
-				query = ""
-						+ "SELECT * "
-						+ "from person;";
-			case CUSTOMER_SERVICE:
-				query = ""
-						+ "Select employee_number, first_name, last_name, email, telephone "
-						+ "from person;";
-				break;
-			case CENTRE_MANAGER:
-				query = ""
-						+ "Select employee_number, first_name, last_name, zipcode, address, email, telephone, salary "
-						+ "from person;";
-				break;
-			case SHOP_OWNER:
-				query = ""
-						+ "Select employee_number, first_name, last_name, email, telephone "
-						+ "from person;";
-				break;
-				
-			default:
-				return null;
+		case SYS_ADMIN:
+			query = ""
+					+ "SELECT * "
+					+ "from person;";
+		case CUSTOMER_SERVICE:
+			query = ""
+					+ "Select employee_number, first_name, last_name, email, telephone "
+					+ "from person;";
+			break;
+		case CENTRE_MANAGER:
+			query = ""
+					+ "Select employee_number, first_name, last_name, zipcode, address, email, telephone, salary "
+					+ "from person;";
+			break;
+		case SHOP_OWNER:
+			query = ""
+					+ "Select employee_number, first_name, last_name, email, telephone "
+					+ "from person;";
+			break;
+
+		default:
+			return null;
 		}
 
-			return query;
-	
+		return query;
 
-		
-		
+
+
+
 	}
 
 	@Override
 	public boolean sendMessage(String sender, String reciever, String content, String subject) {
 
 		try(PreparedStatement statement = connection.prepareStatement("INSERT INTO message (sender, reciever, content, subject, timestamp) VALUES (?, ?, ?, ?, NOW())")) {
-			
+
 			connection.setAutoCommit(false);
-			
+
 			statement.setString(1, sender);
 			statement.setString(2, reciever);
 			statement.setString(3, content);
 			statement.setString(4, subject);
-			
+
 			statement.executeUpdate();
-			
+
 			connection.commit();
 			connection.setAutoCommit(true);
 		} 
-		
+
 		catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 }
