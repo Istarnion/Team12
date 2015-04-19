@@ -2,6 +2,7 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.ShoppingCentre;
@@ -26,17 +29,21 @@ public class CentreCard extends JPanel {
 	private JTextField businessName, email, telephone, openingHours, address, area;
 
 	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, areaLabel, personnelLabel;
-
+	
+	private JLabel persNameLabel, persTelephoneLabel, persTitleLabel, persEmailLabel;
+	
+	private JPanel personnelPanel;
+	
 	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
 
 	private JTextArea textDescription;
-	
+
 	private JList<Personnel> personnelList;
 
 	private ButtonListener buttonListener;
-	
+
 	private PersonnelListener personnelListener;
-	
+
 	private JScrollPane personnelScrollPane;
 
 	public CentreCard(int userID) {
@@ -44,7 +51,7 @@ public class CentreCard extends JPanel {
 		this.setLayout(new GridLayout(8,3));
 
 		buttonListener 		= new ButtonListener();
-
+		personnelListener	= new PersonnelListener();
 		businessNameLabel	= new JLabel(Text.getString("businessName") + ": ");
 		addressLabel		= new JLabel(Text.getString("adr") + ": ");
 		emailLabel			= new JLabel(Text.getString("email") + ": ");
@@ -53,6 +60,11 @@ public class CentreCard extends JPanel {
 		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ");
 		areaLabel			= new JLabel(Text.getString("area") + ": ");
 		personnelLabel		= new JLabel(Text.getString("personnel") + ": ");
+		persNameLabel		= new JLabel("");
+		persTelephoneLabel	= new JLabel("");
+		persTitleLabel 		= new JLabel("");
+		persEmailLabel		= new JLabel("");
+		personnelPanel		= new JPanel(new FlowLayout());
 		
 		businessName		= new JTextField("");
 		address				= new JTextField("");
@@ -62,12 +74,14 @@ public class CentreCard extends JPanel {
 		area				= new JTextField("");
 		textDescription		= new JTextArea("");
 		personnelList		= new JList<Personnel>();
-		
+
+
+		personnelList.addListSelectionListener(personnelListener);
 		personnelScrollPane	= new JScrollPane(personnelList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		//personnelScrollPane.add(personnelList);
-		
+
 		textDescription.setPreferredSize(new Dimension(50,50));
-		
+
 		businessButton		= new JButton(Text.getString("edit"));
 		addressButton		= new JButton(Text.getString("edit"));
 		emailButton			= new JButton(Text.getString("edit"));
@@ -91,7 +105,7 @@ public class CentreCard extends JPanel {
 		openingHours.setBorder(null);
 		textDescription.setBorder(null);
 		area.setBorder(null);
-		
+
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
 		emailButton.addActionListener(buttonListener);
@@ -99,8 +113,11 @@ public class CentreCard extends JPanel {
 		openingHrsButton.addActionListener(buttonListener);
 		textDescrButton.addActionListener(buttonListener);
 		areaButton.addActionListener(buttonListener);
-		
-		
+
+		personnelPanel.add(persNameLabel);
+		personnelPanel.add(persTitleLabel);
+		personnelPanel.add(persTelephoneLabel);
+		personnelPanel.add(persEmailLabel);
 
 		this.add(businessNameLabel);
 		this.add(businessName);
@@ -121,7 +138,7 @@ public class CentreCard extends JPanel {
 		this.add(openingHrsLabel);
 		this.add(openingHours);
 		this.add(openingHrsButton);
-		
+
 		this.add(areaLabel);
 		this.add(area);
 		this.add(areaButton);
@@ -129,9 +146,10 @@ public class CentreCard extends JPanel {
 		this.add(textDescrLabel);
 		this.add(textDescription);
 		this.add(textDescrButton);
-		
+
 		this.add(personnelLabel);
 		this.add(personnelScrollPane);
+		this.add(personnelPanel);
 
 
 	}
@@ -144,15 +162,15 @@ public class CentreCard extends JPanel {
 		openingHours.setText(String.valueOf(centre.getOpeningHours()));
 		textDescription.setText(centre.getDescription());
 		area.setText(String.valueOf(centre.getArea()));
-		
+
 		DefaultListModel<Personnel> listModel = new DefaultListModel<Personnel>();
 		for(Personnel p : centre.getPersonnel()) {
 			listModel.addElement(p);
 		}
 		personnelList.setModel(listModel);
-		
+
 		textDescription.setBackground(Color.BLUE);
-		
+
 		businessName.setEditable(false);
 		address.setEditable(false);
 		email.setEditable(false);
@@ -160,7 +178,7 @@ public class CentreCard extends JPanel {
 		openingHours.setEditable(false);
 		textDescription.setEditable(false);
 		area.setEditable(false);
-		
+
 
 		businessButton.setText(Text.getString("edit"));
 		addressButton.setText(Text.getString("edit"));
@@ -253,14 +271,16 @@ public class CentreCard extends JPanel {
 		}
 
 	}
-	
-	private class PersonnelListener implements ActionListener {
+
+	private class PersonnelListener implements ListSelectionListener {
+
 
 		@Override
-		public void actionPerformed(ActionEvent event) {
-			System.out.println("list changed");
+		public void valueChanged(ListSelectionEvent event) {
+			if (!event.getValueIsAdjusting()) {
+				System.out.println("list changed");
+			}
 		}
-		
 	}
 }
 
