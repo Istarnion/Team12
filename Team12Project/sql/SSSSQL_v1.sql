@@ -160,6 +160,7 @@ CONSTRAINT personnel_FK_centre FOREIGN KEY (centre_id) REFERENCES shoppingcentre
 
 CREATE TABLE ticket(
 ticket_id INTEGER AUTO_INCREMENT PRIMARY KEY,
+content VARCHAR(1000),
 customer_email VARCHAR(30),
 status BOOLEAN,
 employee_number INTEGER,

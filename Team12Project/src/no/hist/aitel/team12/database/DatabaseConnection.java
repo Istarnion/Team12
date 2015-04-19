@@ -223,6 +223,7 @@ public class DatabaseConnection implements Database {
 		return output;
 	}
 
+	
 	@Override
 	public Establishment[] getEstablishmentsInBuilding(int buildingID) {
 		Establishment[] establishments = null;

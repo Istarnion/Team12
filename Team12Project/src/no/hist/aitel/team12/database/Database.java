@@ -184,6 +184,13 @@ public interface Database {
 	public boolean createPersonnel	(String firstName, String lastName, String address, int zipCode, 
 			String email, int telephone, int sallary, String title, int centreID);
 	
-	
+	/**
+	 * 
+	 * @param sender
+	 * @param reciever
+	 * @param content
+	 * @param subject
+	 * @return
+	 */
 	public boolean sendMessage (String sender, String reciever, String content, String subject);
 }
