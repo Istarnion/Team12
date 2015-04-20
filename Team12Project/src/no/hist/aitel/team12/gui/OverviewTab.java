@@ -83,8 +83,6 @@ public class OverviewTab extends SSSTab {
 
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.PLAIN, 50));
 		namePanel.add(nameLabel);
-		namePanel.setBackground(Color.RED);
-		nameLabel.setBackground(Color.BLUE);
 		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		businessList.setRootVisible(false);
 		
