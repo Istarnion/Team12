@@ -1,9 +1,9 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -46,20 +47,23 @@ public class CentreCard extends JPanel {
 
 	private JScrollPane personnelScrollPane;
 
+	private JScrollPane textDescriptionScroll;
+
 	public CentreCard(int userID) {
 
-		this.setLayout(new GridLayout(8,3));
+		this.setLayout(new GridBagLayout());
 
 		buttonListener 		= new ButtonListener();
 		personnelListener	= new PersonnelListener();
-		businessNameLabel	= new JLabel(Text.getString("businessName") + ": ");
-		addressLabel		= new JLabel(Text.getString("adr") + ": ");
-		emailLabel			= new JLabel(Text.getString("email") + ": ");
-		telephoneLabel		= new JLabel(Text.getString("tel") + ": ");
-		openingHrsLabel		= new JLabel(Text.getString("openingHrs") + ": ");
-		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ");
-		areaLabel			= new JLabel(Text.getString("area") + ": ");
-		personnelLabel		= new JLabel(Text.getString("personnel") + ": ");
+		
+		businessNameLabel	= new JLabel(Text.getString("businessName") + ": ", SwingConstants.RIGHT);
+		addressLabel		= new JLabel(Text.getString("adr") + ": ", SwingConstants.RIGHT);
+		emailLabel			= new JLabel(Text.getString("email") + ": ", SwingConstants.RIGHT);
+		telephoneLabel		= new JLabel(Text.getString("tel") + ": ", SwingConstants.RIGHT);
+		openingHrsLabel		= new JLabel(Text.getString("openingHrs") + ": ", SwingConstants.RIGHT);
+		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ", SwingConstants.RIGHT);
+		areaLabel			= new JLabel(Text.getString("area") + ": ", SwingConstants.RIGHT);
+		personnelLabel		= new JLabel(Text.getString("personnel") + ": ", SwingConstants.RIGHT);
 		persNameLabel		= new JLabel("");
 		persTelephoneLabel	= new JLabel("");
 		persTitleLabel 		= new JLabel("");
@@ -72,15 +76,13 @@ public class CentreCard extends JPanel {
 		telephone			= new JTextField("");
 		openingHours		= new JTextField("");
 		area				= new JTextField("");
-		textDescription		= new JTextArea("");
+		textDescription		= new JTextArea("", 2,2);
+		textDescription.setLineWrap(true);
 		personnelList		= new JList<Personnel>();
-
 
 		personnelList.addListSelectionListener(personnelListener);
 		personnelScrollPane	= new JScrollPane(personnelList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		//personnelScrollPane.add(personnelList);
 
-		textDescription.setPreferredSize(new Dimension(50,50));
 
 		businessButton		= new JButton(Text.getString("edit"));
 		addressButton		= new JButton(Text.getString("edit"));
@@ -89,22 +91,9 @@ public class CentreCard extends JPanel {
 		openingHrsButton	= new JButton(Text.getString("edit"));
 		textDescrButton		= new JButton(Text.getString("edit"));
 		areaButton			= new JButton(Text.getString("edit"));
-
-		businessName.setEditable(false);
-		address.setEditable(false);
-		email.setEditable(false);
-		telephone.setEditable(false);
-		openingHours.setEditable(false);
-		textDescription.setEditable(false);
-		area.setEditable(false);
-
-		businessName.setBorder(null);
-		address.setBorder(null);
-		email.setBorder(null);
-		telephone.setBorder(null);
-		openingHours.setBorder(null);
-		textDescription.setBorder(null);
-		area.setBorder(null);
+		
+		textDescriptionScroll = new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));
 
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
@@ -119,37 +108,198 @@ public class CentreCard extends JPanel {
 		personnelPanel.add(persTelephoneLabel);
 		personnelPanel.add(persEmailLabel);
 
-		this.add(businessNameLabel);
-		this.add(businessName);
-		this.add(businessButton);
 
-		this.add(addressLabel);
-		this.add(address);		
-		this.add(addressButton);
-
-		this.add(emailLabel);
-		this.add(email);
-		this.add(emailButton);
-
-		this.add(telephoneLabel);
-		this.add(telephone);
-		this.add(telephoneButton);
-
-		this.add(openingHrsLabel);
-		this.add(openingHours);
-		this.add(openingHrsButton);
-
-		this.add(areaLabel);
-		this.add(area);
-		this.add(areaButton);
-
-		this.add(textDescrLabel);
-		this.add(textDescription);
-		this.add(textDescrButton);
-
-		this.add(personnelLabel);
-		this.add(personnelScrollPane);
-		this.add(personnelPanel);
+		GridBagConstraints constraints = new GridBagConstraints();
+		
+		constraints.insets.bottom = 5;
+		constraints.insets.top = 5;
+		
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(businessNameLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(businessName, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(businessButton, constraints);
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(addressLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(address, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(addressButton, constraints);
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(emailLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(email, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(emailButton, constraints);
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(telephoneLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 3;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(telephone, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 3;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(telephoneButton, constraints);
+		
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 4;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(openingHrsLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 4;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(openingHours, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 4;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(openingHrsButton, constraints);
+		
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 5;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.anchor = GridBagConstraints.NORTHEAST;
+		this.add(textDescrLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 5;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.BOTH;
+		this.add(textDescriptionScroll, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 5;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		constraints.anchor = GridBagConstraints.NORTH;
+		this.add(textDescrButton, constraints);
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 6;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.001;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(personnelLabel, constraints);
 
 
 	}
@@ -169,8 +319,6 @@ public class CentreCard extends JPanel {
 		}
 		personnelList.setModel(listModel);
 
-		textDescription.setBackground(Color.BLUE);
-
 		businessName.setEditable(false);
 		address.setEditable(false);
 		email.setEditable(false);
@@ -178,7 +326,6 @@ public class CentreCard extends JPanel {
 		openingHours.setEditable(false);
 		textDescription.setEditable(false);
 		area.setEditable(false);
-
 
 		businessButton.setText(Text.getString("edit"));
 		addressButton.setText(Text.getString("edit"));

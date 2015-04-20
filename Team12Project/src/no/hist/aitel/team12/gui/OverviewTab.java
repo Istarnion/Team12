@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.SwingConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -19,6 +20,7 @@ import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.util.Text;
 
 public class OverviewTab extends SSSTab {
 
@@ -65,14 +67,14 @@ public class OverviewTab extends SSSTab {
 		cardLayout		= new CardLayout();
 		cardPanel		= new JPanel(cardLayout);
 		namePanel		= new JPanel();
-		nameLabel		= new JLabel();
+		nameLabel		= new JLabel("Super Shopping Surfer", SwingConstants.LEFT);
 		estabCard		= new EstablishmentCard(userID);
 		buildingCard	= new BuildingCard(userID);
 		centreCard		= new CentreCard(userID);
 		logoCard 		= new LogoCard();
 		
 		scrollPaneLeft 	= new JScrollPane(businessList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
-		scrollPaneRight	= new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneRight	= new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		Font currentFont = businessList.getFont();
 		businessList.setFont(new Font(currentFont.getFontName(), currentFont.getStyle(), currentFont.getSize() + 3));
@@ -81,8 +83,9 @@ public class OverviewTab extends SSSTab {
 
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.PLAIN, 50));
 		namePanel.add(nameLabel);
-		nameLabel.setText("Super Shopping Surfer");
-		
+		namePanel.setBackground(Color.RED);
+		nameLabel.setBackground(Color.BLUE);
+		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		businessList.setRootVisible(false);
 		
 		cardPanel.add(logoCard, "logoCard");
@@ -142,7 +145,7 @@ public class OverviewTab extends SSSTab {
 
 				else if(node.getUserObject() instanceof ShoppingCentre) {
 					ShoppingCentre centre = (ShoppingCentre) node.getUserObject();
-					nameLabel.setText(centre.getBusinessName());
+					nameLabel.setText(Text.getString("centre") + ": " + centre.getBusinessName());
 					centreCard.updateCard(centre);
 					cardLayout.show(cardPanel, "centreCard");
 					scrollPaneRight.getVerticalScrollBar().setValue(0);
@@ -150,7 +153,7 @@ public class OverviewTab extends SSSTab {
 
 				else if(node.getUserObject() instanceof Building) {
 					Building building = (Building) node.getUserObject();
-					nameLabel.setText(building.getBuildingName());
+					nameLabel.setText(Text.getString("building") + ": " + building.getBuildingName());
 					buildingCard.updateCard(building);
 					cardLayout.show(cardPanel, "buildingCard");
 					scrollPaneRight.getVerticalScrollBar().setValue(0);
@@ -158,7 +161,7 @@ public class OverviewTab extends SSSTab {
 
 				else if(node.getUserObject() instanceof Establishment) {
 					Establishment estab = (Establishment) node.getUserObject();
-					nameLabel.setText(estab.getBusinessName());
+					nameLabel.setText(Text.getString("shop") + ": " + estab.getBusinessName());
 					estabCard.updateCard(estab);
 					cardLayout.show(cardPanel, "estabCard");
 					scrollPaneRight.getVerticalScrollBar().setValue(0);

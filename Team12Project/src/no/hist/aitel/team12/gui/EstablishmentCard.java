@@ -1,5 +1,6 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -52,7 +53,8 @@ public class EstablishmentCard extends JPanel {
 		email				= new JTextField("");
 		telephone			= new JTextField("");
 		openingHours		= new JTextField("");
-		textDescription		= new JTextArea("");
+		textDescription		= new JTextArea("", 2,2);
+		textDescription.setLineWrap(true);
 		
 		
 		businessButton		= new JButton(Text.getString("edit"));
@@ -64,14 +66,7 @@ public class EstablishmentCard extends JPanel {
 		tradeButton			= new JButton(Text.getString("trades"));
 		
 		textDescriptionScroll = new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		
-		businessName.setEditable(false);
-		address.setEditable(false);
-		email.setEditable(false);
-		telephone.setEditable(false);
-		openingHours.setEditable(false);
-		textDescription.setEditable(false);
-		
+		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));
 		
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
@@ -80,17 +75,19 @@ public class EstablishmentCard extends JPanel {
 		openingHrsButton.addActionListener(buttonListener);
 		textDescrButton.addActionListener(buttonListener);
 		tradeButton.addActionListener(buttonListener);
-		
-		
-		
+
 		
 		GridBagConstraints constraints = new GridBagConstraints();
+		
+		constraints.insets.bottom = 5;
+		constraints.insets.top = 5;
+		
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(businessNameLabel, constraints);
 		
@@ -98,8 +95,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 0;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(businessName, constraints);
 		
@@ -107,8 +104,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 		this.add(businessButton, constraints);
 		
@@ -118,8 +115,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(addressLabel, constraints);
 		
@@ -127,8 +124,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 1;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(address, constraints);
 		
@@ -136,8 +133,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 		this.add(addressButton, constraints);
 		
@@ -147,8 +144,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(emailLabel, constraints);
 		
@@ -156,8 +153,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 2;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(email, constraints);
 		
@@ -165,8 +162,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 		this.add(emailButton, constraints);
 		
@@ -176,8 +173,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(telephoneLabel, constraints);
 		
@@ -185,8 +182,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 3;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(telephone, constraints);
 		
@@ -194,8 +191,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 		this.add(telephoneButton, constraints);
 		
@@ -206,8 +203,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 4;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(openingHrsLabel, constraints);
 		
@@ -215,8 +212,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 4;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(openingHours, constraints);
 		
@@ -224,8 +221,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 4;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 		this.add(openingHrsButton, constraints);
 		
@@ -236,8 +233,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 5;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.4;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.anchor = GridBagConstraints.NORTHEAST;
 		this.add(textDescrLabel, constraints);
@@ -246,8 +243,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 5;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.4;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.BOTH;
 		this.add(textDescriptionScroll, constraints);
 		
@@ -255,8 +252,8 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 5;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.4;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.anchor = GridBagConstraints.NORTH;
 		this.add(textDescrButton, constraints);
@@ -267,19 +264,11 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 6;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.25;
-		constraints.weighty = 0.1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.01;
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.anchor = GridBagConstraints.NORTHWEST;
 		this.add(tradeButton, constraints);
-		
-		
-		
-		
-	
-	
-	
-	
 	}
 	
 	public void updateCard(Establishment establishment) {
