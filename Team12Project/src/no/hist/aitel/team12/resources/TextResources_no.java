@@ -95,7 +95,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"title", "Tittel"},
 				{"centre", "Senter"},
 				{"building", "Bygg"},
-				{"shop", "Butikk"}
+				{"shop", "Butikk"},
+				{"cmp","Firma"},
+				{"pos","Posisjon"}
 		};
 	}
 }

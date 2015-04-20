@@ -67,6 +67,8 @@ public class SqlTextArea extends RSyntaxTextArea {
 		super(rows, cols-3);
 		super.setSyntaxEditingStyle(SYNTAX_STYLE_SQL);
 		
+		
+		
 		lines = new JTextArea("001");
 		lines.setEditable(false);
 		lines.setBackground(Color.LIGHT_GRAY);

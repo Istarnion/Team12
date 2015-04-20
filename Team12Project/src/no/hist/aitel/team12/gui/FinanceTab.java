@@ -7,8 +7,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -25,6 +23,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import no.hist.aitel.team12.app.PDFGenerator;
 import no.hist.aitel.team12.util.Text;
@@ -168,19 +167,20 @@ public class FinanceTab extends SSSTab {
 
 							@Override
 							protected Void doInBackground() throws Exception {
-								PDFGenerator.generatePDF();
+
+								PDFGenerator.generatePDF("budgetdoc.pdf");
 								Image img = PDFGenerator.showPDF();
 								pdfLabel.setIcon(new ImageIcon(img));
 								pdfLabel.repaint();
 								return null;
 							}
-							
+
 							@Override
 							protected void done() {
 								pressedButton.setText(Text.getString("spdf"));
 								pressedButton.setEnabled(true);
 							}
-							
+
 						};
 						pressedButton.setText(Text.getString("generating"));
 						pressedButton.setEnabled(false);
@@ -227,41 +227,47 @@ public class FinanceTab extends SSSTab {
 
 			}
 			else{
-				try {
-					OutputWrite(getSaveLocation());
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(pdfFromDate.getDate()!=null && pdfToDate.getDate()!=null){
+					Calendar pdfCalF = Calendar.getInstance();
+					Calendar pdfCalT = Calendar.getInstance();
+					pdfCalF.setTime(pdfFromDate.getDate());
+					pdfCalT.setTime(pdfToDate.getDate());
+
+					if(pdfCalF.before(pdfCalT)||pdfCalF.equals(pdfCalT)){
+						savePDF();
+					}else{
+						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, Text.getString("pdferr"));		
+
 				}
-				
 			}
-			System.out.println("Save pdf button pressed");
 		}
 
-	}
 
+		void savePDF() {
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF","pdf");
+			chooser.setFileFilter(filter);
+			chooser.setSelectedFile(new File("revenue.pdf"));
+			int result = chooser.showSaveDialog(null);
 
-	 File getSaveLocation() {
-		JFileChooser chooser = new JFileChooser();
-		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);  
-		int result = chooser.showSaveDialog(this);
-
-		if (result == JFileChooser.APPROVE_OPTION) { 
-			return chooser.getSelectedFile();
-		} else {
-			return null;
+			if (result == JFileChooser.APPROVE_OPTION) {
+				PDFGenerator.generatePDF(chooser.getSelectedFile().getPath());
+				File file = chooser.getSelectedFile();
+				String file_name = file.toString();
+				if (!file_name.endsWith(".pdf")){
+				    file_name += ".pdf";
+				}
+			}
 		}
-	}
-
-	public void OutputWrite(File saveLocation)throws FileNotFoundException {
-		PrintWriter file = 
-				new PrintWriter(new File(saveLocation, "budgetdoc.pdf"));
+		
 	}
 
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
-
+		
 	}
-
 }

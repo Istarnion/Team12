@@ -95,8 +95,10 @@ public class TextResources extends ListResourceBundle {
 				{"title", "Title"},				
 				{"centre", "Centre"},
 				{"building", "Building"},
-				{"shop", "Shop"}
-
+				{"shop", "Shop"},
+				{"title", "Title"},
+				{"cmp","Company"},
+				{"pos","Position"}
 
 		};
 	}

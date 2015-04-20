@@ -14,9 +14,11 @@ import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.IntHashMap;
 import no.hist.aitel.team12.app.Message;
+import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 import bak.pcj.list.IntArrayList;
@@ -384,6 +386,105 @@ public class DatabaseConnection implements Database {
 		return found;
 	}
 
+	@Override
+	public Person[] getPersons(int userID) {
+		ResultSet result = null;
+		Person[] persons = null;
+		
+		User[] users = null;
+		Personnel[] personnel = null;
+		
+		try(
+				PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
+				PreparedStatement personellQuery = connection.prepareStatement("SELECT * FROM personnel_view");
+				) {
+			
+			result = userQuery.executeQuery();
+			result.last();
+			int numUsers = result.getRow();
+			result.beforeFirst();
+			
+			users = new User[numUsers];
+			int index = 0;
+			while(result.next()) {
+				users[index++] = new User(
+						result.getInt("employee_number"),
+						result.getString("first_name"),
+						result.getString("last_name"),
+						new Address(
+								result.getString("address"),
+								result.getInt("zipcode"),
+								"temp",
+								"temp"),
+						new EmailAddress(result.getString("email")),
+						result.getInt("telephone"),
+						result.getInt("salary"),
+						result.getString("username")
+						);
+			}
+			result.close();
+			
+			result = personellQuery.executeQuery();
+			result.last();
+			int numPersonnel = result.getRow();
+			result.beforeFirst();
+			
+			personnel = new Personnel[numPersonnel];
+			index = 0;
+			while(result.next()) {
+				personnel[index++] = new Personnel (
+						result.getInt("employee_number"),
+						result.getString("first_name"),
+						result.getString("last_name"),
+						new Address(
+								result.getString("address"),
+								result.getInt("zipcode"),
+								"temp",
+								"temp"),
+						new EmailAddress(result.getString("email")),
+						result.getInt("telephone"),
+						result.getInt("salary"),
+						result.getString("title"),
+						result.getInt("centre_id")
+						);
+			}
+			result.close();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			
+		}
+		catch(NullPointerException e) {
+			System.out.println(e.getMessage());
+			users = null;
+			personnel = null;
+		}
+		finally {
+			if(result != null) {
+				try {
+					result.close();
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		if(users != null && personnel != null) {
+			persons = new Person[users.length + personnel.length];
+			
+			int index = 0;
+			for(User u : users) {
+				persons[index++] = u;
+			}
+			for(Personnel p : personnel) {
+				persons[index++] = p;
+			}
+		}
+		
+		return persons;
+	}
+	
 	@Override
 	public UserType getUserType(int userId) {
 		if(userId == 1) return UserType.SYS_ADMIN;
