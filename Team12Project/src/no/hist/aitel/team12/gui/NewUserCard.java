@@ -22,29 +22,29 @@ public class NewUserCard extends JPanel {
 	public NewUserCard() {
 		super.setLayout(new GridLayout(9, 1, 2, 2));
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
+		firstName = new InputField(Text.getString("firstname"), 20);
 		super.add(firstName);
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
-		super.add(firstName);
+		lastName = new InputField(Text.getString("firstname"), 20);
+		super.add(lastName);
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
-		super.add(firstName);
+		address = new InputField(Text.getString("firstname"), 20);
+		super.add(address);
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
-		super.add(firstName);
+		zipcode = new InputField(Text.getString("firstname"), 20);
+		super.add(zipcode);
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
-		super.add(firstName);
+		email = new InputField(Text.getString("firstname"), 20);
+		super.add(email);
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
-		super.add(firstName);
+		telephone = new InputField(Text.getString("firstname"), 20);
+		super.add(telephone);
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
-		super.add(firstName);
+		salary = new InputField(Text.getString("firstname"), 20);
+		super.add(salary);
 		
-		firstName = new InputField(Text.getString("firstName"), 20);
-		super.add(firstName);
+		username = new InputField(Text.getString("firstname"), 20);
+		super.add(username);
 		
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));

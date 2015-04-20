@@ -14,6 +14,7 @@ import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.IntHashMap;
 import no.hist.aitel.team12.app.Message;
+import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.ShoppingCentre;
@@ -384,6 +385,38 @@ public class DatabaseConnection implements Database {
 		return found;
 	}
 
+	@Override
+	public Person[] getPersons(int userID) {
+		ResultSet result = null;
+		Person[] persons = null;
+		
+		try(
+				PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
+				PreparedStatement personellQuery = connection.prepareStatement("");
+				) {
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		catch(NullPointerException e) {
+			System.out.println(e.getMessage());
+			persons = null;
+		}
+		finally {
+			if(result != null) {
+				try {
+					result.close();
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return persons;
+	}
+	
 	@Override
 	public UserType getUserType(int userId) {
 		if(userId == 1) return UserType.SYS_ADMIN;
