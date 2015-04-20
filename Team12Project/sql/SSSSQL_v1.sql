@@ -225,14 +225,17 @@ CREATE INDEX reciever_id_index		ON messageReciever (message_id);
 
 -- Creating views
 CREATE VIEW user_view AS (
-	SELECT username, employee_number, first_name, last_name, salary, zipcode, address, district
+	SELECT username, employee_number, first_name, last_name, salary, zipcode, address, district, email, telephone
 	FROM user
 	LEFT JOIN person USING (employee_number)
 	LEFT JOIN zipcode USING (zipcode)
 );
 
-CREATE VIEW personell_view AS (
-	
+CREATE VIEW personnel_view AS (
+	SELECT employee_number, centre_id, first_name, last_name, salary, zipcode, address, district, title, email, telephone
+	FROM personnel
+	LEFT JOIN person USING (employee_number)
+	LEFT JOIN zipcode USING (zipcode)
 );
 
 CREATE VIEW message_view AS (

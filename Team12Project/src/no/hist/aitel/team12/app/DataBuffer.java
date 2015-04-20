@@ -40,6 +40,8 @@ public class DataBuffer {
 	
 	private Message[][] messageBuffers;
 	
+	private Person[][] personBuffers;
+	
 	private Thread thread;
 	
 	private final int centreUserID, messageUserID;
@@ -58,6 +60,7 @@ public class DataBuffer {
 		
 		centreBuffers = new ShoppingCentre[numBuffers][];
 		messageBuffers = new Message[numBuffers][];
+		personBuffers = new Person[numBuffers][];
 		
 		run();
 	}
@@ -74,6 +77,7 @@ public class DataBuffer {
 			public void run() {
 				ShoppingCentre[] carray;
 				Message[] marray;
+				Person[] parray;
 				
 				String username = db.getUsername(messageUserID);
 				while(!this.isInterrupted()) {
@@ -84,6 +88,10 @@ public class DataBuffer {
 					marray = db.getMessages(username);
 					if(marray == null) break;
 					messageBuffers[currentIndex] = marray;
+					
+					parray = db.getPersons(centreUserID);
+					if(parray == null) break;
+					personBuffers[currentIndex] = parray;
 					
 					currentIndex++;
 					if(currentIndex >= centreBuffers.length) currentIndex = 0;
@@ -127,6 +135,21 @@ public class DataBuffer {
 		if(dataBuffer == null) return null;
 		if(dataBuffer.safePointer >= 0) {
 			return dataBuffer.messageBuffers[dataBuffer.safePointer];
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Finds the most up to date, safe buffer of persons
+	 * 
+	 * @return An array of persons in the db
+	 */
+	public static Person[] getPersons() {
+		if(dataBuffer == null) return null;
+		if(dataBuffer.safePointer >= 0) {
+			return dataBuffer.personBuffers[dataBuffer.safePointer];
 		}
 		else {
 			return null;

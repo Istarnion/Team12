@@ -26,10 +26,11 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import no.hist.aitel.team12.app.User;
+import no.hist.aitel.team12.app.DataBuffer;
+import no.hist.aitel.team12.app.Person;
+import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseConnection;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
@@ -48,26 +49,32 @@ public class UserTab extends SSSTab {
 	private JButton editUser = new JButton(Text.getString("edituser"));
 
 	private JPanel buttonPanel;
+
+	private JList<Person> personTable;
+
 	private JPanel mainPanel;
-	
-	private JList<User> userTable;
-	private JTable resultTable;
 
 	public UserTab() {
 		this.setLayout(new BorderLayout());
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new CardLayout());
-		
-		mainPanel.add(new NewUserCard(), "newUserCard");
+
 		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new EditUserCard(), "editUserCard");		
-		this.add(mainPanel, BorderLayout.CENTER);
+		mainPanel.add(new NewUserCard(), "newUserCard");
+		mainPanel.add(new EditUserCard(), "editUserCard");
 		
+		this.add(mainPanel, BorderLayout.CENTER);
+
 		JPanel userPanel = new JPanel();
 		userPanel.setLayout(new BorderLayout());
-		userTable = new JList<User>();
-		JScrollPane resultTablePane = new JScrollPane(userTable);
+		
+		Person[] parray = null;
+		while(parray == null) {
+			parray = DataBuffer.getPersons();
+		}
+		personTable = new JList<Person>(parray);
+		JScrollPane resultTablePane = new JScrollPane(personTable);
 		resultTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		userPanel.add(resultTablePane, BorderLayout.CENTER);
 
@@ -94,20 +101,25 @@ public class UserTab extends SSSTab {
 			}
 
 			DefaultTableModel tableModel = new DefaultTableModel(content, output[0]);
-			resultTable.setModel(tableModel);
+			//resultTable.setModel(tableModel);
 		}
 	}
 
 	private class ButtonListener implements ActionListener{
+
+		@Override
 		public void actionPerformed(ActionEvent event) {
-			JButton button = (JButton) event.getSource();
+
+			Database db;
+
+			JButton button = new JButton();
 
 			if (button == newUser) {
-				mainPanel.add(new NewUserCard(), "newUserCard");
+
 			}
 			else if (button == editUser) {
 				/* ------------------------------Edit existing user--------------------------------- */ 
-				mainPanel.add(new EditUserCard(), "editUserCard");
+
 			}
 
 		}
