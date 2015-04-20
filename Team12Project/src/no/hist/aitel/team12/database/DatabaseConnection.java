@@ -860,18 +860,27 @@ public class DatabaseConnection implements Database {
 	
 	
 	@Override
-	public boolean updateBusiness(int businessId, String collumn, String value) {
+	public boolean updateBusiness(int businessId, String column, String value) {
 		
 		String sql = "UPDATE business SET ? = ? WHERE business_id = ?";
 		
 		try(PreparedStatement statement = connection.prepareStatement(sql)) {
 			
+			connection.setAutoCommit(false);
+			
+			statement.setString(1, column);
+			statement.setString(2, value);
+			statement.setInt(3, businessId);
+			
+			connection.commit();
+			connection.setAutoCommit(true);
+			
+			return true;
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
-	
-		return false;
 	}
 	
 	
