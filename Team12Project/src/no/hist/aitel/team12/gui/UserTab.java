@@ -26,10 +26,10 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import no.hist.aitel.team12.app.User;
-import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseConnection;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
@@ -48,24 +48,21 @@ public class UserTab extends SSSTab {
 	private JButton editUser = new JButton(Text.getString("edituser"));
 
 	private JPanel buttonPanel;
-
-	private JList<User> userTable;
-
 	private JPanel mainPanel;
+	
+	private JList<User> userTable;
+	private JTable resultTable;
 
 	public UserTab() {
 		this.setLayout(new BorderLayout());
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new CardLayout());
-
-		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new NewUserCard(), "newUserCard");
-		mainPanel.add(new EditUserCard(), "editUserCard");
 		
+		mainPanel.add(new NewUserCard(), "newUserCard");
+		mainPanel.add(new LogoCard(), "logoCard");
+		mainPanel.add(new EditUserCard(), "editUserCard");		
 		this.add(mainPanel, BorderLayout.CENTER);
-
-		Database db = DatabaseFactory.getDatabase();
 		
 		JPanel userPanel = new JPanel();
 		userPanel.setLayout(new BorderLayout());
@@ -97,25 +94,20 @@ public class UserTab extends SSSTab {
 			}
 
 			DefaultTableModel tableModel = new DefaultTableModel(content, output[0]);
-			//resultTable.setModel(tableModel);
+			resultTable.setModel(tableModel);
 		}
 	}
 
 	private class ButtonListener implements ActionListener{
-
-		@Override
 		public void actionPerformed(ActionEvent event) {
-
-			Database db;
-
-			JButton button = new JButton();
+			JButton button = (JButton) event.getSource();
 
 			if (button == newUser) {
-
+				mainPanel.add(new NewUserCard(), "newUserCard");
 			}
 			else if (button == editUser) {
 				/* ------------------------------Edit existing user--------------------------------- */ 
-
+				mainPanel.add(new EditUserCard(), "editUserCard");
 			}
 
 		}
