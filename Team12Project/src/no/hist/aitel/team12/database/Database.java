@@ -204,5 +204,5 @@ public interface Database {
 	 */
 	public boolean sendMessage (String sender, String[] recievers, String content, String subject);
 
-	boolean updateBusiness(int businessId, String column, String value);
+
 }
