@@ -1,62 +1,31 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import no.hist.aitel.team12.util.Text;
 
-public class EditUserCard extends JPanel {
-
+public class EditUserCard extends UserCard {
 	private static final long serialVersionUID = -8466460979393419014L;
 	
-	private InputField firstName, lastName, address, zipcode, email, telephone, username, company, position, salary, password;
-	
-	private JButton saveButton, cancelButton;
-	
-	private JPanel buttonPanel;
 
-	public EditUserCard() {
+
+	private JButton saveButton, cancelButton;
+	private JPanel buttonPanel;
+	
+	public EditUserCard(InputField firstName, InputField lastName, InputField address, InputField zipcode, 
+			InputField email, InputField telephone, InputField username, InputField company, InputField position, 
+			InputField salary, PasswordInputField password, JLabel emptyLabel, JLabel logoLabel, JPanel westPanel, 
+			JPanel eastPanel, JPanel eastBottom, BufferedImage logo) {
 		
-		super.setLayout(new GridLayout(11,1));
-		
-		
-		firstName = new InputField(Text.getString("firstname"), 20);
-		super.add(firstName);
-		
-		lastName = new InputField(Text.getString("lastname"), 20);
-		super.add(lastName);
-		
-		address = new InputField(Text.getString("adr"), 20);
-		super.add(address);
-		
-		zipcode = new InputField(Text.getString("zip"), 20);
-		super.add(zipcode);
-		
-		email = new InputField(Text.getString("email"), 20);
-		super.add(email);
-		
-		telephone = new InputField(Text.getString("tel"), 20);
-		super.add(telephone);
-		
-		company = new InputField(Text.getString("cmp"), 20);
-		super.add(company);
-		
-		position = new InputField(Text.getString("pos"), 20);
-		super.add(position);
-		
-		salary = new InputField(Text.getString("sal"), 20);
-		super.add(salary);
-		
-		username = new InputField(Text.getString("usr"), 20);
-		super.add(username);
-		
-		password = new InputField(Text.getString("pwd"), 20);
-		super.add(password);
-		
+		super(firstName, lastName, address, zipcode, email, telephone, username, company, position, salary, password, emptyLabel, 
+				logoLabel, westPanel, eastPanel, eastBottom, logo);
 		
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
@@ -64,7 +33,7 @@ public class EditUserCard extends JPanel {
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
 		
-		super.add(buttonPanel);
+		super.add(buttonPanel, BorderLayout.SOUTH);
 		
 		saveButton.addActionListener(new ActionListener() {
 			@Override
@@ -72,6 +41,17 @@ public class EditUserCard extends JPanel {
 				
 			}
 		});
+		
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				
+			}
+		});
+	}
+	public boolean setEditable(){
+		/* --------------- this method set the inputfields editable, in order to edit values ---------------- */
+			return false;
 	}
 
 }

@@ -26,11 +26,9 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
 
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Person;
-import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseConnection;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
@@ -60,9 +58,19 @@ public class UserTab extends SSSTab {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new CardLayout());
 
+		
+		/* get the parameters: firstName, lastName, address, zipcode, email, telephone, username, 
+		 * company, logoLabel, westPanel, eastPanel, eastBottom, logo
+		*/
+		mainPanel.add(new UserCard(null, null, null, null, null, null, null, null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "usercard");
+		
+		
 		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new NewUserCard(), "newUserCard");
-		mainPanel.add(new EditUserCard(), "editUserCard");
+		mainPanel.add(new NewUserCard(null, null, null, null, null, null, null, null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "newUserCard");
+		
+		
+		/*---------------------------- set editable! --------------------------- */
+		mainPanel.add(new EditUserCard(null, null, null, null, null, null, null, null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "editUserCard");
 		
 		this.add(mainPanel, BorderLayout.CENTER);
 
@@ -100,28 +108,24 @@ public class UserTab extends SSSTab {
 				content[row][col] = output[row+1][col];
 			}
 
-			DefaultTableModel tableModel = new DefaultTableModel(content, output[0]);
-			//resultTable.setModel(tableModel);
+
 		}
 	}
 
 	private class ButtonListener implements ActionListener{
-
 		@Override
 		public void actionPerformed(ActionEvent event) {
 
-			Database db;
-
-			JButton button = new JButton();
+			JButton button = (JButton) event.getSource();
 
 			if (button == newUser) {
-
+			/* ------------------------------Create new user------------------------------------ */
+				/*---------------------------- cast NewUserCard --------------------- */
 			}
 			else if (button == editUser) {
-				/* ------------------------------Edit existing user--------------------------------- */ 
-
+			/* ------------------------------Edit existing user--------------------------------- */
+				/*---------------------------- cast EditUserCard --------------------- */
 			}
-
 		}
 
 	}
