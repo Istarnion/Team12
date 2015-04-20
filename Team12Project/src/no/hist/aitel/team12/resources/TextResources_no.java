@@ -98,7 +98,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"shop", "Butikk"},
 				{"cmp","Firma"},
 				{"pos","Posisjon"},
-				{"invalidEmail", "Ugyldig epost-addresse, prøv igjen"}
+				{"invalidEmail", "Ugyldig epost-addresse, prøv igjen"},
+				{"invalidTel", "Ugyldig telefonnummer, oppgi 8 siffer"}
 		};
 	}
 }

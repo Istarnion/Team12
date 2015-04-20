@@ -1,6 +1,5 @@
 package no.hist.aitel.team12.app;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -58,7 +57,7 @@ public class Business {
 	}
 
 	public boolean setBusinessName(String businessName) {
-		if(db.executePreparedStatement("UPDATE business SET business_name = ? WHERE business_id = " + this.businessId)) {
+		if(db.executePreparedStatement("UPDATE business SET business_name = ? WHERE business_id = " + this.businessId, businessName)) {
 			this.businessName = businessName;
 			return true;
 		}
@@ -121,8 +120,11 @@ public class Business {
 	}
 
 	public boolean setDescription(String description) {
-		this.description = description;
-		return true;
+		if(db.executePreparedStatement("UPDATE business SET text_description = ? WHERE business_id = " + this.businessId, description)) {
+			this.description = description;
+			return true;
+		}
+		return false;
 	}
 
 	public Address getAddress() {
@@ -130,8 +132,11 @@ public class Business {
 	}
 
 	public boolean setAddress(String address) {
-		this.address.setAddress(address);
-		return true;
+		if(db.executePreparedStatement("UPDATE business SET address = ? WHERE business_id = " + this.businessId, address)) {
+			this.address.setAddress(address);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean setZipcode(String zipcode) {

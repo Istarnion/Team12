@@ -99,8 +99,8 @@ public class TextResources extends ListResourceBundle {
 				{"title", "Title"},
 				{"cmp","Company"},
 				{"pos","Position"},
-				{"invalidEmail", "Invalid email address, try again"}
-
+				{"invalidEmail", "Invalid email address, try again"},
+				{"invalidTel", "Invalid telephone number, type in 8 digits"}
 		};
 	}
 }

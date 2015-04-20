@@ -314,6 +314,9 @@ public class EstablishmentCard extends JPanel {
 					businessButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setBusinessName(businessName.getText())) {
+						return;
+					}
 					businessName.setEditable(false);
 					businessButton.setText(Text.getString("edit"));
 				}
@@ -325,6 +328,9 @@ public class EstablishmentCard extends JPanel {
 					addressButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setAddress(address.getText())) {
+						return;
+					}
 					address.setEditable(false);
 					addressButton.setText(Text.getString("edit"));
 				}
@@ -350,14 +356,11 @@ public class EstablishmentCard extends JPanel {
 				}
 				else {
 					if(!establishment.setTelephone(telephone.getText())) {
-						JOptionPane.showMessageDialog(null, "change this text");
+						JOptionPane.showMessageDialog(null, Text.getString("invalidTel"));
 						return;
 					}
-					
 					telephone.setEditable(false);
 					telephoneButton.setText(Text.getString("edit"));
-					
-					
 				}
 			}
 			else if(pressedButton.equals(openingHrsButton)) {
@@ -376,6 +379,9 @@ public class EstablishmentCard extends JPanel {
 					textDescrButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setDescription(textDescription.getText())) {
+						return;
+					}
 					textDescription.setEditable(false);
 					textDescrButton.setText(Text.getString("edit"));
 				}
