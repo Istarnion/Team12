@@ -628,6 +628,33 @@ public class DatabaseConnection implements Database {
 		return out;
 	}
 
+	@Override
+	public boolean executePreparedStatement(String statement, Object... args) {
+		boolean ok = false;
+		
+		try(PreparedStatement prepStatement = connection.prepareStatement(statement)) {
+			for(int i=0; i<args.length; i++) {
+				if(args[i] instanceof String) {
+					prepStatement.setString(i, (String)args[i]);
+				}
+				else if(args[i] instanceof Integer) {
+					prepStatement.setInt(i, (Integer)args[i]);
+				}
+				else {
+					return false;
+				}
+			}
+			
+			prepStatement.executeUpdate();
+			ok = true;
+		}
+		catch(SQLException e) {
+			ok = false;
+		}
+		
+		return ok;
+	}
+	
 
 	@Override
 	public synchronized Message[] getMessages(String username) {

@@ -52,6 +52,15 @@ public interface Database {
 	public String executeUpdate(String sql);
 	
 	/**
+	 * Executes the given prepared statement with the provided arguments
+	 * 
+	 * @param statement A string with a syntacticly correct SQL statement
+	 * @param args	A list of arguments, in the correct order.
+	 * @return True if the update was successful, false if not.
+	 */
+	public boolean executePreparedStatement(String statement, Object... args);
+	
+	/**
 	 * Method for retrieving the user ID through the username.
 	 * Although the usernames are unique, comparisons between ints are more reliable than Strings,
 	 * and therefore using the user IDs should be preferred over using the user name in the application logic.
