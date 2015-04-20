@@ -762,5 +762,23 @@ public class DatabaseConnection implements Database {
 
 		return true;
 	}
+	
+	
+	@Override
+	public boolean updateBusiness(int businessId, String collumn, String value) {
+		
+		String sql = "UPDATE business SET ? = ? WHERE business_id = ?";
+		
+		try(PreparedStatement statement = connection.prepareStatement(sql)) {
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return false;
+	}
+	
+	
 
 }

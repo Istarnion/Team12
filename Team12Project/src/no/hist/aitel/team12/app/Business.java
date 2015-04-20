@@ -2,6 +2,8 @@ package no.hist.aitel.team12.app;
 
 import java.util.ArrayList;
 
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 
 public class Business {
@@ -21,6 +23,8 @@ public class Business {
 	private int openingHours;
 	
 	private ArrayList<Revenue> revenue;
+	
+	private Database db;
 
 	public Business(
 			int businessId, String businessName,
@@ -36,6 +40,7 @@ public class Business {
 		this.description 	= description;
 		this.address 		= address;
 		this.revenue 		= revenue;
+		db 					= DatabaseFactory.getDatabase();
 		}
 
 	public String getBusinessnameDmp() {
