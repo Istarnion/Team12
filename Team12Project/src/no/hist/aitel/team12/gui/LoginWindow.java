@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -151,28 +149,6 @@ public class LoginWindow {
 		
 		userText.addActionListener(loginListener);
 		passwordText.addActionListener(loginListener);
-		
-		/*  --------------------FOR DEBUG PURPOSES ONLY--------------------  */
-		userText.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent ke) {
-				if(ke.isControlDown()) {
-					if(ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-						sss.login("admin", "TeamAdmin12");
-					}
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-			}
-		});
-		/*  --------------------FOR DEBUG PURPOSES ONLY--------------------  */
 		
 		cancelButton = new JButton(Text.getString("cancel"));
 		cancelButton.addActionListener(new ActionListener() {
