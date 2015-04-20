@@ -1,5 +1,7 @@
-package no.hist.aitel.team12.database;
+package no.hist.aitel.team12.database.test;
 
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.PasswordManager;
 
 public class Test {
