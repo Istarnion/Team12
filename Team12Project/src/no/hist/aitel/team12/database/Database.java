@@ -203,4 +203,6 @@ public interface Database {
 	 * @return
 	 */
 	public boolean sendMessage (String sender, String[] recievers, String content, String subject);
+
+	boolean updateBusiness(int businessId, String collumn, String value);
 }
