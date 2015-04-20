@@ -98,7 +98,8 @@ public class TextResources extends ListResourceBundle {
 				{"shop", "Shop"},
 				{"title", "Title"},
 				{"cmp","Company"},
-				{"pos","Position"}
+				{"pos","Position"},
+				{"invalidEmail", "Invalid email address, try again"}
 
 		};
 	}

@@ -331,11 +331,14 @@ public class EstablishmentCard extends JPanel {
 			}
 			
 			else if(pressedButton.equals(emailButton)) {
-				if(emailButton.getText() == Text.getString("edit")) {
+				if(emailButton.getText().equals(Text.getString("edit"))) {
 					email.setEditable(true);
 					emailButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setEmail(email.getText())) {
+						return;
+					}
 					email.setEditable(false);
 					emailButton.setText(Text.getString("edit"));
 				}
@@ -347,8 +350,8 @@ public class EstablishmentCard extends JPanel {
 				}
 				else {
 					if(!establishment.setTelephone(telephone.getText())) {
-						telephone.setText(String.valueOf(establishment.getTelephone()));
-						JOptionPane.showMessageDialog(null, "Something went wrong!");
+						JOptionPane.showMessageDialog(null, "change this text");
+						return;
 					}
 					
 					telephone.setEditable(false);

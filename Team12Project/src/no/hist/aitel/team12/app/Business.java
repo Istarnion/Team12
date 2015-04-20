@@ -3,9 +3,12 @@ package no.hist.aitel.team12.app;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
+import no.hist.aitel.team12.util.Text;
 
 public class Business {
 
@@ -67,7 +70,17 @@ public class Business {
 	}
 
 	public boolean setEmail(String email) {
-		return true;
+		if(EmailAddress.isValidEmailAddress(email)) {
+			if(db.executePreparedStatement("UPDATE business SET email = ? WHERE business_id = " + this.businessId, email)) {
+				this.email = new EmailAddress(email);
+				return true;
+			}
+			return false;
+		}
+		else{
+			JOptionPane.showMessageDialog(null, Text.getString("invalidEmail"));
+			return false;
+		}
 	}
 
 	public int getTelephone() {
