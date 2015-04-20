@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.DataBuffer;
@@ -83,8 +84,6 @@ public class OverviewTab extends SSSTab {
 
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.PLAIN, 50));
 		namePanel.add(nameLabel);
-		namePanel.setBackground(Color.RED);
-		nameLabel.setBackground(Color.BLUE);
 		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		businessList.setRootVisible(false);
 		
@@ -176,6 +175,12 @@ public class OverviewTab extends SSSTab {
 
 	@Override
 	public void refresh() {
-		rightPanel.repaint();
+		businessArray = null;
+		while(businessArray == null) {
+			Thread.yield();
+			businessArray 		= DataBuffer.getCentres();
+		}
+		businessList.setModel(new DefaultTreeModel(setupTree()));
+
 	}
 }

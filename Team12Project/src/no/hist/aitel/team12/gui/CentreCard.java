@@ -56,7 +56,7 @@ public class CentreCard extends JPanel {
 		buttonListener 		= new ButtonListener();
 		personnelListener	= new PersonnelListener();
 		
-		businessNameLabel	= new JLabel(Text.getString("businessName") + ": ", SwingConstants.RIGHT);
+		businessNameLabel	= new JLabel(Text.getString("name") + ": ", SwingConstants.RIGHT);
 		addressLabel		= new JLabel(Text.getString("adr") + ": ", SwingConstants.RIGHT);
 		emailLabel			= new JLabel(Text.getString("email") + ": ", SwingConstants.RIGHT);
 		telephoneLabel		= new JLabel(Text.getString("tel") + ": ", SwingConstants.RIGHT);
