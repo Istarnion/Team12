@@ -5,12 +5,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,13 +30,11 @@ public class OverviewTab extends SSSTab {
 
 	private JScrollPane scrollPaneLeft, scrollPaneRight;
 
-	private JLabel logoLabel, nameLabel;
-
-	private BufferedImage logo;
+	private JLabel nameLabel;
 
 	private JPanel 
 		leftPanel, rightPanel, namePanel, 
-		cardPanel, logoCard;
+		cardPanel;
 	
 	private EstablishmentCard estabCard;
 	
@@ -49,18 +43,14 @@ public class OverviewTab extends SSSTab {
 	private CentreCard centreCard;
 	
 	private CardLayout cardLayout;
+	
+	private LogoCard logoCard;
 
 	public OverviewTab(int userID) {
 		
 		// Set layout for this tab
 		this.setLayout(new BorderLayout());
 		
-		// Get image of logo
-		try {
-			logo = ImageIO.read(getClass().getResource("/images/simpleLogo.png"));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}		
 
 		// Populate businessArray from CentreBuffer
 		while(businessArray == null) {
@@ -76,11 +66,10 @@ public class OverviewTab extends SSSTab {
 		cardPanel		= new JPanel(cardLayout);
 		namePanel		= new JPanel();
 		nameLabel		= new JLabel();
-		logoLabel 		= new JLabel();
-		logoCard 		= new JPanel();
 		estabCard		= new EstablishmentCard(userID);
 		buildingCard	= new BuildingCard(userID);
 		centreCard		= new CentreCard(userID);
+		logoCard 		= new LogoCard();
 		
 		scrollPaneLeft 	= new JScrollPane(businessList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
 		scrollPaneRight	= new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -90,8 +79,6 @@ public class OverviewTab extends SSSTab {
 		scrollPaneRight.setBorder(null);
 		namePanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 
-		logoLabel.setIcon(new ImageIcon(logo));
-		logoCard.add(logoLabel);
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.PLAIN, 50));
 		namePanel.add(nameLabel);
 		nameLabel.setText("Super Shopping Surfer");
@@ -112,7 +99,10 @@ public class OverviewTab extends SSSTab {
 		this.add(leftPanel, BorderLayout.WEST);
 		this.add(rightPanel, BorderLayout.CENTER);
 		
+		
 		setUpListener();
+		
+		
 	}
 
 	private DefaultMutableTreeNode setupTree() {
@@ -155,20 +145,23 @@ public class OverviewTab extends SSSTab {
 					nameLabel.setText(centre.getBusinessName());
 					centreCard.updateCard(centre);
 					cardLayout.show(cardPanel, "centreCard");
+					scrollPaneRight.getVerticalScrollBar().setValue(0);
 				}
 
 				else if(node.getUserObject() instanceof Building) {
 					Building building = (Building) node.getUserObject();
 					nameLabel.setText(building.getBuildingName());
 					buildingCard.updateCard(building);
-					cardLayout.show(cardPanel, "buildingCard");		
+					cardLayout.show(cardPanel, "buildingCard");
+					scrollPaneRight.getVerticalScrollBar().setValue(0);
 				}
 
 				else if(node.getUserObject() instanceof Establishment) {
 					Establishment estab = (Establishment) node.getUserObject();
 					nameLabel.setText(estab.getBusinessName());
 					estabCard.updateCard(estab);
-					cardLayout.show(cardPanel, "estabCard");				
+					cardLayout.show(cardPanel, "estabCard");
+					scrollPaneRight.getVerticalScrollBar().setValue(0);
 				}
 				else {
 					// log error
