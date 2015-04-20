@@ -42,6 +42,8 @@ public class Business {
 		this.description 	= description;
 		this.address 		= address;
 		this.revenue 		= revenue;
+		
+		db = DatabaseFactory.getDatabase();
 	}
 
 	public String getBusinessnameDmp() {
@@ -78,7 +80,7 @@ public class Business {
 			if(String.valueOf(parsedTlf).length() != 8){
 				return false;
 			}
-			if(db.updateBusiness(businessId, "telephone", telephone)){
+			if(db.executePreparedStatement("UPDATE business SET telephone = ? WHERE business_id = " + this.businessId, parsedTlf)){
 				this.telephone = parsedTlf;
 				return true;
 			}

@@ -34,6 +34,8 @@ public class EstablishmentCard extends JPanel {
 	
 	private JScrollPane textDescriptionScroll;
 	
+	private Establishment establishment;
+	
 	public EstablishmentCard(int userID) {
 		
 		this.setLayout(new GridBagLayout());
@@ -272,6 +274,7 @@ public class EstablishmentCard extends JPanel {
 	}
 	
 	public void updateCard(Establishment establishment) {
+		this.establishment = establishment;
 		businessName.setText(establishment.getBusinessName());
 		address.setText(establishment.getAddress().getAdress());
 		email.setText(establishment.getEmail().getEmailAddress());
@@ -338,13 +341,20 @@ public class EstablishmentCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(telephoneButton)) {
-				if(telephoneButton.getText() == Text.getString("edit")) {
+				if(telephoneButton.getText().equals(Text.getString("edit"))) {
 					telephone.setEditable(true);
 					telephoneButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setTelephone(telephone.getText())) {
+						telephone.setText(String.valueOf(establishment.getTelephone()));
+						JOptionPane.showMessageDialog(null, "Something went wrong!");
+					}
+					
 					telephone.setEditable(false);
 					telephoneButton.setText(Text.getString("edit"));
+					
+					
 				}
 			}
 			else if(pressedButton.equals(openingHrsButton)) {
