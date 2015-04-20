@@ -18,6 +18,7 @@ package no.hist.aitel.team12.database;
 
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Message;
+import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.PasswordManager;
@@ -75,6 +76,15 @@ public interface Database {
 	 * @return 
 	 */
 	public boolean isUserInDb(String username);
+	
+	/**
+	 * Retrieves an array of all persons in the db.
+	 * Note that the objects in this array is never simply of the base type Person, but either User or Personnel
+	 * 
+	 * @param userID The ID of the user the returned users are related to. This must be either the system admin (return all users) or a centre manager
+	 * @return An array of needed users
+	 */
+	public Person[] getPersons(int userID); 
 	
 	/**
 	 * Finds the hashed and salted password for the user indicated by the user ID.

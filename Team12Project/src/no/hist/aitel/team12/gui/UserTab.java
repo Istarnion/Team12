@@ -23,11 +23,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseConnection;
 import no.hist.aitel.team12.database.DatabaseFactory;
@@ -48,26 +49,28 @@ public class UserTab extends SSSTab {
 
 	private JPanel buttonPanel;
 
-	private JTable resultTable;
+	private JList<User> userTable;
 
 	private JPanel mainPanel;
 
 	public UserTab() {
 		this.setLayout(new BorderLayout());
 
-		JPanel mainPanel = new JPanel();
-		CardLayout cards = new CardLayout();
+		mainPanel = new JPanel();
 		mainPanel.setLayout(new CardLayout());
 
 		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new NewUserCard(), "newUserTab");
+		mainPanel.add(new NewUserCard(), "newUserCard");
+		mainPanel.add(new EditUserCard(), "editUserCard");
 		
 		this.add(mainPanel, BorderLayout.CENTER);
 
+		Database db = DatabaseFactory.getDatabase();
+		
 		JPanel userPanel = new JPanel();
 		userPanel.setLayout(new BorderLayout());
-		resultTable = new JTable();
-		JScrollPane resultTablePane = new JScrollPane(resultTable);
+		userTable = new JList<User>();
+		JScrollPane resultTablePane = new JScrollPane(userTable);
 		resultTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		userPanel.add(resultTablePane, BorderLayout.CENTER);
 
@@ -93,9 +96,8 @@ public class UserTab extends SSSTab {
 				content[row][col] = output[row+1][col];
 			}
 
-
 			DefaultTableModel tableModel = new DefaultTableModel(content, output[0]);
-			resultTable.setModel(tableModel);
+			//resultTable.setModel(tableModel);
 		}
 	}
 
@@ -109,50 +111,6 @@ public class UserTab extends SSSTab {
 			JButton button = new JButton();
 
 			if (button == newUser) {
-				/* ------------------------------Create new user------------------------------------ */
-				/**
-				 * 
-				 * String firstName;
-				 * String lastName;
-				 * String address;
-				 * int zipCode;
-				 * String email;
-				 * int telephone;
-				 * int salary;
-				 * String username;
-				 * String password;
-				 */
-
-				DatabaseFactory.setup();
-				db = DatabaseFactory.getDatabase();
-
-				/* ----------------------- Show the save-button for the saving a new user ----------*/
-				JPanel bottomPanel = new JPanel();
-				bottomPanel.add(createUser);
-				mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
-				try {
-					boolean success = db.createUser(
-							firstName.getText(), 
-							lastName.getText(), 
-							address.getText(), 
-							Integer.parseInt(zipCode.getText()), 
-							electronicmail.getText(), 
-							Integer.parseInt(telephone.getText()), 
-							Integer.parseInt(salary.getText()), 
-							username.getText(), 
-							password.getText());
-
-					//User.setUser(newUser);
-
-
-
-
-				}
-				catch (Exception e) {
-					// TODO: handle exception
-				}
-
 
 			}
 			else if (button == editUser) {

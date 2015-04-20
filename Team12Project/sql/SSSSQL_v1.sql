@@ -224,6 +224,17 @@ CREATE INDEX reciever_name_index	ON messageReciever (username);
 CREATE INDEX reciever_id_index		ON messageReciever (message_id);
 
 -- Creating views
+CREATE VIEW user_view AS (
+	SELECT username, employee_number, first_name, last_name, salary, zipcode, address, district
+	FROM user
+	LEFT JOIN person USING (employee_number)
+	LEFT JOIN zipcode USING (zipcode)
+);
+
+CREATE VIEW personell_view AS (
+	
+);
+
 CREATE VIEW message_view AS (
 	SELECT DISTINCT message_id, content, subject, timestamp, s.username AS 'Sender', r.username AS 'Reciever', (r.trashed OR s.trashed) AS 'trashed'
 	FROM message m
