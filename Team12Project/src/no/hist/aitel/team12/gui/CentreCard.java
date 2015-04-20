@@ -48,6 +48,8 @@ public class CentreCard extends JPanel {
 	private JScrollPane personnelScrollPane;
 
 	private JScrollPane textDescriptionScroll;
+	
+	private ShoppingCentre centre;
 
 	public CentreCard(int userID) {
 
@@ -305,6 +307,7 @@ public class CentreCard extends JPanel {
 	}
 
 	public void updateCard(ShoppingCentre centre) {
+		this.centre = centre;
 		businessName.setText(centre.getBusinessName());
 		address.setText(centre.getAddress().getAdress());
 		email.setText(centre.getEmail().getEmailAddress());
@@ -344,43 +347,55 @@ public class CentreCard extends JPanel {
 
 			if(pressedButton.equals(businessButton)) {
 
-				if(businessButton.getText() == Text.getString("edit")) {
+				if(businessButton.getText().equals(Text.getString("edit"))) {
 					businessName.setEditable(true);
 					businessButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!centre.setBusinessName(businessName.getText())) {
+						return;
+					}
 					businessName.setEditable(false);
 					businessButton.setText(Text.getString("edit"));
 				}
 
 			}
 			else if(pressedButton.equals(addressButton)) {
-				if(addressButton.getText() == Text.getString("edit")) {
+				if(addressButton.getText().equals(Text.getString("edit"))) {
 					address.setEditable(true);
 					addressButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!centre.setAddress(address.getText())) {
+						return;
+					}
 					address.setEditable(false);
 					addressButton.setText(Text.getString("edit"));
 				}
 			}
 
 			else if(pressedButton.equals(emailButton)) {
-				if(emailButton.getText() == Text.getString("edit")) {
+				if(emailButton.getText().equals(Text.getString("edit"))) {
 					email.setEditable(true);
 					emailButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!centre.setEmail(email.getText())) {
+						return;
+					}
 					email.setEditable(false);
 					emailButton.setText(Text.getString("edit"));
 				}
 			}
 			else if(pressedButton.equals(telephoneButton)) {
-				if(telephoneButton.getText() == Text.getString("edit")) {
+				if(telephoneButton.getText().equals(Text.getString("edit"))) {
 					telephone.setEditable(true);
 					telephoneButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!centre.setTelephone(telephone.getText())) {
+						return;
+					}
 					telephone.setEditable(false);
 					telephoneButton.setText(Text.getString("edit"));
 				}
@@ -391,6 +406,9 @@ public class CentreCard extends JPanel {
 					openingHrsButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!centre.setOpeningHours(openingHours.getText())) {
+						return;
+					}
 					openingHours.setEditable(false);
 					openingHrsButton.setText(Text.getString("edit"));
 				}
@@ -411,6 +429,9 @@ public class CentreCard extends JPanel {
 					textDescrButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!centre.setDescription(textDescription.getText())) {
+						return;
+					}
 					textDescription.setEditable(false);
 					textDescrButton.setText(Text.getString("edit"));
 				}
