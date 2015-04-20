@@ -2,6 +2,7 @@
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -11,10 +12,12 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -144,12 +147,6 @@ public class MessageTab extends SSSTab {
 
 		add(comboArea,BorderLayout.CENTER);
 
-		// Colors for debugging
-		//		inboxArea.setBackground(Color.BLUE);
-		//		comboArea.setBackground(Color.RED);
-		//		viewMessagePanel.setBackground(Color.PINK);
-		//		sendMessagePanel.setBackground(Color.CYAN);
-
 		comboArea.setLayout(new GridLayout(2, 1));
 		comboArea.add(viewMessagePanel);
 		comboArea.add(sendMessagePanel);
@@ -173,6 +170,8 @@ public class MessageTab extends SSSTab {
 		constraintsViewMsg.weighty = .035;
 		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
 		viewMessagePanel.add(from,constraintsViewMsg);
+		from.setEditable(false);
+		from.setBackground(Color.WHITE);
 
 		// Button for replying to message
 		JButton reply = new JButton(Text.getString("reply"));
@@ -205,6 +204,8 @@ public class MessageTab extends SSSTab {
 		constraintsViewMsg.weighty = .025;
 		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
 		viewMessagePanel.add(subject, constraintsViewMsg);
+		subject.setEditable(false);
+		subject.setBackground(Color.WHITE);
 
 		// Field for viewing selected message
 		constraintsViewMsg.gridx = 0;
@@ -217,7 +218,26 @@ public class MessageTab extends SSSTab {
 		viewMessagePanel.add(viewMessageScroll, constraintsViewMsg);
 		viewMessageText.setEditable(false);
 
-
+		// SEPARATOR
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 3;
+		constraintsViewMsg.gridwidth = 2;
+		constraintsViewMsg.gridheight = 1;
+		constraintsViewMsg.weightx = 1;
+		constraintsViewMsg.weighty = .035;
+		constraintsViewMsg.fill = GridBagConstraints.BOTH;
+		viewMessagePanel.add(new JLabel(), constraintsViewMsg);
+		
+		JSeparator separator = new JSeparator();
+		constraintsViewMsg.gridx = 0;
+		constraintsViewMsg.gridy = 4;
+		constraintsViewMsg.gridwidth = 2;
+		constraintsViewMsg.gridheight = 1;
+		constraintsViewMsg.weightx = 1;
+		constraintsViewMsg.weighty = .01;
+		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
+		viewMessagePanel.add(separator, constraintsViewMsg);
+		
 		// SENDMESSAGE AREA
 
 		sendMessageText = new JTextArea();
@@ -335,6 +355,10 @@ public class MessageTab extends SSSTab {
 
 	@Override
 	public void refresh() {
+		int ibSel = inboxList.getSelectedIndex();
+		int obSel = outboxList.getSelectedIndex();
+		int tSel = trashList.getSelectedIndex();
+		
 		DefaultListModel<Message> inboxModel = new DefaultListModel<Message>();
 		DefaultListModel<Message> outboxModel = new DefaultListModel<Message>();
 		DefaultListModel<Message> trashModel = new DefaultListModel<Message>();
@@ -344,11 +368,13 @@ public class MessageTab extends SSSTab {
 			if(m.isDeleted()) {
 				trashModel.addElement(m);
 			}
-			else if(m.getSender().equals(username)) {
-				outboxModel.addElement(m);
-			}
 			else {
-				inboxModel.addElement(m);
+				if(m.getSender().equals(username)) {
+					outboxModel.addElement(m);
+				}
+				if(m.getReciever().equals(username)) {
+					inboxModel.addElement(m);
+				}
 			}
 		}
 
@@ -356,6 +382,10 @@ public class MessageTab extends SSSTab {
 		inboxList.setModel(inboxModel);
 		outboxList.setModel(outboxModel);
 		trashList.setModel(trashModel);
+		
+		inboxList.setSelectedIndex(ibSel);
+		outboxList.setSelectedIndex(obSel);
+		trashList.setSelectedIndex(tSel);
 	}
 }
 
