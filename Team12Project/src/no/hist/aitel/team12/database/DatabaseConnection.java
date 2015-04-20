@@ -635,10 +635,10 @@ public class DatabaseConnection implements Database {
 		try(PreparedStatement prepStatement = connection.prepareStatement(statement)) {
 			for(int i=0; i<args.length; i++) {
 				if(args[i] instanceof String) {
-					prepStatement.setString(i, (String)args[i]);
+					prepStatement.setString(i+1, (String)args[i]);
 				}
 				else if(args[i] instanceof Integer) {
-					prepStatement.setInt(i, (Integer)args[i]);
+					prepStatement.setInt(i+1, (Integer)args[i]);
 				}
 				else {
 					return false;

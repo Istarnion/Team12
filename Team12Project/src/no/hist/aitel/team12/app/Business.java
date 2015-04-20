@@ -55,7 +55,7 @@ public class Business {
 	}
 
 	public boolean setBusinessName(String businessName) {
-		if(db.updateBusiness(businessId, "business_name", businessName)) {
+		if(db.executePreparedStatement("UPDATE business SET business_name = ? WHERE business_id = " + this.businessId)) {
 			this.businessName = businessName;
 			return true;
 		}
