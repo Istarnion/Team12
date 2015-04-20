@@ -197,7 +197,7 @@ public class UserTab extends SSSTab {
 			
 			Database db;
 			
-			JButton button = new JButton();
+			JButton button = (JButton) event.getSource();
 			
 			if (button == newUser) {
 		/* ------------------------------Create new user------------------------------------ */
@@ -237,6 +237,8 @@ public class UserTab extends SSSTab {
 							password.getText());
 					 
 					 //User.setUser(newUser);
+					 //DatabaseFactory.getDatabase(createUser);
+					 //DatabaseConnection.createUser();
 					 
 					
 					 
@@ -262,43 +264,41 @@ public class UserTab extends SSSTab {
 				editPanel.add(editPassword);
 				mainPanel.add(editPanel, BorderLayout.EAST);
 				
-				JButton b = new JButton();
-				
-				if (b == editFirstName) {
+				if (button == editFirstName) {
 					/*		change text "edit to "save"		*/
 					/*		Save new first name				*/
 					editFirstName = new JButton(Text.getString("save"));
 					//firstName = new firstName();
 					
-				}else if (b == editLastName) {
+				}else if (button == editLastName) {
 					/*		change text "edit to "save"		*/
 					/*		Save new last name				*/
 					editLastName = new JButton(Text.getString("save"));
-				}else if (b == editAddress) {
+				}else if (button == editAddress) {
 					/*		change text "edit to "save"		*/
 					/*		Save new address				*/
 					editAddress = new JButton(Text.getString("save"));
-				}else if (b == editZipCode) {
+				}else if (button == editZipCode) {
 					/*		change text "edit to "save"		*/
 					/*		Save new zip code				*/
 					editZipCode = new JButton(Text.getString("save"));
-				}else if (b == editEmail) {
+				}else if (button == editEmail) {
 					/*		change text "edit to "save"		*/
 					/*		Save new email					*/
 					editEmail = new JButton(Text.getString("save"));
-				}else if (b == editTelephone) {
+				}else if (button == editTelephone) {
 					/*		change text "edit to "save"		*/
 					/*		Save new telephone				*/
 					editTelephone = new JButton(Text.getString("save"));
-				}else if (b == editSalary) {
+				}else if (button == editSalary) {
 					/*		change text "edit to "save"		*/
 					/*		Save new salary					*/
 					editSalary = new JButton(Text.getString("save"));
-				}else if (b == editUsername) {
+				}else if (button == editUsername) {
 					/*		change text "edit to "save"		*/
 					/*		Save new username				*/
 					editUsername = new JButton(Text.getString("save"));
-				}else if (b == editPassword) {
+				}else if (button == editPassword) {
 					/*		change text "edit to "save"		*/
 					/*		Save new password				*/
 					editPassword = new JButton(Text.getString("save"));
