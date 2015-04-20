@@ -20,6 +20,8 @@ public class SSSWindow extends JFrame {
 	private static final long serialVersionUID = -6075431975477953906L;
 
 	private JTabbedPane tabbedPane;
+
+	private SSSTab currTab;
 	
 	public SSSWindow() {
 		addWindowListener(new WindowListener() {
@@ -75,9 +77,11 @@ public class SSSWindow extends JFrame {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				((SSSTab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())).refresh();
+				if(currTab != null) currTab.setActive(false);
+				currTab = (SSSTab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
+				currTab.setActive(true);
+				currTab.refresh();
 			}
-			
 		});
 		
 		add(tabbedPane);

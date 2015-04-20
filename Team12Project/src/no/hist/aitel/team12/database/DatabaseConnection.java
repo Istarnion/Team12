@@ -679,6 +679,7 @@ public class DatabaseConnection implements Database {
 
 			for(int i=0; result.next(); i++) {
 				messages[i] = new Message(
+						result.getInt("message_id"),
 						result.getString("Reciever"),
 						result.getString("Sender"),
 						result.getString("subject"),

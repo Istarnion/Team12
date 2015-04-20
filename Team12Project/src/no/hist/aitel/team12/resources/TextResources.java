@@ -100,7 +100,8 @@ public class TextResources extends ListResourceBundle {
 				{"cmp","Company"},
 				{"pos","Position"},
 				{"invalidEmail", "Invalid email address, try again"},
-				{"invalidTel", "Invalid telephone number, type in 8 digits"}
+				{"invalidTel", "Invalid telephone number, type in 8 digits"},
+				{"delMsg", "Trash message"}
 		};
 	}
 }
