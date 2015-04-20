@@ -1,17 +1,18 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.util.Text;
@@ -20,31 +21,31 @@ public class EstablishmentCard extends JPanel {
 
 	private static final long serialVersionUID = 9040445246335124938L;
 	
-	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, tradesLabel;
+	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel;
 
 	private JTextField businessName, email, telephone, openingHours, address;
 	
-	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, newTradeButton;
+	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, tradeButton;
 	
 	private JTextArea textDescription;
 	
-	private JComboBox<String> tradeList;
-	
 	private ButtonListener buttonListener;
+	
+	private JScrollPane textDescriptionScroll;
 	
 	public EstablishmentCard(int userID) {
 		
-		this.setLayout(new GridLayout(7,3));
+		this.setLayout(new GridBagLayout());
 		
 		buttonListener 		= new ButtonListener();
 		
-		businessNameLabel	= new JLabel(Text.getString("businessName") + ": ");
-		addressLabel		= new JLabel(Text.getString("adr") + ": ");
-		emailLabel			= new JLabel(Text.getString("email") + ": ");
-		telephoneLabel		= new JLabel(Text.getString("tel") + ": ");
-		openingHrsLabel		= new JLabel(Text.getString("openingHrs") + ": ");
-		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ");
-		tradesLabel			= new JLabel(Text.getString("trades"));
+		businessNameLabel	= new JLabel(Text.getString("businessName") + ": ", SwingConstants.RIGHT);
+		addressLabel		= new JLabel(Text.getString("adr") + ": ", SwingConstants.RIGHT);
+		emailLabel			= new JLabel(Text.getString("email") + ": ", SwingConstants.RIGHT);
+		telephoneLabel		= new JLabel(Text.getString("tel") + ": ", SwingConstants.RIGHT);
+		openingHrsLabel		= new JLabel(Text.getString("openingHrs") + ": ", SwingConstants.RIGHT);
+		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ", SwingConstants.RIGHT);
+		
 		
 		businessName		= new JTextField("");
 		address				= new JTextField("");
@@ -52,10 +53,6 @@ public class EstablishmentCard extends JPanel {
 		telephone			= new JTextField("");
 		openingHours		= new JTextField("");
 		textDescription		= new JTextArea("");
-		tradeList			= new JComboBox<String>();
-
-		
-		textDescription.setPreferredSize(new Dimension(50,50));
 		
 		
 		businessButton		= new JButton(Text.getString("edit"));
@@ -64,7 +61,9 @@ public class EstablishmentCard extends JPanel {
 		telephoneButton		= new JButton(Text.getString("edit"));
 		openingHrsButton	= new JButton(Text.getString("edit"));
 		textDescrButton		= new JButton(Text.getString("edit"));
-		newTradeButton		= new JButton(Text.getString("newTrade"));
+		tradeButton			= new JButton(Text.getString("trades"));
+		
+		textDescriptionScroll = new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		businessName.setEditable(false);
 		address.setEditable(false);
@@ -73,12 +72,6 @@ public class EstablishmentCard extends JPanel {
 		openingHours.setEditable(false);
 		textDescription.setEditable(false);
 		
-		businessName.setBorder(null);
-		address.setBorder(null);
-		email.setBorder(null);
-		telephone.setBorder(null);
-		openingHours.setBorder(null);
-		textDescription.setBorder(null);
 		
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
@@ -86,38 +79,207 @@ public class EstablishmentCard extends JPanel {
 		telephoneButton.addActionListener(buttonListener);
 		openingHrsButton.addActionListener(buttonListener);
 		textDescrButton.addActionListener(buttonListener);
-		newTradeButton.addActionListener(buttonListener);
+		tradeButton.addActionListener(buttonListener);
 		
 		
 		
-		this.add(businessNameLabel);
-		this.add(businessName);
-		this.add(businessButton);
 		
-		this.add(addressLabel);
-		this.add(address);		
-		this.add(addressButton);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(businessNameLabel, constraints);
 		
-		this.add(emailLabel);
-		this.add(email);
-		this.add(emailButton);
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.5;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(businessName, constraints);
 		
-		this.add(telephoneLabel);
-		this.add(telephone);
-		this.add(telephoneButton);
+		constraints.gridx = 4;
+		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(businessButton, constraints);
 		
-		this.add(openingHrsLabel);
-		this.add(openingHours);
-		this.add(openingHrsButton);
 		
-		this.add(textDescrLabel);
-		this.add(textDescription);
-		this.add(textDescrButton);
 		
-		this.add(tradesLabel);
-		this.add(tradeList);
-		this.add(newTradeButton);
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(addressLabel, constraints);
 		
+		constraints.gridx = 1;
+		constraints.gridy = 1;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.5;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(address, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 1;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(addressButton, constraints);
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(emailLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.5;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(email, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(emailButton, constraints);
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(telephoneLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 3;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.5;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(telephone, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 3;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(telephoneButton, constraints);
+		
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 4;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(openingHrsLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 4;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.5;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(openingHours, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 4;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(openingHrsButton, constraints);
+		
+		
+		
+		
+		constraints.gridx = 0;
+		constraints.gridy = 5;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.4;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.anchor = GridBagConstraints.NORTHEAST;
+		this.add(textDescrLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 5;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.5;
+		constraints.weighty = 0.4;
+		constraints.fill = GridBagConstraints.BOTH;
+		this.add(textDescriptionScroll, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 5;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.4;
+		constraints.fill = GridBagConstraints.NONE;
+		constraints.anchor = GridBagConstraints.NORTH;
+		this.add(textDescrButton, constraints);
+		
+		
+		
+		constraints.gridx = 1;
+		constraints.gridy = 6;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.25;
+		constraints.weighty = 0.1;
+		constraints.fill = GridBagConstraints.NONE;
+		constraints.anchor = GridBagConstraints.NORTHWEST;
+		this.add(tradeButton, constraints);
+		
+		
+		
+		
+	
+	
+	
+	
 	}
 	
 	public void updateCard(Establishment establishment) {
@@ -127,11 +289,7 @@ public class EstablishmentCard extends JPanel {
 		telephone.setText(String.valueOf(establishment.getTelephone()));
 		openingHours.setText(String.valueOf(establishment.getOpeningHours()));
 		textDescription.setText(establishment.getDescription());
-		tradeList.removeAllItems();
-		for(String s : establishment.getTrades()) {
-			tradeList.addItem(s);
-		}
-		
+
 		businessName.setEditable(false);
 		address.setEditable(false);
 		email.setEditable(false);
@@ -220,7 +378,7 @@ public class EstablishmentCard extends JPanel {
 					textDescrButton.setText(Text.getString("edit"));
 				}
 			}
-			else if(pressedButton.equals(newTradeButton)) {
+			else if(pressedButton.equals(tradeButton)) {
 				newTrade();
 			}
 			
