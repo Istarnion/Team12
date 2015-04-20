@@ -76,10 +76,12 @@ public class SSS {
 		splash.removeSplash();
 		
 		// Login
-		login = new LoginWindow(this);
-		login.showLoginWindow();
+//		login = new LoginWindow(this);
+//		login.showLoginWindow();
 		
 		sss = this;
+		
+		login("admin", "TeamAdmin12");
 	}
 	
 	public static void main(String[] args) {
@@ -94,7 +96,7 @@ public class SSS {
 		boolean ok = PasswordManager.validatePasswordMatch(password, db.getPasswordHash(id));
 		
 		if(ok) {
-			login.dispose();
+			if(login != null) login.dispose();
 			
 			DataBuffer.setup(2, 2, id, id);
 			
