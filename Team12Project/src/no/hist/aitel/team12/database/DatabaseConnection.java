@@ -648,7 +648,8 @@ public class DatabaseConnection implements Database {
 			prepStatement.executeUpdate();
 			ok = true;
 		}
-		catch(SQLException e) {
+		catch(Exception e) {
+			System.out.println(e.getMessage());
 			ok = false;
 		}
 		
