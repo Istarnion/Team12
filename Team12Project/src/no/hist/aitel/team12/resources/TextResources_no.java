@@ -92,7 +92,12 @@ public class TextResources_no extends ListResourceBundle {
 				{"trades", "Bransjer"},
 				{"personnel", "Personell"},
 				{"name", "Navn"},
-				{"title", "Tittel"}
+				{"title", "Tittel"},
+				{"centre", "Senter"},
+				{"building", "Bygg"},
+				{"shop", "Butikk"},
+				{"cmp","Firma"},
+				{"pos","Posisjon"}
 		};
 	}
 }

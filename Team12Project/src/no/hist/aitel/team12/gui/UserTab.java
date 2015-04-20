@@ -28,7 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-import no.hist.aitel.team12.app.User;
+import no.hist.aitel.team12.app.DataBuffer;
+import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseConnection;
 import no.hist.aitel.team12.database.DatabaseFactory;
@@ -49,7 +50,7 @@ public class UserTab extends SSSTab {
 
 	private JPanel buttonPanel;
 
-	private JList<User> userTable;
+	private JList<Person> personTable;
 
 	private JPanel mainPanel;
 
@@ -65,12 +66,15 @@ public class UserTab extends SSSTab {
 		
 		this.add(mainPanel, BorderLayout.CENTER);
 
-		Database db = DatabaseFactory.getDatabase();
-		
 		JPanel userPanel = new JPanel();
 		userPanel.setLayout(new BorderLayout());
-		userTable = new JList<User>();
-		JScrollPane resultTablePane = new JScrollPane(userTable);
+		
+		Person[] parray = null;
+		while(parray == null) {
+			parray = DataBuffer.getPersons();
+		}
+		personTable = new JList<Person>(parray);
+		JScrollPane resultTablePane = new JScrollPane(personTable);
 		resultTablePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		userPanel.add(resultTablePane, BorderLayout.CENTER);
 

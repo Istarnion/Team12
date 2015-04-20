@@ -96,4 +96,9 @@ public class Person {
 	public int getEmployeeNumber() {
 		return employeeNumber;
 	}
+	
+	@Override
+	public String toString() {
+		return this.firstName + " " + this.lastName; 
+	}
 }

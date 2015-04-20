@@ -46,12 +46,12 @@ import com.sun.pdfview.PDFPage;
 
 public class PDFGenerator {
 
-	public static void generatePDF(){
-
+	public static void generatePDF(String path){
+		
 		Document document = new Document();
 		document.setPageSize(PageSize.A4);
 
-		try(FileOutputStream fos = new FileOutputStream("budgetdoc.pdf")) {
+		try(FileOutputStream fos = new FileOutputStream(path)) {
 			PdfWriter writer = PdfWriter.getInstance(document, fos);
 
 			document.open();
