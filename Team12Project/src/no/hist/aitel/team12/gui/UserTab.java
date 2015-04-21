@@ -18,6 +18,7 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -75,6 +76,7 @@ public class UserTab extends SSSTab {
 
 		JPanel userPanel = new JPanel();
 		userPanel.setLayout(new BorderLayout());
+		userPanel.setPreferredSize(new Dimension(200,0));
 		
 		Person[] parray = null;
 		while(parray == null) {

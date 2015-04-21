@@ -95,7 +95,7 @@ public class OverviewTab extends SSSTab {
 		
 		rightPanel.add(namePanel, BorderLayout.NORTH);
 		rightPanel.add(scrollPaneRight, BorderLayout.CENTER);
-		leftPanel.setPreferredSize(new Dimension(250, 0));		
+		leftPanel.setPreferredSize(new Dimension(200, 0));		
 		leftPanel.add(scrollPaneLeft, BorderLayout.CENTER);
 		
 		this.add(leftPanel, BorderLayout.WEST);
