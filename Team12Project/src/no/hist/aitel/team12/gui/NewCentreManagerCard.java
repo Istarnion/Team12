@@ -88,6 +88,16 @@ public class NewCentreManagerCard extends JPanel {
 	}
 	
 	public void prepareCard() {
-		
+		firstName.setText("");
+		lastName.setText("");
+		username.setText("");
+		email.setText("");
+		personalAddress.setText("");
+		personalZip.setText("");
+		telephone.setText("");
+		salary.setText("");
+		centreName.setText("");
+		centreAddress.setText("");
+		centreZip.setText("");
 	}
 }
