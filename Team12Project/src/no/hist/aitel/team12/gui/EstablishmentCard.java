@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -20,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.app.Establishment;
+import no.hist.aitel.team12.app.Personnel;
+import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.util.Text;
 
 public class EstablishmentCard extends JPanel {
@@ -35,6 +38,7 @@ public class EstablishmentCard extends JPanel {
 	private Establishment establishment;
 	private JList tradesLeftList, tradesRightList;
 	private JTextFieldLimit openingTextField1, openingTextField2,openingTextField3, openingTextField4;
+
 	public EstablishmentCard(int userID) {
 
 		this.setLayout(new GridBagLayout());
@@ -143,7 +147,7 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.10;
+		constraints.weightx = 0.10; 
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(businessNameLabel, constraints);
@@ -395,6 +399,20 @@ public class EstablishmentCard extends JPanel {
 
 	public void updateCard(Establishment establishment) {
 		this.establishment = establishment;
+
+		DefaultListModel<Trade> selectedListModel = new DefaultListModel<Trade>();
+		for(Trade t : Trade.getSelectedTrades(establishment.getEstablishmentId())) {
+			if(t != null) selectedListModel.addElement(t);
+		}
+		tradesLeftList.setModel(selectedListModel);
+		
+		DefaultListModel<Trade> availableListModel = new DefaultListModel<Trade>();
+		for(Trade t : Trade.getAvailableTrades(establishment.getEstablishmentId())) {
+			if(t != null) availableListModel.addElement(t);
+		}
+		tradesRightList.setModel(availableListModel);
+		
+		
 		businessName.setText(establishment.getBusinessName());
 		address.setText(establishment.getAddress().getAdress());
 		email.setText(establishment.getEmail().getEmailAddress());

@@ -78,7 +78,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"firstname","Fornavn"},
 				{"lastname","Etternavn"},
 				{"adr","Adresse"},
-				{"zip","Postboks"},
+				{"zip","Postnummer"},
 				{"tel","Telefon"},
 				{"sal","Lønn"},
 				{"reverr", " Ingen fortjeneste er skrevet inn"},

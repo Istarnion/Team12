@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="libs/JTattoo-1.6.11.jar"/>
 	<classpathentry kind="lib" path="libs/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="libs/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="C:/Users/helk/Downloads/jgoodies-looks-2.8.0/jgoodies-looks-2.8.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
