@@ -62,15 +62,14 @@ public class UserTab extends SSSTab {
 		/* get the parameters: firstName, lastName, address, zipcode, email, telephone, username, 
 		 * company, logoLabel, westPanel, eastPanel, eastBottom, logo
 		*/
-		mainPanel.add(new UserCard(null, null, null, null, null, null, null, null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "usercard");
-		
+		mainPanel.add(new UserCard(null, null, null, null, null, null, null, 
+				null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "usercard");
 		
 		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new NewUserCard(null, null, null, null, null, null, null, null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "newUserCard");
-		
-		
-		/*---------------------------- set editable! --------------------------- */
-		mainPanel.add(new EditUserCard(null, null, null, null, null, null, null, null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "editUserCard");
+		mainPanel.add(new NewUserCard(null, null, null, null, null, null, null, 
+				null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "newUserCard");
+		mainPanel.add(new EditUserCard(null, null, null, null, null, null, null, 
+				null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "editUserCard");
 		
 		this.add(mainPanel, BorderLayout.CENTER);
 
