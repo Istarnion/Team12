@@ -140,7 +140,23 @@ public class Business {
 	}
 
 	public boolean setZipcode(String zipcode) {
-		return true;
+		int parsedZip = 0;
+		try {
+			parsedZip = Integer.parseInt(zipcode);
+			if(String.valueOf(parsedZip).length() != 4) {
+				JOptionPane.showMessageDialog(null, Text.getString("invalidZip"));
+				return false;
+			}
+		}
+		catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidZip"));
+			return false;
+		}
+		if(db.executePreparedStatement("UPDATE business SET zip = ? WHERE business_id = " + this.businessId, parsedZip)) {
+			this.address.setZipcode(parsedZip);
+			return true;
+		}
+		return false;
 	}
 
 	public ArrayList<Revenue> getRevenue() {
