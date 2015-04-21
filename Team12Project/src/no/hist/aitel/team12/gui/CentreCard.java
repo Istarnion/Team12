@@ -27,15 +27,15 @@ public class CentreCard extends JPanel {
 
 	private static final long serialVersionUID = -511628429934079700L;
 
-	private JTextField businessName, email, telephone, openingHours, address, area;
+	private JTextField zip, businessName, email, telephone, openingHours, address, area;
 
-	private JLabel businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, areaLabel, personnelLabel;
+	private JLabel zipLabel, businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, areaLabel, personnelLabel;
 	
 	private JLabel persNameLabel, persTelephoneLabel, persTitleLabel, persEmailLabel;
 	
 	private JPanel personnelPanel;
 	
-	private JButton businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
+	private JButton zipButton, businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
 
 	private JTextArea textDescription;
 
@@ -66,6 +66,7 @@ public class CentreCard extends JPanel {
 		textDescrLabel		= new JLabel(Text.getString("textDescription") + ": ", SwingConstants.RIGHT);
 		areaLabel			= new JLabel(Text.getString("area") + ": ", SwingConstants.RIGHT);
 		personnelLabel		= new JLabel(Text.getString("personnel") + ": ", SwingConstants.RIGHT);
+		zipLabel			= new JLabel(Text.getString("zip") + ": ", SwingConstants.RIGHT);
 		persNameLabel		= new JLabel("");
 		persTelephoneLabel	= new JLabel("");
 		persTitleLabel 		= new JLabel("");
@@ -78,6 +79,7 @@ public class CentreCard extends JPanel {
 		telephone			= new JTextField("");
 		openingHours		= new JTextField("");
 		area				= new JTextField("");
+		zip					= new JTextField("");
 		textDescription		= new JTextArea("", 2,2);
 		textDescription.setLineWrap(true);
 		personnelList		= new JList<Personnel>();
@@ -93,6 +95,7 @@ public class CentreCard extends JPanel {
 		openingHrsButton	= new JButton(Text.getString("edit"));
 		textDescrButton		= new JButton(Text.getString("edit"));
 		areaButton			= new JButton(Text.getString("edit"));
+		zipButton			= new JButton(Text.getString("edit"));
 		
 		textDescriptionScroll = new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));
@@ -104,6 +107,7 @@ public class CentreCard extends JPanel {
 		openingHrsButton.addActionListener(buttonListener);
 		textDescrButton.addActionListener(buttonListener);
 		areaButton.addActionListener(buttonListener);
+		zipButton.addActionListener(buttonListener);
 
 		personnelPanel.add(persNameLabel);
 		personnelPanel.add(persTitleLabel);
@@ -116,6 +120,8 @@ public class CentreCard extends JPanel {
 		constraints.insets.bottom = 5;
 		constraints.insets.top = 5;
 		
+		
+		// Grid bag for business name
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
@@ -145,6 +151,7 @@ public class CentreCard extends JPanel {
 		
 		
 		
+		// Grid bag for address
 		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
@@ -174,6 +181,7 @@ public class CentreCard extends JPanel {
 		
 		
 		
+		// Grid bag for zip
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
@@ -181,7 +189,7 @@ public class CentreCard extends JPanel {
 		constraints.weightx = 0.10;
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		this.add(emailLabel, constraints);
+		this.add(zipLabel, constraints);
 		
 		constraints.gridx = 1;
 		constraints.gridy = 2;
@@ -190,10 +198,40 @@ public class CentreCard extends JPanel {
 		constraints.weightx = 0.8;
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
-		this.add(email, constraints);
+		this.add(zip, constraints);
 		
 		constraints.gridx = 4;
 		constraints.gridy = 2;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(zipButton, constraints);
+		
+		
+		
+		// Grid bag for email
+		constraints.gridx = 0;
+		constraints.gridy = 3;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(emailLabel, constraints);
+		
+		constraints.gridx = 1;
+		constraints.gridy = 3;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(email, constraints);
+		
+		constraints.gridx = 4;
+		constraints.gridy = 3;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -203,8 +241,9 @@ public class CentreCard extends JPanel {
 		
 		
 		
+		// Grid bag for telephone
 		constraints.gridx = 0;
-		constraints.gridy = 3;
+		constraints.gridy = 4;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -213,7 +252,7 @@ public class CentreCard extends JPanel {
 		this.add(telephoneLabel, constraints);
 		
 		constraints.gridx = 1;
-		constraints.gridy = 3;
+		constraints.gridy = 4;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
@@ -222,7 +261,7 @@ public class CentreCard extends JPanel {
 		this.add(telephone, constraints);
 		
 		constraints.gridx = 4;
-		constraints.gridy = 3;
+		constraints.gridy = 4;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -233,8 +272,9 @@ public class CentreCard extends JPanel {
 		
 		
 		
+		// Grid bag for opening hours
 		constraints.gridx = 0;
-		constraints.gridy = 4;
+		constraints.gridy = 5;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -243,7 +283,7 @@ public class CentreCard extends JPanel {
 		this.add(openingHrsLabel, constraints);
 		
 		constraints.gridx = 1;
-		constraints.gridy = 4;
+		constraints.gridy = 5;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
@@ -252,7 +292,7 @@ public class CentreCard extends JPanel {
 		this.add(openingHours, constraints);
 		
 		constraints.gridx = 4;
-		constraints.gridy = 4;
+		constraints.gridy = 5;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -262,40 +302,32 @@ public class CentreCard extends JPanel {
 		
 		
 		
-		
+	
+		// Grid bag for area 
 		constraints.gridx = 0;
-		constraints.gridy = 5;
+		constraints.gridy = 6;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.anchor = GridBagConstraints.NORTHEAST;
-		this.add(textDescrLabel, constraints);
+		this.add(areaLabel, constraints);
 		
 		constraints.gridx = 1;
-		constraints.gridy = 5;
+		constraints.gridy = 6;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.BOTH;
-		this.add(textDescriptionScroll, constraints);
+		this.add(area, constraints);
 		
-		constraints.gridx = 4;
-		constraints.gridy = 5;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		constraints.weightx = 0.10;
-		constraints.weighty = 0.0;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.anchor = GridBagConstraints.NORTH;
-		this.add(textDescrButton, constraints);
+	
 		
-		
-		
+		// Grid bag for personnel
 		constraints.gridx = 0;
-		constraints.gridy = 6;
+		constraints.gridy = 7;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -315,6 +347,7 @@ public class CentreCard extends JPanel {
 		openingHours.setText(String.valueOf(centre.getOpeningHours()));
 		textDescription.setText(centre.getDescription());
 		area.setText(String.valueOf(centre.getArea()));
+		zip.setText(String.valueOf(centre.getAddress().getZipcode()));
 
 		DefaultListModel<Personnel> listModel = new DefaultListModel<Personnel>();
 		for(Personnel p : centre.getPersonnel()) {
@@ -329,6 +362,7 @@ public class CentreCard extends JPanel {
 		openingHours.setEditable(false);
 		textDescription.setEditable(false);
 		area.setEditable(false);
+		zip.setEditable(false);
 
 		businessButton.setText(Text.getString("edit"));
 		addressButton.setText(Text.getString("edit"));
@@ -337,6 +371,7 @@ public class CentreCard extends JPanel {
 		openingHrsButton.setText(Text.getString("edit"));
 		textDescrButton.setText(Text.getString("edit"));
 		areaButton.setText(Text.getString("edit"));
+		zipButton.setText(Text.getString("edit"));
 	}
 
 	private class ButtonListener implements ActionListener {
@@ -436,8 +471,20 @@ public class CentreCard extends JPanel {
 					textDescrButton.setText(Text.getString("edit"));
 				}
 			}
+			else if(pressedButton.equals(zipButton)) {
+				if(zipButton.getText().equals(Text.getString("edit"))) {
+					zip.setEditable(true);
+					zipButton.setText(Text.getString("save"));
+				}
+				else {
+					if(!centre.setZipcode(zip.getText())) {
+						return;
+					}
+					zip.setEditable(false);
+					zipButton.setText(Text.getString("edit"));
+				}
+			}
 		}
-
 	}
 
 	private class PersonnelListener implements ListSelectionListener {

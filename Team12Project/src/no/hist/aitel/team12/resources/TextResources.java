@@ -101,7 +101,8 @@ public class TextResources extends ListResourceBundle {
 				{"pos","Position"},
 				{"invalidEmail", "Invalid email address, try again"},
 				{"invalidTel", "Invalid telephone number, type in 8 digits"},
-				{"delMsg", "Trash message"}
+				{"delMsg", "Trash message"},
+				{"dbErr", "Something went wrong with the Database connection."}
 		};
 	}
 }
