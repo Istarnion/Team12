@@ -28,6 +28,8 @@ public class DatabaseConnection implements Database {
 
 	private Connection connection;
 
+	private boolean threadsafe = true;
+	
 	boolean connect() {
 		boolean ok = true;
 		try {
@@ -56,6 +58,8 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public void teardown() {
+		while(!threadsafe) Thread.yield();	// Wait until the DataBuffer is ready to close.
+		
 		try {
 			connection.close();
 		}
@@ -104,9 +108,11 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public synchronized ShoppingCentre[] getShoppingCentres(int userID) {
+		threadsafe = false;
 		try {
 			if(connection.isClosed()) return null;
 		} catch (SQLException e1) {
+			threadsafe = true;
 			return null;
 		}
 
@@ -263,6 +269,8 @@ public class DatabaseConnection implements Database {
 				output[i] = centres.get(keys.get(i));
 			}
 		}
+		
+		threadsafe = true;
 		return output;
 	}
 
@@ -389,12 +397,25 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public Person[] getPersons(int userID) {
+		threadsafe = false;
+		
 		ResultSet result = null;
 		Person[] persons = null;
 
 		User[] users = null;
 		Personnel[] personnel = null;
-
+		
+		try {
+			if(connection.isClosed()) {
+				threadsafe = true;
+				return null;
+			}
+		}
+		catch(SQLException e) {
+			threadsafe = true;
+			return null;
+		}
+		
 		try(
 				PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
 				PreparedStatement personellQuery = connection.prepareStatement("SELECT * FROM personnel_view");
@@ -483,6 +504,7 @@ public class DatabaseConnection implements Database {
 			}
 		}
 
+		threadsafe = true;
 		return persons;
 	}
 
@@ -660,6 +682,8 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public synchronized Message[] getMessages(String username) {
+		threadsafe = false;
+		
 		Message[] messages = null;
 		ResultSet result = null;
 		int rows;
@@ -695,6 +719,7 @@ public class DatabaseConnection implements Database {
 			e.printStackTrace();
 		}
 
+		threadsafe = true;
 		return messages;
 	}
 
