@@ -23,7 +23,7 @@ public class Business {
 
 	private int telephone;
 
-	private int openingHours;
+	private String openingHours;
 
 	private ArrayList<Revenue> revenue;
 
@@ -33,7 +33,7 @@ public class Business {
 	public Business(
 			int businessId, String businessName,
 			EmailAddress email, int telephone,
-			int openingHours, String description, 
+			String openingHours, String description, 
 			Address address, ArrayList<Revenue> revenue) {
 
 		this.businessId 	= businessId;
@@ -103,12 +103,13 @@ public class Business {
 		return false;
 	}
 
-	public int getOpeningHours() {
+	public String getOpeningHours() {
 		return openingHours;
 	}
 
 	public boolean setOpeningHours(String openingHours) {
-		return true;
+		System.out.println(openingHours);
+		return false;
 	}
 
 	public int getBusinessId() {
@@ -152,10 +153,11 @@ public class Business {
 			JOptionPane.showMessageDialog(null, Text.getString("invalidZip"));
 			return false;
 		}
-		if(db.executePreparedStatement("UPDATE business SET zip = ? WHERE business_id = " + this.businessId, parsedZip)) {
+		if(db.executePreparedStatement("UPDATE business SET zipcode = ? WHERE business_id = " + this.businessId, parsedZip)) {
 			this.address.setZipcode(parsedZip);
 			return true;
 		}
+		JOptionPane.showMessageDialog(null, Text.getString("invalidZip"));
 		return false;
 	}
 
