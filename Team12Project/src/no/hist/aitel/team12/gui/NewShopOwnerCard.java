@@ -6,23 +6,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.sun.org.apache.xpath.internal.operations.String;
+
 import no.hist.aitel.team12.util.Text;
 
-public class NewCentreManagerCard extends JPanel {
-	private static final long serialVersionUID = 4688863130267581267L;
+public class NewShopOwnerCard extends JPanel{
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5354374021580408397L;
 	private JButton saveButton, cancelButton;
 	private JPanel buttonPanel, fieldPanel, labelPanel;
-	
 	private JTextField
-		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary, centreName, centreAddress, centreZip;
+		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary;
 	
-	public NewCentreManagerCard() {
+	private JComboBox<String> shoppingCenter;
+	
+	public NewShopOwnerCard() {
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -39,9 +47,8 @@ public class NewCentreManagerCard extends JPanel {
 		personalZip		= new JTextField();
 		telephone		= new JTextField();
 		salary			= new JTextField();
-		centreName		= new JTextField();
-		centreAddress	= new JTextField();
-		centreZip		= new JTextField();
+		
+		shoppingCenter = new JComboBox<String>(new String[] {/*getShoppingCenters*/});
 		
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
@@ -51,10 +58,8 @@ public class NewCentreManagerCard extends JPanel {
 		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("tel")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("sal")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("businessName")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("adr")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("shce") + ": "), SwingConstants.RIGHT);
+		labelPanel.add(new JLabel(Text.getString("store") + ": ", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("shce") + ": ", SwingConstants.RIGHT));
 		
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
@@ -64,10 +69,9 @@ public class NewCentreManagerCard extends JPanel {
 		fieldPanel.add(personalZip);
 		fieldPanel.add(telephone);
 		fieldPanel.add(salary);
-		fieldPanel.add(centreName);
-		fieldPanel.add(centreAddress);
-		fieldPanel.add(centreZip);
-		fieldPanel.add(buttonPanel);
+		
+		fieldPanel.add(shoppingCenter);
+		
 		
 		super.setLayout(new BorderLayout());
 		super.add(labelPanel, BorderLayout.WEST);
@@ -97,8 +101,6 @@ public class NewCentreManagerCard extends JPanel {
 		personalZip.setText("");
 		telephone.setText("");
 		salary.setText("");
-		centreName.setText("");
-		centreAddress.setText("");
-		centreZip.setText("");
 	}
+
 }

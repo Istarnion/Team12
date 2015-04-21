@@ -107,7 +107,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"shopowner", "Bedriftseier"},
 				{"customerservice", "Kundeservice"},
 				{"personnel", "Personell"},
-				{"invalidZip", "Ugyldig postnummer"}
+				{"invalidZip", "Ugyldig postnummer"},
+				{"shce","Kjøpesenter"},
+				{"store","Butikk"}
 		};
 	}
 }

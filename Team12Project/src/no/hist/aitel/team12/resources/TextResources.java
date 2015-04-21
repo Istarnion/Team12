@@ -108,7 +108,9 @@ public class TextResources extends ListResourceBundle {
 				{"shopowner", "Establishment Owner"},
 				{"customerservice", "Customer Service"},
 				{"personnel", "Personnel"},
-				{"invalidZip", "Invalid zipcode"}
+				{"invalidZip", "Invalid zipcode"},
+				{"shce","Shopping Centre"},
+				{"store","Store"}
 		};
 	}
 }

@@ -13,16 +13,19 @@ import javax.swing.SwingConstants;
 
 import no.hist.aitel.team12.util.Text;
 
-public class NewCentreManagerCard extends JPanel {
-	private static final long serialVersionUID = 4688863130267581267L;
+public class NewCustomerServiceCard extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1259252191776134538L;
 	private JButton saveButton, cancelButton;
 	private JPanel buttonPanel, fieldPanel, labelPanel;
 	
 	private JTextField
-		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary, centreName, centreAddress, centreZip;
+		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary;
 	
-	public NewCentreManagerCard() {
+	public NewCustomerServiceCard() {
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -39,9 +42,6 @@ public class NewCentreManagerCard extends JPanel {
 		personalZip		= new JTextField();
 		telephone		= new JTextField();
 		salary			= new JTextField();
-		centreName		= new JTextField();
-		centreAddress	= new JTextField();
-		centreZip		= new JTextField();
 		
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
@@ -51,10 +51,6 @@ public class NewCentreManagerCard extends JPanel {
 		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("tel")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("sal")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("businessName")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("adr")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("shce") + ": "), SwingConstants.RIGHT);
 		
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
@@ -64,10 +60,7 @@ public class NewCentreManagerCard extends JPanel {
 		fieldPanel.add(personalZip);
 		fieldPanel.add(telephone);
 		fieldPanel.add(salary);
-		fieldPanel.add(centreName);
-		fieldPanel.add(centreAddress);
-		fieldPanel.add(centreZip);
-		fieldPanel.add(buttonPanel);
+		
 		
 		super.setLayout(new BorderLayout());
 		super.add(labelPanel, BorderLayout.WEST);
@@ -97,8 +90,8 @@ public class NewCentreManagerCard extends JPanel {
 		personalZip.setText("");
 		telephone.setText("");
 		salary.setText("");
-		centreName.setText("");
-		centreAddress.setText("");
-		centreZip.setText("");
 	}
+
+	
+	
 }
