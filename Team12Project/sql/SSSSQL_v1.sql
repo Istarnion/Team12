@@ -101,7 +101,7 @@ CONSTRAINT business_FK FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)
 
 CREATE TABLE shoppingcentre(
 centre_id INTEGER AUTO_INCREMENT PRIMARY KEY,
-business_id INTEGER,
+business_id INTEGER UNIQUE,
 parking_spaces INTEGER,
 CONSTRAINT shoppingcentre_FK FOREIGN KEY (business_id) REFERENCES business (business_id)
 );

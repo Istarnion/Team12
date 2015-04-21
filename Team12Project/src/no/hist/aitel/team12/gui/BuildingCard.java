@@ -182,7 +182,7 @@ public class BuildingCard extends JPanel {
 				}
 				else {
 					if(!building.setNrOfFloors(Integer.parseInt(nrOfFloors.getText()))) {
-						return;
+						return;	
 					}
 					nrOfFloors.setEditable(false);
 					nrOfFloorsButton.setText(Text.getString("edit"));
@@ -195,6 +195,9 @@ public class BuildingCard extends JPanel {
 					areaButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!building.setArea(Integer.parseInt(area.getText()))) {
+						return;
+					}
 					area.setEditable(false);
 					areaButton.setText(Text.getString("edit"));
 				}
@@ -205,6 +208,9 @@ public class BuildingCard extends JPanel {
 					buildingNameButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!building.setBuildingName(buildingName.getText())) {
+						return;
+					}
 					buildingName.setEnabled(false);
 					buildingNameButton.setText(Text.getString("edit"));
 				}
