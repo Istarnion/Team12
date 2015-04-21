@@ -20,12 +20,17 @@ trade,
 establishmenttrade,
 ticket,
 user,
-personnel
+personnel,
+messageSender,
+messageReciever
 ;
 
 DROP VIEW IF EXISTS 
 centres_view,
-establishment_view
+establishment_view,
+user_view,
+personnel_view,
+message_view
 ;
 
 SET foreign_key_checks = 1;
@@ -99,8 +104,7 @@ CREATE TABLE shoppingcentre(
 centre_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 business_id INTEGER,
 parking_spaces INTEGER,
-CONSTRAINT shoppingcentre_FK FOREIGN KEY (business_id) REFERENCES business (business_id),
-CONSTRAINT business FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)
+CONSTRAINT shoppingcentre_FK FOREIGN KEY (business_id) REFERENCES business (business_id)
 );
 -- ENGINE = InnoDB;
 

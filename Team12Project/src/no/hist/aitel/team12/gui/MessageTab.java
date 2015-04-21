@@ -3,6 +3,7 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -41,6 +42,8 @@ public class MessageTab extends SSSTab {
 
 	private JTabbedPane inboxArea = new JTabbedPane();
 
+	private JPanel leftPanel;
+	
 	private JPanel inboxPanel, outboxPanel, trashPanel;
 
 	private JPanel comboArea = new JPanel();
@@ -74,7 +77,9 @@ public class MessageTab extends SSSTab {
 	private JScrollPane scrollInbox, scrollOutbox, scrollTrash;
 
 	private String username;
-
+	
+	private JButton trashButton;
+	
 	public MessageTab(String username) {
 		this.username = username;
 
@@ -97,13 +102,44 @@ public class MessageTab extends SSSTab {
 
 		setupGUI();
 
+		trashButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final String tabName = inboxArea.getTitleAt(inboxArea.getSelectedIndex());
+				switch(tabName) {
+					case "inbox":
+					{
+						Message msg = inboxList.getSelectedValue();
+						if(msg != null) {
+							msg.setDeleted(false, msg.getReciever());
+						}
+					} break;
+					
+					case "outbox":
+					{
+						Message msg = outboxList.getSelectedValue();
+						if(msg != null) {
+							msg.setDeleted(true, msg.getSender());
+						}
+					} break;
+					
+					default:
+						break;
+				}
+				
+				refresh();
+			}
+		});
+		
 		Timer timer = new Timer(5000, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				refresh();
+				if(active) {
+					refresh();
+				}
 			}
-
 		});
 		timer.start();
 	}
@@ -142,9 +178,16 @@ public class MessageTab extends SSSTab {
 		inboxArea.add(outboxPanel, "outbox");
 		inboxArea.add(trashPanel, "trash");
 
+		trashButton = new JButton(Text.getString("delMsg"));
+		
+		leftPanel = new JPanel(new BorderLayout());
+		leftPanel.add(inboxArea, BorderLayout.CENTER);
+		leftPanel.add(trashButton, BorderLayout.SOUTH);
+		
+		leftPanel.setPreferredSize(new Dimension(200, 600));
+		
 		setLayout(new BorderLayout());
-		add(inboxArea,BorderLayout.WEST);
-
+		add(leftPanel,BorderLayout.WEST);
 		add(comboArea,BorderLayout.CENTER);
 
 		comboArea.setLayout(new GridLayout(2, 1));
@@ -292,6 +335,7 @@ public class MessageTab extends SSSTab {
 						}
 						send.setEnabled(true);
 						send.setText(Text.getString("send"));
+						refresh();
 					}
 
 				};

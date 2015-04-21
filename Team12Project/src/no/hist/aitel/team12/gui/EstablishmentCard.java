@@ -34,6 +34,8 @@ public class EstablishmentCard extends JPanel {
 	
 	private JScrollPane textDescriptionScroll;
 	
+	private Establishment establishment;
+	
 	public EstablishmentCard(int userID) {
 		
 		this.setLayout(new GridBagLayout());
@@ -272,6 +274,7 @@ public class EstablishmentCard extends JPanel {
 	}
 	
 	public void updateCard(Establishment establishment) {
+		this.establishment = establishment;
 		businessName.setText(establishment.getBusinessName());
 		address.setText(establishment.getAddress().getAdress());
 		email.setText(establishment.getEmail().getEmailAddress());
@@ -306,49 +309,62 @@ public class EstablishmentCard extends JPanel {
 			
 			if(pressedButton.equals(businessButton)) {
 				
-				if(businessButton.getText() == Text.getString("edit")) {
+				if(businessButton.getText().equals(Text.getString("edit"))) {
 					businessName.setEditable(true);
 					businessButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setBusinessName(businessName.getText())) {
+						return;
+					}
 					businessName.setEditable(false);
 					businessButton.setText(Text.getString("edit"));
 				}
 				
 			}
 			else if(pressedButton.equals(addressButton)) {
-				if(addressButton.getText() == Text.getString("edit")) {
+				if(addressButton.getText().equals(Text.getString("edit"))) {
 					address.setEditable(true);
 					addressButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setAddress(address.getText())) {
+						return;
+					}
 					address.setEditable(false);
 					addressButton.setText(Text.getString("edit"));
 				}
 			}
 			
 			else if(pressedButton.equals(emailButton)) {
-				if(emailButton.getText() == Text.getString("edit")) {
+				if(emailButton.getText().equals(Text.getString("edit"))) {
 					email.setEditable(true);
 					emailButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setEmail(email.getText())) {
+						return;
+					}
 					email.setEditable(false);
 					emailButton.setText(Text.getString("edit"));
 				}
 			}
 			else if(pressedButton.equals(telephoneButton)) {
-				if(telephoneButton.getText() == Text.getString("edit")) {
+				if(telephoneButton.getText().equals(Text.getString("edit"))) {
 					telephone.setEditable(true);
 					telephoneButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setTelephone(telephone.getText())) {
+						JOptionPane.showMessageDialog(null, Text.getString("invalidTel"));
+						return;
+					}
 					telephone.setEditable(false);
 					telephoneButton.setText(Text.getString("edit"));
 				}
 			}
 			else if(pressedButton.equals(openingHrsButton)) {
-				if(openingHrsButton.getText() == Text.getString("edit")) {
+				if(openingHrsButton.getText().equals(Text.getString("edit"))) {
 					openingHours.setEditable(true);
 					openingHrsButton.setText(Text.getString("save"));
 				}
@@ -358,11 +374,14 @@ public class EstablishmentCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(textDescrButton)) {
-				if(textDescrButton.getText() == Text.getString("edit")) {
+				if(textDescrButton.getText().equals(Text.getString("edit"))) {
 					textDescription.setEditable(true);
 					textDescrButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!establishment.setDescription(textDescription.getText())) {
+						return;
+					}
 					textDescription.setEditable(false);
 					textDescrButton.setText(Text.getString("edit"));
 				}

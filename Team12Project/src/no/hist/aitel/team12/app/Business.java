@@ -1,11 +1,13 @@
 package no.hist.aitel.team12.app;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
+import no.hist.aitel.team12.util.Text;
 
 public class Business {
 
@@ -42,6 +44,8 @@ public class Business {
 		this.description 	= description;
 		this.address 		= address;
 		this.revenue 		= revenue;
+		
+		db = DatabaseFactory.getDatabase();
 	}
 
 	public String getBusinessnameDmp() {
@@ -53,7 +57,7 @@ public class Business {
 	}
 
 	public boolean setBusinessName(String businessName) {
-		if(db.updateBusiness(businessId, "business_name", businessName)) {
+		if(db.executePreparedStatement("UPDATE business SET business_name = ? WHERE business_id = " + this.businessId, businessName)) {
 			this.businessName = businessName;
 			return true;
 		}
@@ -65,7 +69,17 @@ public class Business {
 	}
 
 	public boolean setEmail(String email) {
-		return true;
+		if(EmailAddress.isValidEmailAddress(email)) {
+			if(db.executePreparedStatement("UPDATE business SET email = ? WHERE business_id = " + this.businessId, email)) {
+				this.email = new EmailAddress(email);
+				return true;
+			}
+			return false;
+		}
+		else{
+			JOptionPane.showMessageDialog(null, Text.getString("invalidEmail"));
+			return false;
+		}
 	}
 
 	public int getTelephone() {
@@ -78,7 +92,7 @@ public class Business {
 			if(String.valueOf(parsedTlf).length() != 8){
 				return false;
 			}
-			if(db.updateBusiness(businessId, "telephone", telephone)){
+			if(db.executePreparedStatement("UPDATE business SET telephone = ? WHERE business_id = " + this.businessId, parsedTlf)){
 				this.telephone = parsedTlf;
 				return true;
 			}
@@ -106,8 +120,11 @@ public class Business {
 	}
 
 	public boolean setDescription(String description) {
-		this.description = description;
-		return true;
+		if(db.executePreparedStatement("UPDATE business SET text_description = ? WHERE business_id = " + this.businessId, description)) {
+			this.description = description;
+			return true;
+		}
+		return false;
 	}
 
 	public Address getAddress() {
@@ -115,12 +132,31 @@ public class Business {
 	}
 
 	public boolean setAddress(String address) {
-		this.address.setAddress(address);
-		return true;
+		if(db.executePreparedStatement("UPDATE business SET address = ? WHERE business_id = " + this.businessId, address)) {
+			this.address.setAddress(address);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean setZipcode(String zipcode) {
-		return true;
+		int parsedZip = 0;
+		try {
+			parsedZip = Integer.parseInt(zipcode);
+			if(String.valueOf(parsedZip).length() != 4) {
+				JOptionPane.showMessageDialog(null, Text.getString("invalidZip"));
+				return false;
+			}
+		}
+		catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidZip"));
+			return false;
+		}
+		if(db.executePreparedStatement("UPDATE business SET zip = ? WHERE business_id = " + this.businessId, parsedZip)) {
+			this.address.setZipcode(parsedZip);
+			return true;
+		}
+		return false;
 	}
 
 	public ArrayList<Revenue> getRevenue() {

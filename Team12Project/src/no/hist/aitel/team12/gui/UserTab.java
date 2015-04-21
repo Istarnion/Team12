@@ -22,15 +22,18 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Person;
-import no.hist.aitel.team12.database.DatabaseConnection;
-import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
 
 /**
@@ -52,24 +55,21 @@ public class UserTab extends SSSTab {
 
 	private JPanel mainPanel;
 
+	private CardLayout cards;
+	
+	private EditUserCard editUserCard;
+	
 	public UserTab() {
 		this.setLayout(new BorderLayout());
 
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new CardLayout());
-
-		
-		/* get the parameters: firstName, lastName, address, zipcode, email, telephone, username, 
-		 * company, logoLabel, westPanel, eastPanel, eastBottom, logo
-		*/
-		mainPanel.add(new UserCard(null, null, null, null, null, null, null, 
-				null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "usercard");
+		cards = new CardLayout();
+		mainPanel.setLayout(cards);		
 		
 		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new NewUserCard(null, null, null, null, null, null, null, 
-				null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "newUserCard");
-		mainPanel.add(new EditUserCard(null, null, null, null, null, null, null, 
-				null, null, null, null, null, null, buttonPanel, buttonPanel, buttonPanel, null), "editUserCard");
+		mainPanel.add(new NewUserCard(), "newUserCard");
+		editUserCard = new EditUserCard();
+		mainPanel.add(editUserCard, "editUserCard");
 		
 		this.add(mainPanel, BorderLayout.CENTER);
 
@@ -89,49 +89,77 @@ public class UserTab extends SSSTab {
 		buttonPanel.setLayout(new GridLayout(1,2));
 		buttonPanel.add(newUser);		
 		buttonPanel.add(editUser);
-		ButtonListener buttonListener = new ButtonListener();
-		editUser.addActionListener(buttonListener);
-		newUser.addActionListener(buttonListener);
 		userPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 		this.add(userPanel, BorderLayout.WEST);
-	}
-
-	public void setUserTable(DatabaseConnection databaseConnection, int userID){
-
-		String statement = databaseConnection.getUserStatement(userID);
-		String[][] output = DatabaseFactory.getDatabase().executeQuery(statement);
-		String[][] content = new String[output.length-1][output[0].length];		
-		for(int row=0; row<content.length; row++) {			
-			for(int col=0; col<content[0].length; col++) {
-				content[row][col] = output[row+1][col];
+		
+		personTable.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				cards.show(mainPanel, "editUserCard");
+				editUserCard.updateCard(personTable.getSelectedValue());
 			}
-
-
-		}
-	}
-
-	private class ButtonListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent event) {
-
-			JButton button = (JButton) event.getSource();
-
-			if (button == newUser) {
-			/* ------------------------------Create new user------------------------------------ */
-				/*---------------------------- cast NewUserCard --------------------- */
+		});
+		
+		editUser.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!personTable.isSelectionEmpty()) {
+					cards.show(mainPanel, "editUserCard");
+					editUserCard.setEditable(true);
+				}
 			}
-			else if (button == editUser) {
-			/* ------------------------------Edit existing user--------------------------------- */
-				/*---------------------------- cast EditUserCard --------------------- */
+		});
+		
+		newUser.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final UserType[] usertypes = {UserType.PERSONNEL, UserType.CUSTOMER_SERVICE, UserType.SHOP_OWNER, UserType.CENTRE_MANAGER};
+				UserType type = (UserType)JOptionPane.showInputDialog(
+						null,
+						"What kind of user should be created?",
+						"User Type",
+						JOptionPane.PLAIN_MESSAGE,
+						null,
+						usertypes, usertypes[0]);
+				
+				if(type != null) {
+					System.out.println("Trying to create usertype: "+type);
+					switch(type) {
+						case PERSONNEL:
+						{
+							
+						} break;
+						case CUSTOMER_SERVICE:
+						{
+							
+						} break;
+						case SHOP_OWNER:
+						{
+							
+						} break;
+						case CENTRE_MANAGER:
+						{
+							
+						} break;
+						default:
+							break;
+					}
+				}
 			}
-		}
-
+		});
 	}
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-
+		DefaultListModel<Person> model = new DefaultListModel<Person>();
+		Person[] parray = null;
+		while(parray == null) {
+			parray = DataBuffer.getPersons();
+		}
+		for(Person p : parray) {
+			model.addElement(p);
+		}
+		personTable.setModel(model);
 	}
 }

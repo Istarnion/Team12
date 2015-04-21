@@ -89,9 +89,10 @@ public class ShoppingCentre extends Business {
 
 	public int getArea() {
 		int areaSum = 0;
-//		for(Building b : buildings) {
-//			areaSum += b.getArea();
-//		}
+		if(buildings == null) return areaSum;
+		for(Building b : buildings) {
+			if(b != null) areaSum += b.getArea();
+		}
 		return areaSum;
 	}
 

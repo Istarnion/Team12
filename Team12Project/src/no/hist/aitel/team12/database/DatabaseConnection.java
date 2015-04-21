@@ -628,6 +628,34 @@ public class DatabaseConnection implements Database {
 		return out;
 	}
 
+	@Override
+	public boolean executePreparedStatement(String statement, Object... args) {
+		boolean ok = false;
+		
+		try(PreparedStatement prepStatement = connection.prepareStatement(statement)) {
+			for(int i=0; i<args.length; i++) {
+				if(args[i] instanceof String) {
+					prepStatement.setString(i+1, (String)args[i]);
+				}
+				else if(args[i] instanceof Integer) {
+					prepStatement.setInt(i+1, (Integer)args[i]);
+				}
+				else {
+					return false;
+				}
+			}
+			
+			prepStatement.executeUpdate();
+			ok = true;
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+			ok = false;
+		}
+		
+		return ok;
+	}
+	
 
 	@Override
 	public synchronized Message[] getMessages(String username) {
@@ -651,6 +679,7 @@ public class DatabaseConnection implements Database {
 
 			for(int i=0; result.next(); i++) {
 				messages[i] = new Message(
+						result.getInt("message_id"),
 						result.getString("Reciever"),
 						result.getString("Sender"),
 						result.getString("subject"),
@@ -830,32 +859,4 @@ public class DatabaseConnection implements Database {
 
 		return true;
 	}
-	
-	
-	@Override
-	public boolean updateBusiness(int businessId, String column, String value) {
-		
-		String sql = "UPDATE business SET ? = ? WHERE business_id = ?";
-		
-		try(PreparedStatement statement = connection.prepareStatement(sql)) {
-			
-			connection.setAutoCommit(false);
-			
-			statement.setString(1, column);
-			statement.setString(2, value);
-			statement.setInt(3, businessId);
-			
-			connection.commit();
-			connection.setAutoCommit(true);
-			
-			return true;
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-	
-
 }

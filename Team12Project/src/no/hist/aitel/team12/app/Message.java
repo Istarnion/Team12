@@ -33,6 +33,8 @@ import no.hist.aitel.team12.database.DatabaseFactory;
 
 public class Message {
 	
+	private final int messageId;
+	
 	private final String reciever;
 
 	private final String sender;
@@ -45,7 +47,8 @@ public class Message {
 	
 	private final Timestamp timestamp;
 	
-	public Message(String reciever, String sender, String subject, String content, Timestamp timestamp, boolean deleted) {
+	public Message(int id, String reciever, String sender, String subject, String content, Timestamp timestamp, boolean deleted) {
+		this.messageId		= id;
 		this.reciever 		= reciever;
 		this.sender 		= sender;
 		this.subject 		= subject;
@@ -78,10 +81,13 @@ public class Message {
 		return deleted;
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+	public void setDeleted(boolean sender, String username) {
+		Database db = DatabaseFactory.getDatabase();
+		String query = "UPDATE "+(sender?"messageSender":"messageReciever")+" SET trashed = True WHERE username = ? AND message_id = "+messageId;
+		if (db.executePreparedStatement(query, username)) {
+			deleted = true;
+		}
 	}
-	
 	
 	/**
 	 * Method for retrieving messages relevant for a specific user.

@@ -1,7 +1,5 @@
 package no.hist.aitel.team12.app;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 
 /**
  * This is the EmailAdress class.
@@ -22,23 +20,7 @@ public class EmailAddress {
 	}
 	
 	public static boolean isValidEmailAddress(String emailAddress){
-		boolean result = true;
-		try {
-			if (emailAddress.contains(".com") || emailAddress.contains(".no") || emailAddress.contains(".as")) {
-				InternetAddress emailAddr = new InternetAddress(emailAddress);
-				emailAddr.validate();
-			}else {
-				result = false;
-				System.out.println("Invalid E-Mail");
-			}
-			
-		} catch (AddressException e) {
-			// TODO: handle exception
-			result = false;
-			System.out.println("IllegalArgumentException");
-		} 
-		return result;
-		
+		return emailAddress.matches("(.*)@(.*)\\.(.*)");
 	}
 
 
