@@ -309,7 +309,7 @@ public class EstablishmentCard extends JPanel {
 			
 			if(pressedButton.equals(businessButton)) {
 				
-				if(businessButton.getText() == Text.getString("edit")) {
+				if(businessButton.getText().equals(Text.getString("edit"))) {
 					businessName.setEditable(true);
 					businessButton.setText(Text.getString("save"));
 				}
@@ -323,7 +323,7 @@ public class EstablishmentCard extends JPanel {
 				
 			}
 			else if(pressedButton.equals(addressButton)) {
-				if(addressButton.getText() == Text.getString("edit")) {
+				if(addressButton.getText().equals(Text.getString("edit"))) {
 					address.setEditable(true);
 					addressButton.setText(Text.getString("save"));
 				}
@@ -364,7 +364,7 @@ public class EstablishmentCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(openingHrsButton)) {
-				if(openingHrsButton.getText() == Text.getString("edit")) {
+				if(openingHrsButton.getText().equals(Text.getString("edit"))) {
 					openingHours.setEditable(true);
 					openingHrsButton.setText(Text.getString("save"));
 				}
@@ -374,7 +374,7 @@ public class EstablishmentCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(textDescrButton)) {
-				if(textDescrButton.getText() == Text.getString("edit")) {
+				if(textDescrButton.getText().equals(Text.getString("edit"))) {
 					textDescription.setEditable(true);
 					textDescrButton.setText(Text.getString("save"));
 				}

@@ -41,6 +41,10 @@ public class Building {
 		return floors;
 	}
 	
+	public boolean setNrOfFloors(Integer floors) {
+		return false;
+	}
+	
 	public void setEstablishments(Establishment[] establishments) {
 		this.establishments = establishments;
 		numEstablishments = establishments.length;
