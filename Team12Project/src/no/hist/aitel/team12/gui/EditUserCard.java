@@ -76,14 +76,14 @@ public class EditUserCard extends JPanel {
 				int errCount = 0;
 				
 				/* CHECKING FIELDS */
-				if(firstName.getText().length() > 10) {
+				if(firstName.getText().length() > 30) {
 					errCount++;
-					errMsg.append("-First name is too long. Max ten characters.\n");
+					errMsg.append("-First name is too long. Max thirty characters.\n");
 				}
 				
-				if(lastName.getText().length() > 10) {
+				if(lastName.getText().length() > 30) {
 					errCount++;
-					errMsg.append("-Last name is too long. Max ten characters.\n");
+					errMsg.append("-Last name is too long. Max thirty characters.\n");
 				}
 				
 				if(address.getText().length() > 30) {
@@ -185,13 +185,15 @@ public class EditUserCard extends JPanel {
 	public void updateCard(Person p) {
 		person = p;
 		
-		firstName.setText(p.getFirstName());
-		lastName.setText(p.getLastName());
-		address.setText(p.getAddress().getAdress());
-		zipcode.setText(p.getAddress().getZipcode()+"");
-		email.setText(p.getEmail().getEmailAddress());
-		telephone.setText(p.getTelephone()+"");
-		salary.setText(p.getSalary()+"");
+		if(p == null) return;
+		
+		firstName.setText(p.getFirstName()!=null?p.getFirstName():"");
+		lastName.setText(p.getLastName()!=null?p.getLastName():"");
+		address.setText(p.getAddress().getAdress()!=null?p.getAddress().getAdress():"");
+		zipcode.setText(p.getAddress().getZipcode()+""!=null?p.getAddress().getZipcode()+"":"");
+		email.setText(p.getEmail().getEmailAddress()!=null?p.getEmail().getEmailAddress():"");
+		telephone.setText(p.getTelephone()+""!=null?p.getTelephone()+"":"");
+		salary.setText(p.getSalary()+""!=null?p.getSalary()+"":"");
 		
 		setEditable(false);
 	}
