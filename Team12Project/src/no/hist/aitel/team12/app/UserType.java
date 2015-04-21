@@ -17,10 +17,30 @@
 
 package no.hist.aitel.team12.app;
 
+import no.hist.aitel.team12.util.Text;
+
 public enum UserType {
 	SYS_ADMIN, 
 	CENTRE_MANAGER, 
 	SHOP_OWNER, 
 	CUSTOMER_SERVICE,
-	PERSONNEL
+	PERSONNEL;
+	
+	@Override
+	public String toString() {
+		switch(this) {
+		case SYS_ADMIN:
+			return Text.getString("sysadmin");
+		case CENTRE_MANAGER:
+			return Text.getString("cntrmanager");
+		case SHOP_OWNER:
+			return Text.getString("shopowner");
+		case CUSTOMER_SERVICE:
+			return Text.getString("customerservice");
+		case PERSONNEL:
+			return Text.getString("personnel");
+		default:
+			return "Invalid UserType";
+		}
+	}
 }

@@ -102,7 +102,13 @@ public class TextResources extends ListResourceBundle {
 				{"invalidEmail", "Invalid email address, try again"},
 				{"invalidTel", "Invalid telephone number, type in 8 digits"},
 				{"delMsg", "Trash message"},
-				{"dbErr", "Something went wrong with the Database connection."}
+				{"dbErr", "Something went wrong with the Database connection."},
+				{"sysadmin", "System Administrator"},
+				{"cntrmanager", "Centre Manager"},
+				{"shopowner", "Establishment Owner"},
+				{"customerservice", "Customer Service"},
+				{"personnel", "Personnel"},
+				{"invalidZip", "Invalid zipcode"}
 		};
 	}
 }
