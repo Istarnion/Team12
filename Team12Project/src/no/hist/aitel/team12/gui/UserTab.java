@@ -22,6 +22,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -111,7 +112,14 @@ public class UserTab extends SSSTab {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-
+		DefaultListModel<Person> model = new DefaultListModel<Person>();
+		Person[] parray = null;
+		while(parray == null) {
+			parray = DataBuffer.getPersons();
+		}
+		for(Person p : parray) {
+			model.addElement(p);
+		}
+		personTable.setModel(model);
 	}
 }

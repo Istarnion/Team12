@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.util.Text;
 
@@ -70,7 +71,20 @@ public class EditUserCard extends JPanel {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				// Do checking here
 				
+				if(person.updateData(
+						firstName.getText(), lastName.getText(),
+						address.getText(), Integer.parseInt(zipcode.getText()),
+						new EmailAddress(email.getText()), Integer.parseInt(telephone.getText()),
+						Integer.parseInt(salary.getText()))) {
+					
+					updateCard(person);
+				}
+				else {
+					// Report error
+					System.out.println("You did a mistake.");
+				}
 			}
 		});
 		

@@ -437,7 +437,6 @@ public class CentreCard extends JPanel {
 				}
 			}
 		}
-
 	}
 
 	private class PersonnelListener implements ListSelectionListener {
