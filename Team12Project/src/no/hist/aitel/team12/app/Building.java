@@ -29,8 +29,9 @@ public class Building {
 		return buildingName;
 	}
 
-	public void setBuildingName(String buildingName) {
+	public boolean setBuildingName(String buildingName) {
 		this.buildingName = buildingName;
+		return false;
 	}
 
 	public int getBuildingId() {
@@ -72,5 +73,9 @@ public class Building {
 
 	public int getArea() {
 		return area;
+	}
+	
+	public boolean setArea(Integer area) {
+		return false;
 	}
 }
