@@ -20,7 +20,7 @@ public class ShoppingCentre extends Business {
 		
 	public ShoppingCentre(
 			int businessId, String businessName, Address address,
-			EmailAddress email, int telephone, int openingHours,
+			EmailAddress email, int telephone, String openingHours,
 			int centreId, int parkingSpaces, String description, 
 			ArrayList<Revenue> revenue, Personnel[] personnel) {
 

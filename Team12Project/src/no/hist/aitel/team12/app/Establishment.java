@@ -14,7 +14,7 @@ public class Establishment extends Business {
 
 	public Establishment(
 			int businessId,	String businessName,	EmailAddress email,
-			int telephone,	int openingHours,		int floorNumber,
+			int telephone,	String openingHours,		int floorNumber,
 			int establishmentId, String description, Address address,
 			ArrayList<String> trades, ArrayList<Revenue> revenue
 			) {

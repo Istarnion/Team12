@@ -89,12 +89,11 @@ CONSTRAINT user_FK FOREIGN KEY (employee_number) REFERENCES person (employee_num
 CREATE TABLE business(
 business_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 business_name VARCHAR(30),
-business_name_dmp VARCHAR(30),
 address VARCHAR(30),
 zipcode INTEGER(4) ZEROFILL,
 email VARCHAR(30),
 telephone INTEGER,
-opening_hours INTEGER,
+opening_hours VARCHAR(8),
 text_description VARCHAR(1000),
 CONSTRAINT business_FK FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)
 );
@@ -112,7 +111,6 @@ CREATE TABLE building(
 building_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 centre_id INTEGER,
 building_name VARCHAR(30),
-building_name_dmp VARCHAR(30),
 floors INTEGER,
 area INTEGER,
 CONSTRAINT building_FK FOREIGN KEY (centre_id) REFERENCES shoppingcentre (centre_id)
@@ -279,8 +277,8 @@ VALUES (0001, 'OSLO', 0301), (0010, 'OSLO', 0301), (0015, 'OSLO', 0301), (0018, 
 -- Create admin user
 -- Create admin user
 
-INSERT INTO person(telephone)
-VALUES(93065598);
+INSERT INTO person(first_name, last_name, telephone)
+VALUES('System', 'Administrator', 93065598);
 INSERT INTO user(username, password_hash, employee_number)
 VALUES(
 'admin',
