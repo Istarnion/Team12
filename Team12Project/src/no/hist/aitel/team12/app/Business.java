@@ -108,7 +108,27 @@ public class Business {
 	}
 
 	public boolean setOpeningHours(String openingHours) {
-		System.out.println(openingHours);
+		int hour1, hour2, hour3, hour4;
+		try {
+			hour1 = Integer.parseInt(openingHours.substring(0, 2));
+			hour2 = Integer.parseInt(openingHours.substring(2, 4));
+			hour3 = Integer.parseInt(openingHours.substring(4, 6));
+			hour4 = Integer.parseInt(openingHours.substring(6, 8));
+			
+		}
+		catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidHrs"));
+			return false;
+		}
+
+		if(hour1 >= hour2 || hour3 >= hour4) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidHrs"));
+			return false;
+		}
+		if(db.executePreparedStatement("UPDATE business SET opening_hours = ? WHERE business_id = " + this.businessId, openingHours)) {
+			this.openingHours = openingHours;
+			return true;
+		}
 		return false;
 	}
 

@@ -120,7 +120,7 @@ public class DatabaseConnection implements Database {
 		case SYS_ADMIN:
 		{
 			centreQuery = "SELECT * FROM centres_view";
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building";
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building";
 			establishmentQuery = "SELECT * FROM establishment_view";
 		} break;
 		case CENTRE_MANAGER:
@@ -128,14 +128,14 @@ public class DatabaseConnection implements Database {
 		{
 			int centreId = getCentreID(userID);
 			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building WHERE centre_id = "+centreId;
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building WHERE centre_id = "+centreId;
 			establishmentQuery = "SELECT * FROM establishment_view";
 		} break;
 		case SHOP_OWNER:
 		{
 			int centreId = getCentreID(userID);
 			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors FROM building WHERE centre_id = "+centreId;
+			buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building WHERE centre_id = "+centreId;
 			establishmentQuery = "SELECT * FROM establishment_view WHERE establishment_id = "+getEstablishmentID(userID);
 		} break;
 		default:
@@ -154,7 +154,8 @@ public class DatabaseConnection implements Database {
 								result.getString("address"),
 								result.getInt("zipcode"),
 								result.getString("municipality_name"),
-								result.getString("county_name")),
+								result.getString("county_name")
+								),
 								new EmailAddress(result.getString("email")),
 								result.getInt("telephone"),
 								result.getString("opening_hours"),
@@ -202,7 +203,7 @@ public class DatabaseConnection implements Database {
 						result.getInt("building_id"),
 						result.getString("building_name"),
 						result.getInt("floors"),
-						1337
+						result.getInt("area")
 						);
 				centres.get(result.getInt("centre_id")).addBuilding(building);
 			}
@@ -225,12 +226,12 @@ public class DatabaseConnection implements Database {
 						result.getString("opening_hours"),
 						result.getInt("floor_number"),
 						result.getInt("establishment_id"),
-						"This (description) needs to be changed in the DatabaseConnection / SELECTS",
+						result.getString("text_description"),
 						new Address(
-								"generic address", 
-								0000, 
-								"municipality", 
-								"county"
+								result.getString("address"), 
+								result.getInt("zipcode"), 
+								result.getString("municipality_name"), 
+								result.getString("county_name")
 								),
 								new ArrayList<String>(Arrays.asList(
 										"fix", 
@@ -294,7 +295,7 @@ public class DatabaseConnection implements Database {
 						"This (description) needs to be changed in the DatabaseConnection / SELECTS",
 						new Address(
 								"generic address", 
-								0000, 
+								result.getInt("zipcode"), 
 								"municipality", 
 								"county"),
 								new ArrayList<String>(Arrays.asList(
@@ -390,20 +391,20 @@ public class DatabaseConnection implements Database {
 	public Person[] getPersons(int userID) {
 		ResultSet result = null;
 		Person[] persons = null;
-		
+
 		User[] users = null;
 		Personnel[] personnel = null;
-		
+
 		try(
 				PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
 				PreparedStatement personellQuery = connection.prepareStatement("SELECT * FROM personnel_view");
 				) {
-			
+
 			result = userQuery.executeQuery();
 			result.last();
 			int numUsers = result.getRow();
 			result.beforeFirst();
-			
+
 			users = new User[numUsers];
 			int index = 0;
 			while(result.next()) {
@@ -416,19 +417,19 @@ public class DatabaseConnection implements Database {
 								result.getInt("zipcode"),
 								"temp",
 								"temp"),
-						new EmailAddress(result.getString("email")),
-						result.getInt("telephone"),
-						result.getInt("salary"),
-						result.getString("username")
+								new EmailAddress(result.getString("email")),
+								result.getInt("telephone"),
+								result.getInt("salary"),
+								result.getString("username")
 						);
 			}
 			result.close();
-			
+
 			result = personellQuery.executeQuery();
 			result.last();
 			int numPersonnel = result.getRow();
 			result.beforeFirst();
-			
+
 			personnel = new Personnel[numPersonnel];
 			index = 0;
 			while(result.next()) {
@@ -441,18 +442,18 @@ public class DatabaseConnection implements Database {
 								result.getInt("zipcode"),
 								"temp",
 								"temp"),
-						new EmailAddress(result.getString("email")),
-						result.getInt("telephone"),
-						result.getInt("salary"),
-						result.getString("title"),
-						result.getInt("centre_id")
+								new EmailAddress(result.getString("email")),
+								result.getInt("telephone"),
+								result.getInt("salary"),
+								result.getString("title"),
+								result.getInt("centre_id")
 						);
 			}
 			result.close();
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
-			
+
 		}
 		catch(NullPointerException e) {
 			System.out.println(e.getMessage());
@@ -469,10 +470,10 @@ public class DatabaseConnection implements Database {
 				}
 			}
 		}
-		
+
 		if(users != null && personnel != null) {
 			persons = new Person[users.length + personnel.length];
-			
+
 			int index = 0;
 			for(User u : users) {
 				persons[index++] = u;
@@ -481,10 +482,10 @@ public class DatabaseConnection implements Database {
 				persons[index++] = p;
 			}
 		}
-		
+
 		return persons;
 	}
-	
+
 	@Override
 	public UserType getUserType(int userId) {
 		if(userId == 1) return UserType.SYS_ADMIN;
@@ -631,7 +632,7 @@ public class DatabaseConnection implements Database {
 	@Override
 	public boolean executePreparedStatement(String statement, Object... args) {
 		boolean ok = false;
-		
+
 		try(PreparedStatement prepStatement = connection.prepareStatement(statement)) {
 			for(int i=0; i<args.length; i++) {
 				if(args[i] instanceof String) {
@@ -644,7 +645,7 @@ public class DatabaseConnection implements Database {
 					return false;
 				}
 			}
-			
+
 			prepStatement.executeUpdate();
 			ok = true;
 		}
@@ -652,10 +653,10 @@ public class DatabaseConnection implements Database {
 			System.out.println(e.getMessage());
 			ok = false;
 		}
-		
+
 		return ok;
 	}
-	
+
 
 	@Override
 	public synchronized Message[] getMessages(String username) {
@@ -839,10 +840,10 @@ public class DatabaseConnection implements Database {
 			msg.setString(1, content);
 			msg.setString(2, subject);
 			msg.executeUpdate();
-			
+
 			sndr.setString(1, sender);
 			sndr.executeUpdate();
-			
+
 			for(String s : recievers) {
 				rcvr.setString(1, s);
 				rcvr.executeUpdate();

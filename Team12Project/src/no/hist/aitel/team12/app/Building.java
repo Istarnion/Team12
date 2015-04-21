@@ -2,6 +2,12 @@ package no.hist.aitel.team12.app;
 
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.util.Text;
+
 
 public class Building {
 
@@ -17,12 +23,17 @@ public class Building {
 
 	private int numEstablishments;
 	
+	private Database db;
+
+	
 	public Building(int buildingId, String buildingName, int floors, int area) {
 		super();
 		this.buildingId		= buildingId;
 		this.buildingName 	= buildingName;
 		this.floors 		= floors;
 		this.area 			= area;
+		
+		db = DatabaseFactory.getDatabase();
 	}
 
 	public String getBuildingName() {
@@ -30,7 +41,10 @@ public class Building {
 	}
 
 	public boolean setBuildingName(String buildingName) {
-		this.buildingName = buildingName;
+		if(db.executePreparedStatement("UPDATE building SET building_name = ? WHERE building_id = " + this.buildingId, buildingName)) {
+			this.buildingName = buildingName;
+			return true;
+		}
 		return false;
 	}
 
@@ -42,7 +56,19 @@ public class Building {
 		return floors;
 	}
 	
-	public boolean setNrOfFloors(Integer floors) {
+	public boolean setNrOfFloors(String floors) {
+		int parsedInt;
+		try {
+			parsedInt = Integer.parseInt(floors);
+			if(db.executePreparedStatement("UPDATE building SET floors = ? WHERE building_id = " + this.buildingId, parsedInt)) {
+				this.floors = parsedInt;
+				return true;
+			}
+		}
+		catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidInt"));
+			return false;
+		}
 		return false;
 	}
 	
@@ -75,7 +101,19 @@ public class Building {
 		return area;
 	}
 	
-	public boolean setArea(Integer area) {
+	public boolean setArea(String area) {
+		int parsedInt;
+		try {
+			parsedInt = Integer.parseInt(area);
+			if(db.executePreparedStatement("UPDATE building SET area = ? WHERE building_id = " + this.buildingId, parsedInt)) {
+				this.area = parsedInt;
+				return true;
+			}
+		}
+		catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidInt"));
+			return false;
+		}
 		return false;
 	}
 }

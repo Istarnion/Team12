@@ -108,7 +108,9 @@ public class TextResources extends ListResourceBundle {
 				{"shopowner", "Establishment Owner"},
 				{"customerservice", "Customer Service"},
 				{"personnel", "Personnel"},
-				{"invalidZip", "Invalid zipcode"}
+				{"invalidZip", "Invalid zipcode"},
+				{"invalidHrs","Invalid format for opening hours\nYou need two numbers in each of the 4 fields\nand you have to open before you close"},
+				{"invalidInt", "Invalid, please input integer"}
 		};
 	}
 }

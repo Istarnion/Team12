@@ -187,12 +187,13 @@ public interface Database {
 			String email, int telephone, int salary, String username, String passwordHash);
 	
 	
+
 	/**
 	 * 
-	 * @param firstName
-	 * @param lastName
-	 * @param address
-	 * @param zipCode
+	 * @param firstName First name of the user
+	 * @param lastName Last name of the user
+	 * @param address The users street address
+	 * @param zipCode 
 	 * @param email
 	 * @param telephone
 	 * @param sallary
