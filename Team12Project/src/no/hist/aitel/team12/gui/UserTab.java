@@ -67,7 +67,7 @@ public class UserTab extends SSSTab {
 		mainPanel.setLayout(cards);		
 		
 		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new NewUserCard(), "newUserCard");
+		mainPanel.add(new NewCentreManagerCard(), "newManagerCard");
 		editUserCard = new EditUserCard();
 		mainPanel.add(editUserCard, "editUserCard");
 		
@@ -140,7 +140,7 @@ public class UserTab extends SSSTab {
 						} break;
 						case CENTRE_MANAGER:
 						{
-							
+							cards.show(mainPanel, "newManagerCard");
 						} break;
 						default:
 							break;

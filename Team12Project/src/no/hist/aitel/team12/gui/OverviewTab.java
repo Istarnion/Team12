@@ -64,7 +64,7 @@ public class OverviewTab extends SSSTab {
 
 		leftPanel 		= new JPanel(new BorderLayout());
 		rightPanel 		= new JPanel(new BorderLayout());
-		businessList 	= new JTree(setupTree());
+		businessList 	= new JTree();
 		cardLayout		= new CardLayout();
 		cardPanel		= new JPanel(cardLayout);
 		namePanel		= new JPanel();
@@ -111,6 +111,7 @@ public class OverviewTab extends SSSTab {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Centres");
 		DefaultMutableTreeNode centreNode;
 		DefaultMutableTreeNode buildingNode;
+		
 		for(ShoppingCentre c : businessArray) {
 			centreNode = new DefaultMutableTreeNode(c);
 			if(c != null && c.getBuildings() != null) {
@@ -123,8 +124,8 @@ public class OverviewTab extends SSSTab {
 						centreNode.add(buildingNode);
 					}
 				}
-				root.add(centreNode);
 			}
+			root.add(centreNode);
 		}
 		return root;
 	}
@@ -168,7 +169,6 @@ public class OverviewTab extends SSSTab {
 				else {
 					// log error
 				}
-				//refresh();
 			}
 		});
 	}
