@@ -109,7 +109,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"personnel", "Personell"},
 				{"invalidZip", "Ugyldig postnummer"},
 				{"invalidHrs", "Ugyldig format på åpningstid\nDet kreves to tall i hvert av de 4 feltene\nog man må åpne før man stenger"},
-				{"invalidInt", "Ugyldig format, oppgi heltall"}
+				{"invalidInt", "Ugyldig format, oppgi heltall"},
+				{"shce","Kjøpesenter"},
+				{"store","Butikk"}
 		};
 	}
 }

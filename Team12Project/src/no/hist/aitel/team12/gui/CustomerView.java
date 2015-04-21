@@ -63,6 +63,7 @@ public class CustomerView extends JFrame {
 
 		// TOP BAR
 		topbar.setLayout(new BorderLayout());
+		topbar.setPreferredSize(new Dimension(0,100));
 		logo = new JLabel();
 		ImageIcon logoIcon = new ImageIcon("Resources/images/logoSmall.png");
 		logo.setIcon(logoIcon);
@@ -73,6 +74,7 @@ public class CustomerView extends JFrame {
 		topbar.add(appName, BorderLayout.CENTER);
 		
 		loginPanel.setLayout(new GridLayout(2,1));
+		//loginPanel.setPreferredSize(new Dimension(400,100));
 		login = new JButton("Login");
 		loginPanel.add(login);
 		Date dateAndTime = Calendar.getInstance().getTime();
@@ -111,7 +113,7 @@ public class CustomerView extends JFrame {
 		view.add(resultView, BorderLayout.CENTER);
 		
 		searchResult.setLayout(new BorderLayout());
-		JList listing = new JList();
+		JList <String>listing = new JList<String>();
 		JScrollPane scrollListing = new JScrollPane(listing);
 		searchResult.add(scrollListing, BorderLayout.WEST);
 		
