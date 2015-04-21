@@ -101,7 +101,13 @@ public class TextResources_no extends ListResourceBundle {
 				{"invalidEmail", "Ugyldig epost-addresse, prøv igjen"},
 				{"invalidTel", "Ugyldig telefonnummer, oppgi 8 siffer"},
 				{"delMsg", "Slett melding"},
-				{"dbErr", "Noe gikk galt i databaseforbindelsen."}
+				{"dbErr", "Noe gikk galt i databaseforbindelsen."},
+				{"sysadmin", "Systemadministrator"},
+				{"cntrmanager", "Senterleder"},
+				{"shopowner", "Bedriftseier"},
+				{"customerservice", "Kundeservice"},
+				{"personnel", "Personell"},
+				{"invalidZip", "Ugyldig postnummer"}
 		};
 	}
 }

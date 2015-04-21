@@ -436,7 +436,7 @@ public class CentreCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(openingHrsButton)) {
-				if(openingHrsButton.getText() == Text.getString("edit")) {
+				if(openingHrsButton.getText().equals(Text.getString("edit"))) {
 					openingHours.setEditable(true);
 					openingHrsButton.setText(Text.getString("save"));
 				}
@@ -449,7 +449,7 @@ public class CentreCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(areaButton)) {
-				if(areaButton.getText() == Text.getString("edit")) {
+				if(areaButton.getText().equals(Text.getString("edit"))) {
 					area.setEditable(true);
 					areaButton.setText(Text.getString("save"));				
 				}
@@ -459,7 +459,7 @@ public class CentreCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(textDescrButton)) {
-				if(textDescrButton.getText() == Text.getString("edit")) {
+				if(textDescrButton.getText().equals(Text.getString("edit"))) {
 					textDescription.setEditable(true);
 					textDescrButton.setText(Text.getString("save"));
 				}

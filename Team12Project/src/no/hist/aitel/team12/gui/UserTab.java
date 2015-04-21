@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
@@ -32,6 +33,7 @@ import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Person;
+import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
 
 /**
@@ -105,6 +107,44 @@ public class UserTab extends SSSTab {
 				if(!personTable.isSelectionEmpty()) {
 					cards.show(mainPanel, "editUserCard");
 					editUserCard.setEditable(true);
+				}
+			}
+		});
+		
+		newUser.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final UserType[] usertypes = {UserType.PERSONNEL, UserType.CUSTOMER_SERVICE, UserType.SHOP_OWNER, UserType.CENTRE_MANAGER};
+				UserType type = (UserType)JOptionPane.showInputDialog(
+						null,
+						"What kind of user should be created?",
+						"User Type",
+						JOptionPane.PLAIN_MESSAGE,
+						null,
+						usertypes, usertypes[0]);
+				
+				if(type != null) {
+					System.out.println("Trying to create usertype: "+type);
+					switch(type) {
+						case PERSONNEL:
+						{
+							
+						} break;
+						case CUSTOMER_SERVICE:
+						{
+							
+						} break;
+						case SHOP_OWNER:
+						{
+							
+						} break;
+						case CENTRE_MANAGER:
+						{
+							
+						} break;
+						default:
+							break;
+					}
 				}
 			}
 		});

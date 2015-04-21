@@ -25,6 +25,8 @@ public class BuildingCard extends JPanel {
 	private JButton nrOfFloorsButton, areaButton, buildingNameButton;
 
 	private ButtonListener buttonListener;
+	
+	private Building building;
 
 	public BuildingCard(int userID) {
 		this.setLayout(new GridBagLayout());
@@ -174,18 +176,21 @@ public class BuildingCard extends JPanel {
 			JButton pressedButton = (JButton) event.getSource();
 			
 			if(pressedButton.equals(nrOfFloorsButton)) {
-				if(nrOfFloorsButton.getText() == Text.getString("edit")) {
+				if(nrOfFloorsButton.getText().equals(Text.getString("edit"))) {
 					nrOfFloors.setEditable(true);
 					nrOfFloorsButton.setText(Text.getString("save"));
 				}
 				else {
+					if(!building.setNrOfFloors(Integer.parseInt(nrOfFloors.getText()))) {
+						return;
+					}
 					nrOfFloors.setEditable(false);
 					nrOfFloorsButton.setText(Text.getString("edit"));
 					
 				}
 			}
 			else if(pressedButton.equals(areaButton)) {
-				if(areaButton.getText() == Text.getString("edit")) {
+				if(areaButton.getText().equals(Text.getString("edit"))) {
 					area.setEditable(true);
 					areaButton.setText(Text.getString("save"));
 				}
@@ -195,7 +200,7 @@ public class BuildingCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(buildingNameButton)) {
-				if(buildingNameButton.getText() == Text.getString("edit")) {
+				if(buildingNameButton.getText().equals(Text.getString("edit"))) {
 					buildingName.setEditable(true);
 					buildingNameButton.setText(Text.getString("save"));
 				}
