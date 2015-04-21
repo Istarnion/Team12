@@ -18,7 +18,7 @@ public class UserCard extends JPanel{
 	private static final long serialVersionUID = 4688863130267581267L;
 	
 	public UserCard(InputField firstName, InputField lastName, InputField address, InputField zipcode, 
-			InputField email, InputField telephone, InputField username, InputField company, InputField position, 
+			InputField email, InputField telephone, InputField username, 
 			InputField salary, PasswordInputField password, JLabel emptyLabel, JLabel logoLabel, JPanel westPanel, 
 			JPanel eastPanel, JPanel eastBottom, BufferedImage logo) {
 		super.setLayout(new BorderLayout());
@@ -41,15 +41,11 @@ public class UserCard extends JPanel{
 		westPanel.add(email);
 		telephone = new InputField(Text.getString("tel"), 20);
 		westPanel.add(telephone);
-		company = new InputField(Text.getString("cmp"), 20);
-		westPanel.add(company);
 		username = new InputField(Text.getString("usr"), 20);
 		westPanel.add(username);
 		
 		emptyLabel = new JLabel("");
 		eastBottom.add(emptyLabel);
-		position = new InputField(Text.getString("pos"), 20);
-		eastBottom.add(position);
 		salary = new InputField(Text.getString("sal"), 20);
 		eastBottom.add(salary);
 		password = new PasswordInputField(Text.getString("pwd"), 20);
