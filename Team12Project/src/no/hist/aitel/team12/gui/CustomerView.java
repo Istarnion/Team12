@@ -2,25 +2,44 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Calendar;
+import java.util.Date;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 public class CustomerView extends JFrame {
 	
-	private JPanel shortcut = new JPanel();
-	
 	private JPanel topbar = new JPanel();
 	
+	private JPanel search = new JPanel();
+	
 	private JPanel view = new JPanel();
+	
+	private JPanel loginPanel = new JPanel();
+	
+	private JPanel searchResult = new JPanel();
+	
+	private JPanel resultView = new JPanel();
+	
+	private JLabel logo;
+	
+	private JLabel appName;
+	
+	private JButton login;
+	
+	private JLabel today;
+	
 	
 	
 
@@ -30,78 +49,74 @@ public class CustomerView extends JFrame {
 	private static final long serialVersionUID = 3816026786587105148L;
 	
 	public CustomerView(){
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("SuperShoppingSurfer");
-		setPreferredSize(new Dimension(1200, 675));
-		
-		setLayout(new GridLayout(3,1));
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 		
 		
-		add(topbar, BorderLayout.NORTH);
-		add(shortcut,BorderLayout.CENTER);
-		add(view, BorderLayout.SOUTH);
+		add(topbar);
+		add(search);
+		add(view);
 
 	
 		
 
 		// TOP BAR
+		topbar.setLayout(new BorderLayout());
+		logo = new JLabel();
+		ImageIcon logoIcon = new ImageIcon("Resources/images/logoSmall.png");
+		logo.setIcon(logoIcon);
+		topbar.add(logo,BorderLayout.WEST);
+		appName = new JLabel();
+		ImageIcon nameIcon = new ImageIcon("Resources/images/appNameSmall.png");
+		appName.setIcon(nameIcon);
+		topbar.add(appName, BorderLayout.CENTER);
 		
+		loginPanel.setLayout(new GridLayout(2,1));
+		login = new JButton("Login");
+		loginPanel.add(login);
+		Date dateAndTime = Calendar.getInstance().getTime();
+		today = new JLabel(dateAndTime.toString());
+		loginPanel.add(today);
+		topbar.add(loginPanel,BorderLayout.EAST);
 		
+		// SEARCH
 		
-		topbar.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
+		search.setLayout(new GridLayout(1,5));
 		
-		ImageIcon icon = new ImageIcon("Resources/images/simpleLogo.png"); 
-		JLabel logo = new JLabel(icon);
-		gbc.gridx=0;
-		gbc.gridy=0;
-		gbc.gridwidth=1;
-		gbc.weightx = 0.3;
-		gbc.gridheight=3;
-		gbc.fill=GridBagConstraints.VERTICAL;
-		topbar.add(logo, gbc);
+		Font font = new Font("Segoe UI Symbol",Font.PLAIN,12);
+		String magGlass = "\uD83D\uDD0D";
 		
-		JTextField search = new JTextField("Search SSS");
-		search.setEditable(true);
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.weightx = 0.5;
-		gbc.gridwidth=1;
-		gbc.gridheight=1;
-		topbar.add(search,gbc);
+		InputField centerNameSearch = new InputField(magGlass+"Enter name of center",20);
+		centerNameSearch.setFont(font);
+		search.add(centerNameSearch);
+		InputField shopNameSearch = new InputField (magGlass+"Enter name of shop",20);
+		shopNameSearch.setFont(font);
+		search.add(shopNameSearch);
+		InputField countySearch = new InputField(magGlass +"Enter county",20);
+		countySearch.setFont(font);
+		search.add(countySearch);
+		InputField municipalitySearch = new InputField(magGlass+"Enter municipality",20);
+		municipalitySearch.setFont(font);
+		search.add(municipalitySearch);
+		String [] trades = {"Sport","toys","bla","bla"};
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		JComboBox tradeSearch = new JComboBox(trades);
+		search.add(tradeSearch);
 		
-		JButton login = new JButton("Login");
-		gbc.gridx=2;
-		gbc.gridy=0;
-		gbc.weightx = 0.2;
-		gbc.gridheight=1;
-		gbc.gridwidth=1;
-		topbar.add(login,gbc);
-		
-		JLabel today = new JLabel("Date: is today. the time is:");
-		gbc.gridx=2;
-		gbc.gridy=1;
-		gbc.weightx =0.2;
-		gbc.gridheight=1;
-		gbc.gridwidth=1;
-		topbar.add(today,gbc);
-		
-		
-		
-		
-		shortcut.setLayout(new FlowLayout());
-		JButton center = new JButton("centers");
-		shortcut.add(center);
-		JButton shops = new JButton("shops");
-		shortcut.add(shops);
-		JButton county = new JButton("county");
-		shortcut.add(county);
-		JButton city = new JButton ("city");
-		shortcut.add(city);
+		// VIEW
 		
 		view.setLayout(new BorderLayout());
-		JLabel info = new JLabel("Information about selected");
-		view.add(info,BorderLayout.NORTH);
-			
+		view.add(searchResult,BorderLayout.WEST);
+		view.add(resultView, BorderLayout.CENTER);
+		
+		searchResult.setLayout(new BorderLayout());
+		JList listing = new JList();
+		JScrollPane scrollListing = new JScrollPane(listing);
+		searchResult.add(scrollListing, BorderLayout.WEST);
+		
+		pack();
+		
 		
 		
 	}
