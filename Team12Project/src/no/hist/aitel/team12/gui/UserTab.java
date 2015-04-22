@@ -69,6 +69,9 @@ public class UserTab extends SSSTab {
 		
 		mainPanel.add(new LogoCard(), "logoCard");
 		mainPanel.add(new NewCentreManagerCard(), "newManagerCard");
+		mainPanel.add(new NewShopOwnerCard(), "newShopOwnerCard");
+		mainPanel.add(new NewPersonnelCard(), "newPersonnelCard");
+		mainPanel.add(new NewCustomerServiceCard(), "newCustomerServiceCard");
 		editUserCard = new EditUserCard();
 		mainPanel.add(editUserCard, "editUserCard");
 		
@@ -130,14 +133,17 @@ public class UserTab extends SSSTab {
 					switch(type) {
 						case PERSONNEL:
 						{
+							cards.show(mainPanel, "newPersonnelCard");
 							
 						} break;
 						case CUSTOMER_SERVICE:
 						{
+							cards.show(mainPanel, "newCustomerServiceCard");
 							
 						} break;
 						case SHOP_OWNER:
 						{
+							cards.show(mainPanel, "newShopOwnerCard");
 							
 						} break;
 						case CENTRE_MANAGER:

@@ -181,6 +181,9 @@ public class OverviewTab extends SSSTab {
 			businessArray 		= DataBuffer.getCentres();
 		}
 		businessList.setModel(new DefaultTreeModel(setupTree()));
+		for (int i = businessList.getRowCount() - 1; i >= 0; i--) {
+	         businessList.expandRow(i);
+	}
 
 	}
 }

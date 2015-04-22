@@ -1,5 +1,6 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -45,16 +46,22 @@ public class BuildingCard extends JPanel {
 		nrOfFloorsButton 	= new JButton(Text.getString("edit"));
 		areaButton 			= new JButton(Text.getString("edit"));
 		
+		buildingNameButton.setPreferredSize(new Dimension(60, 23));
+		nrOfFloorsButton.setPreferredSize(new Dimension(60, 23));
+		areaButton.setPreferredSize(new Dimension(60, 23));
+		
 		nrOfFloorsButton.addActionListener(buttonListener);
 		areaButton.addActionListener(buttonListener);
 		buildingNameButton.addActionListener(buttonListener);
 		
-
+		// Grid bag layout
 		GridBagConstraints constraints = new GridBagConstraints();
 		
+		// Setting some margins for a bit of space between each field/button/label
 		constraints.insets.bottom 	= 5;
 		constraints.insets.top 		= 5;
 		
+		// Building name grid bag setup
 		constraints.gridx 			= 0;
 		constraints.gridy 			= 0;
 		constraints.gridwidth 		= 1;
@@ -62,9 +69,7 @@ public class BuildingCard extends JPanel {
 		constraints.weightx 		= 0.10;
 		constraints.weighty 		= 0.0;
 		constraints.fill 			= GridBagConstraints.HORIZONTAL;
-		
 		this.add(buildingNameLabel, constraints);
-		
 		
 		constraints.gridx 			= 1;
 		constraints.gridy 			= 0;
@@ -73,9 +78,7 @@ public class BuildingCard extends JPanel {
 		constraints.weightx 		= 0.8;
 		constraints.weighty 		= 0.0;
 		constraints.fill 			= GridBagConstraints.HORIZONTAL;
-		
 		this.add(buildingName, constraints);
-		
 		
 		constraints.gridx 			= 4;
 		constraints.gridy 			= 0;
@@ -84,11 +87,9 @@ public class BuildingCard extends JPanel {
 		constraints.weightx 		= 0.10;
 		constraints.weighty 		= 0.0;
 		constraints.fill 			= GridBagConstraints.NONE;
-		
 		this.add(buildingNameButton, constraints);
-		
-		
-		
+	
+		// Number of floors grid bag setup
 		constraints.gridx 			= 0;
 		constraints.gridy 			= 1;
 		constraints.gridwidth 		= 1;
@@ -116,9 +117,7 @@ public class BuildingCard extends JPanel {
 		constraints.fill 			= GridBagConstraints.NONE;
 		this.add(nrOfFloorsButton, constraints);
 		
-		
-		
-		
+		// Area grid bag setup
 		constraints.gridx = 0;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
@@ -127,7 +126,6 @@ public class BuildingCard extends JPanel {
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.anchor = GridBagConstraints.NORTH;
-
 		this.add(areaLabel, constraints);
 		
 		constraints.gridx = 1;
@@ -146,16 +144,11 @@ public class BuildingCard extends JPanel {
 		constraints.weightx = 0.10;
 		constraints.weighty = 0.001;
 		constraints.fill = GridBagConstraints.NONE;
-
 		this.add(areaButton, constraints);
-		
-		
-		
-		
-		
 	}
 
 	public void updateCard(Building building) {
+		this.building = building;
 		buildingName.setText(building.getBuildingName());
 		nrOfFloors.setText(String.valueOf(building.getFloors()));
 		area.setText(String.valueOf(building.getArea()));
@@ -181,12 +174,11 @@ public class BuildingCard extends JPanel {
 					nrOfFloorsButton.setText(Text.getString("save"));
 				}
 				else {
-					if(!building.setNrOfFloors(Integer.parseInt(nrOfFloors.getText()))) {
+					if(!building.setNrOfFloors(nrOfFloors.getText())) {
 						return;	
 					}
 					nrOfFloors.setEditable(false);
 					nrOfFloorsButton.setText(Text.getString("edit"));
-					
 				}
 			}
 			else if(pressedButton.equals(areaButton)) {
@@ -195,7 +187,7 @@ public class BuildingCard extends JPanel {
 					areaButton.setText(Text.getString("save"));
 				}
 				else {
-					if(!building.setArea(Integer.parseInt(area.getText()))) {
+					if(!building.setArea(area.getText())) {
 						return;
 					}
 					area.setEditable(false);
@@ -216,6 +208,5 @@ public class BuildingCard extends JPanel {
 				}
 			}
 		}
-		
 	}
 }

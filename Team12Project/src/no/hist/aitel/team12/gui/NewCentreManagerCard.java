@@ -7,10 +7,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import no.hist.aitel.team12.app.EmailAddress;
+import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.Text;
 
 public class NewCentreManagerCard extends JPanel {
@@ -21,6 +25,10 @@ public class NewCentreManagerCard extends JPanel {
 	
 	private JTextField
 		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary, centreName, centreAddress, centreZip;
+	
+	private User user;
+	
+	private ShoppingCentre shoppingCentre;
 	
 	public NewCentreManagerCard() {
 		saveButton = new JButton(Text.getString("save"));
@@ -54,6 +62,7 @@ public class NewCentreManagerCard extends JPanel {
 		labelPanel.add(new JLabel(Text.getString("businessName")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("adr")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("shce") + ": "), SwingConstants.RIGHT);
 		
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
@@ -75,6 +84,96 @@ public class NewCentreManagerCard extends JPanel {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
+				StringBuilder errMsg = new StringBuilder();
+				int errCount = 0;
+				
+				/* CHECKING FIELDS */
+				if(firstName.getText().length() > 30) {
+					errCount++;
+					errMsg.append("-First name is too long. Max thirty characters.\n");
+				}
+				
+				if(lastName.getText().length() > 30) {
+					errCount++;
+					errMsg.append("-Last name is too long. Max thirty characters.\n");
+				}
+				
+				if(personalAddress.getText().length() > 30) {
+					errCount++;
+					errMsg.append("-Address field is too long. Max 30 characters.\n");
+				}
+				
+				try {
+					Integer.parseInt(personalZip.getText());
+					if(personalZip.getText().length() > 4) {
+						errCount++;
+						errMsg.append("-Zipcode must be four digits long.\n");
+					}
+				}
+				catch(NumberFormatException e) {
+					errCount++;
+					errMsg.append("-Zip code can only be numbers, and four digits long.\n");
+				}
+				
+				if(!EmailAddress.isValidEmailAddress(email.getText())) {
+					errCount++;
+					errMsg.append("-Email address is invalid.\n");
+				}
+				
+				try {
+					Integer.parseInt(telephone.getText());
+					if(telephone.getText().length() > 8) {
+						errCount++;
+						errMsg.append("-Telephone number must be eight digits long.\n");
+					}
+				}
+				catch(NumberFormatException e) {
+					errCount++;
+					errMsg.append("-Telephone number must be all numbers, and eight digits long.\n");
+				}
+				
+				try {
+					Integer.parseInt(salary.getText());
+				}
+				catch(NumberFormatException e) {
+					errCount++;
+					errMsg.append("-Salary must be all numbers.\n");
+				}
+				/* DONE CHECKING FIELDS */
+				
+				if(errCount > 0) {
+					if(errCount == 1) {
+						JOptionPane.showMessageDialog(
+								null,
+								"There was an error in your input:\n"+errMsg.toString(),
+								Text.getString("err"),
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(
+								null,
+								"There was an error in your input:\n"+errMsg.toString(),
+								Text.getString("err"),
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
+					return;
+				}
+				/*
+				if(user.updateData(
+						firstName.getText(), lastName.getText(),
+						personalAddress.getText(), Integer.parseInt(personalZip.getText()),
+						new EmailAddress(email.getText()), Integer.parseInt(telephone.getText()),
+						Integer.parseInt(salary.getText())) 
+						/*&& shoppingCentre.updateData(centreName.getText(), centreAddress.getText(),
+						Integer.parseInt(centreZip.getText()))) {
+					
+					updateCard(user, shoppingCentre);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+				}
+				*/
 				
 			}
 		});
@@ -82,7 +181,7 @@ public class NewCentreManagerCard extends JPanel {
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				
+				if(user != null) updateCard(user, shoppingCentre);
 			}
 		});
 	}
@@ -99,5 +198,26 @@ public class NewCentreManagerCard extends JPanel {
 		centreName.setText("");
 		centreAddress.setText("");
 		centreZip.setText("");
+	}
+	
+	public void updateCard(User u, ShoppingCentre s) {
+		user = u;
+		shoppingCentre = s;
+		
+		if(u == null) return;
+		
+		firstName.setText(u.getFirstName()!=null?u.getFirstName():"");
+		lastName.setText(u.getLastName()!=null?u.getLastName():"");
+		username.setText(u.getUsername()!=null?u.getUsername():"");
+		email.setText(u.getEmail().getEmailAddress()!=null?u.getEmail().getEmailAddress():"");
+		personalAddress.setText(u.getAddress().getAdress()!=null?u.getAddress().getAdress():"");
+		personalZip.setText(u.getAddress().getZipcode()+""!=null?u.getAddress().getZipcode()+"":"");
+		telephone.setText(u.getTelephone()+""!=null?u.getTelephone()+"":"");
+		salary.setText(u.getSalary()+""!=null?u.getSalary()+"":"");
+		
+		centreName.setText(s.getBusinessName()!=null?s.getBusinessName():"");
+		centreAddress.setText(s.getAddress().getAdress()!=null?s.getAddress().getAdress():"");
+		centreZip.setText(s.getAddress().getZipcode()+""!=null?s.getAddress().getZipcode()+"":"");
+		
 	}
 }

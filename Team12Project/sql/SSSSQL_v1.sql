@@ -37,15 +37,13 @@ SET foreign_key_checks = 1;
 
 CREATE TABLE county(
 county_id TINYINT PRIMARY KEY,
-county_name VARCHAR(30),
-county_name_dmp VARCHAR(30)
+county_name VARCHAR(30)
 );
 -- ENGINE = InnoDB;
 
 CREATE TABLE municipality(
 municipality_id INTEGER PRIMARY KEY,
 municipality_name VARCHAR(30),
-municipality_name_dmp VARCHAR(30),
 county_id TINYINT,
 CONSTRAINT municipality_FK FOREIGN KEY (county_id) REFERENCES county (county_id)
 );
@@ -55,7 +53,6 @@ CONSTRAINT municipality_FK FOREIGN KEY (county_id) REFERENCES county (county_id)
 CREATE TABLE zipcode(
 zipcode INTEGER(4) ZEROFILL PRIMARY KEY,
 district VARCHAR(30),
-district_dmp VARCHAR(30),
 municipality_id INTEGER,
 CONSTRAINT zipcode_FK FOREIGN KEY (municipality_id) REFERENCES municipality (municipality_id)
 );
@@ -64,9 +61,7 @@ CONSTRAINT zipcode_FK FOREIGN KEY (municipality_id) REFERENCES municipality (mun
 CREATE TABLE person(
 employee_number INTEGER AUTO_INCREMENT PRIMARY KEY,
 first_name VARCHAR(30),
-first_name_dmp VARCHAR(30),
 last_name VARCHAR(30), 
-last_name_dmp VARCHAR(30),
 address VARCHAR(30),
 zipcode INTEGER(4) ZEROFILL,
 email VARCHAR(30),
@@ -256,9 +251,12 @@ CREATE VIEW centres_view AS (
     LEFT JOIN county USING (county_id)
 );
 CREATE VIEW establishment_view AS (
-	SELECT e.business_id, business_name, email, telephone, opening_hours, floor_number, establishment_id, centre_id, building_id
+	SELECT e.business_id, business_name, email, address, telephone, text_description, zipcode, municipality_name, district, county_name, opening_hours, floor_number, establishment_id, centre_id, building_id
 	FROM establishment e
 	LEFT JOIN business USING (business_id)
+    LEFT JOIN zipcode USING (zipcode)
+    LEFT JOIN municipality USING (municipality_id)
+    LEFT JOIN county USING (county_id)
 	LEFT JOIN building USING (building_id)
 	LEFT JOIN shoppingcentre USING (centre_id)
 );

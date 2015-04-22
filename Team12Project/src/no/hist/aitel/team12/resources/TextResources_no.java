@@ -78,7 +78,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"firstname","Fornavn"},
 				{"lastname","Etternavn"},
 				{"adr","Adresse"},
-				{"zip","Postboks"},
+				{"zip","Postnummer"},
 				{"tel","Telefon"},
 				{"sal","Lønn"},
 				{"reverr", " Ingen fortjeneste er skrevet inn"},
@@ -110,7 +110,11 @@ public class TextResources_no extends ListResourceBundle {
 				{"invalidZip", "Ugyldig postnummer"},
 				{"usertypeTry", "Prøver å opprette brukertype: "},
 				{"whatUsertype", "Hvilken type bruker skal opprettes?"},
-				{"userype", "brukertype"}
+				{"usertype", "brukertype"},
+				{"invalidHrs", "Ugyldig format på åpningstid\nDet kreves to tall i hvert av de 4 feltene\nog man må åpne før man stenger"},
+				{"invalidInt", "Ugyldig format, oppgi heltall"},
+				{"shce","Kjøpesenter"},
+				{"store","Butikk"}
 		};
 	}
 }
