@@ -118,11 +118,14 @@ public class DatabaseConnection implements Database {
 			IntHashMap<ShoppingCentre>	centres = null;
 
 			IntHashMap<ArrayList<Trade>> trades = null;
-			
+
+			IntHashMap<ArrayList<Personnel>> personnel = null;
+
 			String	centreQuery = null,
 					buildingQuery = null,
 					establishmentQuery = null,
-					tradeQuery = "SELECT * FROM establishmenttrade JOIN trade USING (trade_id)";
+					tradeQuery = "SELECT * FROM establishmenttrade JOIN trade USING (trade_id)",
+					personnelQuery = "SELECT * FROM personnel LEFT JOIN person USING (employee_number)";
 			UserType userType = getUserType(userID);
 			switch(userType) {
 			case SYS_ADMIN:
@@ -150,6 +153,41 @@ public class DatabaseConnection implements Database {
 				break;
 			}
 
+			try (PreparedStatement statement = connection.prepareStatement(personnelQuery)) {
+				personnel = new IntHashMap<ArrayList<Personnel>>();
+
+				ResultSet result = statement.executeQuery();
+				ArrayList<Personnel> personnelList;
+				while(result.next()) {
+					personnelList = personnel.get(result.getInt("centre_id"));
+					if(personnelList == null) {
+						personnelList = new ArrayList<Personnel>();
+						personnel.put(result.getInt("centre_id_id"), personnelList);
+					}
+
+					personnelList.add(
+							new Personnel(
+									result.getInt("employee_number"),
+									result.getString("first_name"),
+									result.getString("last_name"),
+									new Address(
+											result.getString("address"),
+											result.getInt("zipcode"),								"FIX MUNI", "FIX COUNTY"
+											),
+											new EmailAddress(result.getString("email")),
+											result.getInt("telephone"),
+											result.getInt("salary"),
+											result.getString("title"),
+											result.getInt("centre_id")
+									)
+							);
+				}
+				result.close();
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+
 			try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
 				centres = new IntHashMap<ShoppingCentre>();
 
@@ -171,30 +209,7 @@ public class DatabaseConnection implements Database {
 									result.getInt("parking_spaces"),
 									result.getString("text_description"),
 									new ArrayList<Revenue>(),
-									new Personnel[] {
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							}
-							));
+									personnel.get(result.getInt("centre_id"))							));
 				}
 
 				result.close();
@@ -224,7 +239,7 @@ public class DatabaseConnection implements Database {
 
 			try (PreparedStatement statement = connection.prepareStatement(tradeQuery)) {
 				trades = new IntHashMap<ArrayList<Trade>>();
-				
+
 				ResultSet result = statement.executeQuery();
 				ArrayList<Trade> tradeList;
 				while(result.next()) {
@@ -233,7 +248,7 @@ public class DatabaseConnection implements Database {
 						tradeList = new ArrayList<Trade>();
 						trades.put(result.getInt("establishment_id"), tradeList);
 					}
-					
+
 					tradeList.add(new Trade(result.getInt("trade_id"), result.getString("trade_name")));
 				}
 				result.close();
@@ -241,7 +256,7 @@ public class DatabaseConnection implements Database {
 			catch(SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 			try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
 				Establishment estab;
 				ResultSet result = statement.executeQuery();
@@ -260,9 +275,9 @@ public class DatabaseConnection implements Database {
 									result.getInt("zipcode"), 
 									result.getString("municipality_name"), 
 									result.getString("county_name")
-							),
-							trades.get(result.getInt("establishment_id")), 
-							new ArrayList<Revenue>()
+									),
+									trades.get(result.getInt("establishment_id")), 
+									new ArrayList<Revenue>()
 							);
 					centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
 				}
@@ -857,7 +872,7 @@ public class DatabaseConnection implements Database {
 			for(int i = 0; result.next(); i++) {
 				selectedTrades[i] = new Trade(result.getInt("trade_id"),result.getString("trade_name"));
 			}
-			
+
 			return selectedTrades;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -876,7 +891,7 @@ public class DatabaseConnection implements Database {
 			connection.commit();
 			connection.setAutoCommit(true);
 
-			for(int i = 0; result.next(); i++) {
+			while(result.next()) {
 				allTrades.add(new Trade(result.getInt("trade_id"),result.getString("trade_name")));
 			}
 			return allTrades;

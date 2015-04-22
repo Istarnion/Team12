@@ -213,8 +213,9 @@ public class MessageTab extends SSSTab {
 		constraintsViewMsg.weighty = .035;
 		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
 		viewMessagePanel.add(from,constraintsViewMsg);
+		Color bgCol = from.getBackground();
 		from.setEditable(false);
-		from.setBackground(Color.WHITE);
+		from.setBackground(bgCol);
 
 		// Button for replying to message
 		JButton reply = new JButton(Text.getString("reply"));
@@ -248,7 +249,7 @@ public class MessageTab extends SSSTab {
 		constraintsViewMsg.fill = GridBagConstraints.HORIZONTAL;
 		viewMessagePanel.add(subject, constraintsViewMsg);
 		subject.setEditable(false);
-		subject.setBackground(Color.WHITE);
+		subject.setBackground(bgCol);
 
 		// Field for viewing selected message
 		constraintsViewMsg.gridx = 0;
