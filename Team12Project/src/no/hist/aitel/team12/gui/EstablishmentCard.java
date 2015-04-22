@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +22,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.app.Establishment;
-import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.util.Text;
 
@@ -36,7 +36,7 @@ public class EstablishmentCard extends JPanel {
 	private ButtonListener buttonListener;
 	private JScrollPane textDescriptionScroll, tradesLeftScroll, tradesRightScroll;
 	private Establishment establishment;
-	private JList tradesLeftList, tradesRightList;
+	private JList<Trade> tradesLeftList, tradesRightList;
 	private JTextFieldLimit openingTextField1, openingTextField2,openingTextField3, openingTextField4;
 
 	public EstablishmentCard(int userID) {
@@ -117,10 +117,12 @@ public class EstablishmentCard extends JPanel {
 		tradesButtonLeft.setPreferredSize(new Dimension(60, 23));
 		tradesButtonRight.setPreferredSize(new Dimension(60, 23));
 		
-		tradesLeftList			= new JList();
-		tradesRightList			= new JList();
+		tradesLeftList			= new JList<Trade>();
+		tradesRightList			= new JList<Trade>();
 		tradesLeftScroll	 	= new JScrollPane(tradesLeftList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tradesRightScroll 		= new JScrollPane(tradesRightList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		tradesLeftScroll.setPreferredSize(new Dimension(225, tradesLeftScroll.getPreferredSize().height));
+		tradesRightScroll.setPreferredSize(new Dimension(225, tradesRightScroll.getPreferredSize().height));
 		
 		textDescriptionScroll	= new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));
@@ -346,54 +348,59 @@ public class EstablishmentCard extends JPanel {
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
-		constraints.weighty = 0.0;
+		constraints.weighty = 0.01;
+		constraints.anchor = GridBagConstraints.NORTHEAST;
 		constraints.fill = GridBagConstraints.BOTH;
 		this.add(tradesPanel, constraints);
-		
-		// trades grid bag setup
-		constraints.gridx = 1;
-		constraints.gridy = 8;
-		constraints.gridwidth = 1;
-		constraints.gridheight = 1;
-		constraints.weightx = 0.10;
-		constraints.weighty = 0.01;
-		constraints.fill = GridBagConstraints.NONE;
-		constraints.anchor = GridBagConstraints.NORTHWEST;
-		this.add(tradeButton, constraints);
 		
 		// tradesPanel internal grid bag setup
 		constraints = new GridBagConstraints();
 		
-		constraints.gridx = 1;
+		int margin = 10;
+		Insets noInsets		= new Insets(0, 0, 0, 0);
+		Insets leftInsets	= new Insets(0, 0, 0, margin);
+		Insets rightInsets	= new Insets(0, margin, 0, 0);
+		
+		constraints.gridx = 0;
 		constraints.gridy = 0;
-		constraints.gridwidth = 2;
+		constraints.gridwidth = 1;
 		constraints.gridheight = 4;
 		constraints.weightx = 0.20;
 		constraints.weighty = 1;
+		constraints.insets = leftInsets;
+		constraints.anchor = GridBagConstraints.NORTHEAST;
+		constraints.fill = GridBagConstraints.VERTICAL;
 		tradesPanel.add(tradesLeftScroll, constraints);
 		
-		constraints.gridx = 2;
+		constraints.gridx = 1;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.20;
-		constraints.weighty = 0.10;
+		constraints.weighty = 0.001;
+		constraints.insets = noInsets;
+		constraints.anchor = GridBagConstraints.SOUTH;
+		constraints.fill = GridBagConstraints.NONE;
 		tradesPanel.add(tradesButtonLeft, constraints);
 		
-		constraints.gridx = 2;
+		constraints.gridx = 1;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.20;
-		constraints.weighty = 0.10;
+		constraints.weighty = 0.001;
+		constraints.anchor = GridBagConstraints.NORTH;
 		tradesPanel.add(tradesButtonRight, constraints);
 		
-		constraints.gridx = 3;
+		constraints.gridx = 2;
 		constraints.gridy = 0;
-		constraints.gridwidth = 2;
+		constraints.gridwidth = 1;
 		constraints.gridheight = 4;
 		constraints.weightx = 0.20;
 		constraints.weighty = 1;
+		constraints.insets = rightInsets;
+		constraints.anchor = GridBagConstraints.NORTHWEST;
+		constraints.fill = GridBagConstraints.VERTICAL;
 		tradesPanel.add(tradesRightScroll, constraints);
 	}
 
