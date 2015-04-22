@@ -45,10 +45,10 @@ public class SSS {
 	
 	public SSS() {
 		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
+			//UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
 			
 			// Set System L&F
-			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception ex) {
 			System.out.println("Failed setting System laf. Reverting to Java defult.");
@@ -133,9 +133,9 @@ public class SSS {
 					case SYS_ADMIN:
 					{
 						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId));
-						sssWindow.addTab(Text.getString("usrs"),		new UserTab());
+						sssWindow.addTab(Text.getString("usrs"),		new UserTab(userId, type));
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
-						sssWindow.addTab(Text.getString("sql"),			new SqlTab()); 
+						sssWindow.addTab(Text.getString("sql"),			new SqlTab());
 						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
 					} break;
 					
