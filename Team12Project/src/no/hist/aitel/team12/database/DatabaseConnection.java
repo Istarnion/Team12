@@ -18,6 +18,7 @@ import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
@@ -270,64 +271,6 @@ public class DatabaseConnection implements Database {
 			}
 			return output;
 		}
-	}
-
-
-	@Override
-	public Establishment[] getEstablishmentsInBuilding(int buildingID) {
-		Establishment[] establishments = null;
-
-		try(PreparedStatement statement = connection.prepareStatement(
-				"SELECT * FROM establishment LEFT JOIN business USING (business_id) WHERE building_id = ?"
-				)) {
-
-			statement.setInt(1, buildingID);
-			ResultSet result = statement.executeQuery();
-
-			result.last();
-			int rows = result.getRow();
-			result.beforeFirst();	
-
-			establishments = new Establishment[rows];
-			for(int i=0; result.next(); i++) {
-				establishments[i] = new Establishment(
-						result.getInt("business_id"),
-						result.getString("business_name"),
-						new EmailAddress(result.getString("email")),
-						result.getInt("telephone"),
-						result.getString("opening_hours"),
-						result.getInt("floor_number"),
-						result.getInt("establishment_id"),
-						"This (description) needs to be changed in the DatabaseConnection / SELECTS",
-						new Address(
-								"generic address", 
-								result.getInt("zipcode"), 
-								"municipality", 
-								"county"),
-								new ArrayList<String>(Arrays.asList(
-										"fix", 
-										"trades", 
-										"in", 
-										"db", 
-										"oh",
-										"and", 
-										"in", 
-										"database", 
-										"connection", 
-										"class"
-										)
-										), 
-										new ArrayList<Revenue>()
-						);
-			}
-			result.close();
-
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-
-		return establishments;
 	}
 
 	@Override
@@ -880,4 +823,71 @@ public class DatabaseConnection implements Database {
 
 		return true;
 	}
+
+	@Override
+	public Trade[] getSelectedTrades(int establishmentId) {
+		Trade[] selectedTrades;
+		ResultSet result = null;
+		int rows = 0;
+		try(PreparedStatement statement = connection.prepareStatement("SELECT trade_id, trade_name FROM establishmenttrade LEFT JOIN trade USING(trade_id) WHERE establishment_id = ?")) {
+			connection.setAutoCommit(false);
+			statement.setInt(1, establishmentId);
+			result = statement.executeQuery();
+			connection.commit();
+			connection.setAutoCommit(true);
+
+			result.last();
+			rows = result.getRow();
+			result.beforeFirst();
+
+			selectedTrades = new Trade[rows];
+
+			for(int i = 0; result.next(); i++) {
+				selectedTrades[i] = new Trade(result.getInt("trade_id"),result.getString("trade_name"));
+			}
+			
+			return selectedTrades;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			selectedTrades = new Trade[0];
+			return selectedTrades;
+		}
+	}
+
+	@Override
+	public Trade[] getAvailableTrades(int establishmentId) {
+		Trade[] availableTrades;
+		ResultSet result = null;
+		int rows = 0;
+		try(PreparedStatement statement = connection.prepareStatement("SELECT trade_id, trade_name FROM trade WHERE trade_id NOT IN (SELECT trade_id FROM establishmenttrade WHERE establishment_id = ?")) {
+			connection.setAutoCommit(false);
+			statement.setInt(1, establishmentId);
+			result = statement.executeQuery();
+			connection.commit();
+			connection.setAutoCommit(true);
+
+			result.last();
+			rows = result.getRow();
+			result.beforeFirst();
+
+			availableTrades = new Trade[rows];
+
+			for(int i = 0; result.next(); i++) {
+				availableTrades[i] = new Trade(result.getInt("trade_id"),result.getString("trade_name"));
+			}
+			
+			return availableTrades;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			availableTrades = new Trade[0];
+			return availableTrades;
+		}
+	}
+	
+		
+
+	
+	
+
+
 }

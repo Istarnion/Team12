@@ -16,10 +16,10 @@
  *******************************************************************************/
 package no.hist.aitel.team12.database;
 
-import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.PasswordManager;
 
@@ -129,13 +129,6 @@ public interface Database {
 	 */
 	public ShoppingCentre[] getShoppingCentres(int userID);
 	
-	/**
-	 * Retrieves all establishment in a certain building
-	 * 
-	 * @param buildingID The ID of the building in question
-	 * @return	The array
-	 */
-	public Establishment[] getEstablishmentsInBuilding(int buildingID);
 	
 	/**
 	 * Finds the UserType of the user.
@@ -215,4 +208,17 @@ public interface Database {
 	public boolean sendMessage (String sender, String[] recievers, String content, String subject);
 
 
+	/**
+	 * 
+	 * @param establishmentId Establishment ID for the shop in question
+	 * @return	Returns an array of Trade objects that the establishments has registered
+	 */
+	public Trade[] getSelectedTrades(int establishmentId);
+	
+	/**
+	 * 
+	 * @param establishmentId Establishment ID for the shop in question
+	 * @return	Returns an array of all Trade object that the establishment has not registered
+	 */
+	public Trade[] getAvailableTrades(int establishmentId);
 }
