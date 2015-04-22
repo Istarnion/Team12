@@ -62,7 +62,6 @@ public class NewCentreManagerCard extends JPanel {
 		labelPanel.add(new JLabel(Text.getString("businessName")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("adr")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("shce") + ": "), SwingConstants.RIGHT);
 		
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);

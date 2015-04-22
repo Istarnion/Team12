@@ -63,7 +63,6 @@ public class NewShopOwnerCard extends JPanel{
 		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("tel")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("sal")+": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("store") + ": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("shce") + ": ", SwingConstants.RIGHT));
 		
 		fieldPanel.add(firstName);
