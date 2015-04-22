@@ -125,7 +125,8 @@ public class TextResources extends ListResourceBundle {
 				{"tlplong","-Telephone number must be eight digits long.\n"},
 				{"tlpnr","-Telephone number must be all numbers, and eight digits long.\n"},
 				{"salnr","-Salary must be all numbers.\n"},
-				{"inputerr","There was an error in your input:\n"}
+				{"inputerr","There was an error in your input:\n"},
+				{"centerLong", "-Center name is too long. Max 30 characters.\n"}
 		};
 	}
 }

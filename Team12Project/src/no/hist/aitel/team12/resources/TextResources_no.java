@@ -124,7 +124,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"tlplong","-Telefonnummeret må ha 8 siffer.\n"},
 				{"tlpnr","-Telefonnummer må ha kun nummer, og være 8 siffer langt.\n"},
 				{"salnr","-Lønn må være oppgitt i nummer.\n"},
-				{"inputerr","Det var en feil i skjemaet ditt:\n"}
+				{"inputerr","Det var en feil i skjemaet ditt:\n"},
+				{"centerLong", "Kjøpesenternavnet er for langt. Maks 30 bokstaver.\n"}
 		};
 	}
 }

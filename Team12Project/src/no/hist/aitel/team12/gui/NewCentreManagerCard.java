@@ -138,6 +138,31 @@ public class NewCentreManagerCard extends JPanel {
 					errCount++;
 					errMsg.append(Text.getString("salnr"));
 				}
+
+				
+
+				if(centreName.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("centerLong"));
+				}
+				
+				if(centreAddress.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("adrlong"));
+				}
+				
+				try {
+					Integer.parseInt(centreZip.getText());
+					if(centreZip.getText().length() > 4) {
+						errCount++;
+						errMsg.append(Text.getString("zipfour"));
+					}
+				}
+				catch(NumberFormatException e) {
+					errCount++;
+					errMsg.append(Text.getString("zipnr"));
+				}
+				
 				/* DONE CHECKING FIELDS */
 				
 				if(errCount > 0) {
