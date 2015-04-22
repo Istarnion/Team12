@@ -6,7 +6,7 @@ public class Establishment extends Business {
 	
 	private final int establishmentId;
 	
-	private ArrayList<String> trades;
+	private ArrayList<Trade> selectedTrades;
 	
 	private ArrayList<Revenue> revenue;
 	
@@ -16,24 +16,20 @@ public class Establishment extends Business {
 			int businessId,	String businessName,	EmailAddress email,
 			int telephone,	String openingHours,		int floorNumber,
 			int establishmentId, String description, Address address,
-			ArrayList<String> trades, ArrayList<Revenue> revenue
+			ArrayList<Trade> selectedTrades, ArrayList<Revenue> revenue
 			) {
 		
 		super(businessId, businessName, email, telephone, openingHours, description, address, revenue);
 		
 		this.establishmentId = establishmentId;
 		this.floorNumber = floorNumber;
-		this.trades = trades;
+		this.selectedTrades = selectedTrades;
 	}
 
-	public ArrayList<String> getTrades() {
-		return trades;
+	public ArrayList<Trade> getSelectedTrades() {
+		return selectedTrades;
 	}
-
-	public void setTrades(ArrayList<String> trades) {
-		this.trades = trades;
-	}
-
+	
 	@Override
 	public ArrayList<Revenue> getRevenue() {
 		return revenue;

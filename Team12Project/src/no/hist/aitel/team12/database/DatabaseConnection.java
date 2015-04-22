@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
@@ -238,19 +237,9 @@ public class DatabaseConnection implements Database {
 									result.getInt("zipcode"), 
 									result.getString("municipality_name"), 
 									result.getString("county_name")
-									),
-									new ArrayList<String>(Arrays.asList(
-											"fix", 
-											"trades", 
-											"in", 
-											"db", 
-											"oh", 
-											"and", 
-											"in", 
-											"database", 
-											"connection", 
-											"class")), 
-											new ArrayList<Revenue>()
+							),
+							new ArrayList<Trade>(), 
+							new ArrayList<Revenue>()
 							);
 					centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
 				}
@@ -855,39 +844,22 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public Trade[] getAvailableTrades(int establishmentId) {
-		Trade[] availableTrades;
+	public ArrayList<Trade> getAllTrades() {
+		ArrayList<Trade> allTrades = new ArrayList<Trade>();
 		ResultSet result = null;
-		int rows = 0;
-		try(PreparedStatement statement = connection.prepareStatement("SELECT trade_id, trade_name FROM trade WHERE trade_id NOT IN (SELECT trade_id FROM establishmenttrade WHERE establishment_id = ?")) {
+		try(PreparedStatement statement = connection.prepareStatement("SELECT trade_id, trade_name FROM trade")) {
 			connection.setAutoCommit(false);
-			statement.setInt(1, establishmentId);
 			result = statement.executeQuery();
 			connection.commit();
 			connection.setAutoCommit(true);
 
-			result.last();
-			rows = result.getRow();
-			result.beforeFirst();
-
-			availableTrades = new Trade[rows];
-
 			for(int i = 0; result.next(); i++) {
-				availableTrades[i] = new Trade(result.getInt("trade_id"),result.getString("trade_name"));
+				allTrades.add(new Trade(result.getInt("trade_id"),result.getString("trade_name")));
 			}
-			
-			return availableTrades;
+			return allTrades;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			availableTrades = new Trade[0];
-			return availableTrades;
+			return allTrades;
 		}
 	}
-	
-		
-
-	
-	
-
-
 }

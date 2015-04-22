@@ -33,7 +33,7 @@ public class CentreCard extends JPanel {
 	private JLabel zipLabel, businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, areaLabel, personnelLabel;
 	private JLabel openingLabel1, openingLabel2, openingLabel3, openingLabel4, openingLabel5, persNameLabel, persTelephoneLabel, persTitleLabel, persEmailLabel;
 	private JPanel openingHours, personnelPanel;
-	private JButton zipButton, businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
+	private JButton newBuildingButton, zipButton, businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
 	private JTextArea textDescription;
 	private JList<Personnel> personnelList;
 	private ButtonListener buttonListener;
@@ -118,6 +118,7 @@ public class CentreCard extends JPanel {
 		textDescrButton		= new JButton(Text.getString("edit"));
 		areaButton			= new JButton(Text.getString("edit"));
 		zipButton			= new JButton(Text.getString("edit"));
+		newBuildingButton	= new JButton(Text.getString("newBuilding"));
 		
 		businessButton.setPreferredSize(new Dimension(60, 23));		
 		addressButton.setPreferredSize(new Dimension(60, 23));		
@@ -140,6 +141,7 @@ public class CentreCard extends JPanel {
 		textDescrButton.addActionListener(buttonListener);
 		areaButton.addActionListener(buttonListener);
 		zipButton.addActionListener(buttonListener);
+		newBuildingButton.addActionListener(buttonListener);
 
 		personnelPanel.add(persNameLabel);
 		personnelPanel.add(persTitleLabel);
