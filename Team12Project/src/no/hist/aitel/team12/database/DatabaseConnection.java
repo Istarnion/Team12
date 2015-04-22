@@ -28,8 +28,6 @@ public class DatabaseConnection implements Database {
 
 	private Connection connection;
 
-	private boolean threadsafe = true;
-	
 	boolean connect() {
 		boolean ok = true;
 		try {
@@ -58,13 +56,13 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public void teardown() {
-		while(!threadsafe) Thread.yield();	// Wait until the DataBuffer is ready to close.
-		
-		try {
-			connection.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
+		synchronized(connection) {
+			try {
+				connection.close();
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -107,171 +105,171 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
-	public synchronized ShoppingCentre[] getShoppingCentres(int userID) {
-		threadsafe = false;
-		try {
-			if(connection.isClosed()) return null;
-		} catch (SQLException e1) {
-			threadsafe = true;
-			return null;
-		}
+	public ShoppingCentre[] getShoppingCentres(int userID) {
 
-		IntHashMap<ShoppingCentre>	centres = null;
+		synchronized (connection) {
 
-		String	centreQuery = null,
-				buildingQuery = null,
-				establishmentQuery = null;
-		UserType userType = getUserType(userID);
-		switch(userType) {
-		case SYS_ADMIN:
-		{
-			centreQuery = "SELECT * FROM centres_view";
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building";
-			establishmentQuery = "SELECT * FROM establishment_view";
-		} break;
-		case CENTRE_MANAGER:
-		case CUSTOMER_SERVICE:
-		{
-			int centreId = getCentreID(userID);
-			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building WHERE centre_id = "+centreId;
-			establishmentQuery = "SELECT * FROM establishment_view";
-		} break;
-		case SHOP_OWNER:
-		{
-			int centreId = getCentreID(userID);
-			centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
-			buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building WHERE centre_id = "+centreId;
-			establishmentQuery = "SELECT * FROM establishment_view WHERE establishment_id = "+getEstablishmentID(userID);
-		} break;
-		default:
-			break;
-		}
-
-		try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
-			centres = new IntHashMap<ShoppingCentre>();
-
-			ResultSet result = statement.executeQuery();
-			while(result.next()) {
-				centres.put(result.getInt("centre_id"), new ShoppingCentre(
-						result.getInt("business_id"),
-						result.getString("business_name"),
-						new Address(
-								result.getString("address"),
-								result.getInt("zipcode"),
-								result.getString("municipality_name"),
-								result.getString("county_name")
-								),
-								new EmailAddress(result.getString("email")),
-								result.getInt("telephone"),
-								result.getString("opening_hours"),
-								result.getInt("centre_id"),
-								result.getInt("parking_spaces"),
-								result.getString("text_description"),
-								new ArrayList<Revenue>(),
-								new Personnel[] {
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-							new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
-						}
-						));
+			try {
+				if(connection.isClosed()) return null;
+			} catch (SQLException e1) {
+				return null;
 			}
 
-			result.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+			IntHashMap<ShoppingCentre>	centres = null;
 
-		try(PreparedStatement statement = connection.prepareStatement(buildingQuery)) {
-			Building building;
-			ResultSet result = statement.executeQuery();
-			while(result.next()) {
-				building = new Building(
-						result.getInt("building_id"),
-						result.getString("building_name"),
-						result.getInt("floors"),
-						result.getInt("area")
-						);
-				centres.get(result.getInt("centre_id")).addBuilding(building);
+			String	centreQuery = null,
+					buildingQuery = null,
+					establishmentQuery = null;
+			UserType userType = getUserType(userID);
+			switch(userType) {
+			case SYS_ADMIN:
+			{
+				centreQuery = "SELECT * FROM centres_view";
+				buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building";
+				establishmentQuery = "SELECT * FROM establishment_view";
+			} break;
+			case CENTRE_MANAGER:
+			case CUSTOMER_SERVICE:
+			{
+				int centreId = getCentreID(userID);
+				centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
+				buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building WHERE centre_id = "+centreId;
+				establishmentQuery = "SELECT * FROM establishment_view";
+			} break;
+			case SHOP_OWNER:
+			{
+				int centreId = getCentreID(userID);
+				centreQuery = "SELECT * FROM centres_view WHERE centre_id = "+centreId;
+				buildingQuery = "SELECT centre_id, building_id, building_name, floors, area FROM building WHERE centre_id = "+centreId;
+				establishmentQuery = "SELECT * FROM establishment_view WHERE establishment_id = "+getEstablishmentID(userID);
+			} break;
+			default:
+				break;
 			}
 
-			result.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+			try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
+				centres = new IntHashMap<ShoppingCentre>();
 
-		try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
-			Establishment estab;
-			ResultSet result = statement.executeQuery();
-			while(result.next()) {
-				estab = new Establishment(
-						result.getInt("business_id"),
-						result.getString("business_name"),
-						new EmailAddress(result.getString("email")),
-						result.getInt("telephone"),
-						result.getString("opening_hours"),
-						result.getInt("floor_number"),
-						result.getInt("establishment_id"),
-						result.getString("text_description"),
-						new Address(
-								result.getString("address"), 
-								result.getInt("zipcode"), 
-								result.getString("municipality_name"), 
-								result.getString("county_name")
-								),
-								new ArrayList<String>(Arrays.asList(
-										"fix", 
-										"trades", 
-										"in", 
-										"db", 
-										"oh", 
-										"and", 
-										"in", 
-										"database", 
-										"connection", 
-										"class")), 
-										new ArrayList<Revenue>()
-						);
-				centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
+				ResultSet result = statement.executeQuery();
+				while(result.next()) {
+					centres.put(result.getInt("centre_id"), new ShoppingCentre(
+							result.getInt("business_id"),
+							result.getString("business_name"),
+							new Address(
+									result.getString("address"),
+									result.getInt("zipcode"),
+									result.getString("municipality_name"),
+									result.getString("county_name")
+									),
+									new EmailAddress(result.getString("email")),
+									result.getInt("telephone"),
+									result.getString("opening_hours"),
+									result.getInt("centre_id"),
+									result.getInt("parking_spaces"),
+									result.getString("text_description"),
+									new ArrayList<Revenue>(),
+									new Personnel[] {
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+								new Personnel(0, "Test", result.getString("business_name"), new Address("address", 1337, "munici", "county"), new EmailAddress("email@test.personnel"), 99887766, 6000000, "Tester and chief of Test", 1),
+							}
+							));
+				}
+
+				result.close();
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
 			}
 
-			result.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
+			try(PreparedStatement statement = connection.prepareStatement(buildingQuery)) {
+				Building building;
+				ResultSet result = statement.executeQuery();
+				while(result.next()) {
+					building = new Building(
+							result.getInt("building_id"),
+							result.getString("building_name"),
+							result.getInt("floors"),
+							result.getInt("area")
+							);
+					centres.get(result.getInt("centre_id")).addBuilding(building);
+				}
 
-		ShoppingCentre[] output = null;
-		if(centres != null) {
-			output = new ShoppingCentre[centres.size()];
-			IntArrayList keys = centres.getKeys();
-			for(int i=0; i<keys.size(); i++) {
-				output[i] = centres.get(keys.get(i));
+				result.close();
 			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+
+			try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
+				Establishment estab;
+				ResultSet result = statement.executeQuery();
+				while(result.next()) {
+					estab = new Establishment(
+							result.getInt("business_id"),
+							result.getString("business_name"),
+							new EmailAddress(result.getString("email")),
+							result.getInt("telephone"),
+							result.getString("opening_hours"),
+							result.getInt("floor_number"),
+							result.getInt("establishment_id"),
+							result.getString("text_description"),
+							new Address(
+									result.getString("address"), 
+									result.getInt("zipcode"), 
+									result.getString("municipality_name"), 
+									result.getString("county_name")
+									),
+									new ArrayList<String>(Arrays.asList(
+											"fix", 
+											"trades", 
+											"in", 
+											"db", 
+											"oh", 
+											"and", 
+											"in", 
+											"database", 
+											"connection", 
+											"class")), 
+											new ArrayList<Revenue>()
+							);
+					centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
+				}
+
+				result.close();
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+
+			ShoppingCentre[] output = null;
+			if(centres != null) {
+				output = new ShoppingCentre[centres.size()];
+				IntArrayList keys = centres.getKeys();
+				for(int i=0; i<keys.size(); i++) {
+					output[i] = centres.get(keys.get(i));
+				}
+			}
+			return output;
 		}
-		
-		threadsafe = true;
-		return output;
 	}
 
 
@@ -397,115 +395,112 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public Person[] getPersons(int userID) {
-		threadsafe = false;
-		
-		ResultSet result = null;
-		Person[] persons = null;
+		synchronized(connection) {
+			ResultSet result = null;
+			Person[] persons = null;
 
-		User[] users = null;
-		Personnel[] personnel = null;
-		
-		try {
-			if(connection.isClosed()) {
-				threadsafe = true;
+			User[] users = null;
+			Personnel[] personnel = null;
+
+			try {
+				if(connection.isClosed()) {
+					return null;
+				}
+			}
+			catch(SQLException e) {
 				return null;
 			}
-		}
-		catch(SQLException e) {
-			threadsafe = true;
-			return null;
-		}
-		
-		try(
-				PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
-				PreparedStatement personellQuery = connection.prepareStatement("SELECT * FROM personnel_view");
-				) {
 
-			result = userQuery.executeQuery();
-			result.last();
-			int numUsers = result.getRow();
-			result.beforeFirst();
+			try(
+					PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
+					PreparedStatement personellQuery = connection.prepareStatement("SELECT * FROM personnel_view");
+					) {
 
-			users = new User[numUsers];
-			int index = 0;
-			while(result.next()) {
-				users[index++] = new User(
-						result.getInt("employee_number"),
-						result.getString("first_name"),
-						result.getString("last_name"),
-						new Address(
-								result.getString("address"),
-								result.getInt("zipcode"),
-								"temp",
-								"temp"),
-								new EmailAddress(result.getString("email")),
-								result.getInt("telephone"),
-								result.getInt("salary"),
-								result.getString("username")
-						);
-			}
-			result.close();
+				result = userQuery.executeQuery();
+				result.last();
+				int numUsers = result.getRow();
+				result.beforeFirst();
 
-			result = personellQuery.executeQuery();
-			result.last();
-			int numPersonnel = result.getRow();
-			result.beforeFirst();
-
-			personnel = new Personnel[numPersonnel];
-			index = 0;
-			while(result.next()) {
-				personnel[index++] = new Personnel (
-						result.getInt("employee_number"),
-						result.getString("first_name"),
-						result.getString("last_name"),
-						new Address(
-								result.getString("address"),
-								result.getInt("zipcode"),
-								"temp",
-								"temp"),
-								new EmailAddress(result.getString("email")),
-								result.getInt("telephone"),
-								result.getInt("salary"),
-								result.getString("title"),
-								result.getInt("centre_id")
-						);
-			}
-			result.close();
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-
-		}
-		catch(NullPointerException e) {
-			System.out.println(e.getMessage());
-			users = null;
-			personnel = null;
-		}
-		finally {
-			if(result != null) {
-				try {
-					result.close();
+				users = new User[numUsers];
+				int index = 0;
+				while(result.next()) {
+					users[index++] = new User(
+							result.getInt("employee_number"),
+							result.getString("first_name"),
+							result.getString("last_name"),
+							new Address(
+									result.getString("address"),
+									result.getInt("zipcode"),
+									"temp",
+									"temp"),
+									new EmailAddress(result.getString("email")),
+									result.getInt("telephone"),
+									result.getInt("salary"),
+									result.getString("username")
+							);
 				}
-				catch(SQLException e) {
-					e.printStackTrace();
+				result.close();
+
+				result = personellQuery.executeQuery();
+				result.last();
+				int numPersonnel = result.getRow();
+				result.beforeFirst();
+
+				personnel = new Personnel[numPersonnel];
+				index = 0;
+				while(result.next()) {
+					personnel[index++] = new Personnel (
+							result.getInt("employee_number"),
+							result.getString("first_name"),
+							result.getString("last_name"),
+							new Address(
+									result.getString("address"),
+									result.getInt("zipcode"),
+									"temp",
+									"temp"),
+									new EmailAddress(result.getString("email")),
+									result.getInt("telephone"),
+									result.getInt("salary"),
+									result.getString("title"),
+									result.getInt("centre_id")
+							);
+				}
+				result.close();
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+
+			}
+			catch(NullPointerException e) {
+				System.out.println(e.getMessage());
+				users = null;
+				personnel = null;
+			}
+			finally {
+				if(result != null) {
+					try {
+						result.close();
+					}
+					catch(SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-		}
 
-		if(users != null && personnel != null) {
-			persons = new Person[users.length + personnel.length];
+			if(users != null && personnel != null) {
+				persons = new Person[users.length + personnel.length];
 
-			int index = 0;
-			for(User u : users) {
-				persons[index++] = u;
+				int index = 0;
+				for(User u : users) {
+					persons[index++] = u;
+				}
+				for(Personnel p : personnel) {
+					persons[index++] = p;
+				}
 			}
-			for(Personnel p : personnel) {
-				persons[index++] = p;
-			}
-		}
 
-		threadsafe = true;
-		return persons;
+			return persons;
+		}
 	}
 
 	@Override
@@ -681,46 +676,46 @@ public class DatabaseConnection implements Database {
 
 
 	@Override
-	public synchronized Message[] getMessages(String username) {
-		threadsafe = false;
-		
-		Message[] messages = null;
-		ResultSet result = null;
-		int rows;
+	public Message[] getMessages(String username) {
+		synchronized(connection) {
 
-		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM message_view WHERE sender = ? OR reciever = ?")) {
+			Message[] messages = null;
+			ResultSet result = null;
+			int rows;
 
-			if(connection.isClosed()) return null;
+			try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM message_view WHERE sender = ? OR reciever = ?")) {
 
-			statement.setString(1, username);
-			statement.setString(2, username);
-			result = statement.executeQuery();
+				if(connection.isClosed()) return null;
 
-			result.last();
-			rows = result.getRow();
-			result.beforeFirst();
+				statement.setString(1, username);
+				statement.setString(2, username);
+				result = statement.executeQuery();
 
-			messages = new Message[rows];
+				result.last();
+				rows = result.getRow();
+				result.beforeFirst();
 
-			for(int i=0; result.next(); i++) {
-				messages[i] = new Message(
-						result.getInt("message_id"),
-						result.getString("Reciever"),
-						result.getString("Sender"),
-						result.getString("subject"),
-						result.getString("content"),
-						result.getTimestamp("timestamp"),
-						result.getBoolean("trashed")
-						);
+				messages = new Message[rows];
+
+				for(int i=0; result.next(); i++) {
+					messages[i] = new Message(
+							result.getInt("message_id"),
+							result.getString("Reciever"),
+							result.getString("Sender"),
+							result.getString("subject"),
+							result.getString("content"),
+							result.getTimestamp("timestamp"),
+							result.getBoolean("trashed")
+							);
+				}
+			} 
+
+			catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} 
 
-		catch (SQLException e) {
-			e.printStackTrace();
+			return messages;
 		}
-
-		threadsafe = true;
-		return messages;
 	}
 
 	@Override
