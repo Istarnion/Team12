@@ -9,8 +9,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -19,12 +21,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
 
 public class CentreCard extends JPanel {
@@ -33,8 +38,8 @@ public class CentreCard extends JPanel {
 	private JTextField zip, businessName, email, telephone, address, area;
 	private JLabel zipLabel, businessNameLabel, emailLabel, telephoneLabel, openingHrsLabel, addressLabel, textDescrLabel, areaLabel, personnelLabel;
 	private JLabel openingLabel1, openingLabel2, openingLabel3, openingLabel4, openingLabel5, persNameLabel, persTelephoneLabel, persTitleLabel, persEmailLabel;
-	private JPanel openingHours, personnelPanel;
-	private JButton newBuildingButton, zipButton, businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
+	private JPanel newBuildingPanel, openingHours, personnelPanel;
+	private JButton saveBuildingButton, newBuildingButton, zipButton, businessButton, emailButton, telephoneButton, openingHrsButton, addressButton, textDescrButton, areaButton;
 	private JTextArea textDescription;
 	private JList<Personnel> personnelList;
 	private ButtonListener buttonListener;
@@ -43,7 +48,8 @@ public class CentreCard extends JPanel {
 	private JScrollPane textDescriptionScroll;
 	private ShoppingCentre centre;
 	private JTextFieldLimit openingTextField1, openingTextField2, openingTextField3, openingTextField4;
-
+	private InputField newBuildingNameInput, newBuildingAreaInput, newBuildingFloorsInput;
+	private JDialog newBuildingDialog;
 	public CentreCard(int userID) {
 
 		this.setLayout(new GridBagLayout());
@@ -66,10 +72,34 @@ public class CentreCard extends JPanel {
 		persEmailLabel		= new JLabel(Text.getString("email") + ": ");
 		personnelPanel		= new JPanel(new GridLayout(4,1));
 		openingHours		= new JPanel(new FlowLayout(FlowLayout.LEFT));
+		newBuildingPanel	= new JPanel();
 
 		personnelPanel.setPreferredSize(personnelPanel.getSize());
 		openingHours.setBorder(new LineBorder(Color.LIGHT_GRAY	));
 
+		
+		newBuildingDialog = new JDialog();		
+		newBuildingPanel.setLayout(new BoxLayout(newBuildingPanel, BoxLayout.Y_AXIS));
+		newBuildingDialog.setMinimumSize(new Dimension(200,200));
+		newBuildingDialog.setResizable(false);
+		
+		newBuildingNameInput = new InputField(Text.getString("name"), 20);
+		newBuildingAreaInput = new InputField(Text.getString("area"), 20);
+		newBuildingFloorsInput = new InputField(Text.getString("nrOfFloors"), 20);
+		saveBuildingButton = new JButton(Text.getString("save"));
+		saveBuildingButton.setAlignmentX(CENTER_ALIGNMENT);
+		saveBuildingButton.addActionListener(buttonListener);
+		newBuildingPanel.setPreferredSize(new Dimension(200,200));
+		newBuildingPanel.setBorder(new EmptyBorder(10,10,10,10));
+		newBuildingDialog.setLocationRelativeTo(null);
+		newBuildingPanel.add(newBuildingNameInput);
+		newBuildingPanel.add(newBuildingAreaInput);
+		newBuildingPanel.add(newBuildingFloorsInput);
+		newBuildingPanel.add(saveBuildingButton);
+		newBuildingDialog.add(newBuildingPanel);
+		
+
+		
 		openingLabel1 = new JLabel("("); 
 		openingTextField1 = new JTextFieldLimit(2);
 		openingTextField1.setBorder(null);
@@ -460,8 +490,6 @@ public class CentreCard extends JPanel {
 		textDescrButton.setText(Text.getString("edit"));
 		areaButton.setText(Text.getString("edit"));
 		zipButton.setText(Text.getString("edit"));
-
-		System.out.println(personnelPanel.getSize());
 	}
 
 	private class ButtonListener implements ActionListener {
@@ -586,7 +614,34 @@ public class CentreCard extends JPanel {
 				}
 			}
 			else if(pressedButton.equals(newBuildingButton)) {
-				JOptionPane.showMessageDialog(null, "new building");
+				newBuildingDialog.setVisible(true);
+				newBuildingNameInput.setText("");
+				newBuildingAreaInput.setText("");
+				newBuildingFloorsInput.setText("");
+			}
+			else if(pressedButton.equals(saveBuildingButton)) {
+				Database db = DatabaseFactory.getDatabase();
+				int parsedArea = 0;
+				int parsedFloors = 0;
+				String newBuildingName = "";
+				try {
+					parsedArea = Integer.parseInt(newBuildingAreaInput.getText());
+					parsedFloors = Integer.parseInt(newBuildingFloorsInput.getText());
+					newBuildingName = newBuildingNameInput.getText();
+				}
+				catch(NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Please input integers");
+					return;
+				}
+				
+				if(!db.executePreparedStatement("INSERT INTO building (centre_id, building_name, floors, area) VALUES (?,?,?,?)", centre.getCentreId(), newBuildingName, parsedFloors, parsedArea )) {
+					
+					//!Building.newBuilding(centre.getCentreId(), newBuildingName , parsedFloors, parsedArea)
+					System.out.println("db save failed");
+					return;
+				}
+					newBuildingDialog.setVisible(false);
+					JOptionPane.showMessageDialog(null, "building created");
 			}
 		}
 	}
@@ -601,7 +656,6 @@ public class CentreCard extends JPanel {
 					persTitleLabel.setText(Text.getString("title") + ": " + selectedPers.getTitle());
 					persTelephoneLabel.setText(Text.getString("tel") + ": " + String.valueOf(selectedPers.getTelephone()));
 					persEmailLabel.setText(Text.getString("email") + ": " + selectedPers.getEmail());
-					System.out.println(personnelPanel.getSize());
 				}
 
 			}

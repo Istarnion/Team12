@@ -116,4 +116,9 @@ public class Building {
 		}
 		return false;
 	}
+	
+	public static boolean newBuilding(int centreId, String buildingName, int floors, int area) {
+		Database db = DatabaseFactory.getDatabase();
+		return db.executePreparedStatement("INSERT INTO building (centre_id, building_name, floors, area) VALUES (?,?,?,?)", centreId, buildingName, floors, area );
+	}
 }

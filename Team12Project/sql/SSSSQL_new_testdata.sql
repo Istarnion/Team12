@@ -116,16 +116,8 @@ values('firstName','lastName','Gate 1',7227,'',93065598,100000),
 ('anothername','gundersen','Street 1',1337,'',33055597,102000),
 ('asdf','few','fewww 1',0001,'',33445566,122000);
 
-select trade_id, trade_name 
-from establishmenttrade 
-left join trade 
-using(trade_id) 
-where establishment_id = 3;
-
-
-select * from establishment_view;
-
-select * from establishment;
-
-SHOW TABLE STATUS WHERE Name = 'establishment';
-
+insert into personnel(employee_number,centre_id,title)
+values
+(2, 1, 'Sakes'),
+(3, 1, 'Christmas'),
+(4, 1, 'Har itj nå å si');
