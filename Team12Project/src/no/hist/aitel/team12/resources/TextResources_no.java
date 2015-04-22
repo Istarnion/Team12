@@ -107,7 +107,10 @@ public class TextResources_no extends ListResourceBundle {
 				{"shopowner", "Bedriftseier"},
 				{"customerservice", "Kundeservice"},
 				{"personnel", "Personell"},
-				{"invalidZip", "Ugyldig postnummer"}
+				{"invalidZip", "Ugyldig postnummer"},
+				{"usertypeTry", "Prøver å opprette brukertype: "},
+				{"whatUsertype", "Hvilken type bruker skal opprettes?"},
+				{"userype", "brukertype"}
 		};
 	}
 }

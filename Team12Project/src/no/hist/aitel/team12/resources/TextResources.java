@@ -108,7 +108,11 @@ public class TextResources extends ListResourceBundle {
 				{"shopowner", "Establishment Owner"},
 				{"customerservice", "Customer Service"},
 				{"personnel", "Personnel"},
-				{"invalidZip", "Invalid zipcode"}
+				{"invalidZip", "Invalid zipcode"},
+				{"usertypeTry", "Trying to create usertype: "},
+				{"whatUsertype", "What kind of user should be created?"},
+				{"usertype", "User type"}
+				
 		};
 	}
 }

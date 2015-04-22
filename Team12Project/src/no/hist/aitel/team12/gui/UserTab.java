@@ -119,14 +119,14 @@ public class UserTab extends SSSTab {
 				final UserType[] usertypes = {UserType.PERSONNEL, UserType.CUSTOMER_SERVICE, UserType.SHOP_OWNER, UserType.CENTRE_MANAGER};
 				UserType type = (UserType)JOptionPane.showInputDialog(
 						null,
-						"What kind of user should be created?",
-						"User Type",
+						Text.getString("whatUsertype"),
+						Text.getString("usertype"),
 						JOptionPane.PLAIN_MESSAGE,
 						null,
 						usertypes, usertypes[0]);
 				
 				if(type != null) {
-					System.out.println("Trying to create usertype: "+type);
+					System.out.println(Text.getString("usertypeTry")+type);
 					switch(type) {
 						case PERSONNEL:
 						{
