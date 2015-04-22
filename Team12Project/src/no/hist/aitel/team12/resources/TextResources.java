@@ -116,6 +116,7 @@ public class TextResources extends ListResourceBundle {
 				{"invalidInt", "Invalid, please input integer"},
 				{"shce","Shopping Centre"},
 				{"store","Store"},
+				{"newBuilding", "New building"},
 				{"frnamelong","-First name is too long. Max 30 characters.\n"},
 				{"lsnamelong","-Last name is too long. Max 30 characters.\n"},
 				{"adrlong","-Address field is too long. Max 30 characters.\n"},

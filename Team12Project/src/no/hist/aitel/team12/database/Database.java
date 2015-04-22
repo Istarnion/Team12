@@ -16,6 +16,8 @@
  *******************************************************************************/
 package no.hist.aitel.team12.database;
 
+import java.util.ArrayList;
+
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.ShoppingCentre;
@@ -211,14 +213,9 @@ public interface Database {
 	/**
 	 * 
 	 * @param establishmentId Establishment ID for the shop in question
-	 * @return	Returns an array of Trade objects that the establishments has registered
-	 */
-	public Trade[] getSelectedTrades(int establishmentId);
-	
-	/**
-	 * 
-	 * @param establishmentId Establishment ID for the shop in question
 	 * @return	Returns an array of all Trade object that the establishment has not registered
 	 */
-	public Trade[] getAvailableTrades(int establishmentId);
+	public ArrayList<Trade> getAllTrades();
+
+	public Trade[] getSelectedTrades(int establishmentId);
 }

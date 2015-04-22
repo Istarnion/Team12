@@ -1,5 +1,7 @@
 package no.hist.aitel.team12.app;
 
+import java.util.ArrayList;
+
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 
@@ -31,8 +33,8 @@ public class Trade {
 		return db.getSelectedTrades(establishmentId);	
 	}
 
-	public static Trade[] getAvailableTrades(int establishmentId) {
+	public static ArrayList<Trade> getAllTrades() {
 		Database db = DatabaseFactory.getDatabase();
-		return db.getAvailableTrades(establishmentId);
+		return db.getAllTrades();
 	}
 }

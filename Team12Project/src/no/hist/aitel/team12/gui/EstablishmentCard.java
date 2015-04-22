@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -37,12 +38,13 @@ public class EstablishmentCard extends JPanel {
 	private JScrollPane textDescriptionScroll, tradesLeftScroll, tradesRightScroll;
 	private Establishment establishment;
 	private JList<Trade> tradesLeftList, tradesRightList;
+	private ArrayList<Trade> allTrades;
 	private JTextFieldLimit openingTextField1, openingTextField2,openingTextField3, openingTextField4;
 
 	public EstablishmentCard(int userID) {
 
 		this.setLayout(new GridBagLayout());
-
+		allTrades = Trade.getAllTrades();
 		buttonListener 		= new ButtonListener();
 
 		businessNameLabel	= new JLabel(Text.getString("name") + ": ", SwingConstants.RIGHT);
@@ -414,7 +416,7 @@ public class EstablishmentCard extends JPanel {
 		tradesLeftList.setModel(selectedListModel);
 		
 		DefaultListModel<Trade> availableListModel = new DefaultListModel<Trade>();
-		for(Trade t : Trade.getAvailableTrades(establishment.getEstablishmentId())) {
+		for(Trade t : allTrades) {
 			if(t != null) availableListModel.addElement(t);
 		}
 		tradesRightList.setModel(availableListModel);
