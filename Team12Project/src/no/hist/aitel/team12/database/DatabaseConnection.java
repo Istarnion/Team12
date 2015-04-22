@@ -117,9 +117,12 @@ public class DatabaseConnection implements Database {
 
 			IntHashMap<ShoppingCentre>	centres = null;
 
+			IntHashMap<ArrayList<Trade>> trades = null;
+			
 			String	centreQuery = null,
 					buildingQuery = null,
-					establishmentQuery = null;
+					establishmentQuery = null,
+					tradeQuery = "SELECT * FROM establishmenttrade JOIN trade USING (trade_id)";
 			UserType userType = getUserType(userID);
 			switch(userType) {
 			case SYS_ADMIN:
@@ -219,6 +222,26 @@ public class DatabaseConnection implements Database {
 				e.printStackTrace();
 			}
 
+			try (PreparedStatement statement = connection.prepareStatement(tradeQuery)) {
+				trades = new IntHashMap<ArrayList<Trade>>();
+				
+				ResultSet result = statement.executeQuery();
+				ArrayList<Trade> tradeList;
+				while(result.next()) {
+					tradeList = trades.get(result.getInt("establishment_id"));
+					if(tradeList == null) {
+						tradeList = new ArrayList<Trade>();
+						trades.put(result.getInt("establishment_id"), tradeList);
+					}
+					
+					tradeList.add(new Trade(result.getInt("trade_id"), result.getString("trade_name")));
+				}
+				result.close();
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+			
 			try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
 				Establishment estab;
 				ResultSet result = statement.executeQuery();
@@ -238,7 +261,7 @@ public class DatabaseConnection implements Database {
 									result.getString("municipality_name"), 
 									result.getString("county_name")
 							),
-							new ArrayList<Trade>(), 
+							trades.get(result.getInt("establishment_id")), 
 							new ArrayList<Revenue>()
 							);
 					centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
