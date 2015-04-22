@@ -17,4 +17,6 @@ public class User extends Person {
 	public String getUsername() {
 		return username;
 	}
+	
+	
 }

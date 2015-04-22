@@ -72,9 +72,9 @@ public class NewShopOwnerCard extends JPanel{
 		fieldPanel.add(personalAddress);
 		fieldPanel.add(personalZip);
 		fieldPanel.add(telephone);
-		fieldPanel.add(salary);
-		
+		fieldPanel.add(salary);		
 		fieldPanel.add(shoppingCenter);
+		fieldPanel.add(buttonPanel);
 		
 		
 		super.setLayout(new BorderLayout());

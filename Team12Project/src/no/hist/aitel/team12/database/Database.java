@@ -131,6 +131,29 @@ public interface Database {
 	 */
 	public ShoppingCentre[] getShoppingCentres(int userID);
 	
+	/**
+	 * Creates a ShoppingCentre in the database, together with the centreManager.
+	 * 
+	 * @param firstname			The first name of the manager
+	 * @param lastname			The last name of the manager
+	 * @param username			The username of the manager
+	 * @param email				the email of the manager
+	 * @param personalAddress	The personal address of the manager
+	 * @param personalZip		The personal zip of the manager
+	 * @param telephone			The managers telephone number
+	 * @param salary			The managers salary
+	 * @param centreName		The name of the new Centre
+	 * @param centreAddress		The address of the centre
+	 * @param centreZip			The zipcode of the centre
+	 * @return True if we succeeded creating the new data.
+	 */
+	public boolean createShoppingCentre(
+			String firstname, 		String lastname,
+			String username, 		String email,
+			String personalAddress,	int personalZip,
+			int telephone, 			int salary,
+			String centreName, 		String centreAddress,
+			int centreZip);
 	
 	/**
 	 * Finds the UserType of the user.

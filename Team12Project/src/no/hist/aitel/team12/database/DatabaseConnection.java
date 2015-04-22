@@ -21,6 +21,7 @@ import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
+import no.hist.aitel.team12.util.PasswordManager;
 import bak.pcj.list.IntArrayList;
 
 
@@ -300,6 +301,86 @@ public class DatabaseConnection implements Database {
 		}
 	}
 
+	@Override
+	public boolean createShoppingCentre(
+			String firstname,		String lastname,
+			String username,		String email,
+			String personalAddress,	int personalZip,
+			int telephone,			int salary,
+			String centreName,		String centreAddress,
+			int centreZip) {
+		
+		boolean ok = false;
+		
+		try(
+				PreparedStatement businessStatement = connection.prepareStatement(
+						"INSERT INTO business (business_name, address, zipcode, email, telephone, opening_hours, text_description VALUES(?, ?, ?, ?, ?, '09150915', '...)");
+				PreparedStatement centreStatement	= connection.prepareStatement(
+						"INSERT INTO shoppingcentre (business_id, parking_spaces) VALUES (LAST_INSERT_ID(), 10)");
+				PreparedStatement personStatement	= connection.prepareStatement(
+						"INSERT INTO person (first_name, last_name, address, zipcode, email, telephone, salary) values(?, ?, ?, ?, ?, ?, ?)");
+				PreparedStatement userStatement		= connection.prepareStatement(
+						"INSERT INTO user (employee_number, username, password_hash) VALUES(LAST_INSERT_ID(), ?, ?)");
+				PreparedStatement mangerStatement	= connection.prepareStatement(
+						"INSERT INTO centremanager (employee_number, centre_id) VALUES ("
+						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'person';), "
+						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'business';))");
+				) {
+			connection.setAutoCommit(false);
+			
+			businessStatement.setString(1, centreName);
+			businessStatement.setString(2, centreAddress);
+			businessStatement.setInt(3, centreZip);
+			businessStatement.setString(4, email);
+			businessStatement.setInt(5, telephone);
+			
+			businessStatement.executeUpdate();
+			
+			centreStatement.executeUpdate();
+			
+			personStatement.setString(1, firstname);
+			personStatement.setString(2, lastname);
+			personStatement.setString(3, personalAddress);
+			personStatement.setInt(4, personalZip);
+			personStatement.setString(5, email);
+			personStatement.setInt(6, telephone);
+			personStatement.setInt(7, salary);
+			
+			personStatement.executeUpdate();
+			
+			userStatement.setString(1, username);
+			userStatement.setString(2, PasswordManager.generatePassword(username));
+			
+			userStatement.executeUpdate();
+			
+			mangerStatement.executeUpdate();
+			
+			connection.commit();
+			connection.setAutoCommit(true);
+			ok = true;
+		}
+		catch(SQLException e) {
+			try {
+				connection.rollback();
+				System.out.println(e.getMessage());
+			}
+			catch(SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		finally {
+			try {
+				connection.setAutoCommit(true);
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return ok;
+	};
+	
 	@Override
 	public int getUserID(String username) {
 		int output = -1;

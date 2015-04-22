@@ -16,11 +16,13 @@ import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.Text;
 
+/**
+ * 
+ * @author Hallgeir
+ *
+ */
 public class NewCustomerServiceCard extends JPanel{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1259252191776134538L;
 	private JButton saveButton, cancelButton;
 	private JPanel buttonPanel, fieldPanel, labelPanel;
@@ -30,7 +32,11 @@ public class NewCustomerServiceCard extends JPanel{
 	private JTextField
 		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary;
 	
-	public NewCustomerServiceCard() {
+	private UserTab userTab;
+	
+	public NewCustomerServiceCard(UserTab userTab) {
+		this.userTab = userTab;
+		
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -65,6 +71,7 @@ public class NewCustomerServiceCard extends JPanel{
 		fieldPanel.add(personalZip);
 		fieldPanel.add(telephone);
 		fieldPanel.add(salary);
+		fieldPanel.add(buttonPanel);
 		
 		
 		super.setLayout(new BorderLayout());
@@ -149,7 +156,7 @@ public class NewCustomerServiceCard extends JPanel{
 					
 					return;
 				}
-				/*
+				
 				if(user.updateData(
 						firstName.getText(), lastName.getText(),
 						personalAddress.getText(), Integer.parseInt(personalZip.getText()),
@@ -161,8 +168,6 @@ public class NewCustomerServiceCard extends JPanel{
 				else {
 					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
 				}
-				*/
-				
 			}
 		});
 		
@@ -170,6 +175,7 @@ public class NewCustomerServiceCard extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				if(user != null) updateCard(user);
+				userTab.showLogoCard();
 			}
 		});
 	}
