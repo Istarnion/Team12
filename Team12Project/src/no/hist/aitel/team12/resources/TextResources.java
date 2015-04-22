@@ -116,13 +116,10 @@ public class TextResources extends ListResourceBundle {
 				{"invalidInt", "Invalid, please input integer"},
 				{"shce","Shopping Centre"},
 				{"store","Store"},
-<<<<<<< HEAD
 				{"cvsCntrNam","Enter name of center"},
 				{"cvsShpNam","Enter name of shop"},
 				{"cvsCounty","Enter county"},
-				{"cvsMunici","Enter municipality"}
-				
-=======
+				{"cvsMunici","Enter municipality"},
 				{"newBuilding", "New building"},
 				{"frnamelong","-First name is too long. Max 30 characters.\n"},
 				{"lsnamelong","-Last name is too long. Max 30 characters.\n"},
@@ -136,7 +133,6 @@ public class TextResources extends ListResourceBundle {
 				{"inputerr","There was an error in your input:\n"},
 				{"centerlong", "-Center name is too long. Max 30 characters.\n"},
 				{"userlong", "Username is to long. Max 30 characters. \n"}
->>>>>>> 4dd31dd5a70c22ef6fa9ea9fef09f46bb4f8e65e
 		};
 	}
 }

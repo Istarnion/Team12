@@ -115,12 +115,10 @@ public class TextResources_no extends ListResourceBundle {
 				{"invalidInt", "Ugyldig format, oppgi heltall"},
 				{"shce","Kjøpesenter"},
 				{"store","Butikk"},
-<<<<<<< HEAD
 				{"cvsCntrNam","Skriv inn navn på senter"},
 				{"cvsShpNam","Skriv inn navn på butikk"},
 				{"cvsCounty","Skriv inn fylke"},
-				{"cvsMunici","Skriv inn kommune"}
-=======
+				{"cvsMunici","Skriv inn kommune"},
 				{"newBuilding", "Ny bygning"},
 				{"store","Butikk"},		
 				{"frnamelong","-Fornavn er for langt. Maks 30 bokstaver.\n"},
@@ -136,7 +134,6 @@ public class TextResources_no extends ListResourceBundle {
 				{"centerlong", "Kjøpesenternavnet er for langt. Maks 30 bokstaver.\n"},
 				{"userlong", "Brukernavnet er for langt. Maks 30 bokstaver.\n"}
 
->>>>>>> 4dd31dd5a70c22ef6fa9ea9fef09f46bb4f8e65e
 		};
 	}
 }
