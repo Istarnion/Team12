@@ -26,10 +26,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.ShoppingCentre;
-import no.hist.aitel.team12.database.Database;
-import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
 
 public class CentreCard extends JPanel {
@@ -620,7 +619,6 @@ public class CentreCard extends JPanel {
 				newBuildingFloorsInput.setText("");
 			}
 			else if(pressedButton.equals(saveBuildingButton)) {
-				Database db = DatabaseFactory.getDatabase();
 				int parsedArea = 0;
 				int parsedFloors = 0;
 				String newBuildingName = "";
@@ -634,9 +632,7 @@ public class CentreCard extends JPanel {
 					return;
 				}
 				
-				if(!db.executePreparedStatement("INSERT INTO building (centre_id, building_name, floors, area) VALUES (?,?,?,?)", centre.getCentreId(), newBuildingName, parsedFloors, parsedArea )) {
-					
-					//!Building.newBuilding(centre.getCentreId(), newBuildingName , parsedFloors, parsedArea)
+				if(!Building.newBuilding(centre.getCentreId(), newBuildingName , parsedFloors, parsedArea)) {
 					System.out.println("db save failed");
 					return;
 				}

@@ -39,8 +39,6 @@ public class DatabaseConnection implements Database {
 
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
-			connection.setAutoCommit(false);
-
 			ok = testConnection();
 		}
 		catch(SQLException e) {

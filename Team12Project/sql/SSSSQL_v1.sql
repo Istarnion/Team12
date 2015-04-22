@@ -1,4 +1,4 @@
-use supershoppingsurfer;
+use supershoppingsurfer_silver;
 
 SET foreign_key_checks = 0;
 
@@ -105,7 +105,7 @@ ENGINE = InnoDB;
 CREATE TABLE building(
 building_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 centre_id INTEGER,
-building_name VARCHAR(30),
+building_name VARCHAR(30) NOT NULL,
 floors INTEGER,
 area INTEGER,
 CONSTRAINT building_FK FOREIGN KEY (centre_id) REFERENCES shoppingcentre (centre_id)

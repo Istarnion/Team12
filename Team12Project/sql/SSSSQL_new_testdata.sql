@@ -1,3 +1,4 @@
+use supershoppingsurfer_silver;
 insert into business(
 business_name,
 address,
@@ -121,3 +122,6 @@ values
 (2, 1, 'Sakes'),
 (3, 1, 'Christmas'),
 (4, 1, 'Har itj nå å si');
+
+
+select * from building;
