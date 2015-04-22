@@ -61,7 +61,7 @@ public class PDFGenerator {
 
 			document.open();
 			//Watermark
-			Image image = Image.getInstance("Resources/images/watermark1.png");
+			Image image = Image.getInstance("Resources/images/watermark.png");
 			image.scaleToFit(PageSize.A4);
 			document.add(image);
 			// adds report generated in Report class 

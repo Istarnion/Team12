@@ -3,6 +3,8 @@ package no.hist.aitel.team12.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,8 +17,7 @@ public class CustomerCSView extends SSSTab {
 	private JPanel contactCs = new JPanel();
 	private JPanel info = new JPanel();
 	private JPanel message = new JPanel();
-	private JPanel buttomPanel = new JPanel();
-	
+
 	private InputField subject = new InputField("Subject",20);
 	private InputField email = new InputField("Your email adress here",20);
 	
@@ -64,6 +65,22 @@ public class CustomerCSView extends SSSTab {
 		contactCs.add(info);
 		contactCs.add(message);
 		
+		ButtonListener clicked = new ButtonListener();
+		send.addActionListener(clicked);
+		
+	}
+	
+	private class ButtonListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			/*
+			 * getCenter, getSubject. getuserID, get message^
+			 * send to database
+			 */
+			System.out.println("Send button has been pressed");
+			
+		}
 	}
 
 	@Override

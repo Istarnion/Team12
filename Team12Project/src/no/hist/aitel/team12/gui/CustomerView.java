@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -15,8 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import no.hist.aitel.team12.util.Text;
 
@@ -43,15 +47,29 @@ public class CustomerView extends SSSTab {
 	private JButton login;
 
 	private JLabel today;
+	
+	private String magGlass = "\uD83D\uDD0D";
+	
+	private InputField shopNameSearch = new InputField (magGlass+Text.getString("cvsShpNam"),20);
 
+	private	InputField centerNameSearch = new InputField(magGlass+Text.getString("cvsCntrNam"),20);
+	
+	private InputField countySearch = new InputField(magGlass +Text.getString("cvsCounty"),20);
 
+	private InputField municipalitySearch = new InputField(magGlass+Text.getString("cvsMunici"),20);
+	
+	private ArrayList<String> shops= new ArrayList<String>();
+	
+	private JLabel test = new JLabel();
+	
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3816026786587105148L;
 
 	public CustomerView(){
-		//super();
+		super();
 		
 		basePanel.setLayout(new BoxLayout(basePanel, BoxLayout.Y_AXIS));
 		basePanel.setPreferredSize(new Dimension(1200, 675));
@@ -87,25 +105,21 @@ public class CustomerView extends SSSTab {
 		// SEARCH
 
 		search.setLayout(new GridLayout(1,5));
-
+		
+	
 		Font font = new Font("Segoe UI Symbol",Font.PLAIN,12);
-		String magGlass = "\uD83D\uDD0D";
-
-		InputField centerNameSearch = new InputField(magGlass+Text.getString("cvsCntrNam"),20);
 		centerNameSearch.setFont(font);
 		search.add(centerNameSearch);
-		InputField shopNameSearch = new InputField (magGlass+Text.getString("cvsShpNam"),20);
 		shopNameSearch.setFont(font);
-		search.add(shopNameSearch);
-		InputField countySearch = new InputField(magGlass +Text.getString("cvsCounty"),20);
+		search.add(shopNameSearch); 
 		countySearch.setFont(font);
-		search.add(countySearch);
-		InputField municipalitySearch = new InputField(magGlass+Text.getString("cvsMunici"),20);
+		search.add(countySearch); 
 		municipalitySearch.setFont(font);
-		search.add(municipalitySearch);
+		search.add(municipalitySearch); 
 		String [] trades = {"Sport","toys","bla","bla"};
 		JComboBox<String> tradeSearch = new JComboBox<String>(trades);
 		search.add(tradeSearch);
+		
 		
 		System.out.println("Search panel done");
 
@@ -116,9 +130,11 @@ public class CustomerView extends SSSTab {
 		view.add(resultView, BorderLayout.CENTER);
 
 		searchResult.setLayout(new BorderLayout());
-		JList <String>listing = new JList<String>();
-		JScrollPane scrollListing = new JScrollPane(listing);
-		searchResult.add(scrollListing, BorderLayout.WEST);
+		
+	//	JList <String>listing = new JList<String>();
+	//	JScrollPane scrollListing = new JScrollPane(listing);
+		
+		searchResult.add(test, BorderLayout.WEST);
 
 		
 		
@@ -130,16 +146,56 @@ public class CustomerView extends SSSTab {
 
 		ButtonListener btnListener = new ButtonListener();
 		login.addActionListener(btnListener);
+		
+		SearchListener fieldListener = new SearchListener();
+		shopNameSearch.addActionListener(fieldListener);
+		
+	
+		shops.add("Narvesen");
+		shops.add("HM");
+		shops.add("BigBite");
 
-	}
+		
+			
+		}
+	
+	
+
+
+	
 	
 	private class ButtonListener implements ActionListener{
-		public void actionPerformed(ActionEvent f){
-			System.out.println("Open Login Window");
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			System.out.println("open login window");
 			
 		}
 		
-	}
+		}
+	private class SearchListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent f) {
+			// TODO Auto-generated method stub
+			String selected = shopNameSearch.getText();
+			
+			for(String shp : shops){
+				if(selected.contains(shp)){
+					test.setText(selected);
+				}
+			}
+		
+			
+				
+			}
+			
+		}
+		
+
+		
+	
 	
 	@Override
 	public void refresh() {
@@ -150,7 +206,7 @@ public class CustomerView extends SSSTab {
 	public static void main (String[]args ){
 		SSSWindow cv = new SSSWindow();
 		System.out.println("SSSWindow added");
-		cv.addTab("Customer Service",new CustomerView());
+		cv.addTab("This is a tab ",new CustomerView());
 		System.out.println("tab added to window");
 		cv.showWindow();
 		System.out.println("Visible");

@@ -1,6 +1,8 @@
 package no.hist.aitel.team12.app;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.image.BufferedImage;
 import java.sql.Date;
 
@@ -40,6 +42,8 @@ public class FinanceChart {
 		
 		JFreeChart chart = ChartFactory.createXYBarChart(chartName, "Month", false, "Revenue", ds);
 		chart.removeLegend();
+		
+
 		
 		
 		
