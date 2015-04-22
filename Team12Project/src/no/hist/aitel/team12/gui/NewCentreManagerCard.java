@@ -143,7 +143,7 @@ public class NewCentreManagerCard extends JPanel {
 
 				if(centreName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("centerLong"));
+					errMsg.append(Text.getString("centerlong"));
 				}
 				
 				if(centreAddress.getText().length() > 30) {
