@@ -109,4 +109,22 @@ public class ShoppingCentre extends Business {
 	public void setPersonnel(Personnel[] personnel) {
 		this.personnel = personnel;
 	}
+	
+	public static boolean createCentre(
+			String firstname, 		String lastname,
+			String username, 		String email,
+			String personalAddress,	int personalZip,
+			int telephone, 			int salary,
+			String centreName, 		String centreAddress,
+			int centreZip) {
+		
+		Database db = DatabaseFactory.getDatabase();
+		return db.createShoppingCentre(
+				firstname,			lastname,
+				username,			email,
+				personalAddress,	personalZip,
+				telephone,			salary,
+				centreName,			centreAddress,
+				centreZip);
+	}
 }

@@ -81,11 +81,11 @@ public class UserTab extends SSSTab {
 		
 		mainPanel.add(new LogoCard(), "logoCard");
 		if(userType == UserType.SYS_ADMIN) {
-			mainPanel.add(new NewCentreManagerCard(), "newManagerCard");
+			mainPanel.add(new NewCentreManagerCard(this), "newManagerCard");
 		}
 		mainPanel.add(new NewShopOwnerCard(), "newShopOwnerCard");
 		mainPanel.add(new NewPersonnelCard(), "newPersonnelCard");
-		mainPanel.add(new NewCustomerServiceCard(), "newCustomerServiceCard");
+		mainPanel.add(new NewCustomerServiceCard(this), "newCustomerServiceCard");
 		editUserCard = new EditUserCard();
 		mainPanel.add(editUserCard, "editUserCard");
 		
@@ -179,6 +179,11 @@ public class UserTab extends SSSTab {
 		});
 	}
 
+	public void showLogoCard() {
+		cards.show(mainPanel, "logoCard");
+		refresh();
+	}
+	
 	@Override
 	public void refresh() {
 		DefaultListModel<Person> model = new DefaultListModel<Person>();

@@ -30,7 +30,11 @@ public class NewCentreManagerCard extends JPanel {
 	
 	private ShoppingCentre shoppingCentre;
 	
-	public NewCentreManagerCard() {
+	private UserTab userTab;
+	
+	public NewCentreManagerCard(UserTab userTab) {
+		this.userTab = userTab;
+		
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -189,21 +193,22 @@ public class NewCentreManagerCard extends JPanel {
 					
 					return;
 				}
-				/*
-				if(user.updateData(
+				
+				
+				if(ShoppingCentre.createCentre(
 						firstName.getText(), lastName.getText(),
+						username.getText(), email.getText(),
 						personalAddress.getText(), Integer.parseInt(personalZip.getText()),
-						new EmailAddress(email.getText()), Integer.parseInt(telephone.getText()),
-						Integer.parseInt(salary.getText())) 
-						/*&& shoppingCentre.updateData(centreName.getText(), centreAddress.getText(),
+						Integer.parseInt(telephone.getText()), Integer.parseInt(salary.getText()),
+						centreName.getText(), centreAddress.getText(),
 						Integer.parseInt(centreZip.getText()))) {
 					
-					updateCard(user, shoppingCentre);
+					userTab.showLogoCard();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
 				}
-				*/
+				
 				
 			}
 		});
