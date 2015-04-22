@@ -75,9 +75,9 @@ public class NewPersonnelCard extends JPanel{
 		fieldPanel.add(personalZip);
 		fieldPanel.add(telephone);
 		fieldPanel.add(salary);
-		
 		fieldPanel.add(store);
 		fieldPanel.add(shoppingCenter);
+		fieldPanel.add(buttonPanel);
 		
 		
 		super.setLayout(new BorderLayout());
