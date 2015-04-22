@@ -83,6 +83,7 @@ public class NewPersonnelCard extends JPanel{
 		super.setLayout(new BorderLayout());
 		super.add(labelPanel, BorderLayout.WEST);
 		super.add(fieldPanel, BorderLayout.CENTER);
+		super.add(buttonPanel, BorderLayout.SOUTH);
 		
 		saveButton.addActionListener(new ActionListener() {
 			@Override
