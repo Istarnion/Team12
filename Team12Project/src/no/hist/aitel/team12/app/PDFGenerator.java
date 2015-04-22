@@ -27,6 +27,11 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.data.xy.XYBarDataset;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -46,8 +51,8 @@ import com.sun.pdfview.PDFPage;
 
 public class PDFGenerator {
 
-	public static void generatePDF(String path){
-		
+	public static void generatePDF(String path, Revenue[] revenues, String chartName){
+
 		Document document = new Document();
 		document.setPageSize(PageSize.A4);
 
@@ -61,7 +66,11 @@ public class PDFGenerator {
 			document.add(image);
 			// adds report generated in Report class 
 			Paragraph paragraph = new Paragraph();
-			paragraph.add("This is a test 1");
+			
+			Image img = Image.getInstance(generateGraphImg(revenues, chartName), null);
+			
+			paragraph.add(img);
+			
 			document.add(paragraph);
 			document.close();
 
@@ -114,6 +123,7 @@ public class PDFGenerator {
 		Graphics2D g = img.createGraphics();
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
+		System.out.println(img.getWidth());
 		for(int i=0; i<numPages; i++) {
 			g.drawImage(pages[i], 0, i*(rect.height+spacing), rect.width, rect.height, null);
 		}
@@ -121,5 +131,31 @@ public class PDFGenerator {
 
 		return img;
 
+	}
+
+	private static BufferedImage generateGraphImg(Revenue[] revenues, String chartName) {
+		final DefaultXYDataset dataset = new DefaultXYDataset(); 
+
+		double[][] data = new double[2][revenues.length];
+		double barWidth = 500.0/revenues.length;
+		double x = 0;
+
+		int index = 0;
+		for(Revenue r : revenues) {
+			data[0][index] = x;
+			x+=barWidth;
+			data[1][index] = r.getTurnover();
+
+			index++;
+		}
+
+		dataset.addSeries(new Integer(1), data);
+
+		final XYBarDataset ds = new XYBarDataset(dataset, (500.0/revenues.length));
+
+		JFreeChart chart = ChartFactory.createXYBarChart(chartName, "Month", false, "Revenue", ds);
+		chart.removeLegend();
+
+		return chart.createBufferedImage(500, 500);
 	}
 }
