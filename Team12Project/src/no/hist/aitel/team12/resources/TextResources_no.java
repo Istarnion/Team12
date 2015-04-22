@@ -114,7 +114,11 @@ public class TextResources_no extends ListResourceBundle {
 				{"invalidHrs", "Ugyldig format på åpningstid\nDet kreves to tall i hvert av de 4 feltene\nog man må åpne før man stenger"},
 				{"invalidInt", "Ugyldig format, oppgi heltall"},
 				{"shce","Kjøpesenter"},
-				{"store","Butikk"}
+				{"store","Butikk"},
+				{"cvsCntrNam","Skriv inn navn på senter"},
+				{"cvsShpNam","Skriv inn navn på butikk"},
+				{"cvsCounty","Skriv inn fylke"},
+				{"cvsMunici","Skriv inn kommune"}
 		};
 	}
 }
