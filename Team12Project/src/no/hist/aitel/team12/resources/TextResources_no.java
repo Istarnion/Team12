@@ -114,7 +114,17 @@ public class TextResources_no extends ListResourceBundle {
 				{"invalidHrs", "Ugyldig format på åpningstid\nDet kreves to tall i hvert av de 4 feltene\nog man må åpne før man stenger"},
 				{"invalidInt", "Ugyldig format, oppgi heltall"},
 				{"shce","Kjøpesenter"},
-				{"store","Butikk"}
+				{"store","Butikk"},		
+				{"frnamelong","-Fornavn er for langt. Maks 30 bokstaver.\n"},
+				{"lsnamelong","-Etternavn er for langt. Maks 30 bokstaver.\n"},
+				{"adrlong","-Adressen er for lang. Maks 30 bokstaver.\n"},
+				{"zipfour","-Postnummeret må ha fire siffer.\n"},
+				{"zipnr","-Postnummer kan bare ha nummer, og må være fire siffer langt. \n"},
+				{"emailinv","-Epostadressen er ikke gyldig.\n"},
+				{"tlplong","-Telefonnummeret må ha 8 siffer.\n"},
+				{"tlpnr","-Telefonnummer må ha kun nummer, og være 8 siffer langt.\n"},
+				{"salnr","-Lønn må være oppgitt i nummer.\n"},
+				{"inputerr","Det var en feil i skjemaet ditt:\n"}
 		};
 	}
 }

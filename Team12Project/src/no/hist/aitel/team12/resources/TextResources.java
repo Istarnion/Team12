@@ -115,7 +115,17 @@ public class TextResources extends ListResourceBundle {
 				{"invalidHrs","Invalid format for opening hours\nYou need two numbers in each of the 4 fields\nand you have to open before you close"},
 				{"invalidInt", "Invalid, please input integer"},
 				{"shce","Shopping Centre"},
-				{"store","Store"}
+				{"store","Store"},
+				{"frnamelong","-First name is too long. Max 30 characters.\n"},
+				{"lsnamelong","-Last name is too long. Max 30 characters.\n"},
+				{"adrlong","-Address field is too long. Max 30 characters.\n"},
+				{"zipfour","-Zipcode must be four digits long.\n"},
+				{"zipnr","-Zip code can only be numbers, and four digits long.\n"},
+				{"emailinv","-Email address is invalid.\n"},
+				{"tlplong","-Telephone number must be eight digits long.\n"},
+				{"tlpnr","-Telephone number must be all numbers, and eight digits long.\n"},
+				{"salnr","-Salary must be all numbers.\n"},
+				{"inputerr","There was an error in your input:\n"}
 		};
 	}
 }
