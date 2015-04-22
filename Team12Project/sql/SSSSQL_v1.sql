@@ -1,4 +1,4 @@
-use supershoppingsurfer_silver;
+use supershoppingsurfer;
 
 SET foreign_key_checks = 0;
 

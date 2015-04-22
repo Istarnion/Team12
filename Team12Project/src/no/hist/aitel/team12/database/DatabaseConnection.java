@@ -33,8 +33,8 @@ public class DatabaseConnection implements Database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
-					+ "user=team12&password=teamadmin12");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost/supershoppingsurfer?"
+					+ "user=root&password=Yko7p5si");
 
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 

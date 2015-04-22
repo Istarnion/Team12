@@ -410,14 +410,25 @@ public class EstablishmentCard extends JPanel {
 		this.establishment = establishment;
 
 		DefaultListModel<Trade> selectedListModel = new DefaultListModel<Trade>();
-		for(Trade t : Trade.getSelectedTrades(establishment.getEstablishmentId())) {
-			if(t != null) selectedListModel.addElement(t);
-		}
-		tradesLeftList.setModel(selectedListModel);
 		
+		tradesLeftList.setModel(selectedListModel);
+	
 		DefaultListModel<Trade> availableListModel = new DefaultListModel<Trade>();
-		for(Trade t : allTrades) {
-			if(t != null) availableListModel.addElement(t);
+		boolean foundMatch = false;
+		for(Trade aT : allTrades) {
+			foundMatch = false;
+			for(Trade sT : establishment.getSelectedTrades()) {
+				
+				if(sT.equals(aT)) {
+					foundMatch = true;
+					selectedListModel.addElement(sT);
+					break;
+				}
+			}
+			if(!foundMatch) {
+				availableListModel.addElement(aT);
+			}
+			
 		}
 		tradesRightList.setModel(availableListModel);
 		

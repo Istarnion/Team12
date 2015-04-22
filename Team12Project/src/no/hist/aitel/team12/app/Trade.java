@@ -37,4 +37,13 @@ public class Trade {
 		Database db = DatabaseFactory.getDatabase();
 		return db.getAllTrades();
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == null) return false;
+		if(o instanceof Trade) {
+			return this.tradeId == ((Trade)o).tradeId;
+		}
+		return false;
+	}
 }
