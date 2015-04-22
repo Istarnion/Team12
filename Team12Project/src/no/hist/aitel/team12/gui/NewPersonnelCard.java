@@ -93,46 +93,46 @@ public class NewPersonnelCard extends JPanel{
 				/* CHECKING FIELDS */
 				if(firstName.getText().length() > 30) {
 					errCount++;
-					errMsg.append("-First name is too long. Max thirty characters.\n");
+					errMsg.append(Text.getString("frnamelong"));
 				}
 				
 				if(lastName.getText().length() > 30) {
 					errCount++;
-					errMsg.append("-Last name is too long. Max thirty characters.\n");
+					errMsg.append(Text.getString("lsnamelong"));
 				}
 				
 				if(personalAddress.getText().length() > 30) {
 					errCount++;
-					errMsg.append("-Address field is too long. Max 30 characters.\n");
+					errMsg.append(Text.getString("adrlong"));
 				}
 				
 				try {
 					Integer.parseInt(personalZip.getText());
 					if(personalZip.getText().length() > 4) {
 						errCount++;
-						errMsg.append("-Zipcode must be four digits long.\n");
+						errMsg.append(Text.getString("zipfour"));
 					}
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append("-Zip code can only be numbers, and four digits long.\n");
+					errMsg.append(Text.getString("zipnr"));
 				}
 				
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
-					errMsg.append("-Email address is invalid.\n");
+					errMsg.append(Text.getString("emailinv"));
 				}
 				
 				try {
 					Integer.parseInt(telephone.getText());
 					if(telephone.getText().length() > 8) {
 						errCount++;
-						errMsg.append("-Telephone number must be eight digits long.\n");
+						errMsg.append(Text.getString("tlplong"));
 					}
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append("-Telephone number must be all numbers, and eight digits long.\n");
+					errMsg.append(Text.getString("tlpnr"));
 				}
 				
 				try {
@@ -140,7 +140,7 @@ public class NewPersonnelCard extends JPanel{
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append("-Salary must be all numbers.\n");
+					errMsg.append(Text.getString("salnr"));
 				}
 				/* DONE CHECKING FIELDS */
 				
@@ -148,14 +148,14 @@ public class NewPersonnelCard extends JPanel{
 					if(errCount == 1) {
 						JOptionPane.showMessageDialog(
 								null,
-								"There was an error in your input:\n"+errMsg.toString(),
+								Text.getString("inputerr")+errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
 					else {
 						JOptionPane.showMessageDialog(
 								null,
-								"There was an error in your input:\n"+errMsg.toString(),
+								Text.getString("inputerr")+errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}

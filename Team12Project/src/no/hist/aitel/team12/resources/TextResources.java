@@ -116,8 +116,18 @@ public class TextResources extends ListResourceBundle {
 				{"invalidInt", "Invalid, please input integer"},
 				{"shce","Shopping Centre"},
 				{"store","Store"},
-				{"newBuilding", "New building"}
-
+				{"newBuilding", "New building"},
+				{"frnamelong","-First name is too long. Max 30 characters.\n"},
+				{"lsnamelong","-Last name is too long. Max 30 characters.\n"},
+				{"adrlong","-Address field is too long. Max 30 characters.\n"},
+				{"zipfour","-Zipcode must be four digits long.\n"},
+				{"zipnr","-Zip code can only be numbers, and four digits long.\n"},
+				{"emailinv","-Email address is invalid.\n"},
+				{"tlplong","-Telephone number must be eight digits long.\n"},
+				{"tlpnr","-Telephone number must be all numbers, and eight digits long.\n"},
+				{"salnr","-Salary must be all numbers.\n"},
+				{"inputerr","There was an error in your input:\n"},
+				{"centerLong", "-Center name is too long. Max 30 characters.\n"}
 		};
 	}
 }
