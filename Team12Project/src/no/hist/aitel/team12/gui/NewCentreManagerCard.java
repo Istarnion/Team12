@@ -119,6 +119,12 @@ public class NewCentreManagerCard extends JPanel {
 					errMsg.append(Text.getString("emailinv"));
 				}
 				
+				if (username.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("userlong"));
+					
+				}
+				
 				try {
 					Integer.parseInt(telephone.getText());
 					if(telephone.getText().length() > 8) {
