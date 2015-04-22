@@ -33,8 +33,8 @@ public class DatabaseConnection implements Database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection("jdbc:mysql://localhost/supershoppingsurfer?"
-					+ "user=root&password=Yko7p5si");
+			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
+					+ "user=team12&password=teamadmin12");
 
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
@@ -162,7 +162,7 @@ public class DatabaseConnection implements Database {
 					personnelList = personnel.get(result.getInt("centre_id"));
 					if(personnelList == null) {
 						personnelList = new ArrayList<Personnel>();
-						personnel.put(result.getInt("centre_id_id"), personnelList);
+						personnel.put(result.getInt("centre_id"), personnelList);
 					}
 
 					personnelList.add(

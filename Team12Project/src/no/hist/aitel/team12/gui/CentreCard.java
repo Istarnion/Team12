@@ -388,7 +388,7 @@ public class CentreCard extends JPanel {
 		constraints.gridy = 8;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.1;
+		constraints.weightx = 0.4;
 		constraints.weighty = 0.0;
 		constraints.anchor = GridBagConstraints.NORTHWEST;
 		constraints.fill = GridBagConstraints.BOTH;
@@ -399,7 +399,7 @@ public class CentreCard extends JPanel {
 		constraints.gridy = 8;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
-		constraints.weightx = 0.5;
+		constraints.weightx = 0.4;
 		constraints.weighty = 0.0;
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.BOTH;

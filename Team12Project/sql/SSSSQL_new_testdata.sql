@@ -110,7 +110,11 @@ values(3, 5);
 insert into establishmenttrade(establishment_id, trade_id)
 values(3, 6);
 
-
+insert into person(first_name,last_name, address,zipcode,email,telephone,salary
+)
+values('firstName','lastName','Gate 1',7227,'',93065598,100000),
+('anothername','gundersen','Street 1',1337,'',33055597,102000),
+('asdf','few','fewww 1',0001,'',33445566,122000);
 
 select trade_id, trade_name 
 from establishmenttrade 
