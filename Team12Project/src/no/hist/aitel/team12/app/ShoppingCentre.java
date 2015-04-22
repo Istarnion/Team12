@@ -22,13 +22,19 @@ public class ShoppingCentre extends Business {
 			int businessId, String businessName, Address address,
 			EmailAddress email, int telephone, String openingHours,
 			int centreId, int parkingSpaces, String description, 
-			ArrayList<Revenue> revenue, Personnel[] personnel) {
+			ArrayList<Revenue> revenue, ArrayList<Personnel> personnel) {
 
 		super(businessId, businessName, email, telephone, openingHours, description, address, revenue);
 
 		this.centreId = centreId; 
 		this.parkingSpaces = parkingSpaces;
-		this.personnel = personnel;
+		if(personnel != null) {
+			this.personnel = new Personnel[personnel.size()];
+			personnel.toArray(this.personnel);
+		}
+		else {
+			this.personnel = new Personnel[0];
+		}
 	}
 
 	public int getParkingSpaces() {

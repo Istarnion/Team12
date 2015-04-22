@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Person;
+import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
 
@@ -60,7 +61,18 @@ public class UserTab extends SSSTab {
 	
 	private EditUserCard editUserCard;
 	
-	public UserTab() {
+	private UserType userType;
+	
+	/**
+	 * Constructs the UserTab.
+	 * Depending on what user is passed in, different levels of access is provided.
+	 * The only valid userTypes is CentreManager and SystemAdmin
+	 * 
+	 * @param userId
+	 * @param userType
+	 */
+	public UserTab(int userId, UserType userType) {
+		this.userType = userType;
 		this.setLayout(new BorderLayout());
 
 		mainPanel = new JPanel();
@@ -68,7 +80,9 @@ public class UserTab extends SSSTab {
 		mainPanel.setLayout(cards);		
 		
 		mainPanel.add(new LogoCard(), "logoCard");
-		mainPanel.add(new NewCentreManagerCard(), "newManagerCard");
+		if(userType == UserType.SYS_ADMIN) {
+			mainPanel.add(new NewCentreManagerCard(), "newManagerCard");
+		}
 		mainPanel.add(new NewShopOwnerCard(), "newShopOwnerCard");
 		mainPanel.add(new NewPersonnelCard(), "newPersonnelCard");
 		mainPanel.add(new NewCustomerServiceCard(), "newCustomerServiceCard");
@@ -103,6 +117,13 @@ public class UserTab extends SSSTab {
 			public void valueChanged(ListSelectionEvent e) {
 				cards.show(mainPanel, "editUserCard");
 				editUserCard.updateCard(personTable.getSelectedValue());
+				
+				if(userType == UserType.CENTRE_MANAGER) {
+					Person p = personTable.getSelectedValue();
+					if(p != null && p instanceof User) {
+						
+					}
+				}
 			}
 		});
 		

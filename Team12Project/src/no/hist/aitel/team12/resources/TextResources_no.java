@@ -115,10 +115,28 @@ public class TextResources_no extends ListResourceBundle {
 				{"invalidInt", "Ugyldig format, oppgi heltall"},
 				{"shce","Kjøpesenter"},
 				{"store","Butikk"},
+<<<<<<< HEAD
 				{"cvsCntrNam","Skriv inn navn på senter"},
 				{"cvsShpNam","Skriv inn navn på butikk"},
 				{"cvsCounty","Skriv inn fylke"},
 				{"cvsMunici","Skriv inn kommune"}
+=======
+				{"newBuilding", "Ny bygning"},
+				{"store","Butikk"},		
+				{"frnamelong","-Fornavn er for langt. Maks 30 bokstaver.\n"},
+				{"lsnamelong","-Etternavn er for langt. Maks 30 bokstaver.\n"},
+				{"adrlong","-Adressen er for lang. Maks 30 bokstaver.\n"},
+				{"zipfour","-Postnummeret må ha fire siffer.\n"},
+				{"zipnr","-Postnummer kan bare ha nummer, og må være fire siffer langt. \n"},
+				{"emailinv","-Epostadressen er ikke gyldig.\n"},
+				{"tlplong","-Telefonnummeret må ha 8 siffer.\n"},
+				{"tlpnr","-Telefonnummer må ha kun nummer, og være 8 siffer langt.\n"},
+				{"salnr","-Lønn må være oppgitt i nummer.\n"},
+				{"inputerr","Det var en feil i skjemaet ditt:\n"},
+				{"centerlong", "Kjøpesenternavnet er for langt. Maks 30 bokstaver.\n"},
+				{"userlong", "Brukernavnet er for langt. Maks 30 bokstaver.\n"}
+
+>>>>>>> 4dd31dd5a70c22ef6fa9ea9fef09f46bb4f8e65e
 		};
 	}
 }
