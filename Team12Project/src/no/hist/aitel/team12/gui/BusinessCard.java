@@ -1,6 +1,5 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -13,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 
 import no.hist.aitel.team12.util.Text;
 

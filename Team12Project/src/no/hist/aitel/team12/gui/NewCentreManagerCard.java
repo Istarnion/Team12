@@ -30,10 +30,7 @@ public class NewCentreManagerCard extends JPanel {
 	
 	private ShoppingCentre shoppingCentre;
 	
-	private UserTab userTab;
-	
 	public NewCentreManagerCard(UserTab userTab) {
-		this.userTab = userTab;
 		
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
