@@ -46,8 +46,6 @@ public class FinanceTab extends SSSTab {
 
 	private JXDatePicker regRevDate;
 
-	
-
 	private JXDatePicker pdfFromDate;
 
 	private JXDatePicker pdfToDate;
@@ -74,6 +72,9 @@ public class FinanceTab extends SSSTab {
 		sidebar.add(new JLabel());
 
 		// Row 2
+		sidebar.add(new JLabel());
+		sidebar.add(new JLabel());
+		
 		JLabel fDate = new JLabel (Text.getString("fDate"), SwingConstants.RIGHT);
 		sidebar.add(fDate);
 
@@ -82,7 +83,8 @@ public class FinanceTab extends SSSTab {
 		regRevDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
 		sidebar.add(regRevDate);
 
-		// Row 3
+		
+	/*	// Row 3
 		//	JLabel tDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
 		sidebar.add(new JLabel());
 
@@ -90,7 +92,7 @@ public class FinanceTab extends SSSTab {
 		//	toDate.setDate(Calendar.getInstance().getTime());
 		//	toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
 		sidebar.add(new JLabel());
-
+*/
 		// Row 4
 		incomeAmount = new InputField(Text.getString("rev"), 10);
 		sidebar.add(incomeAmount);
@@ -213,10 +215,7 @@ public class FinanceTab extends SSSTab {
 						int yearFrom = calFrom.get(Calendar.YEAR);
 						String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
 
-						//int yearTo = calTo.get(Calendar.YEAR);
-						//String monthTo = calTo.getDisplayName(Calendar.MONTH,Calendar.LONG_FORMAT,Locale.getDefault());
-
-						System.out.println("Register Revenue button pressed"+"\n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ monthTo + yearTo + revenue);
+						System.out.println("Register Revenue button pressed"+"\n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ revenue);
 
 					}catch(NumberFormatException nfe){
 						JOptionPane.showMessageDialog(null, Text.getString("reverr"));
