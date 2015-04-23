@@ -172,7 +172,10 @@ public class DatabaseConnection implements Database {
 									result.getString("last_name"),
 									new Address(
 											result.getString("address"),
-											result.getInt("zipcode"),								"FIX MUNI", "FIX COUNTY"
+											result.getInt("zipcode"),
+											result.getString("municipality_name"),
+											result.getString("county_name"),
+											result.getString("district")
 											),
 											new EmailAddress(result.getString("email")),
 											result.getInt("telephone"),
@@ -208,7 +211,8 @@ public class DatabaseConnection implements Database {
 									result.getString("address"),
 									result.getInt("zipcode"),
 									result.getString("municipality_name"),
-									result.getString("county_name")
+									result.getString("county_name"),
+									result.getString("district")
 									),
 									new EmailAddress(result.getString("email")),
 									result.getInt("telephone"),
@@ -217,7 +221,9 @@ public class DatabaseConnection implements Database {
 									result.getInt("parking_spaces"),
 									result.getString("text_description"),
 									new ArrayList<Revenue>(),
-									personnel.get(result.getInt("centre_id"))							));
+									personnel.get(result.getInt("centre_id")),
+									result.getString("first_name") + " " + result.getString("last_name")
+									));
 				}
 
 				result.close();
@@ -300,13 +306,15 @@ public class DatabaseConnection implements Database {
 							result.getInt("establishment_id"),
 							result.getString("text_description"),
 							new Address(
-									result.getString("address"), 
-									result.getInt("zipcode"), 
-									result.getString("municipality_name"), 
-									result.getString("county_name")
+									result.getString("address"),
+									result.getInt("zipcode"),
+									result.getString("municipality_name"),
+									result.getString("county_name"),
+									result.getString("district")
 									),
 									trades.get(result.getInt("establishment_id")), 
-									new ArrayList<Revenue>()
+									new ArrayList<Revenue>(),
+									result.getString("first_name") + " " + result.getString("last_name")
 							);
 					if(estab != null) {
 						ShoppingCentre centre = centres.get(result.getInt("centre_id"));
@@ -592,8 +600,10 @@ public class DatabaseConnection implements Database {
 							new Address(
 									result.getString("address"),
 									result.getInt("zipcode"),
-									"temp",
-									"temp"),
+									result.getString("municipality_name"),
+									result.getString("county_name"),
+									result.getString("district")
+									),
 									new EmailAddress(result.getString("email")),
 									result.getInt("telephone"),
 									result.getInt("salary"),
@@ -617,8 +627,9 @@ public class DatabaseConnection implements Database {
 							new Address(
 									result.getString("address"),
 									result.getInt("zipcode"),
-									"temp",
-									"temp"),
+									result.getString("municipality_name"),
+									result.getString("county_name"),
+									result.getString("district")),
 									new EmailAddress(result.getString("email")),
 									result.getInt("telephone"),
 									result.getInt("salary"),

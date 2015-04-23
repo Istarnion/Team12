@@ -226,17 +226,21 @@ CREATE INDEX reciever_id_index		ON messageReciever (message_id);
 
 -- Creating views
 CREATE VIEW user_view AS (
-	SELECT username, employee_number, first_name, last_name, salary, zipcode, address, district, email, telephone
+	SELECT username, employee_number, first_name, last_name, salary, zipcode, municipality_name, county_name, address, district, email, telephone
 	FROM user
 	LEFT JOIN person USING (employee_number)
 	LEFT JOIN zipcode USING (zipcode)
+    LEFT JOIN municipality USING (municipality_id)
+    LEFT JOIN county USING (county_id)
 );
 
 CREATE VIEW personnel_view AS (
-	SELECT employee_number, centre_id, first_name, last_name, salary, zipcode, address, district, title, email, telephone
+	SELECT employee_number, centre_id, first_name, last_name, salary, zipcode, municipality_name, county_name, address, district, title, email, telephone
 	FROM personnel
 	LEFT JOIN person USING (employee_number)
 	LEFT JOIN zipcode USING (zipcode)
+    LEFT JOIN municipality USING (municipality_id)
+    LEFT JOIN county USING (county_id)
 );
 
 CREATE VIEW message_view AS (

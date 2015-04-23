@@ -23,10 +23,11 @@ public class Establishment extends Business {
 			int businessId,	String businessName,	EmailAddress email,
 			int telephone,	String openingHours,		int floorNumber,
 			int establishmentId, String description, Address address,
-			ArrayList<Trade> selectedTrades, ArrayList<Revenue> revenue
+			ArrayList<Trade> selectedTrades, ArrayList<Revenue> revenue,
+			String ownerName
 			) {
 		
-		super(businessId, businessName, email, telephone, openingHours, description, address, revenue);
+		super(businessId, businessName, email, telephone, openingHours, description, address, revenue, ownerName);
 		
 		this.establishmentId = establishmentId;
 		this.floorNumber = floorNumber;
