@@ -18,7 +18,6 @@ import com.sun.org.apache.xpath.internal.operations.String;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.ShoppingCentre;
-import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.Text;
 /**
  * 
@@ -33,10 +32,10 @@ public class NewPersonnelCard extends JPanel{
 	private JButton saveButton, cancelButton;
 	private JPanel buttonPanel, fieldPanel, labelPanel;
 	
-	private User user;
+	private Personnel personnel;
 	
 	private JTextField
-		firstName, lastName, email, personalAddress, personalZip, telephone, salary, title;
+		firstName, lastName, email, address, zipCode, telephone, salary, title;
 	
 	private JComboBox<String> store;
 	private JComboBox<ShoppingCentre> shoppingCenter;
@@ -57,8 +56,8 @@ public class NewPersonnelCard extends JPanel{
 		firstName		= new JTextField();
 		lastName		= new JTextField();
 		email			= new JTextField();
-		personalAddress	= new JTextField();
-		personalZip		= new JTextField();
+		address	= new JTextField();
+		zipCode		= new JTextField();
 		telephone		= new JTextField();
 		salary			= new JTextField();
 		title			= new JTextField();
@@ -83,8 +82,8 @@ public class NewPersonnelCard extends JPanel{
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
 		fieldPanel.add(email);
-		fieldPanel.add(personalAddress);
-		fieldPanel.add(personalZip);
+		fieldPanel.add(address);
+		fieldPanel.add(zipCode);
 		fieldPanel.add(telephone);
 		fieldPanel.add(salary);
 		fieldPanel.add(title);
@@ -128,14 +127,14 @@ public class NewPersonnelCard extends JPanel{
 					errMsg.append(Text.getString("lsnamelong"));
 				}
 				
-				if(personalAddress.getText().length() > 30) {
+				if(address.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("adrlong"));
 				}
 				
 				try {
-					Integer.parseInt(personalZip.getText());
-					if(personalZip.getText().length() > 4) {
+					Integer.parseInt(zipCode.getText());
+					if(zipCode.getText().length() > 4) {
 						errCount++;
 						errMsg.append(Text.getString("zipfour"));
 					}
@@ -192,7 +191,7 @@ public class NewPersonnelCard extends JPanel{
 
 				if(Personnel.createPersonnel(
 						firstName.getText(), lastName.getText(),
-						personalAddress.getText(), Integer.parseInt(personalZip.getText()), 
+						address.getText(), Integer.parseInt(zipCode.getText()), 
 						email.getText(), Integer.parseInt(telephone.getText()), 
 						Integer.parseInt(salary.getText()),
 						title.getText(), shoppingCenter.getSelectedIndex()))  {
@@ -209,7 +208,7 @@ public class NewPersonnelCard extends JPanel{
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				if(user != null) updateCard(user);
+				if(personnel != null) updateCard(personnel);
 			}
 		});
 	}
@@ -218,24 +217,24 @@ public class NewPersonnelCard extends JPanel{
 		firstName.setText("");
 		lastName.setText("");
 		email.setText("");
-		personalAddress.setText("");
-		personalZip.setText("");
+		address.setText("");
+		zipCode.setText("");
 		telephone.setText("");
 		salary.setText("");
 	}
 	
-	public void updateCard(User u) {
-		user = u;
+	public void updateCard(Personnel p) {
+		personnel = p;
 		
-		if(u == null) return;
+		if(p == null) return;
 		
-		firstName.setText(u.getFirstName()!=null?u.getFirstName():"");
-		lastName.setText(u.getLastName()!=null?u.getLastName():"");
-		email.setText(u.getEmail().getEmailAddress()!=null?u.getEmail().getEmailAddress():"");
-		personalAddress.setText(u.getAddress().getAdress()!=null?u.getAddress().getAdress():"");
-		personalZip.setText(u.getAddress().getZipcode()+""!=null?u.getAddress().getZipcode()+"":"");
-		telephone.setText(u.getTelephone()+""!=null?u.getTelephone()+"":"");
-		salary.setText(u.getSalary()+""!=null?u.getSalary()+"":"");
+		firstName.setText(p.getFirstName()!=null?p.getFirstName():"");
+		lastName.setText(p.getLastName()!=null?p.getLastName():"");
+		email.setText(p.getEmail().getEmailAddress()!=null?p.getEmail().getEmailAddress():"");
+		address.setText(p.getAddress().getAdress()!=null?p.getAddress().getAdress():"");
+		zipCode.setText(p.getAddress().getZipcode()+""!=null?p.getAddress().getZipcode()+"":"");
+		telephone.setText(p.getTelephone()+""!=null?p.getTelephone()+"":"");
+		salary.setText(p.getSalary()+""!=null?p.getSalary()+"":"");
 		
 	}
 
