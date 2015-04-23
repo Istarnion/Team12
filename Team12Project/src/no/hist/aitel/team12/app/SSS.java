@@ -77,12 +77,10 @@ public class SSS {
 		splash.removeSplash();
 		
 		// Login
-//		login = new LoginWindow(this);
-//		login.showLoginWindow();
+		login = new LoginWindow(this);
+		login.showLoginWindow();
 		
 		sss = this;
-		
-		login("admin", "TeamAdmin12");
 	}
 	
 	public static void main(String[] args) {
@@ -141,8 +139,7 @@ public class SSS {
 					
 					case CENTRE_MANAGER:
 					{
-						System.out.println("Centre manager attempted login");
-						exit();
+						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 					} break;
 					
 					case SHOP_OWNER:

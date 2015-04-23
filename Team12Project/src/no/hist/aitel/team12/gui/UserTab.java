@@ -83,7 +83,7 @@ public class UserTab extends SSSTab {
 		if(userType == UserType.SYS_ADMIN) {
 			mainPanel.add(new NewCentreManagerCard(this), "newManagerCard");
 		}
-		mainPanel.add(new NewShopOwnerCard(), "newShopOwnerCard");
+		mainPanel.add(new NewShopOwnerCard(0), "newShopOwnerCard");
 		mainPanel.add(new NewPersonnelCard(), "newPersonnelCard");
 		mainPanel.add(new NewCustomerServiceCard(this), "newCustomerServiceCard");
 		editUserCard = new EditUserCard();

@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -13,10 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.sun.org.apache.xpath.internal.operations.String;
-
+import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.EmailAddress;
-import no.hist.aitel.team12.app.User;
+import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.Text;
 
 public class NewShopOwnerCard extends JPanel{
@@ -31,11 +31,9 @@ public class NewShopOwnerCard extends JPanel{
 	private JTextField
 		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary;
 	
-	private JComboBox<String> shoppingCenter;
+	private JComboBox<ShoppingCentre> shoppingCenter;
 	
-	private User user;
-	
-	public NewShopOwnerCard() {
+	public NewShopOwnerCard(int centreID) {
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -53,7 +51,7 @@ public class NewShopOwnerCard extends JPanel{
 		telephone		= new JTextField();
 		salary			= new JTextField();
 		
-		shoppingCenter = new JComboBox<String>(new String[] {/*getShoppingCenters*/});
+		shoppingCenter = new JComboBox<ShoppingCentre>();
 		
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
@@ -175,16 +173,17 @@ public class NewShopOwnerCard extends JPanel{
 					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
 				}
 				*/
-				
 			}
 		});
 		
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				if(user != null) updateCard(user);
+				prepareCard();
 			}
 		});
+		
+		prepareCard();
 	}
 	
 	public void prepareCard() {
@@ -196,21 +195,8 @@ public class NewShopOwnerCard extends JPanel{
 		personalZip.setText("");
 		telephone.setText("");
 		salary.setText("");
+		
+		DefaultComboBoxModel<ShoppingCentre> model = new DefaultComboBoxModel<ShoppingCentre>(DataBuffer.getCentres());
+		shoppingCenter.setModel(model);
 	}
-	
-	public void updateCard(User u) {
-		user = u;
-		
-		if(u == null) return;
-		
-		firstName.setText(u.getFirstName()!=null?u.getFirstName():"");
-		lastName.setText(u.getLastName()!=null?u.getLastName():"");
-		email.setText(u.getEmail().getEmailAddress()!=null?u.getEmail().getEmailAddress():"");
-		personalAddress.setText(u.getAddress().getAdress()!=null?u.getAddress().getAdress():"");
-		personalZip.setText(u.getAddress().getZipcode()+""!=null?u.getAddress().getZipcode()+"":"");
-		telephone.setText(u.getTelephone()+""!=null?u.getTelephone()+"":"");
-		salary.setText(u.getSalary()+""!=null?u.getSalary()+"":"");
-		
-	}
-
 }

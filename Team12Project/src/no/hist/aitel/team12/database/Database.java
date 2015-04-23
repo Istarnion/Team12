@@ -137,6 +137,7 @@ public interface Database {
 	 * @param firstname			The first name of the manager
 	 * @param lastname			The last name of the manager
 	 * @param username			The username of the manager
+	 * @param password			The password. Should be hashed and salted.
 	 * @param email				the email of the manager
 	 * @param personalAddress	The personal address of the manager
 	 * @param personalZip		The personal zip of the manager
@@ -149,11 +150,11 @@ public interface Database {
 	 */
 	public boolean createShoppingCentre(
 			String firstname, 		String lastname,
-			String username, 		String email,
-			String personalAddress,	int personalZip,
-			int telephone, 			int salary,
-			String centreName, 		String centreAddress,
-			int centreZip);
+			String username, 		String passwordHash,
+			String email,			String personalAddress,
+			int personalZip,		int telephone,
+			int salary,				String centreName,
+			String centreAddress,	int centreZip);
 	
 	/**
 	 * Finds the UserType of the user.

@@ -21,7 +21,6 @@ import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
-import no.hist.aitel.team12.util.PasswordManager;
 import bak.pcj.list.IntArrayList;
 
 
@@ -278,7 +277,12 @@ public class DatabaseConnection implements Database {
 									trades.get(result.getInt("establishment_id")), 
 									new ArrayList<Revenue>()
 							);
-					centres.get(result.getInt("centre_id")).findBuilding(result.getInt("building_id")).addEstablishment(estab);
+					if(estab != null) {
+						ShoppingCentre centre = centres.get(result.getInt("centre_id"));
+						if(centre != null) {
+							centre.findBuilding(result.getInt("building_id")).addEstablishment(estab);
+						}
+					}
 				}
 
 				result.close();
@@ -301,12 +305,12 @@ public class DatabaseConnection implements Database {
 
 	@Override
 	public boolean createShoppingCentre(
-			String firstname,		String lastname,
-			String username,		String email,
-			String personalAddress,	int personalZip,
-			int telephone,			int salary,
-			String centreName,		String centreAddress,
-			int centreZip) {
+			String firstname, 		String lastname,
+			String username, 		String passwordHash,
+			String email,			String personalAddress,
+			int personalZip,		int telephone,
+			int salary,				String centreName,
+			String centreAddress,	int centreZip) {
 		
 		boolean ok = false;
 		
@@ -347,7 +351,7 @@ public class DatabaseConnection implements Database {
 			personStatement.executeUpdate();
 			
 			userStatement.setString(1, username);
-			userStatement.setString(2, PasswordManager.generatePassword(username));
+			userStatement.setString(2, passwordHash);
 			
 			userStatement.executeUpdate();
 			
@@ -556,30 +560,33 @@ public class DatabaseConnection implements Database {
 	public UserType getUserType(int userId) {
 		if(userId == 1) return UserType.SYS_ADMIN;
 
-		try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM ? WHERE employee_number = ?")) {
-			statement.setInt(2, userId);
-
-			statement.setString(1, "centremanager");
-			ResultSet result = statement.executeQuery();
+		try(
+				PreparedStatement manager	= connection.prepareStatement("SELECT * FROM centremanager WHERE employee_number = ?");
+				PreparedStatement shopowner	= connection.prepareStatement("SELECT * FROM establishmentowner WHERE employee_number = ?");
+				PreparedStatement cservice	= connection.prepareStatement("SELECT * FROM customerservice WHERE employee_number = ?");
+			) {
+			
+			manager.setInt(1, userId);
+			ResultSet result = manager.executeQuery();
 			if(result.next()) {
 				result.close();
 				return UserType.CENTRE_MANAGER;
 			}
 			result.close();
 
-			statement.setString(1, "customerservice");
-			result = statement.executeQuery();
+			shopowner.setInt(1, userId);
+			result = shopowner.executeQuery();
 			if(result.next()) {
 				result.close();
-				return UserType.CENTRE_MANAGER;
+				return UserType.SHOP_OWNER;
 			}
 			result.close();
 
-			statement.setString(1, "shopowner");
-			result = statement.executeQuery();
+			cservice.setInt(1, userId);
+			result = cservice.executeQuery();
 			if(result.next()) {
 				result.close();
-				return UserType.CENTRE_MANAGER;
+				return UserType.CUSTOMER_SERVICE;
 			}
 			result.close();
 		}

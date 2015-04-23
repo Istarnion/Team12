@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.util.PasswordManager;
 
 public class ShoppingCentre extends Business {
 
@@ -112,19 +113,19 @@ public class ShoppingCentre extends Business {
 	
 	public static boolean createCentre(
 			String firstname, 		String lastname,
-			String username, 		String email,
-			String personalAddress,	int personalZip,
-			int telephone, 			int salary,
-			String centreName, 		String centreAddress,
-			int centreZip) {
+			String username, 		String password,
+			String email,			String personalAddress,
+			int personalZip,		int telephone,
+			int salary,				String centreName, 
+			String centreAddress,	int centreZip) {
 		
 		Database db = DatabaseFactory.getDatabase();
 		return db.createShoppingCentre(
 				firstname,			lastname,
-				username,			email,
-				personalAddress,	personalZip,
-				telephone,			salary,
-				centreName,			centreAddress,
-				centreZip);
+				username,			PasswordManager.generatePasswordHash(password),
+				email,				personalAddress,
+				personalZip,		telephone,
+				salary,				centreName,
+				centreAddress,		centreZip);
 	}
 }
