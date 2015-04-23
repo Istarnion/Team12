@@ -1,6 +1,7 @@
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -22,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -37,7 +40,7 @@ import no.hist.aitel.team12.util.Text;
 
 public class CustomerView {
 
-	private ShoppingCentre [] centers ;
+	private ShoppingCentre [] centers;
 
 	private JPanel basePanel = new JPanel();
 
@@ -53,6 +56,14 @@ public class CustomerView {
 
 	private JPanel resultView = new JPanel();
 
+	private CardLayout cardLayout;
+	
+	private CentreView cView;
+	
+	private BuildingView bView;
+	
+	private EstablishmentView eView;
+	
 	private JLabel logo;
 
 	private JLabel appName;
@@ -130,7 +141,18 @@ public class CustomerView {
 		System.out.println("Search panel done");
 
 		// VIEW
-
+		cardLayout = new CardLayout();
+		resultView.setLayout(cardLayout);
+		
+		cView = new CentreView();
+		bView = new BuildingView();
+		eView = new EstablishmentView();
+		
+		resultView.add(new LogoCard(), "logoCard");
+		resultView.add(cView, "centreCard");
+		resultView.add(bView, "buildingCard");
+		resultView.add(eView, "estabCard");
+		
 		view.setLayout(new BorderLayout());
 		view.add(searchResult,BorderLayout.WEST);
 		view.add(resultView, BorderLayout.CENTER);
@@ -140,9 +162,34 @@ public class CustomerView {
 		scrollTree 	= new JScrollPane(resultTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		searchResult.add(scrollTree, BorderLayout.CENTER);
 
+		resultTree.setRootVisible(false);
 
-
-
+		resultTree.addTreeSelectionListener(new TreeSelectionListener() {
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) resultTree.getLastSelectedPathComponent();
+				if(node == null) {
+					cardLayout.show(resultView, "logoCard");
+				}
+				else {
+					Object o = node.getUserObject();
+					if(o instanceof ShoppingCentre) {
+						cView.updateCard((ShoppingCentre)o);
+						cardLayout.show(resultView, "centreCard");
+					}
+					else if(o instanceof Building) {
+						bView.updateCard((Building)o);
+						cardLayout.show(resultView, "buildingCard");
+					}
+					else if(o instanceof Establishment) {
+						eView.updateCard((Establishment)o);
+						cardLayout.show(resultView, "estabCard");
+					}
+				}
+			}
+		});
+		
 		basePanel.add(topbar);
 		basePanel.add(search);
 		basePanel.add(view);
