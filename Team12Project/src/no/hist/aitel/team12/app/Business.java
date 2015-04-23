@@ -27,7 +27,7 @@ public class Business {
 
 	private ArrayList<Revenue> revenue;
 
-	private Database db;
+	protected Database db;
 
 
 	public Business(

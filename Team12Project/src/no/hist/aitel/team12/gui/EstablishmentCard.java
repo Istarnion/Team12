@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Trade;
@@ -28,24 +30,27 @@ public class EstablishmentCard extends BusinessCard {
 	private JButton tradesButtonRight, tradesButtonLeft, tradeButton, floorButton;
 	private JPanel tradesPanel;
 	private ButtonListener buttonListener;
+	private ListListener listListener;
 	private JScrollPane tradesLeftScroll, tradesRightScroll;
 	private Establishment establishment;
 	private JList<Trade> tradesLeftList, tradesRightList;
 	private ArrayList<Trade> allTrades;
 	private JTextField floor;
 	private JLabel floorLabel;
-	
+
 	public EstablishmentCard(int userID) {
 
 		allTrades = Trade.getAllTrades();
-		
+
 		buttonListener 		= new ButtonListener();
-		
+		listListener 		= new ListListener();
+
+
 		tradesPanel			= new JPanel(new GridBagLayout());		
 		tradesPanel.setPreferredSize(new Dimension(1,200));	
 		tradeButton			= new JButton(Text.getString("trades"));	
-		tradesButtonLeft	= new JButton("<--");		
-		tradesButtonRight	= new JButton("-->");
+		tradesButtonLeft	= new JButton("\u21E6");		
+		tradesButtonRight	= new JButton("\u21E8");
 		tradesButtonLeft.setPreferredSize(new Dimension(60, 23));
 		tradesButtonRight.setPreferredSize(new Dimension(60, 23));
 		tradesLeftList			= new JList<Trade>();
@@ -54,15 +59,20 @@ public class EstablishmentCard extends BusinessCard {
 		tradesRightScroll 		= new JScrollPane(tradesRightList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tradesLeftScroll.setPreferredSize(new Dimension(225, tradesLeftScroll.getPreferredSize().height));
 		tradesRightScroll.setPreferredSize(new Dimension(225, tradesRightScroll.getPreferredSize().height));
-		
+
 		textDescriptionScroll	= new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));	
-		
+
 		floorLabel = new JLabel(Text.getString("floor") + ": ", SwingConstants.RIGHT);
 		floor = new JTextField("");
 		floorButton = new JButton(Text.getString("edit"));
 		floorButton.setPreferredSize(new Dimension(72, 23));
-		
+
+
+		tradesRightList.addListSelectionListener(listListener);
+		tradesLeftList.addListSelectionListener(listListener);
+
+
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
 		emailButton.addActionListener(buttonListener);
@@ -72,17 +82,23 @@ public class EstablishmentCard extends BusinessCard {
 		tradeButton.addActionListener(buttonListener);
 		zipButton.addActionListener(buttonListener);
 		floorButton.addActionListener(buttonListener);
-		
-		
+
+		tradesButtonLeft.addActionListener(buttonListener);
+		tradesButtonRight.addActionListener(buttonListener);
+
+
+
 		// Grid bag layout
 		GridBagConstraints constraints = new GridBagConstraints();
-		
+
 		// Setting some margins for a bit of space between each field/button/label
 		constraints.insets.bottom = 5;
 		constraints.insets.top = 5;
 
-		
-		// Grid bag for opening hours
+
+
+		// floor grid bag
+
 		constraints.gridx = 0;
 		constraints.gridy = 6;
 		constraints.gridwidth = 1;
@@ -109,6 +125,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 		this.add(floorButton, constraints);
+
 		// description grid bag setup
 		constraints.gridx = 0;
 		constraints.gridy = 7;
@@ -138,7 +155,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.anchor = GridBagConstraints.NORTH;
 		this.add(textDescrButton, constraints);
-		
+
 		// trades grid bag setup 
 		constraints.gridx = 1;
 		constraints.gridy = 8;
@@ -149,15 +166,15 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.anchor = GridBagConstraints.NORTHEAST;
 		constraints.fill = GridBagConstraints.BOTH;
 		this.add(tradesPanel, constraints);
-		
+
 		// tradesPanel internal grid bag setup
 		constraints = new GridBagConstraints();
-		
+
 		int margin = 10;
 		Insets noInsets		= new Insets(0, 0, 0, 0);
 		Insets leftInsets	= new Insets(0, 0, 0, margin);
 		Insets rightInsets	= new Insets(0, margin, 0, 0);
-		
+
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
@@ -168,7 +185,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.anchor = GridBagConstraints.NORTHEAST;
 		constraints.fill = GridBagConstraints.VERTICAL;
 		tradesPanel.add(tradesLeftScroll, constraints);
-		
+
 		constraints.gridx = 1;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
@@ -179,7 +196,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.anchor = GridBagConstraints.SOUTH;
 		constraints.fill = GridBagConstraints.NONE;
 		tradesPanel.add(tradesButtonLeft, constraints);
-		
+
 		constraints.gridx = 1;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
@@ -188,7 +205,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.weighty = 0.001;
 		constraints.anchor = GridBagConstraints.NORTH;
 		tradesPanel.add(tradesButtonRight, constraints);
-		
+
 		constraints.gridx = 2;
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
@@ -205,29 +222,32 @@ public class EstablishmentCard extends BusinessCard {
 		this.establishment = establishment;
 
 		DefaultListModel<Trade> selectedListModel = new DefaultListModel<Trade>();
-		
+
 		tradesLeftList.setModel(selectedListModel);
-	
+
 		DefaultListModel<Trade> availableListModel = new DefaultListModel<Trade>();
 		boolean foundMatch = false;
 		for(Trade aT : allTrades) {
 			foundMatch = false;
-			for(Trade sT : establishment.getSelectedTrades()) {
-				
-				if(sT.equals(aT)) {
-					foundMatch = true;
-					selectedListModel.addElement(sT);
-					break;
+
+			if(establishment.getSelectedTrades() != null) {
+				for(Trade sT : establishment.getSelectedTrades()) {
+
+					if(sT.equals(aT)) {
+						foundMatch = true;
+						selectedListModel.addElement(sT);
+						break;
+					}
 				}
 			}
 			if(!foundMatch) {
 				availableListModel.addElement(aT);
 			}
-			
+
 		}
 		tradesRightList.setModel(availableListModel);
-		
-		
+
+
 		businessName.setText(establishment.getBusinessName());
 		address.setText(establishment.getAddress().getAdress());
 		email.setText(establishment.getEmail().getEmailAddress());
@@ -383,13 +403,67 @@ public class EstablishmentCard extends BusinessCard {
 				}
 				else {
 					if(!establishment.setFloorNumber(floor.getText())) {
-						
+						return;
 					}
 					floor.setEditable(false);
 					floorButton.setText(Text.getString("edit"));
 				}
 			}
+			else if(pressedButton.equals(tradesButtonRight)) {
+				if(!tradesLeftList.isSelectionEmpty()) {
+					if(establishment.removeTrade(tradesLeftList.getSelectedValue().getTradeId())) {
+						Trade tradeToMove = tradesLeftList.getSelectedValue();
+						DefaultListModel listModel = (DefaultListModel) tradesLeftList.getModel();
+						listModel.remove(tradesLeftList.getSelectedIndex());
+						tradesLeftList.setModel(listModel);
+
+						listModel = (DefaultListModel) tradesRightList.getModel();
+						listModel.addElement(tradeToMove);
+						tradesRightList.setModel(listModel);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Database not responding");
+					}
+				}
+			}
+			else if(pressedButton.equals(tradesButtonLeft)) {
+				if(!tradesRightList.isSelectionEmpty()) {
+					if(establishment.addTrade(tradesRightList.getSelectedValue().getTradeId())) {
+						Trade tradeToMove = tradesRightList.getSelectedValue();
+						DefaultListModel listModel = (DefaultListModel) tradesRightList.getModel();
+						listModel.remove(tradesRightList.getSelectedIndex());
+						tradesRightList.setModel(listModel);
+
+						listModel = (DefaultListModel) tradesLeftList.getModel();
+						listModel.addElement(tradeToMove);
+						tradesLeftList.setModel(listModel);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Database not responding");
+					}
+				}
+			}
+		}
+	}
+
+	private class ListListener implements ListSelectionListener {
+
+		@Override
+		public void valueChanged(ListSelectionEvent event) {
+			if(!event.getValueIsAdjusting()) {
+				if(event.getSource().equals(tradesLeftList)) {
+					if(tradesLeftList.getSelectedIndex()>=0) {
+						tradesRightList.clearSelection();
+					}
+				}
+				else {
+					if(tradesRightList.getSelectedIndex()>=0) {
+						tradesLeftList.clearSelection();
+					}
+				}
+			}
 		}
 	}
 }
+
 

@@ -15,6 +15,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -28,10 +29,11 @@ import no.hist.aitel.team12.util.Text;
 public class CentreCard extends BusinessCard {
 
 	private static final long serialVersionUID = -511628429934079700L;
-	
-	private JLabel areaLabel, personnelLabel, persNameLabel, persTelephoneLabel, persTitleLabel, persEmailLabel;
+
+	private JLabel parkingSpaceLabel,areaLabel, personnelLabel, persNameLabel, persTelephoneLabel, persTitleLabel, persEmailLabel;
 	private JPanel newBuildingPanel, personnelPanel;
-	private JButton saveBuildingButton, newBuildingButton, areaButton;
+	private JButton parkingSpaceButton, saveBuildingButton, newBuildingButton, areaButton;
+	private JTextField parkingSpace;
 	private JList<Personnel> personnelList;
 	private ButtonListener buttonListener;
 	private PersonnelListener personnelListener;
@@ -39,7 +41,7 @@ public class CentreCard extends BusinessCard {
 	private ShoppingCentre centre;
 	private InputField newBuildingNameInput, newBuildingAreaInput, newBuildingFloorsInput;
 	private JDialog newBuildingDialog;
-	
+
 	public CentreCard(int userID) {
 
 		buttonListener 		= new ButtonListener();
@@ -50,8 +52,14 @@ public class CentreCard extends BusinessCard {
 		persTelephoneLabel	= new JLabel(Text.getString("tel") + ": ");
 		persTitleLabel 		= new JLabel(Text.getString("title") + ": ");
 		persEmailLabel		= new JLabel(Text.getString("email") + ": ");
+		parkingSpaceLabel	= new JLabel(Text.getString("prkSpaces") + ": ");
 		personnelPanel		= new JPanel(new GridLayout(4,1));
 		newBuildingPanel	= new JPanel();
+
+		parkingSpaceButton = new JButton(Text.getString("edit"));
+
+		parkingSpace = new JTextField("");
+
 		personnelPanel.setPreferredSize(personnelPanel.getSize());
 		newBuildingDialog = new JDialog();		
 		newBuildingPanel.setLayout(new BoxLayout(newBuildingPanel, BoxLayout.Y_AXIS));
@@ -77,6 +85,7 @@ public class CentreCard extends BusinessCard {
 		areaButton			= new JButton(Text.getString("edit"));
 		newBuildingButton	= new JButton(Text.getString("newBuilding"));			
 		areaButton.setPreferredSize(new Dimension(60, 23));			
+		parkingSpaceButton.setPreferredSize(new Dimension(60, 23));			
 		textDescriptionScroll = new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));
 		businessButton.addActionListener(buttonListener);
@@ -88,6 +97,7 @@ public class CentreCard extends BusinessCard {
 		areaButton.addActionListener(buttonListener);
 		zipButton.addActionListener(buttonListener);
 		newBuildingButton.addActionListener(buttonListener);
+		parkingSpaceButton.addActionListener(buttonListener);
 		personnelPanel.add(persNameLabel);
 		personnelPanel.add(persTitleLabel);
 		personnelPanel.add(persTelephoneLabel);
@@ -99,10 +109,40 @@ public class CentreCard extends BusinessCard {
 		// Setting some margins for a bit of space between each field/button/label
 		constraints.insets.bottom 	= 5;
 		constraints.insets.top 		= 5;
-		
-		// Grid bag for area 
+
+
+		// Grid bag for parking spaces 
+		// Grid bag for business name
 		constraints.gridx = 0;
 		constraints.gridy = 6;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(parkingSpaceLabel, constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy = 6;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(parkingSpace, constraints);
+
+		constraints.gridx = 4;
+		constraints.gridy = 6;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(parkingSpaceButton, constraints);
+
+		// Grid bag for area 
+		constraints.gridx = 0;
+		constraints.gridy = 7;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -112,7 +152,7 @@ public class CentreCard extends BusinessCard {
 		this.add(areaLabel, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = 6;
+		constraints.gridy = 7;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
@@ -122,7 +162,7 @@ public class CentreCard extends BusinessCard {
 
 		// Description grid bag setup
 		constraints.gridx = 0;
-		constraints.gridy = 7;
+		constraints.gridy = 8;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -132,7 +172,7 @@ public class CentreCard extends BusinessCard {
 		this.add(textDescrLabel, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = 7;
+		constraints.gridy = 8;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
@@ -141,7 +181,7 @@ public class CentreCard extends BusinessCard {
 		this.add(textDescriptionScroll, constraints);
 
 		constraints.gridx = 4;
-		constraints.gridy = 7;
+		constraints.gridy = 8;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -152,7 +192,7 @@ public class CentreCard extends BusinessCard {
 
 		// Grid bag for personnel
 		constraints.gridx = 0;
-		constraints.gridy = 8;
+		constraints.gridy = 9;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -161,7 +201,7 @@ public class CentreCard extends BusinessCard {
 		this.add(personnelLabel, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = 8;
+		constraints.gridy = 9;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.4;
@@ -172,7 +212,7 @@ public class CentreCard extends BusinessCard {
 
 		constraints.insets.left = 10;
 		constraints.gridx = 2;
-		constraints.gridy = 8;
+		constraints.gridy = 9;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.4;
@@ -180,11 +220,11 @@ public class CentreCard extends BusinessCard {
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.BOTH;
 		this.add(personnelPanel, constraints);
-		
+
 		// New building button grid bag set up
 		constraints.insets.left = 0;
 		constraints.gridx = 1;
-		constraints.gridy = 9;
+		constraints.gridy = 10;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.1;
@@ -196,6 +236,7 @@ public class CentreCard extends BusinessCard {
 
 	public void updateCard(ShoppingCentre centre) {
 		this.centre = centre;
+
 		businessName.setText(centre.getBusinessName());
 		address.setText(centre.getAddress().getAdress());
 		email.setText(centre.getEmail().getEmailAddress());
@@ -208,6 +249,7 @@ public class CentreCard extends BusinessCard {
 		textDescription.setText(centre.getDescription());
 		area.setText(String.valueOf(centre.getArea()));
 		zip.setText(String.valueOf(centre.getAddress().getZipcode()));
+		parkingSpace.setText(String.valueOf(centre.getParkingSpaces()));
 
 		DefaultListModel<Personnel> listModel = new DefaultListModel<Personnel>();
 		for(Personnel p : centre.getPersonnel()) {
@@ -226,6 +268,7 @@ public class CentreCard extends BusinessCard {
 		textDescription.setEditable(false);
 		area.setEditable(false);
 		zip.setEditable(false);
+		parkingSpace.setEditable(false);
 
 		businessButton.setText(Text.getString("edit"));
 		addressButton.setText(Text.getString("edit"));
@@ -235,6 +278,7 @@ public class CentreCard extends BusinessCard {
 		textDescrButton.setText(Text.getString("edit"));
 		areaButton.setText(Text.getString("edit"));
 		zipButton.setText(Text.getString("edit"));
+		parkingSpaceButton.setText(Text.getString("edit"));
 	}
 
 	private class ButtonListener implements ActionListener {
@@ -374,16 +418,29 @@ public class CentreCard extends BusinessCard {
 					newBuildingName = newBuildingNameInput.getText();
 				}
 				catch(NumberFormatException e) {
-					JOptionPane.showMessageDialog(null, "Please input integers");
+					JOptionPane.showMessageDialog(null, Text.getString("invalidInt"));
 					return;
 				}
-				
+
 				if(!Building.newBuilding(centre.getCentreId(), newBuildingName , parsedFloors, parsedArea)) {
 					System.out.println("db save failed");
 					return;
 				}
-					newBuildingDialog.setVisible(false);
-					JOptionPane.showMessageDialog(null, "building created");
+				newBuildingDialog.setVisible(false);
+				JOptionPane.showMessageDialog(null, "building created");
+			}
+			else if(pressedButton.equals(parkingSpaceButton)) {
+				if(parkingSpaceButton.getText().equals(Text.getString("edit"))) {
+					parkingSpaceButton.setText(Text.getString("save"));
+					parkingSpace.setEditable(true);
+				}
+				else {
+					if(!centre.setParkingSpaces(parkingSpace.getText())) {
+						return;
+					}
+					parkingSpaceButton.setText(Text.getString("edit"));
+					parkingSpace.setEditable(false);
+				}
 			}
 		}
 	}

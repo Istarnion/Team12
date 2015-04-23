@@ -1,5 +1,6 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -78,15 +79,14 @@ public class BusinessCard extends JPanel {
 		openingTextField4.setBorder(null);
 		openingLabel5 = new JLabel("))");
 		
-		openingTextField1.setPreferredSize(new Dimension(15,14));
-		openingTextField2.setPreferredSize(new Dimension(15,14));
-		openingTextField3.setPreferredSize(new Dimension(15,14));
-		openingTextField4.setPreferredSize(new Dimension(15,14));
+		openingTextField1.setPreferredSize(new Dimension(15,12));
+		openingTextField2.setPreferredSize(new Dimension(15,12));
+		openingTextField3.setPreferredSize(new Dimension(15,12));
+		openingTextField4.setPreferredSize(new Dimension(15,12));
 
 		openingHours = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		openingHours.setBorder(zip.getBorder());
-		openingHours.setPreferredSize(new Dimension(0,20));
-		openingHours.setBackground(zip.getBackground());
+		openingHours.setBackground(new Color(48,48,48));
 		
 		openingHours.add(openingLabel1);
 		openingHours.add(openingTextField1);
