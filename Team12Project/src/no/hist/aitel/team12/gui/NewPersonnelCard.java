@@ -95,20 +95,7 @@ public class NewPersonnelCard extends JPanel{
 		super.setLayout(new BorderLayout());
 		super.add(labelPanel, BorderLayout.WEST);
 		super.add(fieldPanel, BorderLayout.CENTER);
-		
-		/*
-		shoppingCenter.addItemListener(
-				event -> {
-					JComboBox<?> cb = (JComboBox<?>)event.getSource();
-					
-					if()) {
-						
-					}
-					else {
-					}
-				}
-			);
-			*/
+
 		
 		saveButton.addActionListener(new ActionListener() {
 			@Override
