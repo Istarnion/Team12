@@ -74,7 +74,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"edit", "Rediger"},
 				{"save", "Lagre"},
 				{"nrOfFloors", "Antall etasjer"},
-				{"area", "Area"},
+				{"area", "Areal  (m²)"},
 				{"firstname","Fornavn"},
 				{"lastname","Etternavn"},
 				{"adr","Adresse"},

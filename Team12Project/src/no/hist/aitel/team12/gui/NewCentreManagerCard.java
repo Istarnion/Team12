@@ -12,10 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import no.hist.aitel.team12.app.Email;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.User;
+import no.hist.aitel.team12.util.PasswordManager;
 import no.hist.aitel.team12.util.Text;
+
+/**
+ * 
+ * @author Roger
+ *
+ */
 
 public class NewCentreManagerCard extends JPanel {
 	private static final long serialVersionUID = 4688863130267581267L;
@@ -191,22 +199,27 @@ public class NewCentreManagerCard extends JPanel {
 					return;
 				}
 				
+				String password = PasswordManager.generatePassword(username.getText());
 				
 				if(ShoppingCentre.createCentre(
 						firstName.getText(), lastName.getText(),
-						username.getText(), email.getText(),
+						username.getText(), password, email.getText(),
 						personalAddress.getText(), Integer.parseInt(personalZip.getText()),
 						Integer.parseInt(telephone.getText()), Integer.parseInt(salary.getText()),
 						centreName.getText(), centreAddress.getText(),
 						Integer.parseInt(centreZip.getText()))) {
+					
+					Email.sendEmail("Dear "+firstName.getText()+" "+lastName.getText()
+							+",\nYou have been created as a Centre Manager for "+centreName.getText()
+							+".\nYour username is: "+username.getText()+"\nYour password is: "+password
+							+"\n\nPlease change your password at your earliest oppurtunity.\n Regards, System Administrator for the SSS system,\nTeam12",
+							new EmailAddress(email.getText()));
 					
 					userTab.showLogoCard();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
 				}
-				
-				
 			}
 		});
 		

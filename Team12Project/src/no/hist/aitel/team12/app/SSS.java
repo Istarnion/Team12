@@ -44,16 +44,6 @@ public class SSS {
 	private static SSS sss;
 	
 	public SSS() {
-		try {
-			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-			
-			// Set System L&F
-//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (Exception ex) {
-			System.out.println("Failed setting System laf. Reverting to Java defult.");
-		}
-		
 		// Splash Screen
 		SplashScreen splash = new SplashScreen();
 		splash.createSplash();
@@ -76,13 +66,21 @@ public class SSS {
 		}
 		splash.removeSplash();
 		
+		try {
+			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+			
+			// Set System L&F
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception ex) {
+			System.out.println("Failed setting System laf. Reverting to Java defult.");
+		}
+		
 		// Login
-//		login = new LoginWindow(this);
-//		login.showLoginWindow();
+		login = new LoginWindow(this);
+		login.showLoginWindow();
 		
 		sss = this;
-		
-		login("admin", "TeamAdmin12");
 	}
 	
 	public static void main(String[] args) {
@@ -136,25 +134,25 @@ public class SSS {
 						sssWindow.addTab(Text.getString("usrs"),		new UserTab(userId, type));
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 						sssWindow.addTab(Text.getString("sql"),			new SqlTab());
-						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
 					} break;
 					
 					case CENTRE_MANAGER:
 					{
-						System.out.println("Centre manager attempted login");
-						exit();
+						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId));
+						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
+						sssWindow.addTab(Text.getString("usrs"),		new UserTab(userId, type));
+						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
 					} break;
 					
 					case SHOP_OWNER:
 					{
-						System.out.println("Shop owner attempted login");
-						exit();
+						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
+						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
 					} break;
 					
 					case CUSTOMER_SERVICE:
 					{
-						System.out.println("Customer service attempted login");
-						exit();
+						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 					} break;
 					default:
 					{

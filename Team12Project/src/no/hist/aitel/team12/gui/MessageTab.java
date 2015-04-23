@@ -80,6 +80,8 @@ public class MessageTab extends SSSTab {
 	
 	private JButton trashButton;
 	
+	private boolean selectionLock = false;
+	
 	public MessageTab(String username) {
 		this.username = username;
 
@@ -87,7 +89,10 @@ public class MessageTab extends SSSTab {
 		inbox	= new ArrayList<Message>();
 		trash	= new ArrayList<Message>();
 
-		messages = DataBuffer.getMessages();
+		while (messages == null) {
+			messages = DataBuffer.getMessages();
+		}
+		
 		for(Message m : messages) {
 			if(m.isDeleted()) {
 				trash.add(m);
@@ -382,7 +387,6 @@ public class MessageTab extends SSSTab {
 	}
 
 	// LISTNERS
-
 	private class inboxListner implements ListSelectionListener{
 		public void messageSelected(Message m){
 			viewMessageText.setText(m.getContent());
@@ -392,9 +396,11 @@ public class MessageTab extends SSSTab {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			JList<?> source = (JList<?>) e.getSource();
-			Message msg = (Message)source.getSelectedValue();
-			if(msg != null) messageSelected(msg);
+			if(!selectionLock) {
+				JList<?> source = (JList<?>) e.getSource();
+				Message msg = (Message)source.getSelectedValue();
+				if(msg != null) messageSelected(msg);
+			}
 		}
 	}
 
@@ -423,14 +429,32 @@ public class MessageTab extends SSSTab {
 			}
 		}
 
-
 		inboxList.setModel(inboxModel);
 		outboxList.setModel(outboxModel);
 		trashList.setModel(trashModel);
 		
+//		// The order of these matter because they all fire ValueChanged events
+//		if(inboxArea.getSelectedIndex() == 0) {	// Inbox visible
+//			outboxList.setSelectedIndex(obSel);
+//			trashList.setSelectedIndex(tSel);
+//			inboxList.setSelectedIndex(ibSel);
+//		}
+//		else if(inboxArea.getSelectedIndex() == 1)  {// Outbox visible
+//			inboxList.setSelectedIndex(ibSel);
+//			trashList.setSelectedIndex(tSel);
+//			outboxList.setSelectedIndex(obSel);
+//		}
+//		else {
+//			inboxList.setSelectedIndex(ibSel);
+//			outboxList.setSelectedIndex(obSel);
+//			trashList.setSelectedIndex(tSel);
+//		}
+		
+		selectionLock = true;
 		inboxList.setSelectedIndex(ibSel);
 		outboxList.setSelectedIndex(obSel);
 		trashList.setSelectedIndex(tSel);
+		selectionLock = false;
 	}
 }
 

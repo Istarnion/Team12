@@ -74,7 +74,7 @@ public class TextResources extends ListResourceBundle {
 				{"edit", "Edit"},
 				{"save", "Save"},
 				{"nrOfFloors", "Number of floors"},
-				{"area", "Areal"},
+				{"area", "Area (m²)"},
 				{"firstname","First name"},
 				{"lastname","Last name"},
 				{"adr","Address"},
