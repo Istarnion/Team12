@@ -36,6 +36,8 @@ public class ShoppingCentre extends Business {
 		else {
 			this.personnel = new Personnel[0];
 		}
+		
+		buildings = new Building[1];
 	}
 
 	public int getParkingSpaces() {

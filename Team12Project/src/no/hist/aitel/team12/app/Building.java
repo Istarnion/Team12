@@ -33,6 +33,8 @@ public class Building {
 		this.floors 		= floors;
 		this.area 			= area;
 		
+		this.establishments = new Establishment[1];
+		
 		db = DatabaseFactory.getDatabase();
 	}
 

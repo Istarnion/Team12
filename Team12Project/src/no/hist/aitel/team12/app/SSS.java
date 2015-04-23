@@ -35,7 +35,7 @@ import no.hist.aitel.team12.util.Text;
 
 public class SSS {
 
-	private final static long MIN_SPLASH_TIME = 1500L;	// How long, minimum, the splash screen will be shown.
+	public final static long MIN_SPLASH_TIME = 1500L;	// How long, minimum, the splash screen will be shown.
 	
 	LoginWindow login;
 	
@@ -172,8 +172,8 @@ public class SSS {
 	 */
 	public static void exit() {
 		DatabaseFactory.getDatabase().teardown();
-		if(sss.login != null) sss.login.dispose();
-		if(sss.sssWindow != null) sss.sssWindow.dispose();
+		if(sss != null && sss.login != null) sss.login.dispose();
+		if(sss != null && sss.sssWindow != null) sss.sssWindow.dispose();
 		System.out.println("Successful exit.");
 		System.exit(0);
 	}
