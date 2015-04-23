@@ -34,13 +34,13 @@ public class EstablishmentCard extends BusinessCard {
 	private ArrayList<Trade> allTrades;
 	private JTextField floor;
 	private JLabel floorLabel;
-	
+
 	public EstablishmentCard(int userID) {
 
 		allTrades = Trade.getAllTrades();
-		
+
 		buttonListener 		= new ButtonListener();
-		
+
 		tradesPanel			= new JPanel(new GridBagLayout());		
 		tradesPanel.setPreferredSize(new Dimension(1,200));	
 		tradeButton			= new JButton(Text.getString("trades"));	
@@ -54,15 +54,15 @@ public class EstablishmentCard extends BusinessCard {
 		tradesRightScroll 		= new JScrollPane(tradesRightList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tradesLeftScroll.setPreferredSize(new Dimension(225, tradesLeftScroll.getPreferredSize().height));
 		tradesRightScroll.setPreferredSize(new Dimension(225, tradesRightScroll.getPreferredSize().height));
-		
+
 		textDescriptionScroll	= new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));	
-		
+
 		floorLabel = new JLabel(Text.getString("floor") + ": ", SwingConstants.RIGHT);
 		floor = new JTextField("");
 		floorButton = new JButton(Text.getString("edit"));
 		floorButton.setPreferredSize(new Dimension(72, 23));
-		
+
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
 		emailButton.addActionListener(buttonListener);
@@ -72,16 +72,16 @@ public class EstablishmentCard extends BusinessCard {
 		tradeButton.addActionListener(buttonListener);
 		zipButton.addActionListener(buttonListener);
 		floorButton.addActionListener(buttonListener);
-		
-		
+
+
 		// Grid bag layout
 		GridBagConstraints constraints = new GridBagConstraints();
-		
+
 		// Setting some margins for a bit of space between each field/button/label
 		constraints.insets.bottom = 5;
 		constraints.insets.top = 5;
 
-		
+
 		// Grid bag for opening hours
 		constraints.gridx = 0;
 		constraints.gridy = 6;
@@ -138,7 +138,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.anchor = GridBagConstraints.NORTH;
 		this.add(textDescrButton, constraints);
-		
+
 		// trades grid bag setup 
 		constraints.gridx = 1;
 		constraints.gridy = 8;
@@ -149,15 +149,15 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.anchor = GridBagConstraints.NORTHEAST;
 		constraints.fill = GridBagConstraints.BOTH;
 		this.add(tradesPanel, constraints);
-		
+
 		// tradesPanel internal grid bag setup
 		constraints = new GridBagConstraints();
-		
+
 		int margin = 10;
 		Insets noInsets		= new Insets(0, 0, 0, 0);
 		Insets leftInsets	= new Insets(0, 0, 0, margin);
 		Insets rightInsets	= new Insets(0, margin, 0, 0);
-		
+
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
@@ -168,7 +168,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.anchor = GridBagConstraints.NORTHEAST;
 		constraints.fill = GridBagConstraints.VERTICAL;
 		tradesPanel.add(tradesLeftScroll, constraints);
-		
+
 		constraints.gridx = 1;
 		constraints.gridy = 1;
 		constraints.gridwidth = 1;
@@ -179,7 +179,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.anchor = GridBagConstraints.SOUTH;
 		constraints.fill = GridBagConstraints.NONE;
 		tradesPanel.add(tradesButtonLeft, constraints);
-		
+
 		constraints.gridx = 1;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
@@ -188,7 +188,7 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.weighty = 0.001;
 		constraints.anchor = GridBagConstraints.NORTH;
 		tradesPanel.add(tradesButtonRight, constraints);
-		
+
 		constraints.gridx = 2;
 		constraints.gridy = 0;
 		constraints.gridwidth = 1;
@@ -205,29 +205,31 @@ public class EstablishmentCard extends BusinessCard {
 		this.establishment = establishment;
 
 		DefaultListModel<Trade> selectedListModel = new DefaultListModel<Trade>();
-		
+
 		tradesLeftList.setModel(selectedListModel);
-	
+
 		DefaultListModel<Trade> availableListModel = new DefaultListModel<Trade>();
 		boolean foundMatch = false;
 		for(Trade aT : allTrades) {
 			foundMatch = false;
-			for(Trade sT : establishment.getSelectedTrades()) {
-				
-				if(sT.equals(aT)) {
-					foundMatch = true;
-					selectedListModel.addElement(sT);
-					break;
+			if(establishment.getSelectedTrades() != null) {
+				for(Trade sT : establishment.getSelectedTrades()) {
+
+					if(sT.equals(aT)) {
+						foundMatch = true;
+						selectedListModel.addElement(sT);
+						break;
+					}
 				}
 			}
 			if(!foundMatch) {
 				availableListModel.addElement(aT);
 			}
-			
+
 		}
 		tradesRightList.setModel(availableListModel);
-		
-		
+
+
 		businessName.setText(establishment.getBusinessName());
 		address.setText(establishment.getAddress().getAdress());
 		email.setText(establishment.getEmail().getEmailAddress());
@@ -383,7 +385,7 @@ public class EstablishmentCard extends BusinessCard {
 				}
 				else {
 					if(!establishment.setFloorNumber(floor.getText())) {
-						
+
 					}
 					floor.setEditable(false);
 					floorButton.setText(Text.getString("edit"));

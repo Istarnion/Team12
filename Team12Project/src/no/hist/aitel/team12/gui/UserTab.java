@@ -83,9 +83,13 @@ public class UserTab extends SSSTab {
 		if(userType == UserType.SYS_ADMIN) {
 			mainPanel.add(new NewCentreManagerCard(this), "newManagerCard");
 		}
-		mainPanel.add(new NewShopOwnerCard(0), "newShopOwnerCard");
-		mainPanel.add(new NewPersonnelCard(), "newPersonnelCard");
-		mainPanel.add(new NewCustomerServiceCard(this), "newCustomerServiceCard");
+		
+		else if(userType == UserType.CENTRE_MANAGER) {
+			mainPanel.add(new NewShopOwnerCard(this, 0), "newShopOwnerCard");
+			mainPanel.add(new NewPersonnelCard(), "newPersonnelCard");
+			mainPanel.add(new NewCustomerServiceCard(this), "newCustomerServiceCard");
+		}
+		
 		editUserCard = new EditUserCard();
 		mainPanel.add(editUserCard, "editUserCard");
 		
@@ -140,39 +144,37 @@ public class UserTab extends SSSTab {
 		newUser.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				final UserType[] usertypes = {UserType.PERSONNEL, UserType.CUSTOMER_SERVICE, UserType.SHOP_OWNER, UserType.CENTRE_MANAGER};
-				UserType type = (UserType)JOptionPane.showInputDialog(
-						null,
-						Text.getString("whatUsertype"),
-						Text.getString("usertype"),
-						JOptionPane.PLAIN_MESSAGE,
-						null,
-						usertypes, usertypes[0]);
-				
-				if(type != null) {
-					System.out.println(Text.getString("usertypeTry")+type);
-					switch(type) {
-						case PERSONNEL:
-						{
-							cards.show(mainPanel, "newPersonnelCard");
-							
-						} break;
-						case CUSTOMER_SERVICE:
-						{
-							cards.show(mainPanel, "newCustomerServiceCard");
-							
-						} break;
-						case SHOP_OWNER:
-						{
-							cards.show(mainPanel, "newShopOwnerCard");
-							
-						} break;
-						case CENTRE_MANAGER:
-						{
-							cards.show(mainPanel, "newManagerCard");
-						} break;
-						default:
-							break;
+				if(userType == UserType.SYS_ADMIN) {
+					cards.show(mainPanel, "newManagerCard");
+				}
+				else {
+					final UserType[] usertypes = {UserType.PERSONNEL, UserType.CUSTOMER_SERVICE, UserType.SHOP_OWNER};
+					UserType type = (UserType)JOptionPane.showInputDialog(
+							null,
+							Text.getString("whatUsertype"),
+							Text.getString("usertype"),
+							JOptionPane.PLAIN_MESSAGE,
+							null,
+							usertypes, usertypes[0]);
+					
+					if(type != null) {
+						System.out.println(Text.getString("usertypeTry")+type);
+						switch(type) {
+							case PERSONNEL:
+							{
+								cards.show(mainPanel, "newPersonnelCard");
+							} break;
+							case CUSTOMER_SERVICE:
+							{
+								cards.show(mainPanel, "newCustomerServiceCard");
+							} break;
+							case SHOP_OWNER:
+							{
+								cards.show(mainPanel, "newShopOwnerCard");
+							} break;
+							default:
+								break;
+						}
 					}
 				}
 			}
