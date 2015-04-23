@@ -17,10 +17,7 @@ import javax.swing.SwingConstants;
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
-import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Personnel;
-import no.hist.aitel.team12.app.ShoppingCentre;
-import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.Text;
 
 /**
@@ -39,8 +36,6 @@ public class NewShopOwnerCard extends JPanel{
 	private JComboBox<ShoppingCentre> shoppingCenter;
 	
 	private ShoppingCentre[] businessArray;
-	
-	private User user;
 	
 	private UserTab userTab;
 	
