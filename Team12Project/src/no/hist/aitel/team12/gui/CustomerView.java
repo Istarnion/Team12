@@ -1,30 +1,38 @@
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.Trade;
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
 
 public class CustomerView extends SSSTab {
+	
+	private ShoppingCentre [] centers ;
 
 	private JPanel basePanel = new JPanel();
 
@@ -44,25 +52,24 @@ public class CustomerView extends SSSTab {
 
 	private JLabel appName;
 
-	private JButton login;
-
 	private JLabel today;
-	
+
 	private String magGlass = "\uD83D\uDD0D";
-	
+
 	private InputField shopNameSearch = new InputField (magGlass+Text.getString("cvsShpNam"),20);
 
 	private	InputField centerNameSearch = new InputField(magGlass+Text.getString("cvsCntrNam"),20);
-	
+
 	private InputField countySearch = new InputField(magGlass +Text.getString("cvsCounty"),20);
 
 	private InputField municipalitySearch = new InputField(magGlass+Text.getString("cvsMunici"),20);
-	
-	private ArrayList<String> shops= new ArrayList<String>();
-	
-	private JLabel test = new JLabel();
-	
-	
+
+	private JTree resultTree = new JTree();
+
+	private JScrollPane scrollTree;
+
+	private boolean valueChanged = false;
+
 	/**
 	 * 
 	 */
@@ -70,16 +77,17 @@ public class CustomerView extends SSSTab {
 
 	public CustomerView(){
 		super();
-		
+
 		basePanel.setLayout(new BoxLayout(basePanel, BoxLayout.Y_AXIS));
 		basePanel.setPreferredSize(new Dimension(1200, 675));
+		
 
 		add(basePanel, BorderLayout.CENTER);
 
 
 		// TOP BAR
 		topbar.setLayout(new BorderLayout());
-		topbar.setPreferredSize(new Dimension(0,100));
+		topbar.setPreferredSize(new Dimension((int)topbar.getPreferredSize().getWidth(),100));
 		logo = new JLabel();
 		ImageIcon logoIcon = new ImageIcon("Resources/images/logoSmall.png");
 		logo.setIcon(logoIcon);
@@ -89,24 +97,20 @@ public class CustomerView extends SSSTab {
 		appName.setIcon(nameIcon);
 		topbar.add(appName, BorderLayout.CENTER);
 
-		GridLayout gLayout = new GridLayout(2,1, 2, 10);
+		BorderLayout gLayout = new BorderLayout();
 		loginPanel.setLayout(gLayout);
-		//loginPanel.setPreferredSize(new Dimension(400,100));
-		login = new JButton("Login");
-		loginPanel.add(login);
 		Calendar dateAndTime = Calendar.getInstance();
 		today = new JLabel(dateAndTime.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()), JLabel.CENTER);
-		loginPanel.add(today);
+		loginPanel.add(today, BorderLayout.SOUTH);
 		topbar.add(loginPanel,BorderLayout.EAST);
 		topbar.setMaximumSize(new Dimension(topbar.getMaximumSize().width, 100));
-		
+
 		System.out.println("Topbar done");
 
 		// SEARCH
 
 		search.setLayout(new GridLayout(1,5));
 		
-	
 		Font font = new Font("Segoe UI Symbol",Font.PLAIN,12);
 		centerNameSearch.setFont(font);
 		search.add(centerNameSearch);
@@ -116,11 +120,14 @@ public class CustomerView extends SSSTab {
 		search.add(countySearch); 
 		municipalitySearch.setFont(font);
 		search.add(municipalitySearch); 
-		String [] trades = {"Sport","toys","bla","bla"};
-		JComboBox<String> tradeSearch = new JComboBox<String>(trades);
+		ArrayList <Trade> trades = Trade.getAllTrades();		
+		JComboBox<Trade> tradeSearch = new JComboBox<Trade>(trades.toArray(new Trade[trades.size()]));
 		search.add(tradeSearch);
 		
-		
+		Database Db = DatabaseFactory.getDatabase();
+		centers = Db.getShoppingCentres(1);
+
+
 		System.out.println("Search panel done");
 
 		// VIEW
@@ -130,80 +137,103 @@ public class CustomerView extends SSSTab {
 		view.add(resultView, BorderLayout.CENTER);
 
 		searchResult.setLayout(new BorderLayout());
-		
-	//	JList <String>listing = new JList<String>();
-	//	JScrollPane scrollListing = new JScrollPane(listing);
-		
-		searchResult.add(test, BorderLayout.WEST);
+		searchResult.setPreferredSize(new Dimension(200,(int)searchResult.getPreferredSize().getHeight()));
+		scrollTree 	= new JScrollPane(resultTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		searchResult.add(scrollTree, BorderLayout.CENTER);
 
-		
-		
+
+
+
 		basePanel.add(topbar);
 		basePanel.add(search);
 		basePanel.add(view);
-		
+
 		System.out.println("View panel done");
 
-		ButtonListener btnListener = new ButtonListener();
-		login.addActionListener(btnListener);
-		
-		SearchListener fieldListener = new SearchListener();
-		shopNameSearch.addActionListener(fieldListener);
-		
-	
-		shops.add("Narvesen");
-		shops.add("HM");
-		shops.add("BigBite");
 
+		SearchListener fieldListener = new SearchListener();
+		shopNameSearch.addKeyListener(fieldListener);
+		centerNameSearch.addKeyListener(fieldListener);
+		countySearch.addKeyListener(fieldListener);
+		municipalitySearch.addKeyListener(fieldListener);
 		
+		
+		TradeSearchListener tsl = new TradeSearchListener();
+		tradeSearch.addActionListener(tsl);
+		
+		
+		Timer t = new Timer(1000,new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent f) {
+				if(valueChanged){
+					for(int i=0; i<centers.length; i++){
+						System.out.println(centers[i].getCentreId());
+					}
+					
+			
+				}
+				valueChanged =false;
+			}
+			
+			
+		});
+
+
+
+
+
+	}
+
+
+
+
+
+
+	private class SearchListener implements KeyListener{
+
+		@Override
+		public void keyPressed(KeyEvent a) {
+			valueChanged = true;
 			
 		}
-	
-	
 
+		@Override
+		public void keyReleased(KeyEvent b) {
+			valueChanged = true;
+			
+		}
 
+		@Override
+		public void keyTyped(KeyEvent c) {
+			valueChanged = true;
+			
+		}
+
+	}
 	
-	
-	private class ButtonListener implements ActionListener{
+	private class TradeSearchListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			System.out.println("open login window");
+			valueChanged = true;
 			
 		}
-		
-		}
-	private class SearchListener implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent f) {
-			// TODO Auto-generated method stub
-			String selected = shopNameSearch.getText();
-			
-			for(String shp : shops){
-				if(selected.contains(shp)){
-					test.setText(selected);
-				}
-			}
-		
-			
-				
-			}
-			
-		}
-		
-
-		
-	
-	
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
 		
 	}
 
+
+
+
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+
+	}
+
 	public static void main (String[]args ){
+		DatabaseFactory.setup();
 		SSSWindow cv = new SSSWindow();
 		System.out.println("SSSWindow added");
 		cv.addTab("This is a tab ",new CustomerView());

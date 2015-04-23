@@ -44,9 +44,9 @@ public class FinanceTab extends SSSTab {
 
 	private  JPanel pdfView;
 
-	private JXDatePicker fromDate;
+	private JXDatePicker regRevDate;
 
-	private JXDatePicker toDate;
+	
 
 	private JXDatePicker pdfFromDate;
 
@@ -77,19 +77,19 @@ public class FinanceTab extends SSSTab {
 		JLabel fDate = new JLabel (Text.getString("fDate"), SwingConstants.RIGHT);
 		sidebar.add(fDate);
 
-		fromDate = new JXDatePicker();
-		fromDate.setDate(Calendar.getInstance().getTime());
-		fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-		sidebar.add(fromDate);
+		regRevDate = new JXDatePicker();
+		regRevDate.setDate(Calendar.getInstance().getTime());
+		regRevDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		sidebar.add(regRevDate);
 
 		// Row 3
-		JLabel tDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
-		sidebar.add(tDate);
+		//	JLabel tDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
+		sidebar.add(new JLabel());
 
-		toDate = new JXDatePicker();
-		toDate.setDate(Calendar.getInstance().getTime());
-		toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
-		sidebar.add(toDate);
+		//	toDate = new JXDatePicker();
+		//	toDate.setDate(Calendar.getInstance().getTime());
+		//	toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		sidebar.add(new JLabel());
 
 		// Row 4
 		incomeAmount = new InputField(Text.getString("rev"), 10);
@@ -111,8 +111,8 @@ public class FinanceTab extends SSSTab {
 		sidebar.add(pdfFDate);
 
 		pdfFromDate = new JXDatePicker();
-		fromDate.setDate(Calendar.getInstance().getTime());
-		fromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		pdfFromDate.setDate(Calendar.getInstance().getTime());
+		pdfFromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
 		sidebar.add(pdfFromDate);
 
 		// Row 8
@@ -120,8 +120,8 @@ public class FinanceTab extends SSSTab {
 		sidebar.add(pdfTDate);
 
 		pdfToDate = new JXDatePicker();
-		toDate.setDate(Calendar.getInstance().getTime());
-		toDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		pdfToDate.setDate(Calendar.getInstance().getTime());
+		pdfToDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
 		sidebar.add(pdfToDate);
 
 		// Row 9
@@ -174,7 +174,7 @@ public class FinanceTab extends SSSTab {
 								for(int i=0; i<rs.length; i++) {
 									rs[i] = new Revenue(new Date(1000000000000L), i*500+1000);
 								}
-								
+
 								PDFGenerator.generatePDF("budgetdoc.pdf", rs, "Chart");
 								Image img = PDFGenerator.showPDF();
 								pdfLabel.setIcon(new ImageIcon(img));
@@ -203,83 +203,78 @@ public class FinanceTab extends SSSTab {
 
 			}
 			else if(buttonName.equals(Text.getString("reg"))){
-				if(fromDate.getDate()!=null && toDate.getDate()!=null){
+				if(regRevDate.getDate()!=null){
 					long revenue;
 					Calendar calFrom = Calendar.getInstance();
-					calFrom.setTime(fromDate.getDate());
-					Calendar  calTo = Calendar.getInstance();
-					calTo.setTime(toDate.getDate());
+					calFrom.setTime(regRevDate.getDate());
 
-					if(calFrom.before(calTo)||calFrom.equals(calTo)){
+					try{
+						revenue = Long.parseLong(incomeAmount.getText());
+						int yearFrom = calFrom.get(Calendar.YEAR);
+						String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
 
-						try{
-							revenue = Long.parseLong(incomeAmount.getText());
-							int yearFrom = calFrom.get(Calendar.YEAR);
-							String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
+						//int yearTo = calTo.get(Calendar.YEAR);
+						//String monthTo = calTo.getDisplayName(Calendar.MONTH,Calendar.LONG_FORMAT,Locale.getDefault());
 
-							int yearTo = calTo.get(Calendar.YEAR);
-							String monthTo = calTo.getDisplayName(Calendar.MONTH,Calendar.LONG_FORMAT,Locale.getDefault());
+						System.out.println("Register Revenue button pressed"+"\n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ monthTo + yearTo + revenue);
 
-							System.out.println("Register Revenue button pressed"+"\n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ monthTo + yearTo + revenue);
-
-						}catch(NumberFormatException nfe){
-							JOptionPane.showMessageDialog(null, Text.getString("reverr"));
-						}
-					}else{
-						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
+					}catch(NumberFormatException nfe){
+						JOptionPane.showMessageDialog(null, Text.getString("reverr"));
 					}
 				}else{
-					JOptionPane.showMessageDialog(null, Text.getString("revdaterr"));
+					JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 				}
-
+			}else{
+				JOptionPane.showMessageDialog(null, Text.getString("revdaterr"));
 			}
-			else{
-				if(pdfFromDate.getDate()!=null && pdfToDate.getDate()!=null){
-					Calendar pdfCalF = Calendar.getInstance();
-					Calendar pdfCalT = Calendar.getInstance();
-					pdfCalF.setTime(pdfFromDate.getDate());
-					pdfCalT.setTime(pdfToDate.getDate());
 
-					if(pdfCalF.before(pdfCalT)||pdfCalF.equals(pdfCalT)){
-						savePDF();
-					}else{
-						JOptionPane.showMessageDialog(null, Text.getString("daterr"));
-					}
+		
+			if(pdfFromDate.getDate()!=null && pdfToDate.getDate()!=null){
+				Calendar pdfCalF = Calendar.getInstance();
+				Calendar pdfCalT = Calendar.getInstance();
+				pdfCalF.setTime(pdfFromDate.getDate());
+				pdfCalT.setTime(pdfToDate.getDate());
+
+				if(pdfCalF.before(pdfCalT)||pdfCalF.equals(pdfCalT)){
+					savePDF();
 				}else{
-					JOptionPane.showMessageDialog(null, Text.getString("pdferr"));		
-
+					JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 				}
+			}else{
+				JOptionPane.showMessageDialog(null, Text.getString("pdferr"));		
+
 			}
 		}
+	}
 
 
-		void savePDF() {
-			JFileChooser chooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF","pdf");
-			chooser.setFileFilter(filter);
-			chooser.setSelectedFile(new File("revenue.pdf"));
-			int result = chooser.showSaveDialog(null);
+	void savePDF() {
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF","pdf");
+		chooser.setFileFilter(filter);
+		chooser.setSelectedFile(new File("revenue.pdf"));
+		int result = chooser.showSaveDialog(null);
 
-			if (result == JFileChooser.APPROVE_OPTION) {
-				Revenue[] rs = new Revenue[12];
-				for(int i=0; i<rs.length; i++) {
-					rs[i] = new Revenue(new Date(1000000000000L), i*500+1000);
-				}
-				
-				PDFGenerator.generatePDF(chooser.getSelectedFile().getPath(), rs, "Chart");
-				File file = chooser.getSelectedFile();
-				String file_name = file.toString();
-				if (!file_name.endsWith(".pdf")){
-				    file_name += ".pdf";
-				}
+		if (result == JFileChooser.APPROVE_OPTION) {
+			Revenue[] rs = new Revenue[12];
+			for(int i=0; i<rs.length; i++) {
+				rs[i] = new Revenue(new Date(1000000000000L), i*500+1000);
+			}
+
+			PDFGenerator.generatePDF(chooser.getSelectedFile().getPath(), rs, "Chart");
+			File file = chooser.getSelectedFile();
+			String file_name = file.toString();
+			if (!file_name.endsWith(".pdf")){
+				file_name += ".pdf";
 			}
 		}
-		
 	}
 
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-		
-	}
+
+
+@Override
+public void refresh() {
+	// TODO Auto-generated method stub
+
+}
 }

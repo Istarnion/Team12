@@ -12,6 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import no.hist.aitel.team12.database.DatabaseFactory;
+
 public class CustomerCSView extends SSSTab {
 	
 	private JPanel contactCs = new JPanel();
@@ -90,6 +92,7 @@ public class CustomerCSView extends SSSTab {
 	}
 	
 	public static void main(String[]args){
+	
 		SSSWindow cv = new SSSWindow();
 		System.out.println("SSSWindow added");
 		cv.addTab("Customer Service",new CustomerCSView());
