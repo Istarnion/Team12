@@ -34,7 +34,7 @@ public class DatabaseConnection implements Database {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
-					+ "user=team12&password=teamadmin12");
+					+ "user=team12&password=teamadmin15");
 
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
@@ -68,12 +68,14 @@ public class DatabaseConnection implements Database {
 	public String getPasswordHash(int user) {
 		String passwordHash = null;
 		try(PreparedStatement statement = connection.prepareStatement("SELECT password_hash FROM user WHERE employee_number = ?")) {
+			connection.setReadOnly(true);
 			statement.setInt(1, user);
 			ResultSet result = statement.executeQuery();
 			if(result.next()) {
 				passwordHash = result.getString(1);
 			}
 			result.close();
+			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();																										
@@ -152,8 +154,8 @@ public class DatabaseConnection implements Database {
 			}
 
 			try (PreparedStatement statement = connection.prepareStatement(personnelQuery)) {
+				connection.setReadOnly(true);
 				personnel = new IntHashMap<ArrayList<Personnel>>();
-
 				ResultSet result = statement.executeQuery();
 				ArrayList<Personnel> personnelList;
 				while(result.next()) {
@@ -181,9 +183,17 @@ public class DatabaseConnection implements Database {
 							);
 				}
 				result.close();
+
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
@@ -214,6 +224,13 @@ public class DatabaseConnection implements Database {
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try(PreparedStatement statement = connection.prepareStatement(buildingQuery)) {
@@ -233,6 +250,13 @@ public class DatabaseConnection implements Database {
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try (PreparedStatement statement = connection.prepareStatement(tradeQuery)) {
@@ -253,6 +277,13 @@ public class DatabaseConnection implements Database {
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
@@ -286,8 +317,24 @@ public class DatabaseConnection implements Database {
 				}
 
 				result.close();
+
 			}
 			catch(SQLException e) {
+
+				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
+			}
+
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e) {
+				System.out.println("Something went wrong while setting ReadOnly");
 				e.printStackTrace();
 			}
 
@@ -388,7 +435,7 @@ public class DatabaseConnection implements Database {
 		int output = -1;
 
 		try(PreparedStatement statement = connection.prepareStatement("SELECT employee_number FROM user WHERE username = ?")) {
-
+			connection.setReadOnly(true);
 			statement.setString(1, username);
 			ResultSet result = statement.executeQuery();
 
@@ -396,9 +443,16 @@ public class DatabaseConnection implements Database {
 				output = result.getInt(1);
 			}
 			result.close();
+			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				System.out.println("Something went wrong while setting ReadOnly in DatabaseConnection.getUserID()");
+				e1.printStackTrace();
+			}
 		}
 
 		return output;
@@ -409,7 +463,7 @@ public class DatabaseConnection implements Database {
 		String output = null;
 
 		try(PreparedStatement statement = connection.prepareStatement("SELECT username FROM user WHERE employee_number = ?")) {
-
+			connection.setReadOnly(true);
 			statement.setInt(1, userID);
 			ResultSet result = statement.executeQuery();
 
@@ -417,9 +471,17 @@ public class DatabaseConnection implements Database {
 				output = result.getString(1);
 			}
 			result.close();
+			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				System.out.println("Something went wrong while setting ReadOnly in DatabaseConnection.getUsername()");
+				e1.printStackTrace();
+			}
+
 		}
 
 		return output;
@@ -430,7 +492,7 @@ public class DatabaseConnection implements Database {
 		boolean found = false;
 
 		try(PreparedStatement statement = connection.prepareStatement("SELECT employee_number FROM user WHERE username = ?")) {
-
+			connection.setReadOnly(true);
 			statement.setString(1, username);
 			ResultSet result = statement.executeQuery();
 
@@ -438,8 +500,15 @@ public class DatabaseConnection implements Database {
 				found = true;
 			}
 			result.close();
+			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				System.out.println("Something went wrong while setting ReadOnly in DatabaseConnection.isUserInDb()");
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 
@@ -468,7 +537,7 @@ public class DatabaseConnection implements Database {
 					PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
 					PreparedStatement personellQuery = connection.prepareStatement("SELECT * FROM personnel_view");
 					) {
-
+				connection.setReadOnly(true);
 				result = userQuery.executeQuery();
 				result.last();
 				int numUsers = result.getRow();
@@ -519,6 +588,7 @@ public class DatabaseConnection implements Database {
 							);
 				}
 				result.close();
+				connection.setReadOnly(false);
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
@@ -533,6 +603,7 @@ public class DatabaseConnection implements Database {
 				if(result != null) {
 					try {
 						result.close();
+						connection.setReadOnly(false);
 					}
 					catch(SQLException e) {
 						e.printStackTrace();
@@ -565,7 +636,7 @@ public class DatabaseConnection implements Database {
 				PreparedStatement shopowner	= connection.prepareStatement("SELECT * FROM establishmentowner WHERE employee_number = ?");
 				PreparedStatement cservice	= connection.prepareStatement("SELECT * FROM customerservice WHERE employee_number = ?");
 			) {
-			
+			connection.setReadOnly(true);
 			manager.setInt(1, userId);
 			ResultSet result = manager.executeQuery();
 			if(result.next()) {
@@ -589,8 +660,14 @@ public class DatabaseConnection implements Database {
 				return UserType.CUSTOMER_SERVICE;
 			}
 			result.close();
+			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 
@@ -619,15 +696,22 @@ public class DatabaseConnection implements Database {
 		}
 
 		try(PreparedStatement statement = connection.prepareStatement(query)) {
-
+			connection.setReadOnly(true);
 			ResultSet result = statement.executeQuery();
 
 			if(result.next()) {
 				return result.getInt("centre_id");
 			}
+			result.close();
+			connection.setReadOnly(false);
 
 		}
 		catch(SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 		return -1;
@@ -637,15 +721,22 @@ public class DatabaseConnection implements Database {
 	public int getEstablishmentID(int userID) {
 
 		try(PreparedStatement statement = connection.prepareStatement("SELECT establishment_id FROM establishmentowner WHERE employee_number = "+userID)) {
-
+			connection.setReadOnly(true);
 			ResultSet result = statement.executeQuery();
 
 			if(result.next()) {
 				return result.getInt("establishment_id");
 			}
+			result.close();
+			connection.setReadOnly(false);
 
 		}
 		catch(SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 
@@ -657,6 +748,7 @@ public class DatabaseConnection implements Database {
 		String[][] out = null;
 
 		try(PreparedStatement statement = connection.prepareStatement(sql)) {
+			connection.setReadOnly(true);
 			ResultSet result = statement.executeQuery();
 			int columns = result.getMetaData().getColumnCount();
 			int rows;
@@ -677,10 +769,16 @@ public class DatabaseConnection implements Database {
 			}
 
 			result.close();
+			connection.setReadOnly(false);
 		}
 		catch(SQLException e) {
 			out = new String[1][1];
 			out[0][0] = "SQL expression raised an exception: "+e.getMessage();
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 
 		return out;
@@ -691,12 +789,19 @@ public class DatabaseConnection implements Database {
 		String out = null;
 
 		try(PreparedStatement statement = connection.prepareStatement(sql)) {
+			connection.setAutoCommit(false);
 			int linesAffected = statement.executeUpdate();
-
+			connection.commit();
+			connection.setAutoCommit(true);
 			out = String.format("Update successful. %d lines affected", linesAffected);
 		}
 		catch(SQLException e) {
 			out = "SQL expression raised an exception: "+e.getMessage();
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 
 		return out;
@@ -707,6 +812,7 @@ public class DatabaseConnection implements Database {
 		boolean ok = false;
 
 		try(PreparedStatement prepStatement = connection.prepareStatement(statement)) {
+			connection.setAutoCommit(false);
 			for(int i=0; i<args.length; i++) {
 				if(args[i] instanceof String) {
 					prepStatement.setString(i+1, (String)args[i]);
@@ -720,11 +826,19 @@ public class DatabaseConnection implements Database {
 			}
 
 			prepStatement.executeUpdate();
+			connection.commit();
+			connection.setAutoCommit(true);
 			ok = true;
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
 			ok = false;
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
 		}
 
 		return ok;
@@ -740,9 +854,9 @@ public class DatabaseConnection implements Database {
 			int rows;
 
 			try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM message_view WHERE sender = ? OR reciever = ?")) {
-
+				
 				if(connection.isClosed()) return null;
-
+				connection.setReadOnly(true);
 				statement.setString(1, username);
 				statement.setString(2, username);
 				result = statement.executeQuery();
@@ -764,9 +878,17 @@ public class DatabaseConnection implements Database {
 							result.getBoolean("trashed")
 							);
 				}
+				result.close();
+				connection.setReadOnly(false);
 			} 
 
 			catch (SQLException e) {
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+
 				e.printStackTrace();
 			}
 
@@ -815,6 +937,12 @@ public class DatabaseConnection implements Database {
 
 		catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
 			return false;
 		}
 		return true;
@@ -858,10 +986,12 @@ public class DatabaseConnection implements Database {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
-
-
-
 		return true;
 	}
 
@@ -931,6 +1061,12 @@ public class DatabaseConnection implements Database {
 
 		catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				connection.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
 			return false;
 		}
 
@@ -943,11 +1079,10 @@ public class DatabaseConnection implements Database {
 		ResultSet result = null;
 		int rows = 0;
 		try(PreparedStatement statement = connection.prepareStatement("SELECT trade_id, trade_name FROM establishmenttrade LEFT JOIN trade USING(trade_id) WHERE establishment_id = ?")) {
-			connection.setAutoCommit(false);
+			connection.setReadOnly(true);
 			statement.setInt(1, establishmentId);
 			result = statement.executeQuery();
-			connection.commit();
-			connection.setAutoCommit(true);
+		
 
 			result.last();
 			rows = result.getRow();
@@ -959,11 +1094,20 @@ public class DatabaseConnection implements Database {
 				selectedTrades[i] = new Trade(result.getInt("trade_id"),result.getString("trade_name"));
 			}
 
+			result.close();
+			connection.setReadOnly(false);
 			return selectedTrades;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
 			selectedTrades = new Trade[0];
 			return selectedTrades;
+
 		}
 	}
 
@@ -972,16 +1116,22 @@ public class DatabaseConnection implements Database {
 		ArrayList<Trade> allTrades = new ArrayList<Trade>();
 		ResultSet result = null;
 		try(PreparedStatement statement = connection.prepareStatement("SELECT trade_id, trade_name FROM trade")) {
-			connection.setAutoCommit(false);
+			connection.setReadOnly(true);
 			result = statement.executeQuery();
-			connection.commit();
-			connection.setAutoCommit(true);
-
 			while(result.next()) {
 				allTrades.add(new Trade(result.getInt("trade_id"),result.getString("trade_name")));
 			}
+			result.close();
+			connection.setReadOnly(false);
+
 			return allTrades;
 		} catch (SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
 			e.printStackTrace();
 			return allTrades;
 		}

@@ -43,8 +43,8 @@ public class Establishment extends Business {
 		return floorNumber;
 	}
 
-	public void setFloorNumber(int floorNumber) {
-		this.floorNumber = floorNumber;
+	public boolean setFloorNumber(String floorNumber) {
+		return true;
 	}
 
 	public int getEstablishmentId() {

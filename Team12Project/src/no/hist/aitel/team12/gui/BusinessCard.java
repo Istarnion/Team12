@@ -83,9 +83,10 @@ public class BusinessCard extends JPanel {
 		openingTextField3.setPreferredSize(new Dimension(15,14));
 		openingTextField4.setPreferredSize(new Dimension(15,14));
 
-		openingHours		= new JPanel(new FlowLayout(FlowLayout.LEFT));
+		openingHours = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		openingHours.setBorder(zip.getBorder());
 		openingHours.setPreferredSize(new Dimension(0,20));
+		openingHours.setBackground(zip.getBackground());
 		
 		openingHours.add(openingLabel1);
 		openingHours.add(openingTextField1);

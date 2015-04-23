@@ -72,7 +72,7 @@ CONSTRAINT person_FK_zip FOREIGN KEY (zipcode) REFERENCES zipcode (zipcode)
 ENGINE = InnoDB;
 
 CREATE TABLE user(
-username VARCHAR(10) PRIMARY KEY,
+username VARCHAR(20) PRIMARY KEY,
 password_hash CHAR(156),
 employee_number INTEGER NOT NULL,
 CONSTRAINT user_FK FOREIGN KEY (employee_number) REFERENCES person (employee_number)
