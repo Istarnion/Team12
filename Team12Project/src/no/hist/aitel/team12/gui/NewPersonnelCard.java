@@ -16,14 +16,17 @@ import javax.swing.SwingConstants;
 import com.sun.org.apache.xpath.internal.operations.String;
 
 import no.hist.aitel.team12.app.EmailAddress;
+import no.hist.aitel.team12.app.Personnel;
+import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.Text;
+/**
+ * 
+ * @author Roger
+ *
+ */
 
 public class NewPersonnelCard extends JPanel{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8666310208825761834L;
 	
 
@@ -33,10 +36,14 @@ public class NewPersonnelCard extends JPanel{
 	private User user;
 	
 	private JTextField
-		firstName, lastName, email, personalAddress, personalZip, telephone, salary;
+		firstName, lastName, email, personalAddress, personalZip, telephone, salary, title;
 	
 	private JComboBox<String> store;
-	private JComboBox<String> shoppingCenter;
+	private JComboBox<ShoppingCentre> shoppingCenter;
+	
+	private ShoppingCentre[] businessArray;
+	
+	private UserTab userTab;
 	
 	public NewPersonnelCard() {
 		saveButton = new JButton(Text.getString("save"));
@@ -54,9 +61,13 @@ public class NewPersonnelCard extends JPanel{
 		personalZip		= new JTextField();
 		telephone		= new JTextField();
 		salary			= new JTextField();
+		title			= new JTextField();
+		
+		
 		
 		store = new JComboBox<String>(new String[] {/*getStores*/});
-		shoppingCenter = new JComboBox<String>(new String[] {/*getShoppingCenters*/});
+		businessArray = ShoppingCentre.getPopulatedShoppingCentres();	
+		shoppingCenter = new JComboBox<ShoppingCentre>(businessArray);
 		
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
@@ -65,6 +76,7 @@ public class NewPersonnelCard extends JPanel{
 		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("tel")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("sal")+": ", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("title")+ ": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("store") + ": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("shce") + ": ", SwingConstants.RIGHT));
 		
@@ -75,6 +87,7 @@ public class NewPersonnelCard extends JPanel{
 		fieldPanel.add(personalZip);
 		fieldPanel.add(telephone);
 		fieldPanel.add(salary);
+		fieldPanel.add(title);
 		fieldPanel.add(store);
 		fieldPanel.add(shoppingCenter);
 		fieldPanel.add(buttonPanel);
@@ -83,6 +96,20 @@ public class NewPersonnelCard extends JPanel{
 		super.setLayout(new BorderLayout());
 		super.add(labelPanel, BorderLayout.WEST);
 		super.add(fieldPanel, BorderLayout.CENTER);
+		
+		/*
+		shoppingCenter.addItemListener(
+				event -> {
+					JComboBox<?> cb = (JComboBox<?>)event.getSource();
+					
+					if()) {
+						
+					}
+					else {
+					}
+				}
+			);
+			*/
 		
 		saveButton.addActionListener(new ActionListener() {
 			@Override
@@ -162,19 +189,19 @@ public class NewPersonnelCard extends JPanel{
 					
 					return;
 				}
-				/*
-				if(user.updateData(
+
+				if(Personnel.createPersonnel(
 						firstName.getText(), lastName.getText(),
-						personalAddress.getText(), Integer.parseInt(personalZip.getText()),
-						new EmailAddress(email.getText()), Integer.parseInt(telephone.getText()),
-						Integer.parseInt(salary.getText()))) {
+						personalAddress.getText(), Integer.parseInt(personalZip.getText()), 
+						email.getText(), Integer.parseInt(telephone.getText()), 
+						Integer.parseInt(salary.getText()),
+						title.getText(), shoppingCenter.getSelectedIndex()))  {
 					
-					updateCard(user);
+					userTab.showLogoCard();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
 				}
-				*/
 				
 			}
 		});

@@ -19,6 +19,12 @@ import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.PasswordManager;
 import no.hist.aitel.team12.util.Text;
 
+/**
+ * 
+ * @author Roger
+ *
+ */
+
 public class NewCentreManagerCard extends JPanel {
 	private static final long serialVersionUID = 4688863130267581267L;
 	
