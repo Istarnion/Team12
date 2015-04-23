@@ -34,7 +34,7 @@ public class DatabaseConnection implements Database {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
-					+ "user=team12&password=teamadmin12");
+					+ "user=team12&password=teamadmin15");
 
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
@@ -68,12 +68,14 @@ public class DatabaseConnection implements Database {
 	public String getPasswordHash(int user) {
 		String passwordHash = null;
 		try(PreparedStatement statement = connection.prepareStatement("SELECT password_hash FROM user WHERE employee_number = ?")) {
+			connection.setReadOnly(true);
 			statement.setInt(1, user);
 			ResultSet result = statement.executeQuery();
 			if(result.next()) {
 				passwordHash = result.getString(1);
 			}
 			result.close();
+			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();																										
@@ -152,8 +154,8 @@ public class DatabaseConnection implements Database {
 			}
 
 			try (PreparedStatement statement = connection.prepareStatement(personnelQuery)) {
+				connection.setReadOnly(true);
 				personnel = new IntHashMap<ArrayList<Personnel>>();
-
 				ResultSet result = statement.executeQuery();
 				ArrayList<Personnel> personnelList;
 				while(result.next()) {
@@ -181,9 +183,17 @@ public class DatabaseConnection implements Database {
 							);
 				}
 				result.close();
+
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
@@ -214,6 +224,13 @@ public class DatabaseConnection implements Database {
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try(PreparedStatement statement = connection.prepareStatement(buildingQuery)) {
@@ -233,6 +250,13 @@ public class DatabaseConnection implements Database {
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try (PreparedStatement statement = connection.prepareStatement(tradeQuery)) {
@@ -253,6 +277,13 @@ public class DatabaseConnection implements Database {
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
 			}
 
 			try(PreparedStatement statement = connection.prepareStatement(establishmentQuery)) {
@@ -286,8 +317,24 @@ public class DatabaseConnection implements Database {
 				}
 
 				result.close();
+
 			}
 			catch(SQLException e) {
+
+				e.printStackTrace();
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					System.out.println("Something went wrong while setting ReadOnly");
+					e1.printStackTrace();
+				}
+
+			}
+
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e) {
+				System.out.println("Something went wrong while setting ReadOnly");
 				e.printStackTrace();
 			}
 

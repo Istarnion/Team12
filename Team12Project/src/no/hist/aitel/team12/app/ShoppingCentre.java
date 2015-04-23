@@ -80,12 +80,7 @@ public class ShoppingCentre extends Business {
 	
 
 	public static ShoppingCentre[] getPopulatedShoppingCentres() {
-		long timestamp = System.currentTimeMillis();
-		Database db = DatabaseFactory.getDatabase();
-		ShoppingCentre[] centres = db.getShoppingCentres(1);
-		
-		System.out.println(((double)(System.currentTimeMillis()-timestamp)/1000)+" seconds to complete.");
-		
+		ShoppingCentre[] centres = DataBuffer.getCentres();		
 		return centres;
 	}
 	

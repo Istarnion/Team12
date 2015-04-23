@@ -132,7 +132,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"salnr","-Lønn må være oppgitt i nummer.\n"},
 				{"inputerr","Det var en feil i skjemaet ditt:\n"},
 				{"centerlong", "Kjøpesenternavnet er for langt. Maks 30 bokstaver.\n"},
-				{"userlong", "Brukernavnet er for langt. Maks 30 bokstaver.\n"}
+				{"userlong", "Brukernavnet er for langt. Maks 30 bokstaver.\n"},
+				{"floor", "Etasje"}
 
 		};
 	}

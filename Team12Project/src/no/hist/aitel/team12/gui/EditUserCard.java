@@ -47,19 +47,19 @@ public class EditUserCard extends JPanel {
 		fieldPanel = new JPanel(new GridLayout(8, 1, 5, 25));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 25));
 		
-		labelPanel.add(new JLabel(Text.getString("firstname")+":", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("firstname")+":  ", SwingConstants.RIGHT));
 		fieldPanel.add(firstName);
-		labelPanel.add(new JLabel(Text.getString("lastname")+":", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("lastname")+":  ", SwingConstants.RIGHT));
 		fieldPanel.add(lastName);
-		labelPanel.add(new JLabel(Text.getString("adr")+":", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("adr")+":  ", SwingConstants.RIGHT));
 		fieldPanel.add(address);
-		labelPanel.add(new JLabel(Text.getString("zip")+":", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("zip")+":  ", SwingConstants.RIGHT));
 		fieldPanel.add(zipcode);
-		labelPanel.add(new JLabel(Text.getString("email")+":", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("email")+":  ", SwingConstants.RIGHT));
 		fieldPanel.add(email);
-		labelPanel.add(new JLabel(Text.getString("tel")+":", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("tel")+":  ", SwingConstants.RIGHT));
 		fieldPanel.add(telephone);
-		labelPanel.add(new JLabel(Text.getString("sal")+":", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("sal")+":  ", SwingConstants.RIGHT));
 		fieldPanel.add(salary);
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);

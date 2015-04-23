@@ -15,6 +15,9 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.util.Text;
@@ -22,22 +25,26 @@ import no.hist.aitel.team12.util.Text;
 public class EstablishmentCard extends BusinessCard {
 
 	private static final long serialVersionUID = 9040445246335124938L;
-	private JButton tradesButtonRight, tradesButtonLeft, tradeButton;
+	private JButton tradesButtonRight, tradesButtonLeft, tradeButton, floorButton;
 	private JPanel tradesPanel;
 	private ButtonListener buttonListener;
 	private JScrollPane tradesLeftScroll, tradesRightScroll;
 	private Establishment establishment;
 	private JList<Trade> tradesLeftList, tradesRightList;
 	private ArrayList<Trade> allTrades;
+	private JTextField floor;
+	private JLabel floorLabel;
 	
 	public EstablishmentCard(int userID) {
 
 		allTrades = Trade.getAllTrades();
+		
 		buttonListener 		= new ButtonListener();
-		tradesPanel			= new JPanel(new GridBagLayout());
-		tradesPanel.setPreferredSize(new Dimension(1,200));
-		tradeButton			= new JButton(Text.getString("trades"));
-		tradesButtonLeft	= new JButton("<--");
+		
+		tradesPanel			= new JPanel(new GridBagLayout());		
+		tradesPanel.setPreferredSize(new Dimension(1,200));	
+		tradeButton			= new JButton(Text.getString("trades"));	
+		tradesButtonLeft	= new JButton("<--");		
 		tradesButtonRight	= new JButton("-->");
 		tradesButtonLeft.setPreferredSize(new Dimension(60, 23));
 		tradesButtonRight.setPreferredSize(new Dimension(60, 23));
@@ -47,8 +54,15 @@ public class EstablishmentCard extends BusinessCard {
 		tradesRightScroll 		= new JScrollPane(tradesRightList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tradesLeftScroll.setPreferredSize(new Dimension(225, tradesLeftScroll.getPreferredSize().height));
 		tradesRightScroll.setPreferredSize(new Dimension(225, tradesRightScroll.getPreferredSize().height));
+		
 		textDescriptionScroll	= new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));	
+		
+		floorLabel = new JLabel(Text.getString("floor") + ": ", SwingConstants.RIGHT);
+		floor = new JTextField("");
+		floorButton = new JButton(Text.getString("edit"));
+		floorButton.setPreferredSize(new Dimension(72, 23));
+		
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
 		emailButton.addActionListener(buttonListener);
@@ -57,7 +71,9 @@ public class EstablishmentCard extends BusinessCard {
 		textDescrButton.addActionListener(buttonListener);
 		tradeButton.addActionListener(buttonListener);
 		zipButton.addActionListener(buttonListener);
-
+		floorButton.addActionListener(buttonListener);
+		
+		
 		// Grid bag layout
 		GridBagConstraints constraints = new GridBagConstraints();
 		
@@ -65,9 +81,37 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.insets.bottom = 5;
 		constraints.insets.top = 5;
 
-		// description grid bag setup
+		
+		// Grid bag for opening hours
 		constraints.gridx = 0;
 		constraints.gridy = 6;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(floorLabel, constraints);
+
+		constraints.gridx = 1;
+		constraints.gridy = 6;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.8;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(floor, constraints);
+
+		constraints.gridx = 4;
+		constraints.gridy = 6;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.10;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.NONE;
+		this.add(floorButton, constraints);
+		// description grid bag setup
+		constraints.gridx = 0;
+		constraints.gridy = 7;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -77,7 +121,7 @@ public class EstablishmentCard extends BusinessCard {
 		this.add(textDescrLabel, constraints);
 
 		constraints.gridx = 1;
-		constraints.gridy = 6;
+		constraints.gridy = 7;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
@@ -86,7 +130,7 @@ public class EstablishmentCard extends BusinessCard {
 		this.add(textDescriptionScroll, constraints);
 
 		constraints.gridx = 4;
-		constraints.gridy = 6;
+		constraints.gridy = 7;
 		constraints.gridwidth = 1;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.10;
@@ -97,7 +141,7 @@ public class EstablishmentCard extends BusinessCard {
 		
 		// trades grid bag setup 
 		constraints.gridx = 1;
-		constraints.gridy = 7;
+		constraints.gridy = 8;
 		constraints.gridwidth = 3;
 		constraints.gridheight = 1;
 		constraints.weightx = 0.8;
@@ -195,6 +239,7 @@ public class EstablishmentCard extends BusinessCard {
 		openingTextField4.setText(openingHrs.substring(6, 8));
 		textDescription.setText(establishment.getDescription());
 		zip.setText(String.valueOf(establishment.getAddress().getZipcode()));
+		floor.setText(String.valueOf(establishment.getFloorNumber()));
 
 		businessName.setEditable(false);
 		address.setEditable(false);
@@ -206,6 +251,7 @@ public class EstablishmentCard extends BusinessCard {
 		openingTextField4.setEditable(false);
 		textDescription.setEditable(false);
 		zip.setEditable(false);
+		floor.setEditable(false);
 
 		businessButton.setText(Text.getString("edit"));
 		addressButton.setText(Text.getString("edit"));
@@ -214,7 +260,7 @@ public class EstablishmentCard extends BusinessCard {
 		openingHrsButton.setText(Text.getString("edit"));
 		textDescrButton.setText(Text.getString("edit"));
 		zipButton.setText(Text.getString("edit"));
-		System.out.println(telephone.getSize());
+		floorButton.setText(Text.getString("edit"));
 	}
 
 	private class ButtonListener implements ActionListener {
@@ -328,6 +374,19 @@ public class EstablishmentCard extends BusinessCard {
 					}
 					zip.setEditable(false);
 					zipButton.setText(Text.getString("edit"));
+				}
+			}
+			else if(pressedButton.equals(floorButton)) {
+				if(floorButton.getText().equals(Text.getString("edit"))) {
+					floor.setEditable(true);
+					floorButton.setText(Text.getString("save"));
+				}
+				else {
+					if(!establishment.setFloorNumber(floor.getText())) {
+						
+					}
+					floor.setEditable(false);
+					floorButton.setText(Text.getString("edit"));
 				}
 			}
 		}
