@@ -117,9 +117,11 @@ public class OverviewTab extends SSSTab {
 			if(c != null && c.getBuildings() != null) {
 				for(Building b : c.getBuildings()) {
 					buildingNode = new DefaultMutableTreeNode(b);
-					if(b != null && b.getEstablishments() != null) {
-						for(Establishment e : b.getEstablishments()) {
-							if(e != null) buildingNode.add(new DefaultMutableTreeNode(e));
+					if(b != null) {
+						if(b.getEstablishments() != null) {
+							for(Establishment e : b.getEstablishments()) {
+								if(e != null) buildingNode.add(new DefaultMutableTreeNode(e));
+							}
 						}
 						centreNode.add(buildingNode);
 					}

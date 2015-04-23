@@ -312,7 +312,7 @@ public class DatabaseConnection implements Database {
 		
 		try(
 				PreparedStatement businessStatement = connection.prepareStatement(
-						"INSERT INTO business (business_name, address, zipcode, email, telephone, opening_hours, text_description VALUES(?, ?, ?, ?, ?, '09150915', '...)");
+						"INSERT INTO business (business_name, address, zipcode, email, telephone, opening_hours, text_description) VALUES(?, ?, ?, ?, ?, '09150915', '...')");
 				PreparedStatement centreStatement	= connection.prepareStatement(
 						"INSERT INTO shoppingcentre (business_id, parking_spaces) VALUES (LAST_INSERT_ID(), 10)");
 				PreparedStatement personStatement	= connection.prepareStatement(
@@ -321,8 +321,8 @@ public class DatabaseConnection implements Database {
 						"INSERT INTO user (employee_number, username, password_hash) VALUES(LAST_INSERT_ID(), ?, ?)");
 				PreparedStatement mangerStatement	= connection.prepareStatement(
 						"INSERT INTO centremanager (employee_number, centre_id) VALUES ("
-						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'person';), "
-						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'business';))");
+						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'person')-1, "
+						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'shoppingcentre')-1)");
 				) {
 			connection.setAutoCommit(false);
 			

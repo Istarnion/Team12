@@ -45,10 +45,10 @@ public class SSS {
 	
 	public SSS() {
 		try {
-			//UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
 			
 			// Set System L&F
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception ex) {
 			System.out.println("Failed setting System laf. Reverting to Java defult.");

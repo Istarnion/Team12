@@ -203,7 +203,7 @@ public class BuildingCard extends JPanel {
 					if(!building.setBuildingName(buildingName.getText())) {
 						return;
 					}
-					buildingName.setEnabled(false);
+					buildingName.setEditable(false);
 					buildingNameButton.setText(Text.getString("edit"));
 				}
 			}
