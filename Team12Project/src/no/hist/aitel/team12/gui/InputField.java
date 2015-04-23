@@ -97,7 +97,7 @@ public class InputField extends JTextField {
 			public void insertUpdate(DocumentEvent de) {
 				if(defaultShown && !justFilled) {
 					char[] carray = getText().toCharArray();
-					prepare(carray[0]);
+					prepare(""+carray[0]);
 				}
 				justFilled = false;
 			}
@@ -132,7 +132,7 @@ public class InputField extends JTextField {
 		SwingUtilities.invokeLater(rnbl);
 	}
 	
-	private void prepare(final char c) {
+	private void prepare(final String c) {
 		if(justCleared) return;
 		Runnable rnbl = new Runnable() {
 			@Override
@@ -144,5 +144,9 @@ public class InputField extends JTextField {
 			}
 		};
 		SwingUtilities.invokeLater(rnbl);
+	}
+	
+	public boolean isDefaultShown() {
+		return defaultShown;
 	}
 }

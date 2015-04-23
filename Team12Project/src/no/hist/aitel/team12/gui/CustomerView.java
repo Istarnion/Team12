@@ -1,7 +1,7 @@
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -9,30 +9,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.Timer;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.UIManager;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
+import no.hist.aitel.team12.app.Building;
+import no.hist.aitel.team12.app.Establishment;
+import no.hist.aitel.team12.app.SSS;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 import no.hist.aitel.team12.util.Text;
 
-public class CustomerView extends SSSTab {
-	
-	private ShoppingCentre [] centers ;
+public class CustomerView {
+
+	private ShoppingCentre [] centers;
 
 	private JPanel basePanel = new JPanel();
 
@@ -48,6 +56,14 @@ public class CustomerView extends SSSTab {
 
 	private JPanel resultView = new JPanel();
 
+	private CardLayout cardLayout;
+	
+	private CentreView cView;
+	
+	private BuildingView bView;
+	
+	private EstablishmentView eView;
+	
 	private JLabel logo;
 
 	private JLabel appName;
@@ -68,22 +84,13 @@ public class CustomerView extends SSSTab {
 
 	private JScrollPane scrollTree;
 
-	private boolean valueChanged = false;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3816026786587105148L;
+	private boolean valueChanged = true;
 
 	public CustomerView(){
 		super();
 
 		basePanel.setLayout(new BoxLayout(basePanel, BoxLayout.Y_AXIS));
 		basePanel.setPreferredSize(new Dimension(1200, 675));
-		
-
-		add(basePanel, BorderLayout.CENTER);
-
 
 		// TOP BAR
 		topbar.setLayout(new BorderLayout());
@@ -99,8 +106,7 @@ public class CustomerView extends SSSTab {
 
 		BorderLayout gLayout = new BorderLayout();
 		loginPanel.setLayout(gLayout);
-		Calendar dateAndTime = Calendar.getInstance();
-		today = new JLabel(dateAndTime.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()), JLabel.CENTER);
+		today = new JLabel(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date()));
 		loginPanel.add(today, BorderLayout.SOUTH);
 		topbar.add(loginPanel,BorderLayout.EAST);
 		topbar.setMaximumSize(new Dimension(topbar.getMaximumSize().width, 100));
@@ -110,7 +116,7 @@ public class CustomerView extends SSSTab {
 		// SEARCH
 
 		search.setLayout(new GridLayout(1,5));
-		
+
 		Font font = new Font("Segoe UI Symbol",Font.PLAIN,12);
 		centerNameSearch.setFont(font);
 		search.add(centerNameSearch);
@@ -120,18 +126,33 @@ public class CustomerView extends SSSTab {
 		search.add(countySearch); 
 		municipalitySearch.setFont(font);
 		search.add(municipalitySearch); 
-		ArrayList <Trade> trades = Trade.getAllTrades();		
+
+		ArrayList <Trade> trades = Trade.getAllTrades();
+		trades.add(0, new Trade(0, "All trades"));
 		JComboBox<Trade> tradeSearch = new JComboBox<Trade>(trades.toArray(new Trade[trades.size()]));
 		search.add(tradeSearch);
-		
+
 		Database Db = DatabaseFactory.getDatabase();
-		centers = Db.getShoppingCentres(1);
+		while(centers == null) {
+			centers = Db.getShoppingCentres(1);
+		}
 
 
 		System.out.println("Search panel done");
 
 		// VIEW
-
+		cardLayout = new CardLayout();
+		resultView.setLayout(cardLayout);
+		
+		cView = new CentreView();
+		bView = new BuildingView();
+		eView = new EstablishmentView();
+		
+		resultView.add(new LogoCard(), "logoCard");
+		resultView.add(cView, "centreCard");
+		resultView.add(bView, "buildingCard");
+		resultView.add(eView, "estabCard");
+		
 		view.setLayout(new BorderLayout());
 		view.add(searchResult,BorderLayout.WEST);
 		view.add(resultView, BorderLayout.CENTER);
@@ -141,9 +162,34 @@ public class CustomerView extends SSSTab {
 		scrollTree 	= new JScrollPane(resultTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		searchResult.add(scrollTree, BorderLayout.CENTER);
 
+		resultTree.setRootVisible(false);
 
-
-
+		resultTree.addTreeSelectionListener(new TreeSelectionListener() {
+			@Override
+			public void valueChanged(TreeSelectionEvent e) {
+				
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) resultTree.getLastSelectedPathComponent();
+				if(node == null) {
+					cardLayout.show(resultView, "logoCard");
+				}
+				else {
+					Object o = node.getUserObject();
+					if(o instanceof ShoppingCentre) {
+						cView.updateCard((ShoppingCentre)o);
+						cardLayout.show(resultView, "centreCard");
+					}
+					else if(o instanceof Building) {
+						bView.updateCard((Building)o);
+						cardLayout.show(resultView, "buildingCard");
+					}
+					else if(o instanceof Establishment) {
+						eView.updateCard((Establishment)o);
+						cardLayout.show(resultView, "estabCard");
+					}
+				}
+			}
+		});
+		
 		basePanel.add(topbar);
 		basePanel.add(search);
 		basePanel.add(view);
@@ -156,33 +202,94 @@ public class CustomerView extends SSSTab {
 		centerNameSearch.addKeyListener(fieldListener);
 		countySearch.addKeyListener(fieldListener);
 		municipalitySearch.addKeyListener(fieldListener);
-		
-		
+
+
 		TradeSearchListener tsl = new TradeSearchListener();
 		tradeSearch.addActionListener(tsl);
-		
-		
-		Timer t = new Timer(1000,new ActionListener(){
 
+
+		Timer t = new Timer(666,new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent f) {
+				today.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date()));
+				
 				if(valueChanged){
-					for(int i=0; i<centers.length; i++){
-						System.out.println(centers[i].getCentreId());
+					//long timestamp = System.nanoTime();
+
+					String centreName = centerNameSearch.isDefaultShown()?"":centerNameSearch.getText();
+					String muni = municipalitySearch.isDefaultShown()?"":municipalitySearch.getText();
+					String shopName = shopNameSearch.isDefaultShown()?"":shopNameSearch.getText();
+					String county = countySearch.isDefaultShown()?"":countySearch.getText();
+					Trade trade = tradeSearch.getItemAt(tradeSearch.getSelectedIndex());
+
+					DefaultMutableTreeNode root = new DefaultMutableTreeNode("Centres");
+					DefaultMutableTreeNode centreNode;
+					DefaultMutableTreeNode buildingNode;
+
+					boolean centreOK = false, buildingOK = false;;
+
+					for(ShoppingCentre centre : centers) {
+						if(
+								(centreName.isEmpty() || DoubleMetaphoneUtils.isBeginningMetaphoneEqual(centreName, centre.getBusinessName())) &&
+								(county.isEmpty() || DoubleMetaphoneUtils.isBeginningMetaphoneEqual(county, centre.getAddress().getCounty())) &&
+								(muni.isEmpty() || DoubleMetaphoneUtils.isBeginningMetaphoneEqual(muni, centre.getAddress().getMunicipality()))
+								) {
+							centreNode = new DefaultMutableTreeNode(centre);
+
+							for(Building building : centre.getBuildings()) {
+								if(building != null) {
+									buildingNode = new DefaultMutableTreeNode(building);
+
+									for(Establishment estab : building.getEstablishments()) {
+										if(estab != null) {
+											if(shopName.isEmpty() || DoubleMetaphoneUtils.isBeginningMetaphoneEqual(shopName, estab.getBusinessName())) {
+												boolean ok = false;
+												if(trade.getTradeId() == 0) {
+													ok = true;
+												}
+												else {
+													for(Trade t : estab.getSelectedTrades()) {
+														if(t.equals(trade)) {
+															ok = true;
+															break;
+														}
+													}
+												}
+
+												if(ok) {
+													buildingOK = true;
+													buildingNode.add(new DefaultMutableTreeNode(estab));
+												}
+											}
+										}
+									}
+
+									if(buildingOK) {
+										centreNode.add(buildingNode);
+										centreOK = true;
+										buildingOK = false;
+									}
+								}
+							}
+
+							if(centreOK) {
+								root.add(centreNode);
+								centreOK = false;
+							}
+						}
+
+						resultTree.setModel(new DefaultTreeModel(root));
+						for (int i = 0; i < resultTree.getRowCount(); i++) {
+							resultTree.expandRow(i);
+						}
 					}
-					
-			
+
+					//System.out.println("Time to update tree: "+((System.nanoTime()-timestamp)/1000000000.0)+"s");
 				}
-				valueChanged =false;
+				valueChanged = false;
 			}
-			
-			
 		});
-
-
-
-
-
+		t.start();
 	}
 
 
@@ -195,51 +302,74 @@ public class CustomerView extends SSSTab {
 		@Override
 		public void keyPressed(KeyEvent a) {
 			valueChanged = true;
-			
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent b) {
 			valueChanged = true;
-			
+
 		}
 
 		@Override
 		public void keyTyped(KeyEvent c) {
 			valueChanged = true;
-			
+
 		}
 
 	}
-	
+
 	private class TradeSearchListener implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			valueChanged = true;
-			
+
 		}
-		
-	}
-
-
-
-
-
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
 
 	}
 
 	public static void main (String[]args ){
-		DatabaseFactory.setup();
-		SSSWindow cv = new SSSWindow();
+		// Splash Screen
+		SplashScreen splash = new SplashScreen();
+		splash.createSplash();
+		long timestamp = System.currentTimeMillis();
+
+		if(!DatabaseFactory.setup()) {
+			JOptionPane.showMessageDialog(
+					null,
+					"Failed connecting to the database.\nPlease contact system administrator.",
+					"Connection failed",
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+		else {
+			System.out.println("Everything went nicely with the database connection.");
+		}
+
+		while(System.currentTimeMillis() - timestamp < SSS.MIN_SPLASH_TIME) {
+			Thread.yield();
+		}
+
+		try {
+			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
+
+			// Set System L&F
+			//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception ex) {
+			System.out.println("Failed setting System laf. Reverting to Java defult.");
+		}
+
+		SSSWindow frame = new SSSWindow();
 		System.out.println("SSSWindow added");
-		cv.addTab("This is a tab ",new CustomerView());
+		CustomerView cv = new CustomerView();
+		frame.add(cv.basePanel);
 		System.out.println("tab added to window");
-		cv.showWindow();
+		frame.showWindow();
 		System.out.println("Visible");
+		
+		splash.removeSplash();
 	}
 
 

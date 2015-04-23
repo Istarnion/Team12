@@ -50,5 +50,20 @@ public class DoubleMetaphoneUtils {
 	public static boolean isMetaphoneValueEqual(String st1, String st2) {
 		return metaphone.isDoubleMetaphoneEqual(st1, st2);
 	}
+	
+	/**
+	 * Checks if the first string matches the beginning of the second string.
+	 * Think of it almost like a wildcard-test.<br>
+	 * Example: 'str' would match 'string'
+	 * @param st1
+	 * @param st2
+	 * @return True if st1 is a valid prefix of st2
+	 */
+	public static boolean isBeginningMetaphoneEqual(String st1, String st2) {
+		String mp1 = metaphone.encode(st1);
+		String mp2 = metaphone.encode(st2);
+		
+		return mp2.startsWith(mp1);
+	}
 }
 
