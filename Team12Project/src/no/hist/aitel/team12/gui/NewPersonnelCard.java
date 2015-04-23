@@ -16,14 +16,16 @@ import javax.swing.SwingConstants;
 import com.sun.org.apache.xpath.internal.operations.String;
 
 import no.hist.aitel.team12.app.EmailAddress;
+import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.Text;
+/**
+ * 
+ * @author Roger
+ *
+ */
 
 public class NewPersonnelCard extends JPanel{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8666310208825761834L;
 	
 
@@ -36,7 +38,9 @@ public class NewPersonnelCard extends JPanel{
 		firstName, lastName, email, personalAddress, personalZip, telephone, salary;
 	
 	private JComboBox<String> store;
-	private JComboBox<String> shoppingCenter;
+	private JComboBox<ShoppingCentre> shoppingCenter;
+	
+	private ShoppingCentre[] businessArray;
 	
 	public NewPersonnelCard() {
 		saveButton = new JButton(Text.getString("save"));
@@ -56,7 +60,8 @@ public class NewPersonnelCard extends JPanel{
 		salary			= new JTextField();
 		
 		store = new JComboBox<String>(new String[] {/*getStores*/});
-		shoppingCenter = new JComboBox<String>(new String[] {/*getShoppingCenters*/});
+		businessArray = ShoppingCentre.getPopulatedShoppingCentres();	
+		shoppingCenter = new JComboBox<ShoppingCentre>(businessArray);
 		
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
