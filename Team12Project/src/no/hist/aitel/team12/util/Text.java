@@ -37,14 +37,36 @@ public class Text {
 	private Text() {}
 
 	/**
-	 * This methods simply calls ResourceBundle.getBundle(TextResources.class.getName()).getString(key) internally.
-	 * This method is provided to shorten that method call.
+	 * This method gets the text resources of the approprite language and concats them together, with a single space inbetween.
 	 * 
-	 * @param key The key to the string resource needed.
+	 * @param keys The keys to the string resources needed.
 	 * @return The string requested.
 	 */
-	public static String getString(String key) {
-		return ResourceBundle.getBundle(TextResources.class.getName()).getString(key);
+	public static String getString(String... keys) {
+		String output = "";
+		for(String key : keys) {
+			output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+" ";
+		}
+		return output.trim();
+	}
+	
+	/**
+	 * This method does the same as <code>getText(String... keys)</code>, but places the given delimiter between the resoures.
+	 * 
+	 * @param delimiter	The delimiter to be used
+	 * @param keys		The keys to the resources
+	 * @return			A concated string of text resources
+	 */
+	public static String getCustomString(String delimiter, String... keys) {
+		String output = "";
+		for(String key : keys) {
+			output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+delimiter;
+		}
+		if(!output.isEmpty()) {
+			output = output.substring(0, output.length()-delimiter.length());
+		}
+		
+		return output;
 	}
 	
 	public static void setLocale(Locale l) {

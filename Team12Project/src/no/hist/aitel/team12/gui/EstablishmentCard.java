@@ -45,6 +45,7 @@ public class EstablishmentCard extends BusinessCard {
 		buttonListener 		= new ButtonListener();
 		listListener 		= new ListListener();
 
+
 		tradesPanel			= new JPanel(new GridBagLayout());		
 		tradesPanel.setPreferredSize(new Dimension(1,200));	
 		tradeButton			= new JButton(Text.getString("trades"));	
@@ -67,8 +68,10 @@ public class EstablishmentCard extends BusinessCard {
 		floorButton = new JButton(Text.getString("edit"));
 		floorButton.setPreferredSize(new Dimension(72, 23));
 
+
 		tradesRightList.addListSelectionListener(listListener);
 		tradesLeftList.addListSelectionListener(listListener);
+
 
 		businessButton.addActionListener(buttonListener);
 		addressButton.addActionListener(buttonListener);
@@ -79,8 +82,10 @@ public class EstablishmentCard extends BusinessCard {
 		tradeButton.addActionListener(buttonListener);
 		zipButton.addActionListener(buttonListener);
 		floorButton.addActionListener(buttonListener);
+
 		tradesButtonLeft.addActionListener(buttonListener);
 		tradesButtonRight.addActionListener(buttonListener);
+
 
 
 		// Grid bag layout
@@ -91,7 +96,9 @@ public class EstablishmentCard extends BusinessCard {
 		constraints.insets.top = 5;
 
 
+
 		// floor grid bag
+
 		constraints.gridx = 0;
 		constraints.gridy = 6;
 		constraints.gridwidth = 1;
@@ -222,12 +229,15 @@ public class EstablishmentCard extends BusinessCard {
 		boolean foundMatch = false;
 		for(Trade aT : allTrades) {
 			foundMatch = false;
-			for(Trade sT : establishment.getSelectedTrades()) {
 
-				if(sT.equals(aT)) {
-					foundMatch = true;
-					selectedListModel.addElement(sT);
-					break;
+			if(establishment.getSelectedTrades() != null) {
+				for(Trade sT : establishment.getSelectedTrades()) {
+
+					if(sT.equals(aT)) {
+						foundMatch = true;
+						selectedListModel.addElement(sT);
+						break;
+					}
 				}
 			}
 			if(!foundMatch) {

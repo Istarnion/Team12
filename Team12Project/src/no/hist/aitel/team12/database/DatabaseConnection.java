@@ -533,10 +533,49 @@ public class DatabaseConnection implements Database {
 				return null;
 			}
 
+			String userStatement = null;
+			String personnelStatement = null;
+			
+			int centreID = 0;
+			
+			if(userID == 1) {	// Sys admin
+				userStatement = "SELECT * FROM user_view";
+				personnelStatement = "SELECT * FROM personnel_view";
+			}
+			else {
+				UserType type = getUserType(userID);
+				if(type == UserType.CENTRE_MANAGER) {
+					centreID = getCentreID(userID);
+					userStatement =
+						"SELECT uv.employee_number, uv.first_name, uv.last_name, uv.address, uv.zipcode, uv.email, uv.telephone, uv.salary, uv.username, uv.district "
+						+"FROM user_view uv "
+						+"LEFT JOIN centremanager cm USING (employee_number) "
+						+"LEFT JOIN establishmentowner USING (employee_number) "
+						+"LEFT JOIN customerservice cs USING (employee_number) "
+						+"LEFT JOIN establishment_view ev USING (establishment_id) "
+						+"WHERE cm.centre_id = ? OR cs.centre_id = ? OR ev.centre_id = ?";
+					
+					personnelStatement = "SELECT * FROM personnel_view WHERE centre_id = ?";
+				}
+				else {
+					System.out.println("Invalid usertype in getPersons()! Usertype: "+type);
+					return null;
+				}
+			}
+			
 			try(
-					PreparedStatement userQuery = connection.prepareStatement("SELECT * FROM user_view");
-					PreparedStatement personellQuery = connection.prepareStatement("SELECT * FROM personnel_view");
+					PreparedStatement userQuery = connection.prepareStatement(userStatement);
+					PreparedStatement personnelQuery = connection.prepareStatement(personnelStatement);
 					) {
+				
+				if(centreID > 0) {
+					userQuery.setInt(1, centreID);
+					userQuery.setInt(2, centreID);
+					userQuery.setInt(3, centreID);
+					
+					personnelQuery.setInt(1, centreID);
+				}
+				
 				connection.setReadOnly(true);
 				result = userQuery.executeQuery();
 				result.last();
@@ -563,7 +602,7 @@ public class DatabaseConnection implements Database {
 				}
 				result.close();
 
-				result = personellQuery.executeQuery();
+				result = personnelQuery.executeQuery();
 				result.last();
 				int numPersonnel = result.getRow();
 				result.beforeFirst();
