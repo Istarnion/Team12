@@ -3,9 +3,12 @@ package no.hist.aitel.team12.app;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.PasswordManager;
+import no.hist.aitel.team12.util.Text;
 
 public class ShoppingCentre extends Business {
 
@@ -42,8 +45,20 @@ public class ShoppingCentre extends Business {
 		return parkingSpaces;
 	}
 
-	public void setParkingSpaces(int parkingSpaces) {
-		this.parkingSpaces = parkingSpaces;
+	public boolean setParkingSpaces(String parkingSpaces) {
+		int parsedInt = 0;
+		try {
+			parsedInt = Integer.parseInt(parkingSpaces);
+			if(db.executePreparedStatement("UPDATE shoppingcentre SET parking_spaces = ? WHERE centre_id = ?", parsedInt, this.centreId)) {
+				this.parkingSpaces = parsedInt;
+				return true;
+			}
+		}
+		catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidInt"));
+			return false;
+		}
+		return false;
 	}
 
 

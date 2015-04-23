@@ -2,6 +2,10 @@ package no.hist.aitel.team12.app;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
+import no.hist.aitel.team12.util.Text;
+
 public class Establishment extends Business {
 	
 	private final int establishmentId;
@@ -44,10 +48,35 @@ public class Establishment extends Business {
 	}
 
 	public boolean setFloorNumber(String floorNumber) {
-		return true;
+		int parsedInt = 0;
+		try {
+			parsedInt = Integer.parseInt(floorNumber);
+			if(db.executePreparedStatement("UPDATE establishment SET floor_number = ? WHERE establishment_id = ?", parsedInt, this.establishmentId)) {
+				this.floorNumber = parsedInt;
+				return true;
+			}
+		}
+		catch(NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, Text.getString("invalidInt"));
+		}
+		return false;
 	}
 
 	public int getEstablishmentId() {
 		return establishmentId;
+	}
+	
+	public boolean addTrade(int tradeId) {
+		if(db.executePreparedStatement("INSERT INTO establishmenttrade (establishment_id, trade_id) VALUES(?,?)", this.establishmentId, tradeId)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeTrade(int tradeId) {
+		if(db.executePreparedStatement("DELETE FROM establishmenttrade WHERE establishment_id = ? AND trade_id = ?", this.establishmentId, tradeId)) {
+			return true;
+		}
+		return false;
 	}
 }

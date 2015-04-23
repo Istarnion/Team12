@@ -125,3 +125,5 @@ values
 
 
 select * from building;
+select * from establishmenttrade;
+DELETE FROM establishmenttrade WHERE establishment_id = 2 AND trade_id = 3;
