@@ -134,7 +134,10 @@ public class TextResources_no extends ListResourceBundle {
 				{"centerlong", "Kjøpesenternavnet er for langt. Maks 30 bokstaver.\n"},
 				{"userlong", "Brukernavnet er for langt. Maks 30 bokstaver.\n"},
 				{"floor", "Etasje"},
-				{"prkSpaces", "Parkeringsplasser"}
+				{"park","Parkeringsplasser"},
+				{"contactCS","Kontakt kundeservice"},
+				{"tradeType","Bransje"},
+				{"floorPlur","Etasje(r)"}
 		};
 	}
 }

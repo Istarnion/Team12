@@ -215,7 +215,9 @@ public class FinanceTab extends SSSTab {
 						int yearFrom = calFrom.get(Calendar.YEAR);
 						String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
 
+
 						System.out.println("Register Revenue button pressed"+"\n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ revenue);
+
 
 
 					}catch(NumberFormatException nfe){

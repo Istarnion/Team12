@@ -134,7 +134,10 @@ public class TextResources extends ListResourceBundle {
 				{"centerlong", "-Center name is too long. Max 30 characters.\n"},
 				{"userlong", "Username is to long. Max 30 characters. \n"},
 				{"floor", "Floor"},
-				{"prkSpaces", "Parking spaces"}
+				{"park","Parking spaces"},
+				{"contactCS","Contact Customer Support"},
+				{"tradeType", "Trade"},
+				{"floorPlur","Floor(s)"}
 		};
 	}
 }
