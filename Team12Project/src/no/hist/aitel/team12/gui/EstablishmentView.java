@@ -176,7 +176,7 @@ public class EstablishmentView extends JPanel {
 		
 		eEmail.setText(estab.getEmail().getEmailAddress());
 		ePhone.setText(""+estab.getTelephone());
-		eAdr.setText(estab.getAddress().toString());
+		eAdr.setText(estab.getAddress().getHTMLString());
 		eFlr.setText(""+estab.getFloorNumber());
 		eDescript.setText(estab.getDescription());
 

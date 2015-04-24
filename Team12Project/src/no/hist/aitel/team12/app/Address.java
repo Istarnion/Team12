@@ -71,6 +71,10 @@ public class Address {
 		return address + ", " + zipcode + ", " + district + ", " + municipality + ", " + county;
 	}
 	
+	public String getHTMLString() {
+		return "<html>" + address + "<br>" + zipcode + " " + district + "</html>";
+	}
+	
 	public static boolean isValidZip(String zipCode) {
 		int parsedZip = 0;
 		try {

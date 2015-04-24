@@ -1,6 +1,7 @@
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,6 +80,7 @@ public class CentreView extends JPanel {
 		cAdrLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cAdrLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cAdr = new JLabel();
+		cAdr.setBackground(Color.RED);
 		cAdrBox.add(cAdrLabel);
 		cAdrBox.add(Box.createGlue());
 		cAdrBox.add(cAdr);
@@ -187,7 +189,7 @@ public class CentreView extends JPanel {
 		centreName = centre.getBusinessName();
 		
 		cName.setText(centre.getBusinessName());
-		cAdr.setText(centre.getAddress().toString());
+		cAdr.setText(centre.getAddress().getHTMLString());
 		
 		if(centre.getOpeningHours() != null){
 			
