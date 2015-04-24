@@ -158,7 +158,7 @@ public class TextResources extends ListResourceBundle {
 				{"MAKEUP", "Make up"},
 				{"FLORIST", "Florist"},
 				{"PHARMACY", "Pharmacy"},
-				{"TOYSHOP", "Toy shop"},
+				{"TOYSTORE", "Toy store"},
 				{"BOOKS", "Books"},
 				{"MUSIC", "Music"},
 				{"GAMES", "Games and etertainment"},
@@ -185,6 +185,9 @@ public class TextResources extends ListResourceBundle {
 				{"pwdChanged", "Password changed"},
 				{"saving", "Saving ..."},
 				{"usrAllreadyExists", "Username taken\n"},
+				{"TAILOR", "Tailor"},
+				{"ALLTRADES", "All trades"},
+				{"LINGERIE", "Lingerie"}
 
 		};
 	}

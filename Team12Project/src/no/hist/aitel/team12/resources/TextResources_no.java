@@ -158,7 +158,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"MAKEUP", "Sminke"},
 				{"FLORIST", "Blomsterhandler"},
 				{"PHARMACY", "Apotek"},
-				{"TOYSHOP", "Lekebutikk"},
+				{"TOYSHOP", "Leketøysbutikk"},
 				{"BOOKS", "Bøker"},
 				{"MUSIC", "Musikk"},
 				{"GAMES", "Spill og underholdning"},
@@ -184,7 +184,10 @@ public class TextResources_no extends ListResourceBundle {
 				{"usrAllreadyExists", "Brukernavn opptatt\n"},
 				{"newPwdFail", "Sjekk at nytt passord gjentas korrekt"},
 				{"pwdChanged", "Passord endret"},
-				{"saving", "Lagrer ..."}
+				{"saving", "Lagrer ..."},
+				{"TAILOR", "Skredder"},
+				{"ALLTRADES", "Alle bransjer"},
+				{"LINGERIE", "Undertøy"}
 		};
 	}
 }
