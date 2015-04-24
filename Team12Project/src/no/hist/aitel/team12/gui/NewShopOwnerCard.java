@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.Email;
 import no.hist.aitel.team12.app.EmailAddress;
@@ -32,14 +33,14 @@ public class NewShopOwnerCard extends JPanel{
 	private JButton saveButton, cancelButton;
 	private JPanel buttonPanel, fieldPanel, labelPanel;
 	private JTextField
-		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary,
-		shopName, shopAddress, shopZip, shopEmail, shopTelephone, floorNumber;
-	
+	firstName, lastName, username, email, personalAddress, personalZip, telephone, salary,
+	shopName, shopAddress, shopZip, shopEmail, shopTelephone, floorNumber;
+
 	private JComboBox<Building> building;
-	
+
 	private Building[] buildings;
-	
-	
+
+
 	public NewShopOwnerCard(UserTab userTab, int centreID) {
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
@@ -48,7 +49,7 @@ public class NewShopOwnerCard extends JPanel{
 		labelPanel = new JPanel(new GridLayout(16, 1, 5, 15));
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
-		
+
 		firstName		= new JTextField();
 		lastName		= new JTextField();
 		username		= new JTextField();
@@ -63,11 +64,11 @@ public class NewShopOwnerCard extends JPanel{
 		shopEmail		= new JTextField();
 		shopTelephone	= new JTextField();
 		floorNumber		= new JTextField();
-		
+
 		buildings = ShoppingCentre.getPopulatedShoppingCentres()[0].getBuildings();
-		
+
 		building = new JComboBox<Building>(buildings);
-		
+
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("usr")+": ", SwingConstants.RIGHT));
@@ -83,7 +84,7 @@ public class NewShopOwnerCard extends JPanel{
 		labelPanel.add(new JLabel(Text.getString("tel")+ ": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("floor")+ ": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("building") + ": ", SwingConstants.RIGHT));
-		
+
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
 		fieldPanel.add(username);
@@ -100,50 +101,45 @@ public class NewShopOwnerCard extends JPanel{
 		fieldPanel.add(floorNumber);
 		fieldPanel.add(building);
 		fieldPanel.add(buttonPanel);
-		
+
 		super.setLayout(new BorderLayout());
 		super.add(labelPanel, BorderLayout.WEST);
 		super.add(fieldPanel, BorderLayout.CENTER);
-		
+
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				StringBuilder errMsg = new StringBuilder();
 				int errCount = 0;
-				
+
 				/* CHECKING FIELDS */
 				if(firstName.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("frnamelong"));
 				}
-				
+
 				if(lastName.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("lsnamelong"));
 				}
-				
+
 				if(personalAddress.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("adrlong"));
 				}
-				
-				try {
-					Integer.parseInt(personalZip.getText());
-					if(personalZip.getText().length() > 4) {
-						errCount++;
-						errMsg.append(Text.getString("zipfour"));
-					}
-				}
-				catch(NumberFormatException e) {
+
+
+				if(Address.isValidZip(personalZip.getText())) {
 					errCount++;
-					errMsg.append(Text.getString("zipnr"));
+					errMsg.append(Text.getString("invalidZip"));
 				}
-				
+
+
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
 					errMsg.append(Text.getString("emailinv"));
 				}
-				
+
 				try {
 					Integer.parseInt(telephone.getText());
 					if(telephone.getText().length() > 8) {
@@ -155,7 +151,7 @@ public class NewShopOwnerCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("tlpnr"));
 				}
-				
+
 				try {
 					Integer.parseInt(salary.getText());
 				}
@@ -163,11 +159,11 @@ public class NewShopOwnerCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("salnr"));
 				}
-				
-				
-				
+
+
+
 				/* DONE CHECKING FIELDS */
-				
+
 				if(errCount > 0) {
 					if(errCount == 1) {
 						JOptionPane.showMessageDialog(
@@ -183,12 +179,12 @@ public class NewShopOwnerCard extends JPanel{
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
-					
+
 					return;
 				}
-				
+
 				String password = PasswordManager.generatePassword(username.getText());
-				
+
 				if(Establishment.createEstablishment(
 						shopName.getText(), shopAddress.getText(),
 						Integer.parseInt(shopZip.getText()), shopEmail.getText(),
@@ -199,7 +195,7 @@ public class NewShopOwnerCard extends JPanel{
 						Integer.parseInt(salary.getText()), username.getText(),
 						building.getItemAt(building.getSelectedIndex()).getBuildingId(),
 						Integer.parseInt(floorNumber.getText()), password))  {
-					
+
 					Thread t = new Thread() {
 						@Override
 						public void run() {
@@ -213,7 +209,7 @@ public class NewShopOwnerCard extends JPanel{
 						}
 					};
 					t.start();
-					
+
 					userTab.showLogoCard();
 				}
 				else {
@@ -221,17 +217,17 @@ public class NewShopOwnerCard extends JPanel{
 				}
 			}
 		});
-		
+
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				prepareCard();
 			}
 		});
-		
+
 		prepareCard();
 	}
-	
+
 	public void prepareCard() {
 		firstName.setText("");
 		lastName.setText("");
@@ -241,7 +237,7 @@ public class NewShopOwnerCard extends JPanel{
 		personalZip.setText("");
 		telephone.setText("");
 		salary.setText("");
-		
+
 		building.setSelectedIndex(0);
 	}
 }

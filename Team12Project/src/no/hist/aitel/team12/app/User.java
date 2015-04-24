@@ -46,4 +46,13 @@ public class User extends Person {
 
 		return ok;
 	}
+	
+	public static boolean userExists(String userName) {
+		Database db = DatabaseFactory.getDatabase();
+		int id = db.getUserID(userName);
+		if(id==-1) {
+			return false;
+		}
+		return true;
+	}
 }

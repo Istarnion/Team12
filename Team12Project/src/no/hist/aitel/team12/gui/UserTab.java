@@ -62,6 +62,11 @@ public class UserTab extends SSSTab {
 	
 	private EditUserCard editUserCard;
 	
+	private NewCentreManagerCard newCentreManagerCard; 
+	private NewShopOwnerCard newShopOwnerCard; 
+	private NewPersonnelCard newPersonnelCard;
+	private NewCustomerServiceCard newCustomerServiceCard;
+	
 	/**
 	 * Constructs the UserTab.
 	 * Depending on what user is passed in, different levels of access is provided.
@@ -75,19 +80,24 @@ public class UserTab extends SSSTab {
 
 		mainPanel = new JPanel();
 		cards = new CardLayout();
-		mainPanel.setLayout(cards);		
+		mainPanel.setLayout(cards);
+		int centreID = DatabaseFactory.getDatabase().getCentreID(userId);
+
 		
+		 newCentreManagerCard = new NewCentreManagerCard(this);
+		 newShopOwnerCard = new NewShopOwnerCard(this, 0);
+		 newPersonnelCard = new NewPersonnelCard(this, centreID);
+		 newCustomerServiceCard = new NewCustomerServiceCard(this, centreID);
 		mainPanel.add(new LogoCard(), "logoCard");
 		if(userType == UserType.SYS_ADMIN) {
-			mainPanel.add(new NewCentreManagerCard(this), "newManagerCard");
+			mainPanel.add(newCentreManagerCard, "newManagerCard");
 		}
 		
 		else if(userType == UserType.CENTRE_MANAGER) {
-			int centreID = DatabaseFactory.getDatabase().getCentreID(userId);
 			
-			mainPanel.add(new NewShopOwnerCard(this, 0), "newShopOwnerCard");
-			mainPanel.add(new NewPersonnelCard(this, centreID), "newPersonnelCard");
-			mainPanel.add(new NewCustomerServiceCard(this, centreID), "newCustomerServiceCard");
+			mainPanel.add(newShopOwnerCard, "newShopOwnerCard");
+			mainPanel.add(newPersonnelCard, "newPersonnelCard");
+			mainPanel.add(newCustomerServiceCard, "newCustomerServiceCard");
 		}
 		
 		editUserCard = new EditUserCard();
@@ -145,6 +155,7 @@ public class UserTab extends SSSTab {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(userType == UserType.SYS_ADMIN) {
+					newCentreManagerCard.prepareCard();
 					cards.show(mainPanel, "newManagerCard");
 				}
 				else {
@@ -162,14 +173,17 @@ public class UserTab extends SSSTab {
 						switch(type) {
 							case PERSONNEL:
 							{
+								newPersonnelCard.prepareCard();
 								cards.show(mainPanel, "newPersonnelCard");
 							} break;
 							case CUSTOMER_SERVICE:
 							{
+								newCustomerServiceCard.prepareCard();
 								cards.show(mainPanel, "newCustomerServiceCard");
 							} break;
 							case SHOP_OWNER:
 							{
+								newShopOwnerCard.prepareCard();
 								cards.show(mainPanel, "newShopOwnerCard");
 							} break;
 							default:

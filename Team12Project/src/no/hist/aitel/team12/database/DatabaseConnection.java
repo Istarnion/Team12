@@ -78,7 +78,14 @@ public class DatabaseConnection implements Database {
 			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
-			e.printStackTrace();																										
+			e.printStackTrace();			
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+																									
 		}
 		return passwordHash;																											
 	}
@@ -192,6 +199,8 @@ public class DatabaseConnection implements Database {
 							);
 				}
 				result.close();
+				connection.setReadOnly(false);
+
 
 			}
 			catch(SQLException e) {
@@ -207,6 +216,7 @@ public class DatabaseConnection implements Database {
 
 			try(PreparedStatement statement = connection.prepareStatement(centreQuery)) {
 				centres = new IntHashMap<ShoppingCentre>();
+				connection.setReadOnly(true);
 
 				ResultSet result = statement.executeQuery();
 				while(result.next()) {
@@ -233,6 +243,8 @@ public class DatabaseConnection implements Database {
 				}
 
 				result.close();
+				connection.setReadOnly(false);
+
 			}
 			catch(SQLException e) {
 				e.printStackTrace();
@@ -1187,5 +1199,79 @@ public class DatabaseConnection implements Database {
 			e.printStackTrace();
 			return allTrades;
 		}
+	}
+
+	@Override
+	public boolean zipExists(int zipCode) {
+		ResultSet result = null;
+		try(PreparedStatement statement = connection.prepareStatement("SELECT zipcode FROM zipcode WHERE zipcode = ?")) {
+			connection.setReadOnly(true);
+			statement.setInt(1, zipCode);
+			result = statement.executeQuery();
+			
+			if(result.next()) {
+				return true;
+			}
+			result.close();
+			connection.setReadOnly(false);
+			return false;
+			
+		} catch (SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public int getNumberOfShoppingCentres() {
+		ResultSet result = null;
+		try(PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM shoppingcentre")) {
+			connection.setReadOnly(true);
+			result = statement.executeQuery();
+			if(result.next()) {
+				return result.getInt("COUNT(*)");
+			}
+			result.close();
+			connection.setReadOnly(false);
+		} catch (SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return 0;
+		}
+		return 0;
+	}
+
+	@Override
+	public int getNumberOfEstablishment() {
+		ResultSet result = null;
+		try(PreparedStatement statement = connection.prepareStatement("SELECT COUNT(*) FROM establishment")) {
+			connection.setReadOnly(true);
+			result = statement.executeQuery();
+			if(result.next()) {
+				return result.getInt("COUNT(*)");
+			}
+			result.close();
+			connection.setReadOnly(false);
+		} catch (SQLException e) {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return 0;
+		}
+		return 0;
 	}
 }

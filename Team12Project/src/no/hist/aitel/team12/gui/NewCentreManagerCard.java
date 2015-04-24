@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Email;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.ShoppingCentre;
@@ -27,19 +28,19 @@ import no.hist.aitel.team12.util.Text;
 
 public class NewCentreManagerCard extends JPanel {
 	private static final long serialVersionUID = 4688863130267581267L;
-	
+
 	private JButton saveButton, cancelButton;
 	private JPanel buttonPanel, fieldPanel, labelPanel;
-	
+
 	private JTextField
-		firstName, lastName, username, email, personalAddress, personalZip, telephone, salary, centreName, centreAddress, centreZip;
-	
+	firstName, lastName, username, email, personalAddress, personalZip, telephone, salary, centreName, centreAddress, centreZip;
+
 	private User user;
-	
+
 	private ShoppingCentre shoppingCentre;
-	
+
 	public NewCentreManagerCard(UserTab userTab) {
-		
+
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -47,7 +48,7 @@ public class NewCentreManagerCard extends JPanel {
 		labelPanel = new JPanel(new GridLayout(12, 1, 5, 15));
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
-		
+
 		firstName		= new JTextField();
 		lastName		= new JTextField();
 		username		= new JTextField();
@@ -59,7 +60,7 @@ public class NewCentreManagerCard extends JPanel {
 		centreName		= new JTextField();
 		centreAddress	= new JTextField();
 		centreZip		= new JTextField();
-		
+
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("usr")+": ", SwingConstants.RIGHT));
@@ -71,7 +72,7 @@ public class NewCentreManagerCard extends JPanel {
 		labelPanel.add(new JLabel(Text.getString("businessName")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("adr")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("zip")+": ", SwingConstants.RIGHT));
-		
+
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
 		fieldPanel.add(username);
@@ -84,122 +85,117 @@ public class NewCentreManagerCard extends JPanel {
 		fieldPanel.add(centreAddress);
 		fieldPanel.add(centreZip);
 		fieldPanel.add(buttonPanel);
-		
+
 		super.setLayout(new BorderLayout());
 		super.add(labelPanel, BorderLayout.WEST);
 		super.add(fieldPanel, BorderLayout.CENTER);
-		
+
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				StringBuilder errMsg = new StringBuilder();
 				int errCount = 0;
-				
+
 				/* CHECKING FIELDS */
 				if(firstName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("frnamelong"));
+					errMsg.append(Text.getString("frnamelong") + "\n");
 				}
-				
+
 				if(lastName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("lsnamelong"));
+					errMsg.append(Text.getString("lsnamelong") + "\n");
 				}
-				
+
 				if(personalAddress.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("adrlong"));
+					errMsg.append(Text.getString("adrlong") + "\n");
 				}
-				
-				try {
-					Integer.parseInt(personalZip.getText());
-					if(personalZip.getText().length() > 4) {
-						errCount++;
-						errMsg.append(Text.getString("zipfour"));
-					}
-				}
-				catch(NumberFormatException e) {
+
+
+				if(!Address.isValidZip(personalZip.getText())) {
 					errCount++;
-					errMsg.append(Text.getString("zipnr"));
+					errMsg.append(Text.getString("invalidZip") + "\n");
 				}
-				
+
+
+
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
-					errMsg.append(Text.getString("emailinv"));
+					errMsg.append(Text.getString("emailinv") + "\n");
 				}
-				
+
 				if (username.getText().length() > 20) {
 					errCount++;
-					errMsg.append(Text.getString("userlong"));
+					errMsg.append(Text.getString("userlong") + "\n");
 				}
-				
+				if(User.userExists(username.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("usrAllreadyExists") + "\n");
+				}
+
 				try {
 					Integer.parseInt(telephone.getText());
 					if(telephone.getText().length() > 8) {
 						errCount++;
-						errMsg.append(Text.getString("tlplong"));
+						errMsg.append(Text.getString("tlplong") + "\n");
 					}
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("tlpnr"));
+					errMsg.append(Text.getString("tlpnr") + "\n");
 				}
-				
+
 				try {
 					Integer.parseInt(salary.getText());
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("salnr"));
+					errMsg.append(Text.getString("salnr") + "\n");
 				}
 
-				
+
 
 				if(centreName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("centerlong"));
+					errMsg.append(Text.getString("centerlong") + "\n");
 				}
-				
+
 				if(centreAddress.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("adrlong"));
+					errMsg.append(Text.getString("adrlong") + "\n");
 				}
-				
-				try {
-					Integer.parseInt(centreZip.getText());
-					if(centreZip.getText().length() > 4) {
-						errCount++;
-						errMsg.append(Text.getString("zipfour"));
-					}
-				}
-				catch(NumberFormatException e) {
+
+
+				if(!Address.isValidZip(centreZip.getText())) {
 					errCount++;
-					errMsg.append(Text.getString("zipnr"));
+					errMsg.append(Text.getString("invalidZip") + "\n");
 				}
-				
+
+
 				/* DONE CHECKING FIELDS */
-				
+
 				if(errCount > 0) {
 					if(errCount == 1) {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr") + "\n" +errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
 					else {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr")  + "\n" +errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
-					
+
 					return;
 				}
-				
+
 				String password = PasswordManager.generatePassword(username.getText());
-				
+
 				if(ShoppingCentre.createCentre(
 						firstName.getText(), lastName.getText(),
 						username.getText(), password, email.getText(),
@@ -207,7 +203,7 @@ public class NewCentreManagerCard extends JPanel {
 						Integer.parseInt(telephone.getText()), Integer.parseInt(salary.getText()),
 						centreName.getText(), centreAddress.getText(),
 						Integer.parseInt(centreZip.getText()))) {
-					
+
 					Thread t = new Thread() {
 						@Override
 						public void run() {
@@ -219,7 +215,7 @@ public class NewCentreManagerCard extends JPanel {
 						}
 					};
 					t.start();
-					
+
 					userTab.showLogoCard();
 				}
 				else {
@@ -227,7 +223,7 @@ public class NewCentreManagerCard extends JPanel {
 				}
 			}
 		});
-		
+
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -235,7 +231,7 @@ public class NewCentreManagerCard extends JPanel {
 			}
 		});
 	}
-	
+
 	public void prepareCard() {
 		firstName.setText("");
 		lastName.setText("");
@@ -249,13 +245,13 @@ public class NewCentreManagerCard extends JPanel {
 		centreAddress.setText("");
 		centreZip.setText("");
 	}
-	
+
 	public void updateCard(User u, ShoppingCentre s) {
 		user = u;
 		shoppingCentre = s;
-		
+
 		if(u == null) return;
-		
+
 		firstName.setText(u.getFirstName()!=null?u.getFirstName():"");
 		lastName.setText(u.getLastName()!=null?u.getLastName():"");
 		username.setText(u.getUsername()!=null?u.getUsername():"");
@@ -264,10 +260,10 @@ public class NewCentreManagerCard extends JPanel {
 		personalZip.setText(u.getAddress().getZipcode()+""!=null?u.getAddress().getZipcode()+"":"");
 		telephone.setText(u.getTelephone()+""!=null?u.getTelephone()+"":"");
 		salary.setText(u.getSalary()+""!=null?u.getSalary()+"":"");
-		
+
 		centreName.setText(s.getBusinessName()!=null?s.getBusinessName():"");
 		centreAddress.setText(s.getAddress().getAdress()!=null?s.getAddress().getAdress():"");
 		centreZip.setText(s.getAddress().getZipcode()+""!=null?s.getAddress().getZipcode()+"":"");
-		
+
 	}
 }

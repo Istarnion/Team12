@@ -180,6 +180,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"newPwd", "Nytt passord"},
 				{"repNewPwd", "Gjenta nytt passord"},
 				{"usrNotFound", "Finner ikke bruker"},
+				{"usrAllreadyExists", "Brukernavn opptatt\n"},
 				{"newPwdFail", "Sjekk at nytt passord gjentas korrekt"},
 				{"pwdChanged", "Passord endret"},
 				{"saving", "Lagrer ..."}
