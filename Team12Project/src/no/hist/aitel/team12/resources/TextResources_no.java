@@ -138,8 +138,15 @@ public class TextResources_no extends ListResourceBundle {
 				{"contactCS","Kontakt kundeservice"},
 				{"tradeType","Bransje"},
 				{"floorPlur","Etasje(r)"},
-				{"resetPwd", "Tilbakestill Passord"},
-				{"manager", "Manager"}
+				{"changePwd", "Endre passord"},
+				{"manager", "Manager"},
+				{"oldPwd", "Gammelt passord"},
+				{"newPwd", "Nytt passord"},
+				{"repNewPwd", "Gjenta nytt passord"},
+				{"usrNotFound", "Finner ikke bruker"},
+				{"newPwdFail", "Sjekk at nytt passord gjentas korrekt"},
+				{"pwdChanged", "Passord endret"},
+				{"saving", "Lagrer ..."}
 		};
 	}
 }
