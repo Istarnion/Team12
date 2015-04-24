@@ -183,7 +183,9 @@ public class TextResources extends ListResourceBundle {
 				{"usrNotFound", "User not found"},
 				{"newPwdFail", "Check that new password matches"},
 				{"pwdChanged", "Password changed"},
-				{"saving", "Saving ..."}
+				{"saving", "Saving ..."},
+				{"usrAllreadyExists", "Username taken\n"},
+
 		};
 	}
 }

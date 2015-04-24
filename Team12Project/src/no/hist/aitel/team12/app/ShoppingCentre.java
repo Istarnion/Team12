@@ -142,4 +142,8 @@ public class ShoppingCentre extends Business {
 				salary,				centreName,
 				centreAddress,		centreZip);
 	}
+	public static int getNumberOfShoppingCentres() {
+		Database db = DatabaseFactory.getDatabase();
+		return db.getNumberOfShoppingCentres();
+	}
 }

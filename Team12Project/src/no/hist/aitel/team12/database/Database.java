@@ -250,6 +250,12 @@ public interface Database {
 	 * @return
 	 */
 	public Trade[] getSelectedTrades(int establishmentId);
+
+	public boolean zipExists(int zipCode);
+
+	public int getNumberOfShoppingCentres();
+	
+	public int getNumberOfEstablishment();
 	
 	/**
 	 * 

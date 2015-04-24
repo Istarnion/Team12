@@ -1,5 +1,8 @@
 package no.hist.aitel.team12.app;
 
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
+
 
 /**
  * 
@@ -66,5 +69,20 @@ public class Address {
 	@Override
 	public String toString() {
 		return address + ", " + zipcode + ", " + district + ", " + municipality + ", " + county;
+	}
+	
+	public static boolean isValidZip(String zipCode) {
+		int parsedZip = 0;
+		try {
+			parsedZip = Integer.parseInt(zipCode);
+		}
+		catch(NumberFormatException e) {
+			return false;
+		}
+		Database db = DatabaseFactory.getDatabase();
+		if(db.zipExists(parsedZip)) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Email;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.User;
@@ -102,17 +103,13 @@ public class NewCustomerServiceCard extends JPanel{
 					errMsg.append(Text.getString("adrlong"));
 				}
 
-				try {
-					Integer.parseInt(personalZip.getText());
-					if(personalZip.getText().length() > 4) {
+		
+					
+					if(Address.isValidZip(personalZip.getText())) {
 						errCount++;
 						errMsg.append(Text.getString("zipfour"));
 					}
-				}
-				catch(NumberFormatException e) {
-					errCount++;
-					errMsg.append(Text.getString("zipnr"));
-				}
+		
 
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
