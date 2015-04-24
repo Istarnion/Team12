@@ -42,6 +42,8 @@ public class DataBuffer {
 	
 	private Person[][] personBuffers;
 	
+	private Ticket[][] ticketBuffer;
+	
 	private Thread thread;
 	
 	private final int centreUserID, messageUserID;
@@ -50,7 +52,8 @@ public class DataBuffer {
 	
 	private static DataBuffer dataBuffer;
 	
-	private DataBuffer(float restTime, int numBuffers, int userID, int messageUserID) {
+	private DataBuffer(float restTime, int numBuffers, int userID, int messageUserID, UserType userType) {
+		this.userType = userType;
 		this.centreUserID = userID;
 		this.messageUserID = messageUserID;
 		if(restTime < 0.5f) {
@@ -64,11 +67,15 @@ public class DataBuffer {
 		messageBuffers = new Message[numBuffers][];
 		personBuffers = new Person[numBuffers][];
 		
+		if(userType == UserType.CUSTOMER_SERVICE) {
+			ticketBuffer = new Ticket[numBuffers][];
+		}
+		
 		run();
 	}
-
-	public static void setup(float restTime, int numBuffers, int userID, int messageUserID) {
-		dataBuffer = new DataBuffer(restTime, numBuffers, userID, messageUserID);
+	
+	public static void setup(float restTime, int numBuffers, int userID, int messageUserID, UserType userType) {
+		dataBuffer = new DataBuffer(restTime, numBuffers, userID, messageUserID, userType);
 	}
 	
 	private void run() {
@@ -80,6 +87,7 @@ public class DataBuffer {
 				ShoppingCentre[] carray;
 				Message[] marray;
 				Person[] parray;
+				Ticket[] tarray;
 				
 				String username = db.getUsername(messageUserID);
 				while(!this.isInterrupted()) {
@@ -91,9 +99,16 @@ public class DataBuffer {
 					if(marray == null) break;
 					messageBuffers[currentIndex] = marray;
 					
-					parray = db.getPersons(centreUserID);
-					if(parray == null) break;
-					personBuffers[currentIndex] = parray;
+					if(userType != UserType.CUSTOMER_SERVICE) {
+						parray = db.getPersons(centreUserID);
+						if(parray == null) break;
+						personBuffers[currentIndex] = parray;
+					}
+					else {
+						tarray = db.getTickets(centreUserID);
+						if(tarray == null) break;
+						ticketBuffer[currentIndex] = tarray; 
+					}
 					
 					currentIndex++;
 					if(currentIndex >= centreBuffers.length) currentIndex = 0;
@@ -152,6 +167,20 @@ public class DataBuffer {
 		if(dataBuffer == null) return null;
 		if(dataBuffer.safePointer >= 0) {
 			return dataBuffer.personBuffers[dataBuffer.safePointer];
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @return An array of tickets
+	 */
+	public static Ticket[] getTickets() {
+		if(dataBuffer == null) return null;
+		if(dataBuffer.safePointer >= 0) {
+			return dataBuffer.ticketBuffer[dataBuffer.safePointer];
 		}
 		else {
 			return null;

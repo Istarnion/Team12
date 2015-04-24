@@ -97,8 +97,8 @@ public class SSS {
 		
 		if(ok) {
 			if(login != null) login.dispose();
-			
-			DataBuffer.setup(2, 2, id, id);
+			UserType type = DatabaseFactory.getDatabase().getUserType(id);
+			DataBuffer.setup(2, 2, id, id, type);
 			
 			setupWindow(id, username);
 		}
@@ -154,7 +154,7 @@ public class SSS {
 					case CUSTOMER_SERVICE:
 					{
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
-						sssWindow.addTab(Text.getString("msgs"),		new TicketTab());
+						sssWindow.addTab(Text.getString("tckts"),		new TicketTab());
 					} break;
 					default:
 					{

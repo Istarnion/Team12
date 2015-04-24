@@ -49,6 +49,10 @@ public class Email {
 	 * @param toAddress	The target email address.
 	 */
 	public static void sendEmail(String message, EmailAddress toAddress) { 
+		sendEmail(message, toAddress, SUBJECT);
+	}
+	
+	public static void sendEmail(String message, EmailAddress toAddress, String subject) {
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable","true");
 		props.setProperty("mail.transport.protocol", "smtp");
@@ -68,7 +72,7 @@ public class Email {
 
 			MimeMessage msg = new MimeMessage(session);
 			msg.setSentDate(new Date());
-			msg.setSubject(SUBJECT);
+			msg.setSubject(subject);
 			msg.setFrom(new InternetAddress(FROM));
 			msg.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(toAddress.getEmailAddress()));
 			msg.setText(message);
