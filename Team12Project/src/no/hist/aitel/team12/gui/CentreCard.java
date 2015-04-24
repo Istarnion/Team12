@@ -52,7 +52,7 @@ public class CentreCard extends BusinessCard {
 		persTelephoneLabel	= new JLabel(Text.getString("tel") + ": ");
 		persTitleLabel 		= new JLabel(Text.getString("title") + ": ");
 		persEmailLabel		= new JLabel(Text.getString("email") + ": ");
-		parkingSpaceLabel	= new JLabel(Text.getString("park") + ": ");
+		parkingSpaceLabel	= new JLabel(Text.getString("park") + ": ", SwingConstants.RIGHT);
 		personnelPanel		= new JPanel(new GridLayout(4,1));
 		newBuildingPanel	= new JPanel();
 
@@ -85,7 +85,7 @@ public class CentreCard extends BusinessCard {
 		areaButton			= new JButton(Text.getString("edit"));
 		newBuildingButton	= new JButton(Text.getString("newBuilding"));			
 		areaButton.setPreferredSize(new Dimension(60, 23));			
-		parkingSpaceButton.setPreferredSize(new Dimension(60, 23));			
+		parkingSpaceButton.setPreferredSize(openingHrsButton.getPreferredSize());			
 		textDescriptionScroll = new JScrollPane(textDescription, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		textDescriptionScroll.setPreferredSize(new Dimension(0, 200));
 		businessButton.addActionListener(buttonListener);
@@ -121,7 +121,7 @@ public class CentreCard extends BusinessCard {
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		this.add(parkingSpaceLabel, constraints);
-
+		
 		constraints.gridx = 1;
 		constraints.gridy = 6;
 		constraints.gridwidth = 3;

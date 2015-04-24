@@ -29,6 +29,7 @@ import no.hist.aitel.team12.gui.OverviewTab;
 import no.hist.aitel.team12.gui.SSSWindow;
 import no.hist.aitel.team12.gui.SplashScreen;
 import no.hist.aitel.team12.gui.SqlTab;
+import no.hist.aitel.team12.gui.TicketTab;
 import no.hist.aitel.team12.gui.UserTab;
 import no.hist.aitel.team12.util.PasswordManager;
 import no.hist.aitel.team12.util.Text;
@@ -153,6 +154,7 @@ public class SSS {
 					case CUSTOMER_SERVICE:
 					{
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
+						sssWindow.addTab(Text.getString("msgs"),		new TicketTab());
 					} break;
 					default:
 					{
