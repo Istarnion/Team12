@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Trade;
@@ -50,6 +51,7 @@ public class EstablishmentView extends JPanel {
 		
 		eNameBox = new Box(BoxLayout.X_AXIS); 
 		eNameLabel = new JLabel(Text.getString("name")+":");
+		eNameLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eNameLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eName = new JLabel();
 		eNameBox.add(eNameLabel);
@@ -58,6 +60,7 @@ public class EstablishmentView extends JPanel {
 		
 		eAdrBox = new Box(BoxLayout.X_AXIS);
 		eAdrLabel = new JLabel(Text.getString("adr")+":");
+		eAdrLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eAdrLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eAdr = new JLabel();
 		eAdrBox.add(eAdrLabel);
@@ -67,6 +70,7 @@ public class EstablishmentView extends JPanel {
 		
 		eOpenBox = new Box(BoxLayout.X_AXIS);
 		eOpenLabel = new JLabel(Text.getString("openingHrs")+":");
+		eOpenLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eOpenLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eOpen = new JLabel();
 		eOpenBox.add(eOpenLabel);
@@ -75,6 +79,7 @@ public class EstablishmentView extends JPanel {
 		
 		eFloorBox = new Box(BoxLayout.X_AXIS);
 		eFlrLabel = new JLabel(Text.getString("floor")+":");
+		eFlrLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eFlrLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eFlr = new JLabel();
 		eFloorBox.add(eFlrLabel);
@@ -83,6 +88,7 @@ public class EstablishmentView extends JPanel {
 		
 		eTradeBox = new Box(BoxLayout.X_AXIS);
 		eTradeLabel = new JLabel(Text.getString("tradeType")+":");
+		eTradeLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eTradeLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eTrade = new JLabel();
 		eTradeBox.add(eTradeLabel);
@@ -91,6 +97,7 @@ public class EstablishmentView extends JPanel {
 		
 		eEmailBox = new Box(BoxLayout.X_AXIS);
 		eEmailLabel = new JLabel(Text.getString("email")+":");
+		eEmailLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eEmailLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eEmail = new JLabel();
 		eEmailBox.add(eEmailLabel);
@@ -99,6 +106,7 @@ public class EstablishmentView extends JPanel {
 		
 		ePhoneBox = new Box(BoxLayout.X_AXIS);
 		ePhoneLabel = new JLabel(Text.getString("tel")+":");
+		ePhoneLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		ePhoneLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		ePhone = new JLabel();
 		ePhoneBox.add(ePhoneLabel);
@@ -106,12 +114,14 @@ public class EstablishmentView extends JPanel {
 		ePhoneBox.add(ePhone);
 		
 		eDescriptBox = new Box(BoxLayout.X_AXIS);
-		eDescriptLabel = new JLabel(Text.getString("textDescription")+":"); 
+		eDescriptLabel = new JLabel(Text.getString("textDescription")+":");
+		eDescriptLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eDescriptLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eDescript = new JTextArea(20,65);
 		eDescript.setLineWrap(true);
 		eDescript.setWrapStyleWord(true);
 		eDescript.setEditable(false);
+		eDescript.setBorder(new EmptyBorder(5, 5, 5 ,5));
 		scrollDescript = new JScrollPane(eDescript);
 		scrollDescript.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		eDescriptBox.add(eDescriptLabel);
