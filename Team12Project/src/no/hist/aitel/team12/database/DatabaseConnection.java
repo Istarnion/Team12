@@ -86,7 +86,7 @@ public class DatabaseConnection implements Database {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-																									
+
 		}
 		return passwordHash;																											
 	}
@@ -136,10 +136,10 @@ public class DatabaseConnection implements Database {
 					"SELECT * FROM establishmenttrade JOIN trade USING (trade_id)",
 					personnelQuery =
 					"SELECT * FROM personnel "
-					+"LEFT JOIN person USING (employee_number) "
-					+"LEFT JOIN zipcode USING (zipcode) "
-					+"LEFT JOIN municipality USING(municipality_id) "
-					+"LEFT JOIN county USING (county_id)";
+							+"LEFT JOIN person USING (employee_number) "
+							+"LEFT JOIN zipcode USING (zipcode) "
+							+"LEFT JOIN municipality USING(municipality_id) "
+							+"LEFT JOIN county USING (county_id)";
 			UserType userType = getUserType(userID);
 			switch(userType) {
 			case SYS_ADMIN:
@@ -240,7 +240,7 @@ public class DatabaseConnection implements Database {
 									new ArrayList<Revenue>(),
 									personnel.get(result.getInt("centre_id")),
 									result.getString("first_name") + " " + result.getString("last_name")
-									));
+							));
 				}
 
 				result.close();
@@ -385,9 +385,9 @@ public class DatabaseConnection implements Database {
 			int personalZip,		int telephone,
 			int salary,				String centreName,
 			String centreAddress,	int centreZip) {
-		
+
 		boolean ok = false;
-		
+
 		try(
 				PreparedStatement businessStatement = connection.prepareStatement(
 						"INSERT INTO business (business_name, address, zipcode, email, telephone, opening_hours, text_description) VALUES(?, ?, ?, ?, ?, '09150915', '...')");
@@ -399,21 +399,21 @@ public class DatabaseConnection implements Database {
 						"INSERT INTO user (employee_number, username, password_hash) VALUES(LAST_INSERT_ID(), ?, ?)");
 				PreparedStatement mangerStatement	= connection.prepareStatement(
 						"INSERT INTO centremanager (employee_number, centre_id) VALUES ("
-						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'person')-1, "
-						+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'shoppingcentre')-1)");
+								+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'person')-1, "
+								+ "(SELECT `AUTO_INCREMENT` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'shoppingcentre')-1)");
 				) {
 			connection.setAutoCommit(false);
-			
+
 			businessStatement.setString(1, centreName);
 			businessStatement.setString(2, centreAddress);
 			businessStatement.setInt(3, centreZip);
 			businessStatement.setString(4, email);
 			businessStatement.setInt(5, telephone);
-			
+
 			businessStatement.executeUpdate();
-			
+
 			centreStatement.executeUpdate();
-			
+
 			personStatement.setString(1, firstname);
 			personStatement.setString(2, lastname);
 			personStatement.setString(3, personalAddress);
@@ -421,16 +421,16 @@ public class DatabaseConnection implements Database {
 			personStatement.setString(5, email);
 			personStatement.setInt(6, telephone);
 			personStatement.setInt(7, salary);
-			
+
 			personStatement.executeUpdate();
-			
+
 			userStatement.setString(1, username);
 			userStatement.setString(2, passwordHash);
-			
+
 			userStatement.executeUpdate();
-			
+
 			mangerStatement.executeUpdate();
-			
+
 			connection.commit();
 			connection.setAutoCommit(true);
 			ok = true;
@@ -452,11 +452,11 @@ public class DatabaseConnection implements Database {
 				e.printStackTrace();
 			}
 		}
-		
-		
+
+
 		return ok;
 	};
-	
+
 	@Override
 	public int getUserID(String username) {
 		int output = -1;
@@ -561,9 +561,9 @@ public class DatabaseConnection implements Database {
 
 			String userStatement = null;
 			String personnelStatement = null;
-			
+
 			int centreID = 0;
-			
+
 			if(userID == 1) {	// Sys admin
 				userStatement = "SELECT * FROM user_view";
 				personnelStatement = "SELECT * FROM personnel_view";
@@ -573,15 +573,15 @@ public class DatabaseConnection implements Database {
 				if(type == UserType.CENTRE_MANAGER) {
 					centreID = getCentreID(userID);
 					userStatement =
-						"SELECT uv.employee_number, uv.first_name, uv.last_name, uv.address, uv.zipcode, uv.email, uv.telephone, uv.salary, "
-						+"uv.username, uv.district, uv.municipality_name, uv.county_name "
-						+"FROM user_view uv "
-						+"LEFT JOIN centremanager cm USING (employee_number) "
-						+"LEFT JOIN establishmentowner USING (employee_number) "
-						+"LEFT JOIN customerservice cs USING (employee_number) "
-						+"LEFT JOIN establishment_view ev USING (establishment_id) "
-						+"WHERE cm.centre_id = ? OR cs.centre_id = ? OR ev.centre_id = ?";
-					
+							"SELECT uv.employee_number, uv.first_name, uv.last_name, uv.address, uv.zipcode, uv.email, uv.telephone, uv.salary, "
+									+"uv.username, uv.district, uv.municipality_name, uv.county_name "
+									+"FROM user_view uv "
+									+"LEFT JOIN centremanager cm USING (employee_number) "
+									+"LEFT JOIN establishmentowner USING (employee_number) "
+									+"LEFT JOIN customerservice cs USING (employee_number) "
+									+"LEFT JOIN establishment_view ev USING (establishment_id) "
+									+"WHERE cm.centre_id = ? OR cs.centre_id = ? OR ev.centre_id = ?";
+
 					personnelStatement = "SELECT * FROM personnel_view WHERE centre_id = ?";
 				}
 				else {
@@ -589,20 +589,20 @@ public class DatabaseConnection implements Database {
 					return null;
 				}
 			}
-			
+
 			try(
 					PreparedStatement userQuery = connection.prepareStatement(userStatement);
 					PreparedStatement personnelQuery = connection.prepareStatement(personnelStatement);
 					) {
-				
+
 				if(centreID > 0) {
 					userQuery.setInt(1, centreID);
 					userQuery.setInt(2, centreID);
 					userQuery.setInt(3, centreID);
-					
+
 					personnelQuery.setInt(1, centreID);
 				}
-				
+
 				connection.setReadOnly(true);
 				result = userQuery.executeQuery();
 				result.last();
@@ -704,7 +704,7 @@ public class DatabaseConnection implements Database {
 				PreparedStatement manager	= connection.prepareStatement("SELECT * FROM centremanager WHERE employee_number = ?");
 				PreparedStatement shopowner	= connection.prepareStatement("SELECT * FROM establishmentowner WHERE employee_number = ?");
 				PreparedStatement cservice	= connection.prepareStatement("SELECT * FROM customerservice WHERE employee_number = ?");
-			) {
+				) {
 			connection.setReadOnly(true);
 			manager.setInt(1, userId);
 			ResultSet result = manager.executeQuery();
@@ -729,15 +729,16 @@ public class DatabaseConnection implements Database {
 				return UserType.CUSTOMER_SERVICE;
 			}
 			result.close();
-			connection.setReadOnly(false);
 		}
 		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 
 		return null;
@@ -772,16 +773,17 @@ public class DatabaseConnection implements Database {
 				return result.getInt("centre_id");
 			}
 			result.close();
-			connection.setReadOnly(false);
-
 		}
 		catch(SQLException e) {
+
+			e.printStackTrace();
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 		return -1;
 	}
@@ -797,16 +799,16 @@ public class DatabaseConnection implements Database {
 				return result.getInt("establishment_id");
 			}
 			result.close();
-			connection.setReadOnly(false);
-
 		}
 		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
 		}
 
 		return -1;
@@ -838,11 +840,13 @@ public class DatabaseConnection implements Database {
 			}
 
 			result.close();
-			connection.setReadOnly(false);
 		}
 		catch(SQLException e) {
 			out = new String[1][1];
 			out[0][0] = "SQL expression raised an exception: "+e.getMessage();
+	
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
@@ -892,6 +896,9 @@ public class DatabaseConnection implements Database {
 				else if(args[i] instanceof Boolean) {
 					prepStatement.setBoolean(i+1, (Boolean)args[i]);
 				}
+				else if(args[i] instanceof Long) {
+					prepStatement.setLong(i+1, (Long)args[i]);
+				}
 				else {
 					return false;
 				}
@@ -926,7 +933,7 @@ public class DatabaseConnection implements Database {
 			int rows;
 
 			try(PreparedStatement statement = connection.prepareStatement("SELECT * FROM message_view WHERE sender = ? OR reciever = ?")) {
-				
+
 				if(connection.isClosed()) return null;
 				connection.setReadOnly(true);
 				statement.setString(1, username);
@@ -951,17 +958,17 @@ public class DatabaseConnection implements Database {
 							);
 				}
 				result.close();
-				connection.setReadOnly(false);
 			} 
 
 			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
 				try {
 					connection.setReadOnly(false);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-
-				e.printStackTrace();
 			}
 
 			return messages;
@@ -1053,11 +1060,7 @@ public class DatabaseConnection implements Database {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			try {
-				connection.setAutoCommit(true);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+
 		}
 		return true;
 	}
@@ -1128,12 +1131,6 @@ public class DatabaseConnection implements Database {
 
 		catch (SQLException e) {
 			e.printStackTrace();
-			try {
-				connection.setAutoCommit(true);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-
 			return false;
 		}
 
@@ -1149,7 +1146,7 @@ public class DatabaseConnection implements Database {
 			connection.setReadOnly(true);
 			statement.setInt(1, establishmentId);
 			result = statement.executeQuery();
-		
+
 
 			result.last();
 			rows = result.getRow();
@@ -1162,19 +1159,20 @@ public class DatabaseConnection implements Database {
 			}
 
 			result.close();
-			connection.setReadOnly(false);
 			return selectedTrades;
 		} catch (SQLException e) {
 			e.printStackTrace();
+
+			selectedTrades = new Trade[0];
+			return selectedTrades;
+
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-
-			selectedTrades = new Trade[0];
-			return selectedTrades;
-
 		}
 	}
 
@@ -1189,18 +1187,18 @@ public class DatabaseConnection implements Database {
 				allTrades.add(new Trade(result.getInt("trade_id"),result.getString("trade_name")));
 			}
 			result.close();
-			connection.setReadOnly(false);
 
 			return allTrades;
 		} catch (SQLException e) {
+			e.printStackTrace();
+			return allTrades;
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-
-			e.printStackTrace();
-			return allTrades;
 		}
 	}
 
@@ -1211,24 +1209,24 @@ public class DatabaseConnection implements Database {
 			connection.setReadOnly(true);
 			statement.setInt(1, zipCode);
 			result = statement.executeQuery();
-			
+
 			if(result.next()) {
 				return true;
 			}
 			result.close();
-			connection.setReadOnly(false);
 			return false;
-			
-		} catch (SQLException e) {
-			try {
-				connection.setReadOnly(false);
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}
+		finally {
+			try {
+				connection.setReadOnly(false);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -1242,15 +1240,16 @@ public class DatabaseConnection implements Database {
 				return result.getInt("COUNT(*)");
 			}
 			result.close();
-			connection.setReadOnly(false);
 		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
-			return 0;
 		}
 		return 0;
 	}
@@ -1265,35 +1264,36 @@ public class DatabaseConnection implements Database {
 				return result.getInt("COUNT(*)");
 			}
 			result.close();
-			connection.setReadOnly(false);
 		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		finally {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			e.printStackTrace();
-			return 0;
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public Ticket[] getTickets(int centreID) {
 		synchronized(connection) {
 			Ticket[] output = null;
-			
+
 			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM ticket WHERE centre_id = ?")) {
 				connection.setReadOnly(true);
-				
+
 				statement.setInt(1, centreID);
-				
+
 				ResultSet result = statement.executeQuery();
-				
+
 				result.last();
 				output = new Ticket[result.getRow()];
 				result.beforeFirst();
-				
+
 				for(int i=0; result.next(); i++) {
 					output[i] = new Ticket(
 							result.getInt("ticket_id"),
@@ -1301,8 +1301,8 @@ public class DatabaseConnection implements Database {
 							new EmailAddress(
 									result.getString("customer_email")
 									),
-							result.getBoolean("resolvedStatus"),
-							centreID
+									result.getBoolean("resolvedStatus"),
+									centreID
 							);
 				}
 				result.close();
@@ -1317,7 +1317,7 @@ public class DatabaseConnection implements Database {
 					e1.printStackTrace();
 				}
 			}
-			
+
 			return output;
 		}
 	}
