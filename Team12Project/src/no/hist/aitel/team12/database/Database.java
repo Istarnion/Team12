@@ -105,8 +105,10 @@ public interface Database {
 	 * @param user The ID of the user
 	 * @return	The hashed and salted password
 	 */
+	
 	public String getPasswordHash(int user);
 	
+
 	/**
 	 * This method test the database connection by retrieving the table names, thus validating that we can execute queries.
 	 * 

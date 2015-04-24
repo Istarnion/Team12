@@ -279,7 +279,6 @@ public class CentreCard extends BusinessCard {
 		areaButton.setText(Text.getString("edit"));
 		zipButton.setText(Text.getString("edit"));
 		parkingSpaceButton.setText(Text.getString("edit"));
-		System.out.println(centre.getOwnerName());
 	}
 
 	private class ButtonListener implements ActionListener {

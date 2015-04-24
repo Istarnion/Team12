@@ -94,7 +94,7 @@ public class OverviewTab extends SSSTab {
 
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.PLAIN, 50));
 
-		nameBox.add(Box.createHorizontalStrut(50));
+		nameBox.add(Box.createHorizontalStrut(10));
 		nameBox.add(nameLabel);
 		nameBox.add(managerLabel);
 

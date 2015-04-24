@@ -172,7 +172,13 @@ public class CentreView extends JPanel {
 	public void updateCard(ShoppingCentre centre) {
 		cName.setText(centre.getBusinessName());
 		cAdr.setText(centre.getAddress().toString());
-		cOpen.setText(centre.getOpeningHours());
+		
+		if(centre.getOpeningHours() != null){
+			
+			String openingHours =centre.getOpeningHours();
+			cOpen.setText("("+openingHours.substring(0,2)+"-"+openingHours.substring(2,4)+"("+openingHours.substring(4,6)+"-"+openingHours.substring(6,8)+"))");
+		}
+		
 		cPark.setText(""+ centre.getParkingSpaces());
 		cArea.setText(""+centre.getArea());
 		cEmail.setText(""+centre.getEmail().getEmailAddress());
