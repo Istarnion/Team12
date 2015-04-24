@@ -124,4 +124,5 @@ values
 (4, 1, 'Har itj nå å si');
 
 
-select * from establishmenttrade;
+
+select * from shoppingcentre;

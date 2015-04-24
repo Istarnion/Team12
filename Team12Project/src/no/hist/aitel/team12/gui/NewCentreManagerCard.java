@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Email;
@@ -93,134 +94,155 @@ public class NewCentreManagerCard extends JPanel {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				StringBuilder errMsg = new StringBuilder();
-				int errCount = 0;
-
-				/* CHECKING FIELDS */
-				if(firstName.getText().length() > 30) {
-					errCount++;
-					errMsg.append(Text.getString("frnamelong") + "\n");
-				}
-
-				if(lastName.getText().length() > 30) {
-					errCount++;
-					errMsg.append(Text.getString("lsnamelong") + "\n");
-				}
-
-				if(personalAddress.getText().length() > 30) {
-					errCount++;
-					errMsg.append(Text.getString("adrlong") + "\n");
-				}
 
 
-				if(!Address.isValidZip(personalZip.getText())) {
-					errCount++;
-					errMsg.append(Text.getString("invalidZip") + "\n");
-				}
+				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+					boolean OK = false;
+					String password = PasswordManager.generatePassword(username.getText());
 
+					@Override
+					protected Void doInBackground() throws Exception {
+						
+						StringBuilder errMsg = new StringBuilder();
+						int errCount = 0;
 
-
-				if(!EmailAddress.isValidEmailAddress(email.getText())) {
-					errCount++;
-					errMsg.append(Text.getString("emailinv") + "\n");
-				}
-
-				if (username.getText().length() > 20) {
-					errCount++;
-					errMsg.append(Text.getString("userlong") + "\n");
-				}
-				if(User.userExists(username.getText())) {
-					errCount++;
-					errMsg.append(Text.getString("usrAllreadyExists") + "\n");
-				}
-
-				try {
-					Integer.parseInt(telephone.getText());
-					if(telephone.getText().length() > 8) {
-						errCount++;
-						errMsg.append(Text.getString("tlplong") + "\n");
-					}
-				}
-				catch(NumberFormatException e) {
-					errCount++;
-					errMsg.append(Text.getString("tlpnr") + "\n");
-				}
-
-				try {
-					Integer.parseInt(salary.getText());
-				}
-				catch(NumberFormatException e) {
-					errCount++;
-					errMsg.append(Text.getString("salnr") + "\n");
-				}
-
-
-
-				if(centreName.getText().length() > 30) {
-					errCount++;
-					errMsg.append(Text.getString("centerlong") + "\n");
-				}
-
-				if(centreAddress.getText().length() > 30) {
-					errCount++;
-					errMsg.append(Text.getString("adrlong") + "\n");
-				}
-
-
-				if(!Address.isValidZip(centreZip.getText())) {
-					errCount++;
-					errMsg.append(Text.getString("invalidZip") + "\n");
-				}
-
-
-				/* DONE CHECKING FIELDS */
-
-				if(errCount > 0) {
-					if(errCount == 1) {
-						JOptionPane.showMessageDialog(
-								null,
-								Text.getString("inputerr") + "\n" +errMsg.toString(),
-								Text.getString("err"),
-								JOptionPane.ERROR_MESSAGE);
-					}
-					else {
-						JOptionPane.showMessageDialog(
-								null,
-								Text.getString("inputerr")  + "\n" +errMsg.toString(),
-								Text.getString("err"),
-								JOptionPane.ERROR_MESSAGE);
-					}
-
-					return;
-				}
-
-				String password = PasswordManager.generatePassword(username.getText());
-
-				if(ShoppingCentre.createCentre(
-						firstName.getText(), lastName.getText(),
-						username.getText(), password, email.getText(),
-						personalAddress.getText(), Integer.parseInt(personalZip.getText()),
-						Integer.parseInt(telephone.getText()), Integer.parseInt(salary.getText()),
-						centreName.getText(), centreAddress.getText(),
-						Integer.parseInt(centreZip.getText()))) {
-
-					Thread t = new Thread() {
-						@Override
-						public void run() {
-							Email.sendEmail("Dear "+firstName.getText()+" "+lastName.getText()
-									+",\nYou have been created as a Centre Manager for "+centreName.getText()
-									+".\nYour username is: "+username.getText()+"\nYour password is: "+password
-									+"\n\nPlease change your password at your earliest oppurtunity.\n Regards, System Administrator for the SSS system,\nTeam12",
-									new EmailAddress(email.getText()));
+						/* CHECKING FIELDS */
+						if(firstName.getText().length() > 30) {
+							errCount++;
+							errMsg.append(Text.getString("frnamelong") + "\n");
 						}
-					};
-					t.start();
 
-					userTab.showLogoCard();
-				}
-				else {
-					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
-				}
+						if(lastName.getText().length() > 30) {
+							errCount++;
+							errMsg.append(Text.getString("lsnamelong") + "\n");
+						}
+
+						if(personalAddress.getText().length() > 30) {
+							errCount++;
+							errMsg.append(Text.getString("adrlong") + "\n");
+						}
+
+
+						if(!Address.isValidZip(personalZip.getText())) {
+							errCount++;
+							errMsg.append(Text.getString("invalidZip") + "\n");
+						}
+
+
+
+						if(!EmailAddress.isValidEmailAddress(email.getText())) {
+							errCount++;
+							errMsg.append(Text.getString("emailinv") + "\n");
+						}
+
+						if (username.getText().length() > 20) {
+							errCount++;
+							errMsg.append(Text.getString("userlong") + "\n");
+						}
+						if(User.userExists(username.getText())) {
+							errCount++;
+							errMsg.append(Text.getString("usrAllreadyExists") + "\n");
+						}
+
+						try {
+							Integer.parseInt(telephone.getText());
+							if(telephone.getText().length() > 8) {
+								errCount++;
+								errMsg.append(Text.getString("tlplong") + "\n");
+							}
+						}
+						catch(NumberFormatException e) {
+							errCount++;
+							errMsg.append(Text.getString("tlpnr") + "\n");
+						}
+
+						try {
+							Integer.parseInt(salary.getText());
+						}
+						catch(NumberFormatException e) {
+							errCount++;
+							errMsg.append(Text.getString("salnr") + "\n");
+						}
+
+
+
+						if(centreName.getText().length() > 30) {
+							errCount++;
+							errMsg.append(Text.getString("centerlong") + "\n");
+						}
+
+						if(centreAddress.getText().length() > 30) {
+							errCount++;
+							errMsg.append(Text.getString("adrlong") + "\n");
+						}
+
+
+						if(!Address.isValidZip(centreZip.getText())) {
+							errCount++;
+							errMsg.append(Text.getString("invalidZip") + "\n");
+						}
+
+
+						/* DONE CHECKING FIELDS */
+
+						if(errCount > 0) {
+							if(errCount == 1) {
+								JOptionPane.showMessageDialog(
+										null,
+										Text.getString("inputerr") + "\n" +errMsg.toString(),
+										Text.getString("err"),
+										JOptionPane.ERROR_MESSAGE);
+							}
+							else {
+								JOptionPane.showMessageDialog(
+										null,
+										Text.getString("inputerr")  + "\n" +errMsg.toString(),
+										Text.getString("err"),
+										JOptionPane.ERROR_MESSAGE);
+							}
+
+							return null;
+						}
+						if(ShoppingCentre.createCentre(
+								firstName.getText(), lastName.getText(),
+								username.getText(), password, email.getText(),
+								personalAddress.getText(), Integer.parseInt(personalZip.getText()),
+								Integer.parseInt(telephone.getText()), Integer.parseInt(salary.getText()),
+								centreName.getText(), centreAddress.getText(),
+								Integer.parseInt(centreZip.getText()))) {
+							OK = true;
+						}
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						if(OK) {
+							Thread t = new Thread() {
+								@Override
+								public void run() {
+									Email.sendEmail("Dear "+firstName.getText()+" "+lastName.getText()
+											+",\nYou have been created as a Centre Manager for "+centreName.getText()
+											+".\nYour username is: "+username.getText()+"\nYour password is: "+password
+											+"\n\nPlease change your password at your earliest oppurtunity.\n Regards, System Administrator for the SSS system,\nTeam12",
+											new EmailAddress(email.getText()));
+								}
+							};
+							t.start();
+							userTab.showLogoCard();
+							saveButton.setEnabled(true);
+							saveButton.setText(Text.getString("save"));
+						}
+						else{
+							JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+						}
+
+					}
+
+				};
+				saveButton.setEnabled(false);
+				saveButton.setText(Text.getString("saving"));
+				worker.execute();
 			}
 		});
 
