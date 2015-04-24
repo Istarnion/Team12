@@ -38,7 +38,7 @@ public class User extends Person {
 		if(!ok) return false;
 		ok = db.executePreparedStatement(
 				"INSERT INTO user (employee_number, username, password_hash) VALUES(LAST_INSERT_ID(), ?, ?)",
-				firstname, lastname, address, zipcode, email, telephone, salary, PasswordManager.generatePasswordHash(password));
+				username, PasswordManager.generatePasswordHash(password));
 		if(!ok) return false;
 		ok = db.executePreparedStatement(
 				"INSERT INTO customerservice (employee_number, centre_id) values(LAST_INSERT_ID(), ?)",

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.Ticket;
 import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.PasswordManager;
@@ -243,6 +244,11 @@ public interface Database {
 	 */
 	public ArrayList<Trade> getAllTrades();
 
+	/**
+	 * 
+	 * @param establishmentId
+	 * @return
+	 */
 	public Trade[] getSelectedTrades(int establishmentId);
 
 	public boolean zipExists(int zipCode);
@@ -250,4 +256,11 @@ public interface Database {
 	public int getNumberOfShoppingCentres();
 	
 	public int getNumberOfEstablishment();
+	
+	/**
+	 * 
+	 * @param centreID
+	 * @return
+	 */
+	public Ticket[] getTickets(int centreID);
 }
