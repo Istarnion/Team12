@@ -1,8 +1,5 @@
 package no.hist.aitel.team12.gui;
 
-
-import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
