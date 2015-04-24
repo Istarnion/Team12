@@ -102,10 +102,20 @@ public class NewCentreManagerCard extends JPanel {
 					errCount++;
 					errMsg.append(Text.getString("frnamelong") + "\n");
 				}
+				
+				if(firstName.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("frnameMissing") + "\n");
+				}
 
 				if(lastName.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("lsnamelong") + "\n");
+				}
+				
+				if(firstName.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("lsnameMissing") + "\n");
 				}
 
 				if(personalAddress.getText().length() > 30) {
@@ -119,13 +129,16 @@ public class NewCentreManagerCard extends JPanel {
 					errMsg.append(Text.getString("invalidZip") + "\n");
 				}
 
-
-
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
 					errMsg.append(Text.getString("emailinv") + "\n");
 				}
 
+				if(username.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("usrNameMissing") + "\n");
+				}
+				
 				if (username.getText().length() > 20) {
 					errCount++;
 					errMsg.append(Text.getString("userlong") + "\n");
@@ -137,7 +150,7 @@ public class NewCentreManagerCard extends JPanel {
 
 				try {
 					Integer.parseInt(telephone.getText());
-					if(telephone.getText().length() > 8) {
+					if(telephone.getText().length() != 8) {
 						errCount++;
 						errMsg.append(Text.getString("tlplong") + "\n");
 					}
@@ -161,6 +174,11 @@ public class NewCentreManagerCard extends JPanel {
 					errCount++;
 					errMsg.append(Text.getString("centerlong") + "\n");
 				}
+				
+				if(centreName.getText().equals("")) {
+					errCount++;
+					errMsg.append(Text.getString("noCentreName") + "\n");
+				}
 
 				if(centreAddress.getText().length() > 30) {
 					errCount++;
@@ -172,7 +190,8 @@ public class NewCentreManagerCard extends JPanel {
 					errCount++;
 					errMsg.append(Text.getString("invalidZip") + "\n");
 				}
-
+				
+				
 
 				/* DONE CHECKING FIELDS */
 
