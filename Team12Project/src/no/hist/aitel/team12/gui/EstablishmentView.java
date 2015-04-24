@@ -142,8 +142,12 @@ public class EstablishmentView extends JPanel {
 		
 		eName.setText(estab.getBusinessName());
 
+		if(estab.getOpeningHours() != null){
 		
-		eOpen.setText(estab.getOpeningHours());
+			String openingHours =estab.getOpeningHours();
+			eOpen.setText("("+openingHours.substring(0,2)+"-"+openingHours.substring(2,4)+"("+openingHours.substring(4,6)+"-"+openingHours.substring(6,8)+"))");
+		}
+		
 
 		
 		if(estab.getSelectedTrades() != null) {
