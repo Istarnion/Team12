@@ -26,6 +26,8 @@ public class Business {
 	private String openingHours;
 
 	private ArrayList<Revenue> revenue;
+	
+	private String ownerName;
 
 	protected Database db;
 
@@ -34,7 +36,7 @@ public class Business {
 			int businessId, String businessName,
 			EmailAddress email, int telephone,
 			String openingHours, String description, 
-			Address address, ArrayList<Revenue> revenue) {
+			Address address, ArrayList<Revenue> revenue, String ownerName) {
 
 		this.businessId 	= businessId;
 		this.businessName 	= businessName;
@@ -44,6 +46,7 @@ public class Business {
 		this.description 	= description;
 		this.address 		= address;
 		this.revenue 		= revenue;
+		this.ownerName 		= ownerName;
 		
 		db = DatabaseFactory.getDatabase();
 	}
@@ -188,4 +191,9 @@ public class Business {
 	public String toString() {
 		return businessName;
 	}
+
+	public String getOwnerName() {
+		return ownerName;
+	}
+
 }

@@ -43,6 +43,8 @@ public class LoginWindow {
 	private JButton loginButton;
 	private JButton cancelButton;
 
+	private JButton resetpasswordButton;
+	
 	JFrame frame;
 	JPanel mainPanel;
 	JPanel buttonPanel;
@@ -72,12 +74,13 @@ public class LoginWindow {
 		passwordText.setDefaultText(Text.getString("pwd"));
 		loginButton.setText(Text.getString("login"));
 		cancelButton.setText(Text.getString("cancel"));
+		resetpasswordButton.setText(Text.getString("resetPwd"));
 		
 		userText.repaint();
 		passwordText.repaint();
 		loginButton.repaint();
 		cancelButton.repaint();
-		
+		resetpasswordButton.repaint();
 	}
 
 	public void showLoginWindow() {
@@ -120,7 +123,6 @@ public class LoginWindow {
 				}
 				else if(msg.equals(en)) {
 					Text.setLocale(Text.ENGLISH);
-					
 				}
 				updateFields();
 			}
@@ -129,7 +131,7 @@ public class LoginWindow {
 		LoginListener loginListener = new LoginListener();
 		
 		mainPanel = new JPanel();
-		mainPanel.setLayout(new GridLayout(5, 1, 5, 2));
+		mainPanel.setLayout(new GridLayout(6, 1, 5, 2));
 
 		logoLabel = new JLabel();
 		logoLabel.setIcon(new ImageIcon(logo));
@@ -162,6 +164,16 @@ public class LoginWindow {
 		buttonPanel.add(cancelButton);
 		
 		mainPanel.add(buttonPanel);
+		
+		resetpasswordButton = new JButton(Text.getString("resetPwd"));
+		mainPanel.add(resetpasswordButton);
+		
+		resetpasswordButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		
 		frame.add(mainPanel, BorderLayout.CENTER);
 		frame.pack();

@@ -6,18 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.sun.org.apache.xpath.internal.operations.String;
-
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Personnel;
-import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.Text;
 /**
  * 
@@ -37,14 +33,7 @@ public class NewPersonnelCard extends JPanel{
 	private JTextField
 		firstName, lastName, email, address, zipCode, telephone, salary, title;
 	
-	private JComboBox<String> store;
-	private JComboBox<ShoppingCentre> shoppingCenter;
-	
-	private ShoppingCentre[] businessArray;
-	
-	private UserTab userTab;
-	
-	public NewPersonnelCard() {
+	public NewPersonnelCard(UserTab userTab, int centreID) {
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -56,17 +45,11 @@ public class NewPersonnelCard extends JPanel{
 		firstName		= new JTextField();
 		lastName		= new JTextField();
 		email			= new JTextField();
-		address	= new JTextField();
-		zipCode		= new JTextField();
+		address			= new JTextField();
+		zipCode			= new JTextField();
 		telephone		= new JTextField();
 		salary			= new JTextField();
 		title			= new JTextField();
-		
-		
-		
-		store = new JComboBox<String>(new String[] {/*getStores*/});
-		businessArray = ShoppingCentre.getPopulatedShoppingCentres();	
-		shoppingCenter = new JComboBox<ShoppingCentre>(businessArray);
 		
 		labelPanel.add(new JLabel(Text.getString("firstname")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("lastname")+": ", SwingConstants.RIGHT));
@@ -76,8 +59,6 @@ public class NewPersonnelCard extends JPanel{
 		labelPanel.add(new JLabel(Text.getString("tel")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("sal")+": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("title")+ ": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("store") + ": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("shce") + ": ", SwingConstants.RIGHT));
 		
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
@@ -87,8 +68,6 @@ public class NewPersonnelCard extends JPanel{
 		fieldPanel.add(telephone);
 		fieldPanel.add(salary);
 		fieldPanel.add(title);
-		fieldPanel.add(store);
-		fieldPanel.add(shoppingCenter);
 		fieldPanel.add(buttonPanel);
 		
 		
@@ -181,7 +160,7 @@ public class NewPersonnelCard extends JPanel{
 						address.getText(), Integer.parseInt(zipCode.getText()), 
 						email.getText(), Integer.parseInt(telephone.getText()), 
 						Integer.parseInt(salary.getText()),
-						title.getText(), shoppingCenter.getSelectedIndex()))  {
+						title.getText(), centreID))  {
 					
 					userTab.showLogoCard();
 				}

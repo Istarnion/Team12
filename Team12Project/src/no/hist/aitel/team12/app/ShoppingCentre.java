@@ -26,9 +26,11 @@ public class ShoppingCentre extends Business {
 			int businessId, String businessName, Address address,
 			EmailAddress email, int telephone, String openingHours,
 			int centreId, int parkingSpaces, String description, 
-			ArrayList<Revenue> revenue, ArrayList<Personnel> personnel) {
+			ArrayList<Revenue> revenue, ArrayList<Personnel> personnel,
+			String ownerName
+			) {
 
-		super(businessId, businessName, email, telephone, openingHours, description, address, revenue);
+		super(businessId, businessName, email, telephone, openingHours, description, address, revenue, ownerName);
 
 		this.centreId = centreId; 
 		this.parkingSpaces = parkingSpaces;

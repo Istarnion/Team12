@@ -226,17 +226,21 @@ CREATE INDEX reciever_id_index		ON messageReciever (message_id);
 
 -- Creating views
 CREATE VIEW user_view AS (
-	SELECT username, employee_number, first_name, last_name, salary, zipcode, address, district, email, telephone
+	SELECT username, employee_number, first_name, last_name, salary, zipcode, municipality_name, county_name, address, district, email, telephone
 	FROM user
 	LEFT JOIN person USING (employee_number)
 	LEFT JOIN zipcode USING (zipcode)
+    LEFT JOIN municipality USING (municipality_id)
+    LEFT JOIN county USING (county_id)
 );
 
 CREATE VIEW personnel_view AS (
-	SELECT employee_number, centre_id, first_name, last_name, salary, zipcode, address, district, title, email, telephone
+	SELECT employee_number, centre_id, first_name, last_name, salary, zipcode, municipality_name, county_name, address, district, title, email, telephone
 	FROM personnel
 	LEFT JOIN person USING (employee_number)
 	LEFT JOIN zipcode USING (zipcode)
+    LEFT JOIN municipality USING (municipality_id)
+    LEFT JOIN county USING (county_id)
 );
 
 CREATE VIEW message_view AS (
@@ -247,22 +251,26 @@ CREATE VIEW message_view AS (
 );
 
 CREATE VIEW centres_view AS (
-	SELECT * 
-    FROM shoppingcentre 
-    LEFT JOIN business USING (business_id) 
+	SELECT  c.business_id, first_name, last_name, business_name, b.address, b.zipcode, municipality_name, district, county_name, b.email, b.telephone, opening_hours, centre_id, parking_spaces, text_description
+    FROM shoppingcentre c
+    LEFT JOIN business b USING (business_id) 
     LEFT JOIN zipcode USING (zipcode) 
     LEFT JOIN municipality USING (municipality_id) 
     LEFT JOIN county USING (county_id)
+    LEFT JOIN centremanager USING (centre_id)
+    LEFT JOIN person USING (employee_number)
 );
 CREATE VIEW establishment_view AS (
-	SELECT e.business_id, business_name, email, address, telephone, text_description, zipcode, municipality_name, district, county_name, opening_hours, floor_number, establishment_id, centre_id, building_id
+	SELECT e.business_id, first_name, last_name, business_name, b.email, b.address, b.telephone, text_description, b.zipcode, municipality_name, district, county_name, opening_hours, floor_number, establishment_id, centre_id, building_id
 	FROM establishment e
-	LEFT JOIN business USING (business_id)
+	LEFT JOIN business b USING (business_id)
     LEFT JOIN zipcode USING (zipcode)
     LEFT JOIN municipality USING (municipality_id)
     LEFT JOIN county USING (county_id)
 	LEFT JOIN building USING (building_id)
 	LEFT JOIN shoppingcentre USING (centre_id)
+    LEFT JOIN establishmentowner USING (establishment_id)
+    LEFT JOIN person USING (employee_number)
 );
 
 -- Inserts all norwegian zipcodes, districts, municipalities and counties

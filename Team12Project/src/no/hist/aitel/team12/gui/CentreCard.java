@@ -52,7 +52,7 @@ public class CentreCard extends BusinessCard {
 		persTelephoneLabel	= new JLabel(Text.getString("tel") + ": ");
 		persTitleLabel 		= new JLabel(Text.getString("title") + ": ");
 		persEmailLabel		= new JLabel(Text.getString("email") + ": ");
-		parkingSpaceLabel	= new JLabel(Text.getString("prkSpaces") + ": ");
+		parkingSpaceLabel	= new JLabel(Text.getString("park") + ": ");
 		personnelPanel		= new JPanel(new GridLayout(4,1));
 		newBuildingPanel	= new JPanel();
 
@@ -279,6 +279,7 @@ public class CentreCard extends BusinessCard {
 		areaButton.setText(Text.getString("edit"));
 		zipButton.setText(Text.getString("edit"));
 		parkingSpaceButton.setText(Text.getString("edit"));
+		System.out.println(centre.getOwnerName());
 	}
 
 	private class ButtonListener implements ActionListener {

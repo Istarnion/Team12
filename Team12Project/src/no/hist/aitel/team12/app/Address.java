@@ -14,14 +14,17 @@ public class Address {
 	
 	private String municipality;
 	
+	private String district;
+	
 	private String county;
 
-	public Address(String address, int zipcode, String municipality, String county) {
+	public Address(String address, int zipcode, String municipality, String county, String district) {
 		super();
 		this.address = address;
 		this.zipcode = zipcode;
 		this.municipality = municipality;
 		this.county = county;
+		this.district = district;
 	}
 
 	public String getAdress() {
@@ -55,9 +58,13 @@ public class Address {
 	public void setCounty(String county) {
 		this.county = county;
 	}
+	
+	public String getDistrict() {
+		return district;
+	}
 
 	@Override
 	public String toString() {
-		return address+", "+zipcode+", "+municipality+", "+county;
+		return address + ", " + zipcode + ", " + district + ", " + municipality + ", " + county;
 	}
 }

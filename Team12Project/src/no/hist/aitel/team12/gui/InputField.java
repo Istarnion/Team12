@@ -114,7 +114,9 @@ public class InputField extends JTextField {
 
 	public void setDefaultText(String text) {
 		defaultText = text;
-		if(defaultShown) setDefaultText();
+		if(defaultShown) {
+			setDefaultText();
+		}
 	}
 	
 	private void setDefaultText() {

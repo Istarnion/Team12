@@ -46,6 +46,8 @@ public class DataBuffer {
 	
 	private final int centreUserID, messageUserID;
 	
+	private UserType userType;
+	
 	private static DataBuffer dataBuffer;
 	
 	private DataBuffer(float restTime, int numBuffers, int userID, int messageUserID) {
