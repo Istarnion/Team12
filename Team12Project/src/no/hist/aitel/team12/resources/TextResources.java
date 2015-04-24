@@ -173,7 +173,16 @@ public class TextResources extends ListResourceBundle {
 				{"OFFICESUPPLIES", "Office supplies"},
 				{"BUILDINGMATERIALS", "Building materials"},
 				{"RESTAURANT", "Restaurant"},
-				{"CAFE", "Cafe"}
+				{"CAFE", "Cafe"},
+				{"changePwd", "Change password"},
+				{"manager", "Manager"},
+				{"oldPwd", "Old password"},
+				{"newPwd", "New password"},
+				{"repNewPwd", "Repeat new password"},
+				{"usrNotFound", "User not found"},
+				{"newPwdFail", "Check that new password matches"},
+				{"pwdChanged", "Password changed"},
+				{"saving", "Saving ..."}
 		};
 	}
 }

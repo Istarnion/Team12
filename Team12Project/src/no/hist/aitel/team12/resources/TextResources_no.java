@@ -173,7 +173,16 @@ public class TextResources_no extends ListResourceBundle {
 				{"OFFICESUPPLIES", "Kontorrekvisita"},
 				{"BUILDINGMATERIALS", "Byggevarer"},
 				{"RESTAURANT", "Restaurant"},
-				{"CAFE", "Kafé"}
+				{"CAFE", "Kafé"},
+				{"changePwd", "Endre passord"},
+				{"manager", "Manager"},
+				{"oldPwd", "Gammelt passord"},
+				{"newPwd", "Nytt passord"},
+				{"repNewPwd", "Gjenta nytt passord"},
+				{"usrNotFound", "Finner ikke bruker"},
+				{"newPwdFail", "Sjekk at nytt passord gjentas korrekt"},
+				{"pwdChanged", "Passord endret"},
+				{"saving", "Lagrer ..."}
 		};
 	}
 }
