@@ -39,11 +39,8 @@ public class NewShopOwnerCard extends JPanel{
 	
 	private Building[] buildings;
 	
-	private UserTab userTab;
 	
 	public NewShopOwnerCard(UserTab userTab, int centreID) {
-		this.userTab = userTab;
-		
 		saveButton = new JButton(Text.getString("save"));
 		cancelButton = new JButton(Text.getString("cancel"));
 		buttonPanel = new JPanel(new GridLayout(1, 2, 25, 15));
@@ -85,7 +82,7 @@ public class NewShopOwnerCard extends JPanel{
 		labelPanel.add(new JLabel(Text.getString("email")+ ": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("tel")+ ": ", SwingConstants.RIGHT));
 		labelPanel.add(new JLabel(Text.getString("floor")+ ": ", SwingConstants.RIGHT));
-		labelPanel.add(new JLabel(Text.getString("shce") + ": ", SwingConstants.RIGHT));
+		labelPanel.add(new JLabel(Text.getString("building") + ": ", SwingConstants.RIGHT));
 		
 		fieldPanel.add(firstName);
 		fieldPanel.add(lastName);
@@ -203,13 +200,19 @@ public class NewShopOwnerCard extends JPanel{
 						building.getItemAt(building.getSelectedIndex()).getBuildingId(),
 						Integer.parseInt(floorNumber.getText()), password))  {
 					
-					Email.sendEmail(
-							"Dear "+firstName.getText()+" "+lastName.getText()+
-							",\n\nYou have been registered as an Establishment Owner for "+
-							shopName.getText()+".\n\nYour login details are:\nusername:\t"+
-							username.getText()+"\npassword:\t"+password+
-							"\n\nPlease change your password at your earliest oppurtunity.\nRegards, System Administrator for the SSS system,\nTeam12",
-							new EmailAddress(email.getText()));
+					Thread t = new Thread() {
+						@Override
+						public void run() {
+							Email.sendEmail(
+									"Dear "+firstName.getText()+" "+lastName.getText()+
+									",\n\nYou have been registered as an Establishment Owner for "+
+									shopName.getText()+".\n\nYour login details are:\nusername:\t"+
+									username.getText()+"\npassword:\t"+password+
+									"\n\nPlease change your password at your earliest oppurtunity.\nRegards, System Administrator for the SSS system,\nTeam12",
+									new EmailAddress(email.getText()));
+						}
+					};
+					t.start();
 					
 					userTab.showLogoCard();
 				}
