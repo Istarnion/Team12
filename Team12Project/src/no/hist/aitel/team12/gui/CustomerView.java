@@ -137,7 +137,7 @@ public class CustomerView {
 		search.add(municipalitySearch); 
 
 		ArrayList <Trade> trades = Trade.getAllTrades();
-		trades.add(0, new Trade(0, "All trades"));
+		trades.add(0, new Trade(0, "ALLTRADES"));
 		JComboBox<Trade> tradeSearch = new JComboBox<Trade>(trades.toArray(new Trade[trades.size()]));
 		search.add(tradeSearch);
 
@@ -145,7 +145,6 @@ public class CustomerView {
 		while(centers == null) {
 			centers = Db.getShoppingCentres(1);
 		}
-
 
 		System.out.println("Search panel done");
 

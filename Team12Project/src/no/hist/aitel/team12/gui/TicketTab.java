@@ -10,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -135,10 +136,18 @@ public class TicketTab extends SSSTab {
 					}
 
 					if(selectedTicket.setResolvedStatus(true)) {
-						Email.sendEmail(
-								replyMessage.getText()+"\n\nRegards,\n"+centreName+" customer service.",
-								new EmailAddress(customerEmail.getText()),
-								centreName+" - Customer Service - Ticket #"+selectedTicket.getTicketID());
+						Thread t = new Thread() {
+							@Override
+							public void run() {
+								Email.sendEmail(
+										replyMessage.getText()+"\n\nRegards,\n"+centreName+" customer service.",
+										new EmailAddress(customerEmail.getText()),
+										centreName+" - Customer Service - Ticket #"+selectedTicket.getTicketID());
+							}
+						};
+						t.start();
+						
+						JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
 					}
 				}
 
