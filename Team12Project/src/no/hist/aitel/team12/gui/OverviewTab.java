@@ -40,7 +40,7 @@ public class OverviewTab extends SSSTab {
 	private JPanel 
 		leftPanel, rightPanel, 
 		cardPanel;
-	private Box namePanel;
+	private Box nameBox, nameWrapBox;
 	
 	private EstablishmentCard estabCard;
 	
@@ -70,7 +70,8 @@ public class OverviewTab extends SSSTab {
 		businessList 	= new JTree();
 		cardLayout		= new CardLayout();
 		cardPanel		= new JPanel(cardLayout);
-		namePanel		= new Box(BoxLayout.Y_AXIS);
+		nameWrapBox		= new Box(BoxLayout.X_AXIS);
+		nameBox			= new Box(BoxLayout.Y_AXIS);
 		nameLabel		= new JLabel("Super Shopping Surfer", SwingConstants.LEFT);
 		estabCard		= new EstablishmentCard(userID);
 		buildingCard	= new BuildingCard(userID);
@@ -82,13 +83,21 @@ public class OverviewTab extends SSSTab {
 		scrollPaneRight	= new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		Font currentFont = businessList.getFont();
+		
+		nameWrapBox.add(Box.createGlue());
+		nameWrapBox.add(nameBox);
+		nameWrapBox.add(Box.createGlue());
+		
 		businessList.setFont(new Font(currentFont.getFontName(), currentFont.getStyle(), currentFont.getSize() + 3));
 		scrollPaneRight.setBorder(null);
-		namePanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
+		nameBox.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
 
 		nameLabel.setFont(nameLabel.getFont().deriveFont(Font.PLAIN, 50));
-		namePanel.add(nameLabel);
-		namePanel.add(managerLabel);
+
+		nameBox.add(Box.createHorizontalStrut(50));
+		nameBox.add(nameLabel);
+		nameBox.add(managerLabel);
+
 		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		businessList.setRootVisible(false);
 		
@@ -98,7 +107,7 @@ public class OverviewTab extends SSSTab {
 		cardPanel.add(estabCard, "estabCard");
 
 		
-		rightPanel.add(namePanel, BorderLayout.NORTH);
+		rightPanel.add(nameBox, BorderLayout.NORTH);
 		rightPanel.add(scrollPaneRight, BorderLayout.CENTER);
 		leftPanel.setPreferredSize(new Dimension(200, 0));		
 		leftPanel.add(scrollPaneLeft, BorderLayout.CENTER);

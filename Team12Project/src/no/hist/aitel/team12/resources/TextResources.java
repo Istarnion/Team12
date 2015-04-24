@@ -138,7 +138,8 @@ public class TextResources extends ListResourceBundle {
 				{"contactCS","Contact Customer Support"},
 				{"tradeType", "Trade"},
 				{"floorPlur","Floor(s)"},
-				{"resetPwd", "Reset Password"}
+				{"resetPwd", "Reset Password"},
+				{"manager", "Manager"}
 		};
 	}
 }

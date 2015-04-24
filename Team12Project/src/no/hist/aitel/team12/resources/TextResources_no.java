@@ -138,7 +138,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"contactCS","Kontakt kundeservice"},
 				{"tradeType","Bransje"},
 				{"floorPlur","Etasje(r)"},
-				{"resetPwd", "Tilbakestill Passord"}
+				{"resetPwd", "Tilbakestill Passord"},
+				{"manager", "Manager"}
 		};
 	}
 }
