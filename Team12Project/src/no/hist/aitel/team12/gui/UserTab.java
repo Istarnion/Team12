@@ -36,6 +36,7 @@ import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.app.UserType;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
 
 /**
@@ -61,8 +62,6 @@ public class UserTab extends SSSTab {
 	
 	private EditUserCard editUserCard;
 	
-	private UserType userType;
-	
 	/**
 	 * Constructs the UserTab.
 	 * Depending on what user is passed in, different levels of access is provided.
@@ -72,7 +71,6 @@ public class UserTab extends SSSTab {
 	 * @param userType
 	 */
 	public UserTab(int userId, UserType userType) {
-		this.userType = userType;
 		this.setLayout(new BorderLayout());
 
 		mainPanel = new JPanel();
@@ -85,9 +83,11 @@ public class UserTab extends SSSTab {
 		}
 		
 		else if(userType == UserType.CENTRE_MANAGER) {
+			int centreID = DatabaseFactory.getDatabase().getCentreID(userId);
+			
 			mainPanel.add(new NewShopOwnerCard(this, 0), "newShopOwnerCard");
-			mainPanel.add(new NewPersonnelCard(), "newPersonnelCard");
-			mainPanel.add(new NewCustomerServiceCard(this), "newCustomerServiceCard");
+			mainPanel.add(new NewPersonnelCard(this, centreID), "newPersonnelCard");
+			mainPanel.add(new NewCustomerServiceCard(this, centreID), "newCustomerServiceCard");
 		}
 		
 		editUserCard = new EditUserCard();
