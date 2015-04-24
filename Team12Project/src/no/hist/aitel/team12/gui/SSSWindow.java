@@ -93,7 +93,9 @@ public class SSSWindow extends JFrame {
 	}
 	
 	public void showWindow() {
+		System.out.println("Before pack");
 		pack();
+		System.out.println("After pack");
 		this.setLocationRelativeTo(null);
 		setVisible(true);
 	}

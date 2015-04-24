@@ -89,7 +89,10 @@ public class DataBuffer {
 				Person[] parray;
 				Ticket[] tarray;
 				
+				int centreID = db.getCentreID(centreUserID);
+				
 				String username = db.getUsername(messageUserID);
+				
 				while(!this.isInterrupted()) {
 					carray = db.getShoppingCentres(centreUserID);
 					if(carray == null) break;
@@ -105,7 +108,7 @@ public class DataBuffer {
 						personBuffers[currentIndex] = parray;
 					}
 					else {
-						tarray = db.getTickets(centreUserID);
+						tarray = db.getTickets(centreID);
 						if(tarray == null) break;
 						ticketBuffer[currentIndex] = tarray; 
 					}

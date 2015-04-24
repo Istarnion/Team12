@@ -32,7 +32,7 @@ public class Ticket {
 
 	public boolean setResolvedStatus(boolean resolvedStatus) {
 		Database db = DatabaseFactory.getDatabase();
-		boolean ok = db.executePreparedStatement("UPDATE ticket SET resolvedStatus = ? WHERE ticketID = ", resolvedStatus, ticketID);
+		boolean ok = db.executePreparedStatement("UPDATE ticket SET resolvedStatus = ? WHERE ticketID = ?", resolvedStatus, ticketID);
 		
 		if(ok) {
 			this.resolvedStatus = resolvedStatus;

@@ -89,22 +89,6 @@ public class MessageTab extends SSSTab {
 		inbox	= new ArrayList<Message>();
 		trash	= new ArrayList<Message>();
 
-		while (messages == null) {
-			messages = DataBuffer.getMessages();
-		}
-		
-		for(Message m : messages) {
-			if(m.isDeleted()) {
-				trash.add(m);
-			}
-			else if(m.getSender().equals(username)) {
-				outbox.add(m);
-			}
-			else {
-				inbox.add(m);
-			}
-		}
-
 		setupGUI();
 
 		trashButton.addActionListener(new ActionListener() {
@@ -152,7 +136,7 @@ public class MessageTab extends SSSTab {
 	private void setupGUI() {
 		inboxArea.setTabPlacement(JTabbedPane.BOTTOM);
 
-		inboxList = new JList<Message>(inbox.toArray(new Message[outbox.size()]));
+		inboxList = new JList<Message>();
 		inboxList.addListSelectionListener(new inboxListner());
 
 		scrollInbox = new JScrollPane(inboxList);
@@ -161,7 +145,7 @@ public class MessageTab extends SSSTab {
 		inboxPanel.setLayout(new BorderLayout());
 		inboxPanel.add(scrollInbox,BorderLayout.CENTER);
 
-		outboxList = new JList<Message> (outbox.toArray(new Message[outbox.size()]));
+		outboxList = new JList<Message> ();
 		outboxList.addListSelectionListener(new inboxListner());
 
 		scrollOutbox = new JScrollPane(outboxList);
@@ -170,7 +154,7 @@ public class MessageTab extends SSSTab {
 		outboxPanel.setLayout(new BorderLayout());
 		outboxPanel.add(scrollOutbox, BorderLayout.CENTER);
 
-		trashList = new JList<Message> (trash.toArray(new Message[outbox.size()]));
+		trashList = new JList<Message> ();
 		trashList.addListSelectionListener(new inboxListner());
 
 		scrollTrash = new JScrollPane(trashList);
@@ -415,16 +399,18 @@ public class MessageTab extends SSSTab {
 		DefaultListModel<Message> trashModel = new DefaultListModel<Message>();
 
 		messages = DataBuffer.getMessages();
-		for(Message m : messages) {
-			if(m.isDeleted()) {
-				trashModel.addElement(m);
-			}
-			else {
-				if(m.getSender().equals(username)) {
-					outboxModel.addElement(m);
+		if(messages != null) {
+			for(Message m : messages) {
+				if(m.isDeleted()) {
+					trashModel.addElement(m);
 				}
-				if(m.getReciever().equals(username)) {
-					inboxModel.addElement(m);
+				else {
+					if(m.getSender().equals(username)) {
+						outboxModel.addElement(m);
+					}
+					if(m.getReciever().equals(username)) {
+						inboxModel.addElement(m);
+					}
 				}
 			}
 		}
@@ -432,23 +418,6 @@ public class MessageTab extends SSSTab {
 		inboxList.setModel(inboxModel);
 		outboxList.setModel(outboxModel);
 		trashList.setModel(trashModel);
-		
-//		// The order of these matter because they all fire ValueChanged events
-//		if(inboxArea.getSelectedIndex() == 0) {	// Inbox visible
-//			outboxList.setSelectedIndex(obSel);
-//			trashList.setSelectedIndex(tSel);
-//			inboxList.setSelectedIndex(ibSel);
-//		}
-//		else if(inboxArea.getSelectedIndex() == 1)  {// Outbox visible
-//			inboxList.setSelectedIndex(ibSel);
-//			trashList.setSelectedIndex(tSel);
-//			outboxList.setSelectedIndex(obSel);
-//		}
-//		else {
-//			inboxList.setSelectedIndex(ibSel);
-//			outboxList.setSelectedIndex(obSel);
-//			trashList.setSelectedIndex(tSel);
-//		}
 		
 		selectionLock = true;
 		inboxList.setSelectedIndex(ibSel);
