@@ -43,6 +43,8 @@ public class CustomerView {
 	private ShoppingCentre [] centers;
 
 	private JPanel basePanel = new JPanel();
+	
+	private JPanel mainPanel = new JPanel();
 
 	private JPanel topbar = new JPanel();
 
@@ -57,6 +59,8 @@ public class CustomerView {
 	private JPanel resultView = new JPanel();
 
 	private CardLayout cardLayout;
+	
+	private CardLayout bigCardLayout;
 	
 	private CentreView cView;
 	
@@ -86,9 +90,14 @@ public class CustomerView {
 
 	private boolean valueChanged = true;
 
+	private CustomerCSView csView;
+	
 	public CustomerView(){
 		super();
 
+		bigCardLayout = new CardLayout();
+		mainPanel.setLayout(bigCardLayout);
+		
 		basePanel.setLayout(new BoxLayout(basePanel, BoxLayout.Y_AXIS));
 		basePanel.setPreferredSize(new Dimension(1200, 675));
 
@@ -144,7 +153,7 @@ public class CustomerView {
 		cardLayout = new CardLayout();
 		resultView.setLayout(cardLayout);
 		
-		cView = new CentreView();
+		cView = new CentreView(this);
 		bView = new BuildingView();
 		eView = new EstablishmentView();
 		
@@ -207,7 +216,11 @@ public class CustomerView {
 		TradeSearchListener tsl = new TradeSearchListener();
 		tradeSearch.addActionListener(tsl);
 
-
+		csView = new CustomerCSView(this);
+		
+		mainPanel.add(basePanel, "mainView");
+		mainPanel.add(csView, "csView");
+		
 		Timer t = new Timer(666,new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent f) {
@@ -292,11 +305,15 @@ public class CustomerView {
 		t.start();
 	}
 
+	public void gotoCustomerCSView(int centreID, String centreName) {
+		csView.updateView(centreID, centreName);
+		bigCardLayout.show(mainPanel, "csView");
+	}
 
-
-
-
-
+	public void gotoMainView() {
+		bigCardLayout.show(mainPanel, "mainView");
+	}
+	
 	private class SearchListener implements KeyListener{
 
 		@Override
@@ -364,7 +381,7 @@ public class CustomerView {
 		SSSWindow frame = new SSSWindow();
 		System.out.println("SSSWindow added");
 		CustomerView cv = new CustomerView();
-		frame.add(cv.basePanel);
+		frame.add(cv.mainPanel);
 		System.out.println("tab added to window");
 		frame.showWindow();
 		System.out.println("Visible");

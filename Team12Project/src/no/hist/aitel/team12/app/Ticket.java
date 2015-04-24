@@ -56,6 +56,16 @@ public class Ticket {
 		return centreID;
 	}
 	
+	public static boolean sendSupportTicket(String content, EmailAddress email, int centreID) {
+		Database db = DatabaseFactory.getDatabase();
+		
+		if(db == null) return false;
+		
+		return db.executePreparedStatement(
+				"INSERT INTO ticket (content, customer_email, centre_id) VALUES (?, ?, ?)",
+				content, email.getEmailAddress(), centreID);
+	}
+	
 	@Override
 	public String toString() {
 		return customerEmail+" #"+ticketID;
