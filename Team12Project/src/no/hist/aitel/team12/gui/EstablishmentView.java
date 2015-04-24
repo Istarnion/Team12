@@ -1,14 +1,21 @@
 package no.hist.aitel.team12.gui;
 
-import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.util.Text;
 
 public class EstablishmentView extends JPanel {
+	
 
 	private JLabel eNameLabel;
 	private JLabel eName;
@@ -25,75 +32,125 @@ public class EstablishmentView extends JPanel {
 	private JLabel eFlrLabel;
 	private JLabel eFlr;
 	private JLabel eDescriptLabel;
-	private JLabel eDescript;
-
-	private JButton contactCS;
+	private JTextArea eDescript;
+	private JScrollPane scrollDescript;
+	private Box topBox;
+	private Box eNameBox;
+	private Box eAdrBox;
+	private Box eOpenBox;
+	private Box eFloorBox;
+	private Box eTradeBox;
+	private Box eEmailBox;
+	private Box ePhoneBox;
+	private Box eDescriptBox;
 
 	private static final long serialVersionUID = 8193973009955888884L;
 
 	public EstablishmentView() {
-		eNameLabel = new JLabel();
+		
+		eNameBox = new Box(BoxLayout.X_AXIS); 
+		eNameLabel = new JLabel(Text.getString("name")+":");
+		eNameLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eName = new JLabel();
-
-		eOpenLabel = new JLabel();
-		eOpen = new JLabel();
-
-		eTradeLabel = new JLabel();
-		eTrade = new JLabel();
-
-		eEmailLabel = new JLabel();
-		eEmail = new JLabel();
-
-		ePhoneLabel = new JLabel();
-		ePhone = new JLabel();
-
-		eAdrLabel = new JLabel();
+		eNameBox.add(eNameLabel);
+		eNameBox.add(Box.createGlue());
+		eNameBox.add(eName);
+		
+		eAdrBox = new Box(BoxLayout.X_AXIS);
+		eAdrLabel = new JLabel(Text.getString("adr")+":");
+		eAdrLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eAdr = new JLabel();
-
-		eFlrLabel = new JLabel();
+		eAdrBox.add(eAdrLabel);
+		eAdrBox.add(Box.createGlue());
+		eAdrBox.add(eAdr);
+		
+		
+		eOpenBox = new Box(BoxLayout.X_AXIS);
+		eOpenLabel = new JLabel(Text.getString("openingHrs")+":");
+		eOpenLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
+		eOpen = new JLabel();
+		eOpenBox.add(eOpenLabel);
+		eOpenBox.add(Box.createGlue());
+		eOpenBox.add(eOpen);
+		
+		eFloorBox = new Box(BoxLayout.X_AXIS);
+		eFlrLabel = new JLabel(Text.getString("floor")+":");
+		eFlrLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		eFlr = new JLabel();
-
-		eDescriptLabel = new JLabel(); 
-		eDescript = new JLabel();
-
-		contactCS = new JButton();
-
-		add(eNameLabel);
-		add(eName);
-		add(eOpenLabel);
-		add(eOpen);
-		add(eTradeLabel);
-		add(eTrade);
-		add(eEmailLabel);
-		add(eEmail);
-		add(ePhoneLabel);
-		add(ePhone);
-		add(eAdrLabel);
-		add(eAdr);
-		add(eFlrLabel);
-		add(eFlr);
-		add(eDescriptLabel);
-		add(eDescript);
-		add(contactCS);
+		eFloorBox.add(eFlrLabel);
+		eFloorBox.add(Box.createGlue());
+		eFloorBox.add(eFlr);
+		
+		eTradeBox = new Box(BoxLayout.X_AXIS);
+		eTradeLabel = new JLabel(Text.getString("tradeType")+":");
+		eTradeLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
+		eTrade = new JLabel();
+		eTradeBox.add(eTradeLabel);
+		eTradeBox.add(Box.createGlue());
+		eTradeBox.add(eTrade);
+		
+		eEmailBox = new Box(BoxLayout.X_AXIS);
+		eEmailLabel = new JLabel(Text.getString("email")+":");
+		eEmailLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
+		eEmail = new JLabel();
+		eEmailBox.add(eEmailLabel);
+		eEmailBox.add(Box.createGlue());
+		eEmailBox.add(eEmail);
+		
+		ePhoneBox = new Box(BoxLayout.X_AXIS);
+		ePhoneLabel = new JLabel(Text.getString("tel")+":");
+		ePhoneLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
+		ePhone = new JLabel();
+		ePhoneBox.add(ePhoneLabel);
+		ePhoneBox.add(Box.createGlue());
+		ePhoneBox.add(ePhone);
+		
+		eDescriptBox = new Box(BoxLayout.X_AXIS);
+		eDescriptLabel = new JLabel(Text.getString("textDescription")+":"); 
+		eDescriptLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
+		eDescript = new JTextArea(20,65);
+		eDescript.setLineWrap(true);
+		eDescript.setWrapStyleWord(true);
+		eDescript.setEditable(false);
+		scrollDescript = new JScrollPane(eDescript);
+		scrollDescript.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		eDescriptBox.add(eDescriptLabel);
+		eDescriptBox.add(Box.createGlue());
+		eDescriptBox.add(scrollDescript);
+		
+		
+		topBox = new Box(BoxLayout.Y_AXIS);
+		topBox.add(eNameBox);
+		topBox.add(eAdrBox);
+		topBox.add(eOpenBox);
+		topBox.add(eFloorBox);
+		topBox.add(eTradeBox);
+		topBox.add(eEmailBox);
+		topBox.add(ePhoneBox);
+		topBox.add(eDescriptBox);
+		
+		
+		setLayout(new BorderLayout());
+		add(topBox,BorderLayout.WEST);
+		
+		
 
 
 	}
 
 	public void updateCard(Establishment estab) {
-		eNameLabel.setText(Text.getString("name")+":");
+		
 		eName.setText(estab.getBusinessName());
 
-		eOpenLabel.setText(Text.getString("openingHrs")+":");
+		
 		eOpen.setText(estab.getOpeningHours());
 
-		eTradeLabel.setText(Text.getString("tradeType")+":");
+		
 		if(estab.getSelectedTrades() != null) {
 			String trades = "";
 			for(Trade t : estab.getSelectedTrades()){
 				trades += t.toString() + ", ";
-
 			}
-
 			if(!trades.isEmpty()){
 				trades = trades.substring(0,trades.length()-2);
 			}
@@ -102,21 +159,13 @@ public class EstablishmentView extends JPanel {
 		else {
 			eTrade.setText("");
 		}
-		eEmailLabel.setText(Text.getString("email")+":");
+		
 		eEmail.setText(estab.getEmail().getEmailAddress());
-
-		ePhoneLabel.setText(Text.getString("tel")+":");
 		ePhone.setText(""+estab.getTelephone());
-
-		eAdrLabel.setText(Text.getString("adr")+":");
 		eAdr.setText(estab.getAddress().toString());
-
-		eFlrLabel.setText(Text.getString("floor")+":");
 		eFlr.setText(""+estab.getFloorNumber());
-
-		eDescriptLabel.setText(Text.getString("textDescription")+":");
 		eDescript.setText(estab.getDescription());
 
-		contactCS.setText(Text.getString("contactCS"));
+		
 	}
 }
