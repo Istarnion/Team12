@@ -17,6 +17,7 @@ import no.hist.aitel.team12.app.Person;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.Ticket;
 import no.hist.aitel.team12.app.Trade;
 import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.app.UserType;
@@ -495,7 +496,6 @@ public class DatabaseConnection implements Database {
 				System.out.println("Something went wrong while setting ReadOnly in DatabaseConnection.getUsername()");
 				e1.printStackTrace();
 			}
-
 		}
 
 		return output;
@@ -877,6 +877,9 @@ public class DatabaseConnection implements Database {
 				else if(args[i] instanceof Integer) {
 					prepStatement.setInt(i+1, (Integer)args[i]);
 				}
+				else if(args[i] instanceof Boolean) {
+					prepStatement.setBoolean(i+1, (Boolean)args[i]);
+				}
 				else {
 					return false;
 				}
@@ -1186,6 +1189,50 @@ public class DatabaseConnection implements Database {
 
 			e.printStackTrace();
 			return allTrades;
+		}
+	}
+	
+	@Override
+	public Ticket[] getTickets(int centreID) {
+		synchronized(connection) {
+			Ticket[] output = null;
+			
+			try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM ticket WHERE centre_id = ?")) {
+				connection.setReadOnly(true);
+				
+				statement.setInt(1, centreID);
+				
+				ResultSet result = statement.executeQuery();
+				
+				result.last();
+				output = new Ticket[result.getRow()];
+				result.beforeFirst();
+				
+				for(int i=0; result.next(); i++) {
+					output[i] = new Ticket(
+							result.getInt("ticket_id"),
+							result.getString("content"),
+							new EmailAddress(
+									result.getString("customer_email")
+									),
+							result.getBoolean("resolvedStatus"),
+							centreID
+							);
+				}
+				result.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					connection.setReadOnly(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+			return output;
 		}
 	}
 }

@@ -1,5 +1,8 @@
 package no.hist.aitel.team12.app;
 
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
+
 public class Ticket {
 	
 	private int ticketID;
@@ -10,31 +13,31 @@ public class Ticket {
 	
 	private boolean resolvedStatus;
 	
-	private int employeeNumber;
+	private int centreID;
 	
-	private int businessID;
-	
-	private int followUpID;
 	
 	public Ticket(int ticketID, String content, EmailAddress customerEmail,
-			boolean resolvedStatus, int employeeNumber, int businessID,
-			int followUpID) {
-		super();
+			boolean resolvedStatus, int businessID
+			) {
 		this.ticketID = ticketID;
 		this.content = content;
 		this.customerEmail = customerEmail;
 		this.resolvedStatus = resolvedStatus;
-		this.employeeNumber = employeeNumber;
-		this.businessID = businessID;
-		this.followUpID = followUpID;
+		this.centreID = businessID;
 	}
 
 	public boolean isResolvedStatus() {
 		return resolvedStatus;
 	}
 
-	public void setResolvedStatus(boolean resolvedStatus) {
-		this.resolvedStatus = resolvedStatus;
+	public boolean setResolvedStatus(boolean resolvedStatus) {
+		Database db = DatabaseFactory.getDatabase();
+		boolean ok = db.executePreparedStatement("UPDATE ticket SET resolvedStatus = ? WHERE ticketID = ", resolvedStatus, ticketID);
+		
+		if(ok) {
+			this.resolvedStatus = resolvedStatus;
+		}
+		return ok;
 	}
 
 	public int getTicketID() {
@@ -49,15 +52,12 @@ public class Ticket {
 		return customerEmail;
 	}
 
-	public int getEmployeeNumber() {
-		return employeeNumber;
-	}
-
 	public int getBusinessID() {
-		return businessID;
+		return centreID;
 	}
-
-	public int getFollowUpID() {
-		return followUpID;
+	
+	@Override
+	public String toString() {
+		return customerEmail+" #"+ticketID;
 	}
 }
