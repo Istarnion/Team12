@@ -124,8 +124,14 @@ public class DatabaseConnection implements Database {
 			String	centreQuery = null,
 					buildingQuery = null,
 					establishmentQuery = null,
-					tradeQuery = "SELECT * FROM establishmenttrade JOIN trade USING (trade_id)",
-					personnelQuery = "SELECT * FROM personnel LEFT JOIN person USING (employee_number)";
+					tradeQuery =
+					"SELECT * FROM establishmenttrade JOIN trade USING (trade_id)",
+					personnelQuery =
+					"SELECT * FROM personnel "
+					+"LEFT JOIN person USING (employee_number) "
+					+"LEFT JOIN zipcode USING (zipcode) "
+					+"LEFT JOIN municipality USING(municipality_id) "
+					+"LEFT JOIN county USING (county_id)";
 			UserType userType = getUserType(userID);
 			switch(userType) {
 			case SYS_ADMIN:
@@ -555,7 +561,8 @@ public class DatabaseConnection implements Database {
 				if(type == UserType.CENTRE_MANAGER) {
 					centreID = getCentreID(userID);
 					userStatement =
-						"SELECT uv.employee_number, uv.first_name, uv.last_name, uv.address, uv.zipcode, uv.email, uv.telephone, uv.salary, uv.username, uv.district "
+						"SELECT uv.employee_number, uv.first_name, uv.last_name, uv.address, uv.zipcode, uv.email, uv.telephone, uv.salary, "
+						+"uv.username, uv.district, uv.municipality_name, uv.county_name "
 						+"FROM user_view uv "
 						+"LEFT JOIN centremanager cm USING (employee_number) "
 						+"LEFT JOIN establishmentowner USING (employee_number) "
@@ -1002,20 +1009,15 @@ public class DatabaseConnection implements Database {
 	public boolean createPersonnel	(String firstName, String lastName, String address, int zipCode, 
 			String email, int telephone, int salary, String title, int centreID) {
 
-		String firstNameDMP = DoubleMetaphoneUtils.encodeString(firstName);
-		String lastNameDMP = DoubleMetaphoneUtils.encodeString(lastName);
-
-		try(PreparedStatement personStatement = connection.prepareStatement("INSERT INTO person(first_name, first_name_dmp, last_name, last_name_dmp, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+		try(PreparedStatement personStatement = connection.prepareStatement("INSERT INTO person(first_name, last_name, address, zipcode, email, telephone, salary) VALUES(?, ?, ?, ?, ?, ?, ?)")) {
 			connection.setAutoCommit(false);
 			personStatement.setString(1, firstName);
-			personStatement.setString(2, firstNameDMP);
-			personStatement.setString(3, lastName);
-			personStatement.setString(4, lastNameDMP);
-			personStatement.setString(5, address);
-			personStatement.setInt(6, zipCode);
-			personStatement.setString(7, email);
-			personStatement.setInt(8, telephone);
-			personStatement.setInt(9, salary);
+			personStatement.setString(2, lastName);
+			personStatement.setString(3, address);
+			personStatement.setInt(4, zipCode);
+			personStatement.setString(5, email);
+			personStatement.setInt(6, telephone);
+			personStatement.setInt(7, salary);
 
 			personStatement.executeUpdate();
 

@@ -155,4 +155,8 @@ public class PasswordInputField extends JPasswordField {
 		};
 		SwingUtilities.invokeLater(rnbl);
 	}
+	
+	public boolean isDefaultShown() {
+		return defaultShown;
+	}
 }

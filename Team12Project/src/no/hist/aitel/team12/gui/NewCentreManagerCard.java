@@ -208,11 +208,17 @@ public class NewCentreManagerCard extends JPanel {
 						centreName.getText(), centreAddress.getText(),
 						Integer.parseInt(centreZip.getText()))) {
 					
-					Email.sendEmail("Dear "+firstName.getText()+" "+lastName.getText()
-							+",\nYou have been created as a Centre Manager for "+centreName.getText()
-							+".\nYour username is: "+username.getText()+"\nYour password is: "+password
-							+"\n\nPlease change your password at your earliest oppurtunity.\n Regards, System Administrator for the SSS system,\nTeam12",
-							new EmailAddress(email.getText()));
+					Thread t = new Thread() {
+						@Override
+						public void run() {
+							Email.sendEmail("Dear "+firstName.getText()+" "+lastName.getText()
+									+",\nYou have been created as a Centre Manager for "+centreName.getText()
+									+".\nYour username is: "+username.getText()+"\nYour password is: "+password
+									+"\n\nPlease change your password at your earliest oppurtunity.\n Regards, System Administrator for the SSS system,\nTeam12",
+									new EmailAddress(email.getText()));
+						}
+					};
+					t.start();
 					
 					userTab.showLogoCard();
 				}
