@@ -896,6 +896,9 @@ public class DatabaseConnection implements Database {
 				else if(args[i] instanceof Boolean) {
 					prepStatement.setBoolean(i+1, (Boolean)args[i]);
 				}
+				else if(args[i] instanceof Long) {
+					prepStatement.setLong(i+1, (Long)args[i]);
+				}
 				else {
 					return false;
 				}
