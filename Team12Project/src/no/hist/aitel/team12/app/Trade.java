@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.util.Text;
 
 
 public class Trade {
@@ -17,7 +18,7 @@ public class Trade {
 
 	@Override
 	public String toString() {
-		return tradeName;
+		return Text.getString(tradeName);
 	}
 
 	public int getTradeId() {
