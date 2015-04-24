@@ -159,4 +159,14 @@ public class PasswordInputField extends JPasswordField {
 	public boolean isDefaultShown() {
 		return defaultShown;
 	}
+	
+	@Override
+	public void setText(String text) {
+		if("".equals(text)) {
+			setDefaultText();
+		}
+		else {
+			super.setText(text);
+		}
+	}
 }

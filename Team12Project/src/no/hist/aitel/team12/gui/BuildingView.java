@@ -1,5 +1,6 @@
 package no.hist.aitel.team12.gui;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
@@ -20,11 +21,13 @@ public class BuildingView extends JPanel {
 	
 	private JPanel labelPanel;
 	private JPanel buildingPanel;
+	private JPanel placement;
 
 	private static final long serialVersionUID = 30928182953933521L;
 
 	public BuildingView() {
-		setLayout(new GridLayout(1,2));
+		placement = new JPanel();
+		placement.setLayout(new GridLayout(1,2));
 		
 		labelPanel = new JPanel();
 		labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
@@ -44,9 +47,11 @@ public class BuildingView extends JPanel {
 		buildingPanel.add(bFloor);
 		buildingPanel.add(bArea);
 		
-		add(labelPanel);
-		add(buildingPanel);
-	
+		placement.add(labelPanel);
+		placement.add(buildingPanel);
+		
+		setLayout(new BorderLayout());
+		add(placement, BorderLayout.WEST);
 		
 	}
 
