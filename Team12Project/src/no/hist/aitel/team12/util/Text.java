@@ -18,6 +18,7 @@
 package no.hist.aitel.team12.util;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import no.hist.aitel.team12.resources.TextResources;
@@ -44,8 +45,14 @@ public class Text {
 	 */
 	public static String getString(String... keys) {
 		String output = "";
+		String resource;
 		for(String key : keys) {
-			output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+" ";
+			try {
+				output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+" ";
+			}
+			catch(MissingResourceException e) {
+				output += " ";
+			}
 		}
 		return output.trim();
 	}
@@ -60,7 +67,12 @@ public class Text {
 	public static String getCustomString(String delimiter, String... keys) {
 		String output = "";
 		for(String key : keys) {
-			output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+delimiter;
+			try {
+				output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+delimiter;
+			}
+			catch(MissingResourceException e) {
+				output += " ";
+			}
 		}
 		if(!output.isEmpty()) {
 			output = output.substring(0, output.length()-delimiter.length());

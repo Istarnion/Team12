@@ -111,6 +111,7 @@ public class TextResources extends ListResourceBundle {
 				{"invalidZip", "Invalid zipcode"},
 				{"usertypeTry", "Trying to create usertype: "},
 				{"whatUsertype", "What kind of user should be created?"},
+				{"noEmpty", "Field cannot be empty."},
 				{"usertype", "User type"},
 				{"invalidHrs","Invalid format for opening hours\nYou need two numbers in each of the 4 fields\nand you have to open before you close"},
 				{"invalidInt", "Invalid, please input integer"},
@@ -157,7 +158,7 @@ public class TextResources extends ListResourceBundle {
 				{"MAKEUP", "Make up"},
 				{"FLORIST", "Florist"},
 				{"PHARMACY", "Pharmacy"},
-				{"TOYSHOP", "Toy shop"},
+				{"TOYSTORE", "Toy store"},
 				{"BOOKS", "Books"},
 				{"MUSIC", "Music"},
 				{"GAMES", "Games and etertainment"},
@@ -184,6 +185,9 @@ public class TextResources extends ListResourceBundle {
 				{"pwdChanged", "Password changed"},
 				{"saving", "Saving ..."},
 				{"usrAllreadyExists", "Username taken\n"},
+				{"TAILOR", "Tailor"},
+				{"ALLTRADES", "All trades"},
+				{"LINGERIE", "Lingerie"}
 
 		};
 	}

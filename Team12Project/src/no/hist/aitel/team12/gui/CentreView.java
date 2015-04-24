@@ -2,7 +2,6 @@ package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -55,8 +54,14 @@ public class CentreView extends JPanel {
 	
 	private static final long serialVersionUID = -4615331862168657390L;
 
-	public CentreView() {
-		
+	private CustomerView cv;
+	
+	private int centreID = 0;
+	
+	private String centreName = null;
+	
+	public CentreView(CustomerView cv) {
+		this.cv = cv;
 		
 		cNameBox = new Box(BoxLayout.X_AXIS);
 		cNameLabel = new JLabel(Text.getString("name")+":");
@@ -163,13 +168,14 @@ public class CentreView extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+			cv.gotoCustomerCSView(centreID, centreName);
 		}
-		
 	}
 
 	public void updateCard(ShoppingCentre centre) {
+		centreID = centre.getCentreId();
+		centreName = centre.getBusinessName();
+		
 		cName.setText(centre.getBusinessName());
 		cAdr.setText(centre.getAddress().toString());
 		

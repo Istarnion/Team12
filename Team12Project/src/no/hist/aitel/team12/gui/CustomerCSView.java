@@ -1,104 +1,114 @@
 package no.hist.aitel.team12.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
+import javax.swing.Box;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import no.hist.aitel.team12.database.DatabaseFactory;
+import no.hist.aitel.team12.app.EmailAddress;
+import no.hist.aitel.team12.app.Ticket;
+import no.hist.aitel.team12.util.Text;
 
-public class CustomerCSView extends SSSTab {
-	
-	private JPanel contactCs = new JPanel();
-	private JPanel info = new JPanel();
-	private JPanel message = new JPanel();
+public class CustomerCSView extends JPanel {
 
-	private InputField subject = new InputField("Subject",20);
-	private InputField email = new InputField("Your email adress here",20);
+	private JLabel centreHeader;
 	
-	private String [] centerNames = {"City syd","City Lade"};
-	private JComboBox<String> centerName = new JComboBox<String>(centerNames);
+	private InputField email;
 	
+	private JScrollPane messageScroll;
 	
-	private JTextArea supportMessage = new JTextArea("What seems to be the officer problem?");
+	private JTextArea supportMessage = new JTextArea();
 	
+	private JButton sendButton, cancelButton;
 	
+	private int centreID = 0;
 	
-	private JButton send = new JButton("Send");
+	private String centreName = null;
 	
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 242612470705756493L;
 
-	public CustomerCSView(){
-		contactCs.setLayout(new BoxLayout(contactCs,BoxLayout.Y_AXIS));
-		contactCs.setPreferredSize(new Dimension(1200, 675));
-
-		add(contactCs, BorderLayout.CENTER);
-		
-	// Info panel
-		
-		info.setLayout(new GridLayout(2,2, 2,5));
+	private CustomerView cv;
 	
-		info.setPreferredSize(new Dimension(0,50));
-		info.add(subject);
-		info.add(centerName);
-		info.add(email);
-		info.add(send);
+	public CustomerCSView(CustomerView cv) {
 		
-	// Message Area
+		this.cv = cv;
 		
-		message.setLayout(new BorderLayout());
-		message.setPreferredSize(new Dimension(0,600));
-		supportMessage.setEditable(true);
-		message.add(supportMessage,BorderLayout.CENTER);
+		//this.setLayout(new BorderLayout());
 		
-	
+		Box mainBox = Box.createVerticalBox();
 		
-		contactCs.add(info);
-		contactCs.add(message);
+		centreHeader = new JLabel();
+		mainBox.add(centreHeader);
+		mainBox.add(Box.createVerticalStrut(5));
 		
-		ButtonListener clicked = new ButtonListener();
-		send.addActionListener(clicked);
+		email = new InputField(Text.getString("email"), 20);
+		mainBox.add(email);
 		
+		supportMessage.setLineWrap(true);
+		supportMessage.setWrapStyleWord(true);
+		messageScroll = new JScrollPane(supportMessage);
+		messageScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		messageScroll.setPreferredSize(new Dimension(600, 750));
+		mainBox.add(messageScroll);
+		
+		JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
+		
+		sendButton = new JButton(Text.getString("send"));
+		
+		buttonPanel.add(sendButton);
+		
+		cancelButton = new JButton(Text.getString("cancel"));
+		
+		buttonPanel.add(cancelButton);
+		
+		mainBox.add(buttonPanel);
+		mainBox.add(Box.createVerticalStrut(50));
+		
+		this.add(mainBox);
+		
+		sendButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(EmailAddress.isValidEmailAddress(email.getText())) {
+					if(!supportMessage.getText().isEmpty()) {
+						if(Ticket.sendSupportTicket(supportMessage.getText(), new EmailAddress(email.getText()), centreID)) {
+							JOptionPane.showMessageDialog(null, Text.getString("msgConfirmation"));
+							cv.gotoMainView();
+						}
+						else {
+							JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, Text.getString("noEmpty"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, Text.getString("invalidEmail"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cv.gotoMainView();
+			}
+		});
 	}
 	
-	private class ButtonListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			/*
-			 * getCenter, getSubject. getuserID, get message^
-			 * send to database
-			 */
-			System.out.println("Send button has been pressed");
-			
-		}
-	}
-
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
+	public void updateView(int centreID, String centreName) {
+		this.centreID = centreID;
+		this.centreName = centreName;
 		
+		centreHeader.setText(centreName);
 	}
-	
-	public static void main(String[]args){
-	
-		SSSWindow cv = new SSSWindow();
-		System.out.println("SSSWindow added");
-		cv.addTab("Customer Service",new CustomerCSView());
-		System.out.println("tab added to window");
-		cv.showWindow();
-		System.out.println("Visible");	
-	}
-
 }

@@ -110,6 +110,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"invalidZip", "Ugyldig postnummer"},
 				{"usertypeTry", "Prøver å opprette brukertype: "},
 				{"whatUsertype", "Hvilken type bruker skal opprettes?"},
+				{"noEmpty", "Feltet kan ikke være tomt."},
 				{"usertype", "brukertype"},
 				{"invalidHrs", "Ugyldig format på åpningstid\nDet kreves to tall i hvert av de 4 feltene\nog man må åpne før man stenger"},
 				{"invalidInt", "Ugyldig format, oppgi heltall"},
@@ -157,7 +158,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"MAKEUP", "Sminke"},
 				{"FLORIST", "Blomsterhandler"},
 				{"PHARMACY", "Apotek"},
-				{"TOYSHOP", "Lekebutikk"},
+				{"TOYSHOP", "Leketøysbutikk"},
 				{"BOOKS", "Bøker"},
 				{"MUSIC", "Musikk"},
 				{"GAMES", "Spill og underholdning"},
@@ -183,7 +184,10 @@ public class TextResources_no extends ListResourceBundle {
 				{"usrAllreadyExists", "Brukernavn opptatt\n"},
 				{"newPwdFail", "Sjekk at nytt passord gjentas korrekt"},
 				{"pwdChanged", "Passord endret"},
-				{"saving", "Lagrer ..."}
+				{"saving", "Lagrer ..."},
+				{"TAILOR", "Skredder"},
+				{"ALLTRADES", "Alle bransjer"},
+				{"LINGERIE", "Undertøy"}
 		};
 	}
 }
