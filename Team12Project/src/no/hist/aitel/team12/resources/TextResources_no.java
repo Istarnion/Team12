@@ -218,7 +218,9 @@ public class TextResources_no extends ListResourceBundle {
 				{"adrMissing", "- Adresse mangler"},
 				{"usrCreated", "- Bruker opprettet"},
 				{"shopNameMissing", "- Butikkens navn må fylles ut"},
-				{"revReg", "Fortjeneste er registrert"}
+				{"revReg", "Fortjeneste er registrert"},
+				{"needTo", "- Du må fylle inn en mottaker"},
+				{"needSub", "- Du må fylle inn et emne"}
 
 		};
 	}

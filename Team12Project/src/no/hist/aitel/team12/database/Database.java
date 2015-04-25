@@ -16,10 +16,12 @@
  *******************************************************************************/
 package no.hist.aitel.team12.database;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import no.hist.aitel.team12.app.Message;
 import no.hist.aitel.team12.app.Person;
+import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.Ticket;
 import no.hist.aitel.team12.app.Trade;
@@ -270,4 +272,14 @@ public interface Database {
 	 * @return
 	 */
 	public Ticket[] getTickets(int centreID);
+	
+	/**
+	 * Retrieves an array of revenue objects for a specified business from the db.
+	 * 
+	 * @param businessID	The business to find the revenues from
+	 * @param from			The date from
+	 * @param to			The date to
+	 * @return An array of revenue objects. The length of this array will be equal to the number of months between to and from
+	 */
+	public Revenue[] getRevenue(int businessID, Date from, Date to);
 }

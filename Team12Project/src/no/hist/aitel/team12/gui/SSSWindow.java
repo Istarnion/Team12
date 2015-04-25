@@ -87,15 +87,12 @@ public class SSSWindow extends JFrame {
 		add(tabbedPane);
 	}
 	
-	
 	public void addTab(String tabName, SSSTab tab) {
 		tabbedPane.add("<html><body leftmargin=15 topmargin=8 marginwidth=15 marginheight=5>" + tabName + "</body></html>", tab);
 	}
 	
 	public void showWindow() {
-		System.out.println("Before pack");
 		pack();
-		System.out.println("After pack");
 		this.setLocationRelativeTo(null);
 		setVisible(true);
 	}

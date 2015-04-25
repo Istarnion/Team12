@@ -60,9 +60,9 @@ public class MessageTab extends SSSTab {
 
 	private JScrollPane sendMessageScroll;
 
-	private JTextField
-	subject, subjectto,
-	from, to;
+	private JTextField subject, from;
+	
+	private InputField subjectto, to;
 
 	private Message[] messages;
 
@@ -281,7 +281,7 @@ public class MessageTab extends SSSTab {
 		GridBagConstraints constraintsSendMsg = new GridBagConstraints();
 
 		// Field for from
-		to = new JTextField();
+		to = new InputField(Text.getString("to"), 20);
 		constraintsSendMsg.gridx = 0;
 		constraintsSendMsg.gridy = 0;
 		constraintsSendMsg.gridwidth = 1;
@@ -297,6 +297,20 @@ public class MessageTab extends SSSTab {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String errorMsg = "";
+				
+				if(to.isDefaultShown()) {
+					errorMsg = Text.getString("needTo")+"\n";
+				}
+				if(subjectto.isDefaultShown()) {
+					errorMsg += Text.getString("needSub");
+				}
+				
+				if(!errorMsg.isEmpty()) {
+					JOptionPane.showMessageDialog(null, errorMsg, Text.getString("err"), JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
 				SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
 					boolean messageSent;
 					@Override
@@ -348,7 +362,7 @@ public class MessageTab extends SSSTab {
 		sendMessagePanel.add(send, constraintsSendMsg);
 
 		// Field for message subject
-		subjectto = new JTextField();
+		subjectto = new InputField(Text.getString("sub"), 20);
 		constraintsSendMsg.gridx = 0;
 		constraintsSendMsg.gridy = 1;
 		constraintsSendMsg.gridwidth = 2;
