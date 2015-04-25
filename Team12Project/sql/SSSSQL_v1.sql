@@ -159,12 +159,9 @@ CREATE TABLE ticket(
 ticket_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 content VARCHAR(1000),
 customer_email VARCHAR(30),
-resolvedStatus BOOLEAN,
-employee_number INTEGER,
-business_id INTEGER,
-followup_ticket_id INTEGER,
-CONSTRAINT ticket_FK FOREIGN KEY (business_id) REFERENCES business (business_id),
-CONSTRAINT ticket_FK_followup FOREIGN KEY (followup_ticket_id) REFERENCES ticket (ticket_id)
+resolvedStatus BOOLEAN NOT NULL DEFAULT FALSE,
+centre_id INTEGER,
+CONSTRAINT ticket_FK FOREIGN KEY (centre_id) REFERENCES shoppingcentre (centre_id)
 )
 ENGINE = InnoDB;
 
