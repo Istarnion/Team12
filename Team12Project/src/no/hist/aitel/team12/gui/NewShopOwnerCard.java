@@ -344,7 +344,7 @@ public class NewShopOwnerCard extends JPanel{
 		}
 		building.setModel(buildingModel);
 		
-		if(buildings.length>0) {
+		if(building.getItemCount()>0) {
 			building.setSelectedIndex(0);
 		}
 	}
