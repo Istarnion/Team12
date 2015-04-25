@@ -187,7 +187,19 @@ public class TextResources_no extends ListResourceBundle {
 				{"saving", "Lagrer ..."},
 				{"TAILOR", "Skredder"},
 				{"ALLTRADES", "Alle bransjer"},
-				{"LINGERIE", "Undertøy"}
+				{"LINGERIE", "Undertøy"},
+				{"jan", "Januar"},
+				{"feb", "Februar"},
+				{"mar", "Mars"},
+				{"apr", "April"},
+				{"may", "Mai"},
+				{"jun", "Juni"},
+				{"jul", "Juli"},
+				{"aug", "August"},
+				{"sep", "September"},
+				{"oct", "Oktober"},
+				{"nov", "November"},
+				{"des", "Desember"}
 		};
 	}
 }

@@ -187,8 +187,19 @@ public class TextResources extends ListResourceBundle {
 				{"usrAllreadyExists", "Username taken\n"},
 				{"TAILOR", "Tailor"},
 				{"ALLTRADES", "All trades"},
-				{"LINGERIE", "Lingerie"}
-
+				{"LINGERIE", "Lingerie"},
+				{"jan", "January"},
+				{"feb", "February"},
+				{"mar", "March"},
+				{"apr", "April"},
+				{"may", "May"},
+				{"jun", "June"},
+				{"jul", "July"},
+				{"aug", "August"},
+				{"sep", "September"},
+				{"oct", "October"},
+				{"nov", "November"},
+				{"des", "Desember"}
 		};
 	}
 }

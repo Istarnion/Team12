@@ -45,13 +45,12 @@ public class Text {
 	 */
 	public static String getString(String... keys) {
 		String output = "";
-		String resource;
 		for(String key : keys) {
 			try {
 				output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+" ";
 			}
 			catch(MissingResourceException e) {
-				output += " ";
+				output += key+" ";
 			}
 		}
 		return output.trim();
@@ -71,7 +70,7 @@ public class Text {
 				output += ResourceBundle.getBundle(TextResources.class.getName()).getString(key)+delimiter;
 			}
 			catch(MissingResourceException e) {
-				output += " ";
+				output += key+delimiter;
 			}
 		}
 		if(!output.isEmpty()) {
