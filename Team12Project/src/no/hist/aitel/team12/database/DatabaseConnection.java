@@ -586,7 +586,7 @@ public class DatabaseConnection implements Database {
 				}
 				else {
 					System.out.println("Invalid usertype in getPersons()! Usertype: "+type);
-					return null;
+					return new Person[0];
 				}
 			}
 
