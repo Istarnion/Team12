@@ -12,10 +12,10 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * InputFieldTest.java Team 12, 18 Feb 2015
+ * PasswordInputFieldTest.java Team 12, 18 Feb 2015
  *******************************************************************************/
 
-package no.hist.aitel.team12.util.test;
+package no.hist.aitel.team12.gui.test;
 
 import java.awt.BorderLayout;
 
@@ -24,13 +24,14 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import no.hist.aitel.team12.gui.InputField;
+import no.hist.aitel.team12.gui.PasswordInputField;
+import no.hist.aitel.team12.util.PasswordManager;
 
-public class InputFieldTest {
+public class PasswordInputFieldTest {
 
-	public InputFieldTest() {
+	public PasswordInputFieldTest() {
 		JFrame frame = new JFrame("Title");
-		InputField ifld = new InputField("Input...", 20);
+		PasswordInputField ifld = new PasswordInputField("Password..", 20);
 		frame.add(ifld, BorderLayout.NORTH);
 		JButton btn = new JButton("Button");
 		frame.add(btn, BorderLayout.SOUTH);
@@ -44,6 +45,7 @@ public class InputFieldTest {
 	}
 
 	public static void main(String[] args) {
+		System.out.println(PasswordManager.generatePasswordHash("TeamAdmin12"));
 		try {
 			// Set System L&F
 			UIManager.setLookAndFeel(
@@ -57,7 +59,7 @@ public class InputFieldTest {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new InputFieldTest();
+				new PasswordInputFieldTest();
 			}
 		});
 	}

@@ -1,4 +1,4 @@
-package no.hist.aitel.team12.app.test;
+package no.hist.aitel.team12.util.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
