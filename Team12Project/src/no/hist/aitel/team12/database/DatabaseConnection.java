@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
@@ -832,7 +833,7 @@ public class DatabaseConnection implements Database {
 			statement.setInt(1, userID);
 
 			ResultSet result = statement.executeQuery();
-			
+
 			if(result.next()) {
 				output = result.getInt("employee_number");
 			}
@@ -945,7 +946,7 @@ public class DatabaseConnection implements Database {
 					return false;
 				}
 			}
-			
+
 			prepStatement.executeUpdate();
 			connection.commit();
 			connection.setAutoCommit(true);
@@ -1362,5 +1363,59 @@ public class DatabaseConnection implements Database {
 
 			return output;
 		}
+	}
+
+	@Override
+	public Revenue[] getRevenue(int businessID, Date from, Date to) {
+		try (PreparedStatement statement = connection.prepareStatement(
+				"SELECT * FROM revenue WHERE business_id=? AND turnover_month BETWEEN ? AND ?")) {
+			
+			connection.setReadOnly(true);
+			
+			statement.setInt(1, businessID);
+			statement.setDate(2, from);
+			statement.setDate(3, to);
+			
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				connection.setReadOnly(false);
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return null;
+	}
+
+	private static int differenceInMonths(Date d1, Date d2) {
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(d1);
+		Calendar c2 = Calendar.getInstance();
+		c2.setTime(d2);
+		int diff = 0;
+		if (c2.after(c1)) {
+			while (c2.after(c1)) {
+				c1.add(Calendar.MONTH, 1);
+				if (c2.after(c1)) {
+					diff++;
+				}
+			}
+		} else if (c2.before(c1)) {
+			while (c2.before(c1)) {
+				c1.add(Calendar.MONTH, -1);
+				if (c1.before(c2)) {
+					diff--;
+				}
+			}
+		}
+		return diff;
 	}
 }

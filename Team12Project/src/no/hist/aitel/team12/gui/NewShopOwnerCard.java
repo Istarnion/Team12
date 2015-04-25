@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -66,7 +67,11 @@ public class NewShopOwnerCard extends JPanel{
 		shopTelephone	= new JTextField();
 		floorNumber		= new JTextField();
 
-		buildings = ShoppingCentre.getPopulatedShoppingCentres()[0].getBuildings();
+		buildings = new Building[0];
+		ShoppingCentre[] centres = ShoppingCentre.getPopulatedShoppingCentres();
+		if(centres != null && centres.length > 0) {
+			buildings = ShoppingCentre.getPopulatedShoppingCentres()[0].getBuildings();
+		}
 
 		building = new JComboBox<Building>(buildings);
 
@@ -328,9 +333,19 @@ public class NewShopOwnerCard extends JPanel{
 		shopTelephone.setText("");	
 		floorNumber.setText("");		
 
-		buildings = ShoppingCentre.getPopulatedShoppingCentres()[0].getBuildings();
-		building = new JComboBox<Building>(buildings);
-
-		building.setSelectedIndex(0);
+		buildings = new Building[0];
+		ShoppingCentre[] centres = ShoppingCentre.getPopulatedShoppingCentres();
+		if(centres != null && centres.length > 0) {
+			buildings = ShoppingCentre.getPopulatedShoppingCentres()[0].getBuildings();
+		}
+		DefaultComboBoxModel<Building> buildingModel = new DefaultComboBoxModel<Building>();
+		for(Building b : buildings) {
+			if(b != null) buildingModel.addElement(b);
+		}
+		building.setModel(buildingModel);
+		
+		if(buildings.length>0) {
+			building.setSelectedIndex(0);
+		}
 	}
 }

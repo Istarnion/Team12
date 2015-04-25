@@ -218,7 +218,9 @@ public class TextResources extends ListResourceBundle {
 				{"adrMissing", "- Address missing"},
 				{"usrCreated", "- User created"},
 				{"shopNameMissing", "- Shop name missing"},
-				{"revReg", "Revenue successfully registered"}
+				{"revReg", "Revenue successfully registered"},
+				{"needTo", "- You need to fill in a target for the message"},
+				{"needSub", "- You need to have a subject for your message"}
 		};
 	}
 }
