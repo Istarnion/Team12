@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -28,9 +27,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import no.hist.aitel.team12.app.PDFGenerator;
 import no.hist.aitel.team12.app.Revenue;
+import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
-
-import org.jdesktop.swingx.JXDatePicker;
 
 public class FinanceTab extends SSSTab {
 
@@ -44,17 +42,17 @@ public class FinanceTab extends SSSTab {
 
 	private  JPanel pdfView;
 
-	private JXDatePicker regRevDate;
+	private MonthPicker regRevDate;
 
-	private JXDatePicker pdfFromDate;
+	private MonthPicker pdfFromDate;
 
-	private JXDatePicker pdfToDate;
+	private MonthPicker pdfToDate;
 
 	private InputField incomeAmount;
 
 	private JButton regButton, showButton, saveButton;
 
-	public FinanceTab(String username){
+	public FinanceTab(String username, int userID, UserType userType){
 
 		this.setLayout(new BorderLayout());
 
@@ -79,9 +77,7 @@ public class FinanceTab extends SSSTab {
 		JLabel fDate = new JLabel (Text.getString("fDate"), SwingConstants.RIGHT);
 		sidebar.add(fDate);
 
-		regRevDate = new JXDatePicker();
-		regRevDate.setDate(Calendar.getInstance().getTime());
-		regRevDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		regRevDate = new MonthPicker();
 		sidebar.add(regRevDate);
 
 		// Row 4
@@ -103,18 +99,14 @@ public class FinanceTab extends SSSTab {
 		JLabel pdfFDate = new JLabel(Text.getString("fDate"), SwingConstants.RIGHT);
 		sidebar.add(pdfFDate);
 
-		pdfFromDate = new JXDatePicker();
-		pdfFromDate.setDate(Calendar.getInstance().getTime());
-		pdfFromDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		pdfFromDate = new MonthPicker();
 		sidebar.add(pdfFromDate);
 
 		// Row 8
 		JLabel pdfTDate = new JLabel (Text.getString("tDate"), SwingConstants.RIGHT);
 		sidebar.add(pdfTDate);
 
-		pdfToDate = new JXDatePicker();
-		pdfToDate.setDate(Calendar.getInstance().getTime());
-		pdfToDate.setFormats(new SimpleDateFormat("dd.MM.yyyy"));
+		pdfToDate = new MonthPicker();
 		sidebar.add(pdfToDate);
 
 		// Row 9
@@ -149,12 +141,12 @@ public class FinanceTab extends SSSTab {
 			JButton pressedButton = (JButton)f.getSource();
 
 			if(pressedButton.equals(regButton)) {
-				if(regRevDate.getDate()!=null){
+				if(regRevDate.getSelectedDate()!=null){
 					long revenue;
 					Calendar calFrom = Calendar.getInstance();
-					calFrom.setTime(regRevDate.getDate());
+					calFrom.setTime(regRevDate.getSelectedDate());
 
-					try{
+					try {
 						revenue = Long.parseLong(incomeAmount.getText());
 						int yearFrom = calFrom.get(Calendar.YEAR);
 						String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
@@ -163,13 +155,16 @@ public class FinanceTab extends SSSTab {
 						Revenue.registerTurnover(calFrom.getTime(), revenue, 1);
 
 
-					}catch(NumberFormatException nfe){
+					}
+					catch(NumberFormatException nfe){
 						JOptionPane.showMessageDialog(null, Text.getString("reverr"));
 					}
-				}else{
+				}
+				else{
 					JOptionPane.showMessageDialog(null, Text.getString("daterr"));
 				}
-			}else{
+			}
+			else{
 				JOptionPane.showMessageDialog(null, Text.getString("revdaterr"));
 			}
 		}
@@ -183,11 +178,11 @@ public class FinanceTab extends SSSTab {
 
 			if(pressedButton.equals(showButton)) {
 
-				if(pdfFromDate.getDate()!=null && pdfToDate.getDate()!=null){
+				if(pdfFromDate.getSelectedDate()!=null && pdfToDate.getSelectedDate()!=null){
 					Calendar pdfCalF = Calendar.getInstance();
 					Calendar pdfCalT = Calendar.getInstance();
-					pdfCalF.setTime(pdfFromDate.getDate());
-					pdfCalT.setTime(pdfToDate.getDate());
+					pdfCalF.setTime(pdfFromDate.getSelectedDate());
+					pdfCalT.setTime(pdfToDate.getSelectedDate());
 
 					if(pdfCalF.before(pdfCalT)||pdfCalF.equals(pdfCalT)) {
 						SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
@@ -230,11 +225,11 @@ public class FinanceTab extends SSSTab {
 
 			}
 			else if(pressedButton.equals(saveButton)) {
-				if(pdfFromDate.getDate()!=null && pdfToDate.getDate()!=null) {
+				if(pdfFromDate.getSelectedDate()!=null && pdfToDate.getSelectedDate()!=null) {
 					Calendar pdfCalF = Calendar.getInstance();
 					Calendar pdfCalT = Calendar.getInstance();
-					pdfCalF.setTime(pdfFromDate.getDate());
-					pdfCalT.setTime(pdfToDate.getDate());
+					pdfCalF.setTime(pdfFromDate.getSelectedDate());
+					pdfCalT.setTime(pdfToDate.getSelectedDate());
 
 					if(pdfCalF.before(pdfCalT)||pdfCalF.equals(pdfCalT)) {
 						savePDF();

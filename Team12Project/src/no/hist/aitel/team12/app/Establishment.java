@@ -32,6 +32,9 @@ public class Establishment extends Business {
 		this.establishmentId = establishmentId;
 		this.floorNumber = floorNumber;
 		this.selectedTrades = selectedTrades;
+		if(this.selectedTrades == null) {
+			this.selectedTrades = new ArrayList<Trade>();
+		}
 	}
 
 	/**

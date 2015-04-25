@@ -17,13 +17,13 @@ public class Ticket {
 	
 	
 	public Ticket(int ticketID, String content, EmailAddress customerEmail,
-			boolean resolvedStatus, int businessID
+			boolean resolvedStatus, int centreID
 			) {
 		this.ticketID = ticketID;
 		this.content = content;
 		this.customerEmail = customerEmail;
 		this.resolvedStatus = resolvedStatus;
-		this.centreID = businessID;
+		this.centreID = centreID;
 	}
 
 	public boolean isResolvedStatus() {

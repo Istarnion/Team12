@@ -142,13 +142,13 @@ public class SSS {
 						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId, type));
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 						sssWindow.addTab(Text.getString("usrs"),		new UserTab(userId, type));
-						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
+						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username, userId, type));
 					} break;
 					
 					case SHOP_OWNER:
 					{
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
-						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));
+						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username, userId, type));
 					} break;
 					
 					case CUSTOMER_SERVICE:

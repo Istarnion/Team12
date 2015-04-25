@@ -188,6 +188,18 @@ public class TextResources extends ListResourceBundle {
 				{"TAILOR", "Tailor"},
 				{"ALLTRADES", "All trades"},
 				{"LINGERIE", "Lingerie"},
+				{"jan", "January"},
+				{"feb", "February"},
+				{"mar", "March"},
+				{"apr", "April"},
+				{"may", "May"},
+				{"jun", "June"},
+				{"jul", "July"},
+				{"aug", "August"},
+				{"sep", "September"},
+				{"oct", "October"},
+				{"nov", "November"},
+				{"des", "Desember"},
 				{"shopNameLong", "- Shop name to long. Max 30 characters"},
 				{"buildingCreated", "Building created"},
 				{"selectBuildingErr", "- Building needs to be selected"},
@@ -206,9 +218,6 @@ public class TextResources extends ListResourceBundle {
 				{"adrMissing", "- Address missing"},
 				{"usrCreated", "- User created"},
 				{"shopNameMissing", "- Shop name missing"}
-
-
-
 		};
 	}
 }
