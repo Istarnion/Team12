@@ -217,7 +217,8 @@ public class TextResources extends ListResourceBundle {
 				{"titleLong", "- User title to long. Max 30 characters"},
 				{"adrMissing", "- Address missing"},
 				{"usrCreated", "- User created"},
-				{"shopNameMissing", "- Shop name missing"}
+				{"shopNameMissing", "- Shop name missing"},
+				{"revReg", "Revenue successfully registered"}
 		};
 	}
 }

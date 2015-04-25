@@ -270,6 +270,19 @@ CREATE VIEW establishment_view AS (
     LEFT JOIN person USING (employee_number)
 );
 
+-- Creating functions
+DELIMITER //
+CREATE FUNCTION GET_NOT_NULL_ID(a INT, b INT) RETURNS INT
+	BEGIN
+		DECLARE r INT;
+    
+		IF a IS NOT NULL THEN SET r = a;
+        ELSE SET r = b;
+        END IF;
+        
+        RETURN r;
+	END //
+DELIMITER ;
 -- Inserts all norwegian zipcodes, districts, municipalities and counties
 
 INSERT INTO county(county_id,county_name)
@@ -292,3 +305,5 @@ VALUES(
 '1000:5b424037306465613465:a0e6306ac3a24c25e903d292d36b2f49b81e60d33f4891fe08f264cbbd4e080f562a63c00d7e366106b1b7a1ddabfbed6600e71c5ce0977c1b93e0c36104cd90',
 1
 );
+
+
