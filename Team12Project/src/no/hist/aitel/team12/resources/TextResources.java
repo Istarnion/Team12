@@ -188,6 +188,7 @@ public class TextResources extends ListResourceBundle {
 				{"TAILOR", "Tailor"},
 				{"ALLTRADES", "All trades"},
 				{"LINGERIE", "Lingerie"},
+				{"month", "Month"},
 				{"jan", "January"},
 				{"feb", "February"},
 				{"mar", "March"},
@@ -220,7 +221,8 @@ public class TextResources extends ListResourceBundle {
 				{"shopNameMissing", "- Shop name missing"},
 				{"revReg", "Revenue successfully registered"},
 				{"needTo", "- You need to fill in a target for the message"},
-				{"needSub", "- You need to have a subject for your message"}
+				{"needSub", "- You need to have a subject for your message"},
+				{"$", "bn."}
 		};
 	}
 }

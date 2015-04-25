@@ -1368,16 +1368,34 @@ public class DatabaseConnection implements Database {
 	@Override
 	public Revenue[] getRevenue(int businessID, Date from, Date to) {
 		try (PreparedStatement statement = connection.prepareStatement(
-				"SELECT * FROM revenue WHERE business_id=? AND turnover_month BETWEEN ? AND ?")) {
+				"SELECT * FROM revenue WHERE business_id=? AND month BETWEEN ? AND ?")) {
 			
 			connection.setReadOnly(true);
 			
 			statement.setInt(1, businessID);
 			statement.setDate(2, from);
 			statement.setDate(3, to);
+			ResultSet result = statement.executeQuery();
 			
+			Calendar cal = Calendar.getInstance();
+			cal.clear();
+			cal.setTime(from);
 			
+			Revenue[] revArray = new Revenue[differenceInMonths(from, to)+3];
+			for(int i=0; i<revArray.length; i++) {
+				revArray[i] = new Revenue(new Date(cal.getTime().getTime()), 0);
+				cal.add(Calendar.MONTH, 1);
+			}
 			
+			while(result.next()) {
+				for(Revenue rev : revArray) {
+					if(equalEnough(rev.getMonth(), result.getDate("month"))) {
+						rev.setTurnover(result.getLong("turnover_month"));
+					}
+				}
+			}
+			
+			return revArray;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -1391,10 +1409,19 @@ public class DatabaseConnection implements Database {
 			}
 		}
 		
-		
 		return null;
 	}
 
+	private static boolean equalEnough(Date da, Date db) {
+		Calendar c1 = Calendar.getInstance();
+		c1.clear();
+		c1.setTime(da);
+		Calendar c2 = Calendar.getInstance();
+		c2.clear();
+		c2.setTime(db);
+		return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH));
+	}
+	
 	private static int differenceInMonths(Date d1, Date d2) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTime(d1);

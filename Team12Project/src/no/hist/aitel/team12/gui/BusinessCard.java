@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import no.hist.aitel.team12.util.Text;
 
@@ -64,6 +65,8 @@ public class BusinessCard extends JPanel {
 		
 		textDescription		= new JTextArea("", 2,2);
 		textDescription.setLineWrap(true);
+		textDescription.setWrapStyleWord(true);
+		textDescription.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
 		openingLabel1 = new JLabel("("); 
 		openingTextField1 = new JTextFieldLimit(2);

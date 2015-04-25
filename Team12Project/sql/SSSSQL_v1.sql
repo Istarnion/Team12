@@ -138,7 +138,7 @@ ENGINE = InnoDB;
 CREATE TABLE revenue(
 business_id INTEGER,
 month DATE,
-turnover_month INTEGER,
+turnover_month BIGINT,
 PRIMARY KEY (business_id, month),
 CONSTRAINT revenue_FK FOREIGN KEY (business_id) REFERENCES business (business_id)
 )

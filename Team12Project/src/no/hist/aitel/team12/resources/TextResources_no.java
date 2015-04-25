@@ -188,6 +188,7 @@ public class TextResources_no extends ListResourceBundle {
 				{"TAILOR", "Skredder"},
 				{"ALLTRADES", "Alle bransjer"},
 				{"LINGERIE", "Undertøy"},
+				{"month", "Måned"},
 				{"jan", "Januar"},
 				{"feb", "Februar"},
 				{"mar", "Mars"},
@@ -220,8 +221,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"shopNameMissing", "- Butikkens navn må fylles ut"},
 				{"revReg", "Fortjeneste er registrert"},
 				{"needTo", "- Du må fylle inn en mottaker"},
-				{"needSub", "- Du må fylle inn et emne"}
-
+				{"needSub", "- Du må fylle inn et emne"},
+				{"$", "mrd."}
 		};
 	}
 }

@@ -80,7 +80,7 @@ public class FinanceTab extends SSSTab {
 		sidebar.add(new JLabel());
 		sidebar.add(new JLabel());
 
-		JLabel fDate = new JLabel (Text.getString("fDate"), SwingConstants.RIGHT);
+		JLabel fDate = new JLabel (Text.getString("month")+": ", SwingConstants.RIGHT);
 		sidebar.add(fDate);
 
 		regRevDate = new MonthPicker();
@@ -196,12 +196,19 @@ public class FinanceTab extends SSSTab {
 							@Override
 							protected Void doInBackground() throws Exception {
 
-								Revenue[] rs = new Revenue[12];
-								for(int i=0; i<rs.length; i++) {
-									rs[i] = new Revenue(new Date(1000000000000L), i*500+1000);
-								}
+								Database db = DatabaseFactory.getDatabase();
+								
+								System.out.println(
+										pdfFromDate.getSelectedDate()+"\n"+
+										pdfToDate.getSelectedDate()+"\n");
+								
+								Revenue[] rs = db.getRevenue(
+										businessID,
+										new java.sql.Date(pdfFromDate.getSelectedDate().getTime()),
+										new java.sql.Date(pdfToDate.getSelectedDate().getTime())
+										);
 
-								PDFGenerator.generatePDF("budgetdoc.pdf", rs, "Chart");
+								PDFGenerator.generatePDF("budgetdoc.pdf", rs, "Revenues:");
 								Image img = PDFGenerator.showPDF();
 								pdfLabel.setIcon(new ImageIcon(img));
 								pdfLabel.repaint();

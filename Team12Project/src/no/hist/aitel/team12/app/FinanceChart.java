@@ -1,77 +1,81 @@
 package no.hist.aitel.team12.app;
 
-import java.awt.BorderLayout;
+import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.GradientPaint;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.sql.Date;
+import java.text.DecimalFormat;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.data.xy.XYBarDataset;
+import no.hist.aitel.team12.util.Text;
 
 
 public class FinanceChart {
 	
-	public static BufferedImage createBarGraph(String chartName, Revenue[] revenues) {
+	private final static int margin = 30;
+	
+	private final static long defaultHeight = 5000L;
+	
+	private final static long defaultMinHeight = 0;
+	
+	private final static int defaultBarWidth = 100;
+	
+	private final static Color mainColor = Color.BLACK;
+	
+	private final static Color borderColor = Color.ORANGE;
+	
+	private final static DecimalFormat format = new DecimalFormat("0.#");
+	
+	public static BufferedImage createBarGraph(String chartName, Revenue[] revenues, int width, int height) {
 		
-		final DefaultXYDataset dataset = new DefaultXYDataset(); 
 		
-		double[][] data = new double[2][revenues.length];
-		double barWidth = 500.0/revenues.length;
-		double x = 0;
-		
-		int index = 0;
+		long maxHeight = defaultHeight;
+		long minHeight = defaultMinHeight;
 		for(Revenue r : revenues) {
-			data[0][index] = x;
-			x+=barWidth;
-			data[1][index] = r.getTurnover();
-			
-			index++;
+			if(r.getTurnover() > maxHeight) maxHeight = r.getTurnover();
+			else if(r.getTurnover() < minHeight) minHeight = r.getTurnover();
+		}
+		int barHeight = height-margin*2;
+		int barWidth = defaultBarWidth;
+		if(revenues.length * defaultBarWidth > width+margin*3) {
+			barWidth = (width-margin*3)/revenues.length;
 		}
 		
-		dataset.addSeries(new Integer(1), data);
+		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = img.createGraphics();
 		
-		final XYBarDataset ds = new XYBarDataset(dataset, (500.0/revenues.length));
+		g.setStroke(new BasicStroke(3));
 		
-		JFreeChart chart = ChartFactory.createXYBarChart(chartName, "Month", false, "Revenue", ds);
-		chart.removeLegend();
+		g.setColor(Color.black);
+		g.setFont(new Font("Segoe UI Emoji", Font.BOLD, 20));
+		g.drawString(chartName, (int)(margin*0.5), margin-5);
 		
-
+		int h;
+		for(int i=0; i<revenues.length; i++) {
+			h = (int)(barHeight*normalize(minHeight, maxHeight, revenues[i].getTurnover()));
+			g.setColor(mainColor);
+			g.fillRect((margin+1)+i*barWidth, (height-margin)-h, barWidth, h);
+			g.setColor(borderColor);
+			g.drawRect((margin+1)+i*barWidth, (height-margin)-h, barWidth, h);
+		}
 		
+		g.setColor(mainColor);
+		g.drawLine(margin, margin, margin, height-margin); // y-axis
+		g.drawLine(margin, height-margin, width-margin, height-margin);
 		
+		g.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 10));
+		g.drawString(format.format((maxHeight/1000.0))+Text.getString("$"), 0, margin*2);
+		g.drawString(format.format((minHeight/1000.0))+Text.getString("$"), 0, height-margin);
 		
-		return chart.createBufferedImage(500, 500);
+		g.drawString(revenues[0].getMonth().toString(), 10, height-10);
+		g.drawString(revenues[revenues.length-1].getMonth().toString(), width-margin*2, height-10);
+		
+		g.dispose();
+		
+		return img;
 	}
 	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		JPanel panel = new JPanel();
-		
-		Revenue[] rs = new Revenue[12];
-		for(int i=0; i<rs.length; i++) {
-			rs[i] = new Revenue(new Date(1000000000000L), i*500+1000);
-		}
-		
-		JLabel label = new JLabel(new ImageIcon(createBarGraph("Test", rs)));
-		panel.add(label);
-		
-		frame.add(panel, BorderLayout.CENTER);
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		
+	private static double normalize(long min, long max, long val) {
+		return val/((double)max-(double)min);
 	}
 }
-
-
-
-
-

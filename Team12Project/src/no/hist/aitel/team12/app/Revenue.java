@@ -29,7 +29,7 @@ public class Revenue {
 		return turnover;
 	}
 
-	public void setTurnover(int turnover) {
+	public void setTurnover(long turnover) {
 		this.turnover = turnover;
 	}
 	
@@ -39,9 +39,20 @@ public class Revenue {
 		if(db == null) return false;
 		
 		Calendar c = Calendar.getInstance();   // this takes current date
+		c.clear();
+		c.setTime(date);
 	    c.set(Calendar.DAY_OF_MONTH, 1);
 	    Date sqlDate = new Date(c.getTime().getTime());
 	    
-		return db.executePreparedStatement("INSERT INTO revenue (business_id, month, turnover_month) VALUES (?, ?, ?)", business_id, sqlDate, turnover);
+		return db.executePreparedStatement(
+				"INSERT INTO revenue (business_id, month, turnover_month) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE turnover_month = ?",
+				business_id, sqlDate,
+				new Long(turnover),
+				new Long(turnover));
+	}
+	
+	@Override
+	public String toString() {
+		return "Revenue: "+turnover+"\t"+month;
 	}
 }

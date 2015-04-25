@@ -67,7 +67,7 @@ public class PDFGenerator {
 			// adds report generated in Report class 
 			Paragraph paragraph = new Paragraph();
 			
-			Image img = Image.getInstance(generateGraphImg(revenues, chartName), null);
+			Image img = Image.getInstance(FinanceChart.createBarGraph(chartName, revenues, 500, 500), null);
 			
 			paragraph.add(img);
 			
