@@ -107,7 +107,18 @@ public class NewPersonnelCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("emailinv") + "\n");
 				}
-				
+
+				if(address.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("adrlong") + "\n");
+				}
+
+				if(address.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("adrMissing") + "\n");
+				}
+
+
 				if(!Address.isValidZip(zipCode.getText())) {
 					errCount++;
 					errMsg.append(Text.getString("invalidZip") + "\n");
@@ -133,12 +144,12 @@ public class NewPersonnelCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("salnr") + "\n");
 				}
-				
+
 				if(title.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("titleLong") + "\n");
 				}
-				
+
 				if(title.getText().length() == 0) {
 					errCount++;
 					errMsg.append(Text.getString("titleMissing") + "\n");
@@ -151,14 +162,14 @@ public class NewPersonnelCard extends JPanel{
 					if(errCount == 1) {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr") + "\n" + errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
 					else {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr") + "\n" + errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -172,6 +183,7 @@ public class NewPersonnelCard extends JPanel{
 						email.getText(), Integer.parseInt(telephone.getText()), 
 						Integer.parseInt(salary.getText()),
 						title.getText(), centreID))  {
+					JOptionPane.showMessageDialog(null, Text.getString("usrCreated"));
 
 					userTab.showLogoCard();
 				}
@@ -199,7 +211,7 @@ public class NewPersonnelCard extends JPanel{
 		telephone.setText("");
 		salary.setText("");
 		title.setText("");
-		
+
 	}
 
 	public void updateCard(Personnel p) {

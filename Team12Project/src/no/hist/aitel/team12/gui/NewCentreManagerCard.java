@@ -248,6 +248,8 @@ public class NewCentreManagerCard extends JPanel {
 								}
 							};
 							t.start();
+							JOptionPane.showMessageDialog(null, Text.getString("usrCreated"));
+
 							userTab.showLogoCard();
 							saveButton.setEnabled(true);
 							saveButton.setText(Text.getString("save"));

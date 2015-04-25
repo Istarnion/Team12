@@ -121,24 +121,28 @@ public class NewCustomerServiceCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("usrAllreadyExists") + "\n");
 				}
+				if(!EmailAddress.isValidEmailAddress(email.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("emailinv") + "\n");
+				}
 
 				if(personalAddress.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("adrlong") + "\n");
 				}
-
-		
-					
-					if(!Address.isValidZip(personalZip.getText())) {
-						errCount++;
-						errMsg.append(Text.getString("invalidZip") + "\n");
-					}
-		
-
-				if(!EmailAddress.isValidEmailAddress(email.getText())) {
+				
+				if(personalAddress.getText().length() == 0) {
 					errCount++;
-					errMsg.append(Text.getString("emailinv") + "\n");
+					errMsg.append(Text.getString("adrMissing") + "\n");
 				}
+
+				
+				
+				if(!Address.isValidZip(personalZip.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("invalidZip") + "\n");
+				}
+	
 
 				try {
 					Integer.parseInt(telephone.getText());
@@ -153,7 +157,7 @@ public class NewCustomerServiceCard extends JPanel{
 				}
 
 				try {
-					Integer.parseInt(salary.getText() + "\n");
+					Integer.parseInt(salary.getText());
 				}
 				catch(NumberFormatException e) {
 					errCount++;
@@ -165,14 +169,14 @@ public class NewCustomerServiceCard extends JPanel{
 					if(errCount == 1) {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr") + "\n" + errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
 					else {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr") + "\n" + errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -200,8 +204,9 @@ public class NewCustomerServiceCard extends JPanel{
 						}
 					};
 					t.start();
+					JOptionPane.showMessageDialog(null, Text.getString("usrCreated"));
+					userTab.showLogoCard();
 
-					updateCard(user);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, Text.getString("dbErr"), Text.getString("err"), JOptionPane.ERROR_MESSAGE);

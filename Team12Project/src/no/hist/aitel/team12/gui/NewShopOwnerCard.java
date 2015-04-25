@@ -118,7 +118,7 @@ public class NewShopOwnerCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("frnamelong") + "\n");
 				}
-				
+
 				if(firstName.getText().length() == 0) {
 					errCount++;
 					errMsg.append(Text.getString("frnameMissing") + "\n");
@@ -128,35 +128,40 @@ public class NewShopOwnerCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("lsnamelong") + "\n");
 				}
-				
+
 				if(firstName.getText().length() == 0) {
 					errCount++;
 					errMsg.append(Text.getString("lsnameMissing") + "\n");
 				}
-				
+
 				if(username.getText().length() == 0) {
 					errCount++;
 					errMsg.append(Text.getString("usrNameMissing") + "\n");
 				}
-				
+
 				if (username.getText().length() > 20) {
 					errCount++;
 					errMsg.append(Text.getString("userlong") + "\n");
 				}
-				
+
 				if(User.userExists(username.getText())) {
 					errCount++;
 					errMsg.append(Text.getString("usrAllreadyExists") + "\n");
 				}
-				
+
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
 					errMsg.append(Text.getString("emailinv") + "\n");
 				}
-				
+
 				if(personalAddress.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("adrlong") + "\n");
+				}
+
+				if(personalAddress.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("adrMissing") + "\n");
 				}
 
 				if(!Address.isValidZip(personalZip.getText())) {
@@ -188,22 +193,26 @@ public class NewShopOwnerCard extends JPanel{
 					errCount++;
 					errMsg.append(Text.getString("shopNameLong") + "\n");
 				}
+				if(shopName.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("shopNameMissing") + "\n");
+				}
 
 				if(shopAddress.getText().length() > 30) {
 					errCount++;
 					errMsg.append(Text.getString("shopAdrLong") + "\n");
 				}
-				
+
 				if(!Address.isValidZip(shopZip.getText())) {
 					errCount++;
 					errMsg.append(Text.getString("shopInvZip") + "\n");
 				}
-				
+
 				if(!EmailAddress.isValidEmailAddress(shopEmail.getText())) {
 					errCount++;
 					errMsg.append(Text.getString("shopInvEmail") + "\n");
 				}
-				
+
 				try {
 					Integer.parseInt(shopTelephone.getText());
 					if(shopTelephone.getText().length() != 8) {
@@ -218,38 +227,38 @@ public class NewShopOwnerCard extends JPanel{
 
 				try {
 					Integer.parseInt(floorNumber.getText());
-					}
-				
+				}
+
 				catch(NumberFormatException e) {
 					errCount++;
 					errMsg.append(Text.getString("shopFloorError") + "\n");
 				}
-				
+
 				if(building.getSelectedItem() == null) {
 					errCount++;
 					errMsg.append(Text.getString("selectBuildingErr") + "\n");
 				}
-				
-		
 
-				
-				
-				
-				
+
+
+
+
+
+
 				/* DONE CHECKING FIELDS */
 
 				if(errCount > 0) {
 					if(errCount == 1) {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr") + "\n" + errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
 					else {
 						JOptionPane.showMessageDialog(
 								null,
-								Text.getString("inputerr")+errMsg.toString(),
+								Text.getString("inputerr") + "\n" + errMsg.toString(),
 								Text.getString("err"),
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -283,6 +292,7 @@ public class NewShopOwnerCard extends JPanel{
 						}
 					};
 					t.start();
+					JOptionPane.showMessageDialog(null, Text.getString("usrCreated"));
 
 					userTab.showLogoCard();
 				}
@@ -317,10 +327,10 @@ public class NewShopOwnerCard extends JPanel{
 		shopEmail.setText("");		
 		shopTelephone.setText("");	
 		floorNumber.setText("");		
-		
+
 		buildings = ShoppingCentre.getPopulatedShoppingCentres()[0].getBuildings();
 		building = new JComboBox<Building>(buildings);
-		
+
 		building.setSelectedIndex(0);
 	}
 }

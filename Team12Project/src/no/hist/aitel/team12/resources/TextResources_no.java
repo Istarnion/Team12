@@ -202,7 +202,11 @@ public class TextResources_no extends ListResourceBundle {
 				{"lsnameMissing", "- Brukers etternavn må fylles ut"},
 				{"usrNameMissing", "- Brukernavn må fylles ut"},
 				{"titleMissing", "- Brukers tittel må fylles ut"},
-				{"titleLong", "- Brukers tittel er for lang. Maks 30 karakterer"}
+				{"titleLong", "- Brukers tittel er for lang. Maks 30 karakterer"},
+				{"adrMissing", "- Adresse mangler"},
+				{"usrCreated", "- Bruker opprettet"},
+				{"shopNameMissing", "- Butikkens navn må fylles ut"}
+
 		};
 	}
 }

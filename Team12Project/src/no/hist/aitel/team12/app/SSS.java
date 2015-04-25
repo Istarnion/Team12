@@ -131,7 +131,7 @@ public class SSS {
 				switch(type) {
 					case SYS_ADMIN:
 					{
-						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId));
+						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId, type));
 						sssWindow.addTab(Text.getString("usrs"),		new UserTab(userId, type));
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 						sssWindow.addTab(Text.getString("sql"),			new SqlTab());
@@ -139,7 +139,7 @@ public class SSS {
 					
 					case CENTRE_MANAGER:
 					{
-						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId));
+						sssWindow.addTab(Text.getString("overview"),	new OverviewTab(userId, type));
 						sssWindow.addTab(Text.getString("msgs"),		new MessageTab(username));
 						sssWindow.addTab(Text.getString("usrs"),		new UserTab(userId, type));
 						sssWindow.addTab(Text.getString("finance"),		new FinanceTab(username));

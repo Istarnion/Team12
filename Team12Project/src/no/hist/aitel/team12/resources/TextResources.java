@@ -122,10 +122,10 @@ public class TextResources extends ListResourceBundle {
 				{"cvsCounty","Enter county"},
 				{"cvsMunici","Enter municipality"},
 				{"newBuilding", "New building"},
-				{"frnamelong","-First name is too long. Max 30 characters."},
-				{"lsnamelong","-Last name is too long. Max 30 characters."},
-				{"adrlong","-Address field is too long. Max 30 characters."},
-				{"zipfour","-Zipcode must be four digits long."},
+				{"frnamelong","- First name is too long. Max 30 characters."},
+				{"lsnamelong","- Last name is too long. Max 30 characters."},
+				{"adrlong","- Address field is too long. Max 30 characters."},
+				{"zipfour","- Zipcode must be four digits long."},
 				{"zipnr","- Zip code can only be numbers, and four digits long."},
 				{"emailinv","- Email address is invalid."},
 				{"tlplong","- Telephone number must be eight digits long."},
@@ -133,7 +133,7 @@ public class TextResources extends ListResourceBundle {
 				{"salnr","- Salary must be all numbers."},
 				{"inputerr","There was an error in your input:"},
 				{"centerlong", "- Centre name is too long. Max 30 characters."},
-				{"userlong", "Username is to long. Max 30 characters."},
+				{"userlong", "- Username is to long. Max 30 characters."},
 				{"floor", "Floor"},
 				{"park","Parking spaces"},
 				{"contactCS","Contact Customer Support"},
@@ -184,7 +184,7 @@ public class TextResources extends ListResourceBundle {
 				{"newPwdFail", "Check that new password matches"},
 				{"pwdChanged", "Password changed"},
 				{"saving", "Saving ..."},
-				{"usrAllreadyExists", "Username taken"},
+				{"usrAllreadyExists", "- Username taken"},
 				{"TAILOR", "Tailor"},
 				{"ALLTRADES", "All trades"},
 				{"LINGERIE", "Lingerie"},
@@ -203,6 +203,11 @@ public class TextResources extends ListResourceBundle {
 				{"usrNameMissing", "- Username must be filled out"},
 				{"titleMissing", "- User title needs to be entered"},
 				{"titleLong", "- User title to long. Max 30 characters"},
+				{"adrMissing", "- Address missing"},
+				{"usrCreated", "- User created"},
+				{"shopNameMissing", "- Shop name missing"}
+
+
 
 		};
 	}

@@ -23,6 +23,7 @@ import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
 
 public class OverviewTab extends SSSTab {
@@ -52,7 +53,7 @@ public class OverviewTab extends SSSTab {
 	
 	private LogoCard logoCard;
 
-	public OverviewTab(int userID) {
+	public OverviewTab(int userID, UserType userType) {
 		
 		// Set layout for this tab
 		this.setLayout(new BorderLayout());
