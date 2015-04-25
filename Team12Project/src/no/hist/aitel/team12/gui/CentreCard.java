@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.Personnel;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
 
 public class CentreCard extends BusinessCard {
@@ -41,9 +42,10 @@ public class CentreCard extends BusinessCard {
 	private ShoppingCentre centre;
 	private InputField newBuildingNameInput, newBuildingAreaInput, newBuildingFloorsInput;
 	private JDialog newBuildingDialog;
+	private UserType type;
+	public CentreCard(int userID, UserType type) {
 
-	public CentreCard(int userID) {
-
+		this.type = type;
 		buttonListener 		= new ButtonListener();
 		personnelListener	= new PersonnelListener();
 		areaLabel			= new JLabel(Text.getString("area") + ": ", SwingConstants.RIGHT);
@@ -279,6 +281,19 @@ public class CentreCard extends BusinessCard {
 		areaButton.setText(Text.getString("edit"));
 		zipButton.setText(Text.getString("edit"));
 		parkingSpaceButton.setText(Text.getString("edit"));
+		
+		if(type == UserType.SHOP_OWNER) {
+			businessButton.setEnabled(false);
+			addressButton.setEnabled(false);
+			emailButton.setEnabled(false);
+			telephoneButton.setEnabled(false);
+			openingHrsButton.setEnabled(false);
+			textDescrButton.setEnabled(false);
+			areaButton.setEnabled(false);
+			zipButton.setEnabled(false);
+			parkingSpaceButton.setEnabled(false);
+			newBuildingButton.setEnabled(false);
+		}
 	}
 
 	private class ButtonListener implements ActionListener {

@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionListener;
 
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.Trade;
+import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
 
 public class EstablishmentCard extends BusinessCard {
@@ -38,7 +39,7 @@ public class EstablishmentCard extends BusinessCard {
 	private JTextField floor;
 	private JLabel floorLabel;
 
-	public EstablishmentCard(int userID) {
+	public EstablishmentCard(int userID, UserType type) {
 
 		allTrades = Trade.getAllTrades();
 
@@ -281,6 +282,7 @@ public class EstablishmentCard extends BusinessCard {
 		textDescrButton.setText(Text.getString("edit"));
 		zipButton.setText(Text.getString("edit"));
 		floorButton.setText(Text.getString("edit"));
+	
 	}
 
 	private class ButtonListener implements ActionListener {

@@ -24,6 +24,8 @@ import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.app.UserType;
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
 
 public class OverviewTab extends SSSTab {
@@ -39,25 +41,32 @@ public class OverviewTab extends SSSTab {
 	private JLabel managerLabel, nameLabel;
 
 	private JPanel 
-		leftPanel, rightPanel, 
-		cardPanel;
+	leftPanel, rightPanel, 
+	cardPanel;
 	private Box nameBox, nameWrapBox;
-	
+
 	private EstablishmentCard estabCard;
-	
+
 	private BuildingCard buildingCard;
-	
+
 	private CentreCard centreCard;
-	
+
 	private CardLayout cardLayout;
-	
+
 	private LogoCard logoCard;
 
-	public OverviewTab(int userID, UserType userType) {
-		
+	private UserType type;
+
+	private int userID;
+
+	public OverviewTab(int userID, UserType type) {
+
+
+		this.type = type;
+		this.userID = userID;
 		// Set layout for this tab
 		this.setLayout(new BorderLayout());
-		
+
 
 		// Populate businessArray from CentreBuffer
 		while(businessArray == null) {
@@ -74,21 +83,21 @@ public class OverviewTab extends SSSTab {
 		nameWrapBox		= new Box(BoxLayout.X_AXIS);
 		nameBox			= new Box(BoxLayout.Y_AXIS);
 		nameLabel		= new JLabel("Super Shopping Surfer", SwingConstants.LEFT);
-		estabCard		= new EstablishmentCard(userID);
-		buildingCard	= new BuildingCard(userID);
-		centreCard		= new CentreCard(userID);
+		estabCard		= new EstablishmentCard(userID, type);
+		buildingCard	= new BuildingCard(userID, type);
+		centreCard		= new CentreCard(userID, type);
 		logoCard 		= new LogoCard();
 		managerLabel	= new JLabel("");
-		
+
 		scrollPaneLeft 	= new JScrollPane(businessList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
 		scrollPaneRight	= new JScrollPane(cardPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
+
 		Font currentFont = businessList.getFont();
-		
+
 		nameWrapBox.add(Box.createGlue());
 		nameWrapBox.add(nameBox);
 		nameWrapBox.add(Box.createGlue());
-		
+
 		businessList.setFont(new Font(currentFont.getFontName(), currentFont.getStyle(), currentFont.getSize() + 3));
 		scrollPaneRight.setBorder(null);
 		nameBox.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.GRAY));
@@ -101,32 +110,36 @@ public class OverviewTab extends SSSTab {
 
 		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		businessList.setRootVisible(false);
-		
+
 		cardPanel.add(logoCard, "logoCard");
 		cardPanel.add(centreCard, "centreCard");
 		cardPanel.add(buildingCard, "buildingCard");
 		cardPanel.add(estabCard, "estabCard");
 
-		
+
 		rightPanel.add(nameBox, BorderLayout.NORTH);
 		rightPanel.add(scrollPaneRight, BorderLayout.CENTER);
 		leftPanel.setPreferredSize(new Dimension(200, 0));		
 		leftPanel.add(scrollPaneLeft, BorderLayout.CENTER);
-		
+
 		this.add(leftPanel, BorderLayout.WEST);
 		this.add(rightPanel, BorderLayout.CENTER);
-		
-		
+
+
 		setUpListener();
-		
-		
+
+
 	}
 
 	private DefaultMutableTreeNode setupTree() {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Centres");
 		DefaultMutableTreeNode centreNode;
 		DefaultMutableTreeNode buildingNode;
-		
+		int estabID = 0;
+		if(type == UserType.SHOP_OWNER) {
+			Database db 	= DatabaseFactory.getDatabase();
+			estabID 		= db.getEstablishmentID(userID);
+		}
 		for(ShoppingCentre c : businessArray) {
 			centreNode = new DefaultMutableTreeNode(c);
 			if(c != null && c.getBuildings() != null) {
@@ -135,7 +148,17 @@ public class OverviewTab extends SSSTab {
 					if(b != null) {
 						if(b.getEstablishments() != null) {
 							for(Establishment e : b.getEstablishments()) {
-								if(e != null) buildingNode.add(new DefaultMutableTreeNode(e));
+
+								if(e != null) {
+									if(type == UserType.SHOP_OWNER) {
+										if(e.getEstablishmentId() == estabID) {
+											buildingNode.add(new DefaultMutableTreeNode(e));
+										}
+									}
+									else {
+										buildingNode.add(new DefaultMutableTreeNode(e));
+									}
+								}
 							}
 						}
 						centreNode.add(buildingNode);
@@ -154,7 +177,7 @@ public class OverviewTab extends SSSTab {
 			public void valueChanged(TreeSelectionEvent event) {
 
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) businessList.getLastSelectedPathComponent();
-				
+
 				if(node == null) {
 					nameLabel.setText("Super Shopping Surfer");
 					managerLabel.setText("");
@@ -203,8 +226,8 @@ public class OverviewTab extends SSSTab {
 		}
 		businessList.setModel(new DefaultTreeModel(setupTree()));
 		for (int i = businessList.getRowCount() - 1; i >= 0; i--) {
-	         businessList.expandRow(i);
-	}
+			businessList.expandRow(i);
+		}
 
 	}
 }

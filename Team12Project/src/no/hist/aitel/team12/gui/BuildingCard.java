@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import no.hist.aitel.team12.app.Building;
+import no.hist.aitel.team12.app.UserType;
 import no.hist.aitel.team12.util.Text;
 
 public class BuildingCard extends JPanel {
@@ -28,10 +29,10 @@ public class BuildingCard extends JPanel {
 	private ButtonListener buttonListener;
 	
 	private Building building;
-
-	public BuildingCard(int userID) {
+	private UserType type;
+	public BuildingCard(int userID, UserType type) {
 		this.setLayout(new GridBagLayout());
-		
+		this.type = type;
 		buttonListener 		= new ButtonListener();
 		
 		buildingNameLabel	= new JLabel(Text.getString("name") + ": ", SwingConstants.RIGHT);
@@ -160,6 +161,11 @@ public class BuildingCard extends JPanel {
 		buildingNameButton.setText(Text.getString("edit"));
 		nrOfFloorsButton.setText(Text.getString("edit"));
 		areaButton.setText(Text.getString("edit"));
+		if(type == UserType.SHOP_OWNER) {
+			buildingNameButton.setEnabled(false);
+			nrOfFloorsButton.setEnabled(false);
+			areaButton.setEnabled(false);
+		}
 	}
 	
 	private class ButtonListener implements ActionListener {
