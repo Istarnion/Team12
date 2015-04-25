@@ -217,7 +217,8 @@ public class TextResources_no extends ListResourceBundle {
 				{"titleLong", "- Brukers tittel er for lang. Maks 30 karakterer"},
 				{"adrMissing", "- Adresse mangler"},
 				{"usrCreated", "- Bruker opprettet"},
-				{"shopNameMissing", "- Butikkens navn må fylles ut"}
+				{"shopNameMissing", "- Butikkens navn må fylles ut"},
+				{"revReg", "Fortjeneste er registrert"}
 
 		};
 	}

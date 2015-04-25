@@ -1,6 +1,7 @@
 package no.hist.aitel.team12.database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class DatabaseConnection implements Database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer_silver?"
+			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer?"
 					+ "user=team12&password=teamadmin15");
 
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
@@ -815,6 +816,43 @@ public class DatabaseConnection implements Database {
 	}
 
 	@Override
+	public int getBusinessID(int userID) {
+		int output = -1;
+
+		try (PreparedStatement statement = connection.prepareStatement(
+				"SELECT GET_NOT_NULL_ID(cm.employee_number, eo.employee_number) AS employee_number "
+						+"FROM business LEFT JOIN shoppingcentre USING (business_id) "
+						+"LEFT JOIN establishment USING (business_id) "
+						+"LEFT JOIN centremanager cm USING (centre_id) "
+						+"LEFT JOIN establishmentowner eo USING(establishment_id) "
+						+"WHERE business_id = ?"
+				)) {
+			connection.setReadOnly(true);
+
+			statement.setInt(1, userID);
+
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next()) {
+				output = result.getInt("employee_number");
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				connection.setReadOnly(false);
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return output;
+	}
+
+	@Override
 	public String[][] executeQuery(String sql) {
 		String[][] out = null;
 
@@ -844,7 +882,7 @@ public class DatabaseConnection implements Database {
 		catch(SQLException e) {
 			out = new String[1][1];
 			out[0][0] = "SQL expression raised an exception: "+e.getMessage();
-	
+
 		}
 		finally {
 			try {
@@ -899,11 +937,15 @@ public class DatabaseConnection implements Database {
 				else if(args[i] instanceof Long) {
 					prepStatement.setLong(i+1, (Long)args[i]);
 				}
+				else if(args[i] instanceof Date) {
+					prepStatement.setDate(i+1, (Date)args[i]);
+				}
 				else {
+					System.out.println("Invalid argument type: "+args[i].getClass().getSimpleName());
 					return false;
 				}
 			}
-
+			
 			prepStatement.executeUpdate();
 			connection.commit();
 			connection.setAutoCommit(true);

@@ -41,7 +41,7 @@ public class Revenue {
 		Calendar c = Calendar.getInstance();   // this takes current date
 	    c.set(Calendar.DAY_OF_MONTH, 1);
 	    Date sqlDate = new Date(c.getTime().getTime());
-		
+	    
 		return db.executePreparedStatement("INSERT INTO revenue (business_id, month, turnover_month) VALUES (?, ?, ?)", business_id, sqlDate, turnover);
 	}
 }

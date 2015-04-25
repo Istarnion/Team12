@@ -187,6 +187,13 @@ public interface Database {
 	
 	/**
 	 * 
+	 * @param userID The userID of an establishment owner of a centre manager
+	 * @return
+	 */
+	public int getBusinessID(int userID);
+	
+	/**
+	 * 
 	 * @param username	The user in question
 	 * @return			A list of all messages, sent and recieved
 	 */

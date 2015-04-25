@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +27,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import no.hist.aitel.team12.app.PDFGenerator;
 import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.UserType;
+import no.hist.aitel.team12.database.Database;
+import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.Text;
 
 public class FinanceTab extends SSSTab {
@@ -52,8 +53,13 @@ public class FinanceTab extends SSSTab {
 
 	private JButton regButton, showButton, saveButton;
 
+	private int businessID;
+	
 	public FinanceTab(String username, int userID, UserType userType){
-
+		
+		Database db = DatabaseFactory.getDatabase();
+		businessID = db.getBusinessID(userID);
+		
 		this.setLayout(new BorderLayout());
 
 		GridLayout grid = new GridLayout(14, 2);	// Two columns, fourteen rows (so the bottom ones are empty)
@@ -148,13 +154,13 @@ public class FinanceTab extends SSSTab {
 
 					try {
 						revenue = Long.parseLong(incomeAmount.getText());
-						int yearFrom = calFrom.get(Calendar.YEAR);
-						String monthFrom  = calFrom.getDisplayName(Calendar.MONTH, Calendar.LONG_FORMAT, Locale.getDefault());
 
-						System.out.println("Register Revenue button pressed"+"\n"+ "Dates selected"+ "From date: "+ monthFrom +yearFrom + " To date: "+ revenue);
-						Revenue.registerTurnover(calFrom.getTime(), revenue, 1);
-
-
+						if(Revenue.registerTurnover(calFrom.getTime(), revenue, businessID)) {
+							JOptionPane.showMessageDialog(null, Text.getString("revReg"));
+						}
+						else {
+							JOptionPane.showMessageDialog(null, Text.getString("dbErr"));
+						}
 					}
 					catch(NumberFormatException nfe){
 						JOptionPane.showMessageDialog(null, Text.getString("reverr"));
