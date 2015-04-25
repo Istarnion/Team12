@@ -71,7 +71,7 @@ public class SSSWindow extends JFrame {
 		}
 		
 		tabbedPane = new JTabbedPane();
-		tabbedPane.setPreferredSize(new Dimension(1200, 730));
+		tabbedPane.setPreferredSize(new Dimension(1200, 670));
 		
 		tabbedPane.addChangeListener(new ChangeListener() {
 

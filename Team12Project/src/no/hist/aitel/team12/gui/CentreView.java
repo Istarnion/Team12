@@ -1,6 +1,7 @@
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.Text;
@@ -65,6 +67,7 @@ public class CentreView extends JPanel {
 		
 		cNameBox = new Box(BoxLayout.X_AXIS);
 		cNameLabel = new JLabel(Text.getString("name")+":");
+		cNameLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cNameLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cName = new JLabel();
 		cNameBox.add(cNameLabel);
@@ -74,14 +77,17 @@ public class CentreView extends JPanel {
 		
 		cAdrBox = new Box(BoxLayout.X_AXIS);
 		cAdrLabel = new JLabel((Text.getString("adr")+":"));
+		cAdrLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cAdrLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cAdr = new JLabel();
+		cAdr.setBackground(Color.RED);
 		cAdrBox.add(cAdrLabel);
 		cAdrBox.add(Box.createGlue());
 		cAdrBox.add(cAdr);
 		
 		cOpenBox = new Box(BoxLayout.X_AXIS);
 		cOpenLabel = new JLabel(Text.getString("openingHrs")+":");
+		cOpenLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cOpenLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cOpen = new JLabel();
 		cOpenBox.add(cOpenLabel);
@@ -90,6 +96,7 @@ public class CentreView extends JPanel {
 		
 		cParkBox = new Box(BoxLayout.X_AXIS);
 		cParkLabel = new JLabel(Text.getString("park")+":");
+		cParkLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cParkLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cPark = new JLabel();
 		cParkBox.add(cParkLabel);
@@ -98,6 +105,7 @@ public class CentreView extends JPanel {
 		
 		cAreaBox = new Box(BoxLayout.X_AXIS);
 		cAreaLabel = new JLabel(Text.getString("area")+":");
+		cAreaLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cAreaLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cArea = new JLabel();
 		cAreaBox.add(cAreaLabel);
@@ -106,6 +114,7 @@ public class CentreView extends JPanel {
 		
 		cEmailBox = new Box(BoxLayout.X_AXIS);
 		cEmailLabel = new JLabel(Text.getString("email")+":");
+		cEmailLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cEmailLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cEmail = new JLabel();
 		cEmailBox.add(cEmailLabel);
@@ -114,6 +123,7 @@ public class CentreView extends JPanel {
 		
 		cPhoneBox = new Box(BoxLayout.X_AXIS);
 		cPhoneLabel = new JLabel(Text.getString("tel")+":");
+		cPhoneLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cPhoneLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cPhone = new JLabel();
 		cPhoneBox.add(cPhoneLabel);
@@ -122,11 +132,13 @@ public class CentreView extends JPanel {
 		
 		cDescriptBox = new Box(BoxLayout.X_AXIS);
 		cDescriptLabel = new JLabel(Text.getString("textDescription")+":");
+		cDescriptLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		cDescriptLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
 		cDescript = new JTextArea(20,65);
 		cDescript.setLineWrap(true);
 		cDescript.setWrapStyleWord(true);
 		cDescript.setEditable(false);
+		cDescript.setBorder(new EmptyBorder(5, 5, 5 ,5));
 		scroll = new JScrollPane(cDescript);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		cDescriptBox.add(cDescriptLabel);
@@ -177,7 +189,7 @@ public class CentreView extends JPanel {
 		centreName = centre.getBusinessName();
 		
 		cName.setText(centre.getBusinessName());
-		cAdr.setText(centre.getAddress().toString());
+		cAdr.setText(centre.getAddress().getHTMLString());
 		
 		if(centre.getOpeningHours() != null){
 			

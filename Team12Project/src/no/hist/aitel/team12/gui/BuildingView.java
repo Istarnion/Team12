@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.util.Text;
@@ -32,8 +33,11 @@ public class BuildingView extends JPanel {
 		labelPanel = new JPanel();
 		labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
 		bNameLabel = new JLabel();
+		bNameLabel.setBorder(new EmptyBorder(5, 20, 0 ,0 ));
 		bFloorLabel = new JLabel();
+		bFloorLabel.setBorder(new EmptyBorder(5, 20, 0 ,0 ));
 		bAreaLabel = new JLabel();
+		bAreaLabel.setBorder(new EmptyBorder(5, 20, 0 ,0 ));
 		labelPanel.add(bNameLabel);
 		labelPanel.add(bFloorLabel);
 		labelPanel.add(bAreaLabel);
@@ -41,8 +45,11 @@ public class BuildingView extends JPanel {
 		buildingPanel = new JPanel();
 		buildingPanel.setLayout(new BoxLayout(buildingPanel,BoxLayout.Y_AXIS));
 		bName = new JLabel();
+		bName.setBorder(new EmptyBorder(5, 20, 0 ,0 ));
 		bFloor = new JLabel();
+		bFloor.setBorder(new EmptyBorder(5, 20, 0 ,0 ));
 		bArea = new JLabel();
+		bArea.setBorder(new EmptyBorder(5, 20, 0 ,0 ));
 		buildingPanel.add(bName);
 		buildingPanel.add(bFloor);
 		buildingPanel.add(bArea);

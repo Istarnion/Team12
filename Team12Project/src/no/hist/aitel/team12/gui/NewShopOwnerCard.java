@@ -19,6 +19,7 @@ import no.hist.aitel.team12.app.Email;
 import no.hist.aitel.team12.app.EmailAddress;
 import no.hist.aitel.team12.app.Establishment;
 import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.app.User;
 import no.hist.aitel.team12.util.PasswordManager;
 import no.hist.aitel.team12.util.Text;
 
@@ -115,41 +116,64 @@ public class NewShopOwnerCard extends JPanel{
 				/* CHECKING FIELDS */
 				if(firstName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("frnamelong"));
+					errMsg.append(Text.getString("frnamelong") + "\n");
+				}
+				
+				if(firstName.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("frnameMissing") + "\n");
 				}
 
 				if(lastName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("lsnamelong"));
+					errMsg.append(Text.getString("lsnamelong") + "\n");
 				}
-
-				if(personalAddress.getText().length() > 30) {
+				
+				if(firstName.getText().length() == 0) {
 					errCount++;
-					errMsg.append(Text.getString("adrlong"));
+					errMsg.append(Text.getString("lsnameMissing") + "\n");
 				}
-
-
-				if(Address.isValidZip(personalZip.getText())) {
+				
+				if(username.getText().length() == 0) {
 					errCount++;
-					errMsg.append(Text.getString("invalidZip"));
+					errMsg.append(Text.getString("usrNameMissing") + "\n");
 				}
-
-
+				
+				if (username.getText().length() > 20) {
+					errCount++;
+					errMsg.append(Text.getString("userlong") + "\n");
+				}
+				
+				if(User.userExists(username.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("usrAllreadyExists") + "\n");
+				}
+				
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
-					errMsg.append(Text.getString("emailinv"));
+					errMsg.append(Text.getString("emailinv") + "\n");
+				}
+				
+				if(personalAddress.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("adrlong") + "\n");
+				}
+
+				if(!Address.isValidZip(personalZip.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("invalidZip") + "\n");
 				}
 
 				try {
 					Integer.parseInt(telephone.getText());
 					if(telephone.getText().length() > 8) {
 						errCount++;
-						errMsg.append(Text.getString("tlplong"));
+						errMsg.append(Text.getString("tlplong") + "\n");
 					}
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("tlpnr"));
+					errMsg.append(Text.getString("tlpnr") + "\n");
 				}
 
 				try {
@@ -157,11 +181,61 @@ public class NewShopOwnerCard extends JPanel{
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("salnr"));
+					errMsg.append(Text.getString("salnr") + "\n");
 				}
 
+				if(shopName.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("shopNameLong") + "\n");
+				}
 
+				if(shopAddress.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("shopAdrLong") + "\n");
+				}
+				
+				if(!Address.isValidZip(shopZip.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("shopInvZip") + "\n");
+				}
+				
+				if(!EmailAddress.isValidEmailAddress(shopEmail.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("shopInvEmail") + "\n");
+				}
+				
+				try {
+					Integer.parseInt(shopTelephone.getText());
+					if(shopTelephone.getText().length() != 8) {
+						errCount++;
+						errMsg.append(Text.getString("shoptlpnr") + "\n");
+					}
+				}
+				catch(NumberFormatException e) {
+					errCount++;
+					errMsg.append(Text.getString("shoptlpnr") + "\n");
+				}
 
+				try {
+					Integer.parseInt(floorNumber.getText());
+					}
+				
+				catch(NumberFormatException e) {
+					errCount++;
+					errMsg.append(Text.getString("shopFloorError") + "\n");
+				}
+				
+				if(building.getSelectedItem() == null) {
+					errCount++;
+					errMsg.append(Text.getString("selectBuildingErr") + "\n");
+				}
+				
+		
+
+				
+				
+				
+				
 				/* DONE CHECKING FIELDS */
 
 				if(errCount > 0) {
@@ -237,7 +311,16 @@ public class NewShopOwnerCard extends JPanel{
 		personalZip.setText("");
 		telephone.setText("");
 		salary.setText("");
-
+		shopName.setText("");		
+		shopAddress.setText("");		
+		shopZip.setText("");			
+		shopEmail.setText("");		
+		shopTelephone.setText("");	
+		floorNumber.setText("");		
+		
+		buildings = ShoppingCentre.getPopulatedShoppingCentres()[0].getBuildings();
+		building = new JComboBox<Building>(buildings);
+		
 		building.setSelectedIndex(0);
 	}
 }

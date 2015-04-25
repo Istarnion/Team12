@@ -90,50 +90,74 @@ public class NewCustomerServiceCard extends JPanel{
 				/* CHECKING FIELDS */
 				if(firstName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("frnamelong"));
+					errMsg.append(Text.getString("frnamelong") + "\n");
+				}
+				if(firstName.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("frnameMissing") + "\n");
 				}
 
 				if(lastName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("lsnamelong"));
+					errMsg.append(Text.getString("lsnamelong") + "\n");
+				}
+				
+				if(lastName.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("lsnameMissing") + "\n");
+				}
+				
+				if(username.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("usrNameMissing") + "\n");
+				}
+				
+				if (username.getText().length() > 20) {
+					errCount++;
+					errMsg.append(Text.getString("userlong") + "\n");
+				}
+				
+				if(User.userExists(username.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("usrAllreadyExists") + "\n");
 				}
 
 				if(personalAddress.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("adrlong"));
+					errMsg.append(Text.getString("adrlong") + "\n");
 				}
 
 		
 					
-					if(Address.isValidZip(personalZip.getText())) {
+					if(!Address.isValidZip(personalZip.getText())) {
 						errCount++;
-						errMsg.append(Text.getString("zipfour"));
+						errMsg.append(Text.getString("invalidZip") + "\n");
 					}
 		
 
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
-					errMsg.append(Text.getString("emailinv"));
+					errMsg.append(Text.getString("emailinv") + "\n");
 				}
 
 				try {
 					Integer.parseInt(telephone.getText());
-					if(telephone.getText().length() > 8) {
+					if(telephone.getText().length() != 8) {
 						errCount++;
-						errMsg.append(Text.getString("tlplong"));
+						errMsg.append(Text.getString("tlplong") + "\n");
 					}
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("tlpnr"));
+					errMsg.append(Text.getString("tlpnr") + "\n");
 				}
 
 				try {
-					Integer.parseInt(salary.getText());
+					Integer.parseInt(salary.getText() + "\n");
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("salnr"));
+					errMsg.append(Text.getString("salnr") + "\n");
 				}
 				/* DONE CHECKING FIELDS */
 

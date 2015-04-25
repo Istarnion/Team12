@@ -427,7 +427,7 @@ public class CentreCard extends BusinessCard {
 					return;
 				}
 				newBuildingDialog.setVisible(false);
-				JOptionPane.showMessageDialog(null, "building created");
+				JOptionPane.showMessageDialog(null, Text.getString("buildingCreated"));
 			}
 			else if(pressedButton.equals(parkingSpaceButton)) {
 				if(parkingSpaceButton.getText().equals(Text.getString("edit"))) {

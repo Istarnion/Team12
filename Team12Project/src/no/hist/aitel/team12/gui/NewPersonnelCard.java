@@ -86,42 +86,44 @@ public class NewPersonnelCard extends JPanel{
 				/* CHECKING FIELDS */
 				if(firstName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("frnamelong"));
+					errMsg.append(Text.getString("frnamelong") + "\n");
+				}
+				if(firstName.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("frnameMissing") + "\n");
 				}
 
 				if(lastName.getText().length() > 30) {
 					errCount++;
-					errMsg.append(Text.getString("lsnamelong"));
+					errMsg.append(Text.getString("lsnamelong") + "\n");
 				}
 
-				if(address.getText().length() > 30) {
+				if(lastName.getText().length() == 0) {
 					errCount++;
-					errMsg.append(Text.getString("adrlong"));
+					errMsg.append(Text.getString("lsnameMissing") + "\n");
 				}
-
-
-				if(Address.isValidZip(zipCode.getText())) {
-					errCount++;
-					errMsg.append(Text.getString("zipfour"));
-				}
-
-
 
 				if(!EmailAddress.isValidEmailAddress(email.getText())) {
 					errCount++;
-					errMsg.append(Text.getString("emailinv"));
+					errMsg.append(Text.getString("emailinv") + "\n");
 				}
+				
+				if(!Address.isValidZip(zipCode.getText())) {
+					errCount++;
+					errMsg.append(Text.getString("invalidZip") + "\n");
+				}
+
 
 				try {
 					Integer.parseInt(telephone.getText());
-					if(telephone.getText().length() > 8) {
+					if(telephone.getText().length() != 8) {
 						errCount++;
-						errMsg.append(Text.getString("tlplong"));
+						errMsg.append(Text.getString("tlplong") + "\n");
 					}
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("tlpnr"));
+					errMsg.append(Text.getString("tlpnr") + "\n");
 				}
 
 				try {
@@ -129,8 +131,20 @@ public class NewPersonnelCard extends JPanel{
 				}
 				catch(NumberFormatException e) {
 					errCount++;
-					errMsg.append(Text.getString("salnr"));
+					errMsg.append(Text.getString("salnr") + "\n");
 				}
+				
+				if(title.getText().length() > 30) {
+					errCount++;
+					errMsg.append(Text.getString("titleLong") + "\n");
+				}
+				
+				if(title.getText().length() == 0) {
+					errCount++;
+					errMsg.append(Text.getString("titleMissing") + "\n");
+				}
+
+
 				/* DONE CHECKING FIELDS */
 
 				if(errCount > 0) {
@@ -184,6 +198,8 @@ public class NewPersonnelCard extends JPanel{
 		zipCode.setText("");
 		telephone.setText("");
 		salary.setText("");
+		title.setText("");
+		
 	}
 
 	public void updateCard(Personnel p) {
