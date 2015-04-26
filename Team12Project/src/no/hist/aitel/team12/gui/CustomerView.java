@@ -41,55 +41,55 @@ import no.hist.aitel.team12.util.Text;
 public class CustomerView {
 
 	private ShoppingCentre [] centers;
-
-	private JPanel basePanel = new JPanel();
+	
+	private JPanel basePanel = new JPanel();	
 	
 	private JPanel mainPanel = new JPanel();
-
+	
 	private JPanel topbar = new JPanel();
-
+	
 	private JPanel search = new JPanel();
-
+	
 	private JPanel view = new JPanel();
-
+	
 	private JPanel loginPanel = new JPanel();
-
+	
 	private JPanel searchResult = new JPanel();
-
+	
 	private JPanel resultView = new JPanel();
-
-	private CardLayout cardLayout;
+	
+	private CardLayout cardLayout;	
 	
 	private CardLayout bigCardLayout;
 	
-	private CentreView cView;
+	private CentreView cView;	
 	
 	private BuildingView bView;
 	
-	private EstablishmentView eView;
+	private EstablishmentView eView;	
 	
 	private JLabel logo;
-
+	
 	private JLabel appName;
-
+	
 	private JLabel today;
-
+	
 	private String magGlass = "\uD83D\uDD0D";
-
+	
 	private InputField shopNameSearch = new InputField (magGlass+Text.getString("cvsShpNam"),20);
-
+	
 	private	InputField centerNameSearch = new InputField(magGlass+Text.getString("cvsCntrNam"),20);
-
+	
 	private InputField countySearch = new InputField(magGlass +Text.getString("cvsCounty"),20);
-
+	
 	private InputField municipalitySearch = new InputField(magGlass+Text.getString("cvsMunici"),20);
-
+	
 	private JTree resultTree = new JTree();
-
+	
 	private JScrollPane scrollTree;
-
+	
 	private boolean valueChanged = true;
-
+	
 	private CustomerCSView csView;
 	
 	public CustomerView(){
@@ -204,13 +204,11 @@ public class CustomerView {
 
 		System.out.println("View panel done");
 
-
 		SearchListener fieldListener = new SearchListener();
 		shopNameSearch.addKeyListener(fieldListener);
 		centerNameSearch.addKeyListener(fieldListener);
 		countySearch.addKeyListener(fieldListener);
 		municipalitySearch.addKeyListener(fieldListener);
-
 
 		TradeSearchListener tsl = new TradeSearchListener();
 		tradeSearch.addActionListener(tsl);
@@ -226,7 +224,6 @@ public class CustomerView {
 				today.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date()));
 				
 				if(valueChanged){
-					//long timestamp = System.nanoTime();
 
 					String centreName = centerNameSearch.isDefaultShown()?"":centerNameSearch.getText();
 					String muni = municipalitySearch.isDefaultShown()?"":municipalitySearch.getText();
@@ -295,8 +292,6 @@ public class CustomerView {
 							resultTree.expandRow(i);
 						}
 					}
-
-					//System.out.println("Time to update tree: "+((System.nanoTime()-timestamp)/1000000000.0)+"s");
 				}
 				valueChanged = false;
 			}
@@ -318,21 +313,17 @@ public class CustomerView {
 		@Override
 		public void keyPressed(KeyEvent a) {
 			valueChanged = true;
-
 		}
 
 		@Override
 		public void keyReleased(KeyEvent b) {
 			valueChanged = true;
-
 		}
 
 		@Override
 		public void keyTyped(KeyEvent c) {
 			valueChanged = true;
-
 		}
-
 	}
 
 	private class TradeSearchListener implements ActionListener{
@@ -340,9 +331,7 @@ public class CustomerView {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			valueChanged = true;
-
 		}
-
 	}
 
 	public static void main (String[]args ){
@@ -369,7 +358,6 @@ public class CustomerView {
 
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-
 			// Set System L&F
 			//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
@@ -387,6 +375,4 @@ public class CustomerView {
 		
 		splash.removeSplash();
 	}
-
-
 }

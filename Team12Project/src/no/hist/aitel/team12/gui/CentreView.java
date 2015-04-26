@@ -90,6 +90,7 @@ public class CentreView extends JPanel {
 	private String centreName = null;
 
 	private ShoppingCentre centre;
+	
 	public CentreView(CustomerView cv) {
 		
 		this.cv = cv;
@@ -196,8 +197,8 @@ public class CentreView extends JPanel {
 		// Creating and adding map
 		map = new JMapViewer();
 		map.setPreferredSize(new Dimension(10, 300));
-//		map.setBorder(new EmptyBorder(20, 120, 20 ,20));
 		mapBox = new Box(BoxLayout.X_AXIS);
+		mapBox.setBorder(new EmptyBorder(20, 20, 20 ,0));
 		mapBox.add(map);
 		mainBox.add(mapBox);
 
@@ -264,7 +265,7 @@ public class CentreView extends JPanel {
 			return false;
 		}
 
-		map.setDisplayPosition(new Coordinate(lat, lon), 15);
+		map.setDisplayPosition(new Coordinate(lat, lon), 17);
 		return true;
 	}
 }
