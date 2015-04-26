@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,8 +18,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -87,9 +90,11 @@ public class CentreView extends JPanel {
 	private String centreName = null;
 
 	private ShoppingCentre centre;
-
 	public CentreView(CustomerView cv) {
 
+
+		
+		
 		this.cv = cv;
 
 		cNameBox = new Box(BoxLayout.X_AXIS);
@@ -179,6 +184,7 @@ public class CentreView extends JPanel {
 		contactCSBox.add(Box.createGlue());
 		contactCSBox.add(contactCS);
 
+		
 		mainBox = new Box(BoxLayout.Y_AXIS);
 		mainBox.add(cNameBox);
 		mainBox.add(cAdrBox);
@@ -192,7 +198,8 @@ public class CentreView extends JPanel {
 
 		// Creating and adding map
 		map = new JMapViewer();
-		map.setPreferredSize(new Dimension(200, 340));
+		map.setPreferredSize(new Dimension(10, 300));
+//		map.setBorder(new EmptyBorder(20, 120, 20 ,20));
 		mapBox = new Box(BoxLayout.X_AXIS);
 		mapBox.add(map);
 		mainBox.add(mapBox);
