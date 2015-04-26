@@ -1267,7 +1267,6 @@ public class DatabaseConnection implements Database {
 			try {
 				connection.setReadOnly(false);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
