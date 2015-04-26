@@ -31,6 +31,10 @@ personnel_view,
 message_view
 ;
 
+DROP FUNCTION IF EXISTS
+GET_NOT_NULL_ID
+;
+
 SET foreign_key_checks = 1;
 
 CREATE TABLE county(

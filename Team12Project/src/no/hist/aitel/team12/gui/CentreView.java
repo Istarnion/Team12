@@ -3,25 +3,16 @@ package no.hist.aitel.team12.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 
-import javax.imageio.ImageIO;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import java.net.URL;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,16 +20,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import org.jfree.io.IOUtils;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import netscape.javascript.JSObject;
 import no.hist.aitel.team12.app.MapGson;
 import no.hist.aitel.team12.app.ShoppingCentre;
 import no.hist.aitel.team12.util.Text;
@@ -81,7 +69,6 @@ public class CentreView extends JPanel {
 	private JButton contactCS;
 
 	private JMapViewer map;
-	private static final long serialVersionUID = -4615331862168657390L;
 
 	private CustomerView cv;
 
@@ -91,6 +78,8 @@ public class CentreView extends JPanel {
 
 	private ShoppingCentre centre;
 	
+	private static final long serialVersionUID = -4615331862168657390L;
+
 	public CentreView(CustomerView cv) {
 		
 		this.cv = cv;
@@ -265,7 +254,7 @@ public class CentreView extends JPanel {
 			return false;
 		}
 
-		map.setDisplayPosition(new Coordinate(lat, lon), 17);
+		map.setDisplayPosition(new Coordinate(lat, lon), 16);
 		return true;
 	}
 }
