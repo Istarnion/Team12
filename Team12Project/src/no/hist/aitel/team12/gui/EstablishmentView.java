@@ -17,7 +17,6 @@ import no.hist.aitel.team12.util.Text;
 
 public class EstablishmentView extends JPanel {
 	
-
 	private JLabel eNameLabel;
 	private JLabel eName;
 	private JLabel eOpenLabel;
@@ -66,7 +65,6 @@ public class EstablishmentView extends JPanel {
 		eAdrBox.add(eAdrLabel);
 		eAdrBox.add(Box.createGlue());
 		eAdrBox.add(eAdr);
-		
 		
 		eOpenBox = new Box(BoxLayout.X_AXIS);
 		eOpenLabel = new JLabel(Text.getString("openingHrs")+":");
@@ -117,7 +115,7 @@ public class EstablishmentView extends JPanel {
 		eDescriptLabel = new JLabel(Text.getString("textDescription")+":");
 		eDescriptLabel.setBorder(new EmptyBorder(0, 20, 0 ,0 ));
 		eDescriptLabel.setPreferredSize(new Dimension(200,(int)getPreferredSize().getHeight()));
-		eDescript = new JTextArea(20,65);
+		eDescript = new JTextArea(10,65);
 		eDescript.setLineWrap(true);
 		eDescript.setWrapStyleWord(true);
 		eDescript.setEditable(false);
@@ -127,7 +125,6 @@ public class EstablishmentView extends JPanel {
 		eDescriptBox.add(eDescriptLabel);
 		eDescriptBox.add(Box.createGlue());
 		eDescriptBox.add(scrollDescript);
-		
 		
 		topBox = new Box(BoxLayout.Y_AXIS);
 		topBox.add(eNameBox);
@@ -139,13 +136,8 @@ public class EstablishmentView extends JPanel {
 		topBox.add(ePhoneBox);
 		topBox.add(eDescriptBox);
 		
-		
 		setLayout(new BorderLayout());
 		add(topBox,BorderLayout.WEST);
-		
-		
-
-
 	}
 
 	public void updateCard(Establishment estab) {
@@ -157,8 +149,6 @@ public class EstablishmentView extends JPanel {
 			String openingHours =estab.getOpeningHours();
 			eOpen.setText("("+openingHours.substring(0,2)+"-"+openingHours.substring(2,4)+"("+openingHours.substring(4,6)+"-"+openingHours.substring(6,8)+"))");
 		}
-		
-
 		
 		if(estab.getSelectedTrades() != null) {
 			String trades = "";
@@ -176,10 +166,9 @@ public class EstablishmentView extends JPanel {
 		
 		eEmail.setText(estab.getEmail().getEmailAddress());
 		ePhone.setText(""+estab.getTelephone());
-		eAdr.setText(estab.getAddress().getHTMLString());
+		eAdr.setText(estab.getAddress().toShortString());
 		eFlr.setText(""+estab.getFloorNumber());
 		eDescript.setText(estab.getDescription());
-
-		
+		scrollDescript.getVerticalScrollBar().setValue(0);
 	}
 }

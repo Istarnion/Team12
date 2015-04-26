@@ -16,5 +16,8 @@
 	<classpathentry kind="lib" path="libs/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="libs/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="lib" path="libs/jpc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/helk/Downloads/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="libs/JMapViewer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

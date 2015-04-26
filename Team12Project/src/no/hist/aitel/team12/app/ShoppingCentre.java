@@ -146,4 +146,10 @@ public class ShoppingCentre extends Business {
 		Database db = DatabaseFactory.getDatabase();
 		return db.getNumberOfShoppingCentres();
 	}
+	
+	public String getMapString() {
+		return super.getBusinessName().replaceAll(" ", "%20") 
+		+ "%20" + super.getAddress().getZipcode()
+		+ "%20" + super.getAddress().getDistrict().replaceAll(" ", "%20");
+	}
 }
