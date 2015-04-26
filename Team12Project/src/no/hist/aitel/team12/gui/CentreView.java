@@ -91,9 +91,6 @@ public class CentreView extends JPanel {
 
 	private ShoppingCentre centre;
 	public CentreView(CustomerView cv) {
-
-
-		
 		
 		this.cv = cv;
 

@@ -47,27 +47,10 @@ public class EstablishmentView extends JPanel {
 	private Box eEmailBox;
 	private Box ePhoneBox;
 	private Box eDescriptBox;
-	private BufferedImage logo;
 
 	private static final long serialVersionUID = 8193973009955888884L;
 
 	public EstablishmentView() {
-		
-		try {
-			logo = ImageIO.read(getClass().getResource("/images/bigbite.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		JLabel logoLabel = new JLabel();
-		Box logoBox = new Box(BoxLayout.Y_AXIS);
-		logoLabel.setIcon(new ImageIcon(logo));
-		logoBox.add(Box.createGlue());
-
-		logoBox.add(logoLabel);
-		
-		
-		topBox = new Box(BoxLayout.Y_AXIS);
-		topBox.add(logoBox);
 
 		eNameBox = new Box(BoxLayout.X_AXIS); 
 		eNameLabel = new JLabel(Text.getString("name")+":");
@@ -147,10 +130,7 @@ public class EstablishmentView extends JPanel {
 		eDescriptBox.add(Box.createGlue());
 		eDescriptBox.add(scrollDescript);
 		
-		
-
-		
-		
+		topBox = new Box(BoxLayout.Y_AXIS);
 		topBox.add(eNameBox);
 		topBox.add(eAdrBox);
 		topBox.add(eOpenBox);
@@ -167,7 +147,6 @@ public class EstablishmentView extends JPanel {
 	public void updateCard(Establishment estab) {
 		
 		eName.setText(estab.getBusinessName());
-
 		if(estab.getOpeningHours() != null){
 		
 			String openingHours =estab.getOpeningHours();
