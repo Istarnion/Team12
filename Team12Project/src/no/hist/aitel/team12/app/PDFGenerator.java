@@ -27,11 +27,6 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.DefaultXYDataset;
-import org.jfree.data.xy.XYBarDataset;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -51,7 +46,7 @@ import com.sun.pdfview.PDFPage;
 
 public class PDFGenerator {
 
-	public static void generatePDF(String path, Revenue[] revenues, String chartName){
+	public static void generatePDF(String path, Revenue[] revenues, String chartName, String info){
 
 		Document document = new Document();
 		document.setPageSize(PageSize.A4);
@@ -64,16 +59,19 @@ public class PDFGenerator {
 			Image image = Image.getInstance("Resources/images/watermark.png");
 			image.scaleToFit(PageSize.A4);
 			document.add(image);
+			
+			Paragraph infoParagraph = new Paragraph(info);
+			
 			// adds report generated in Report class 
 			Paragraph paragraph = new Paragraph();
+			Image img = Image.getInstance(FinanceChart.createBarGraph(chartName, revenues, 540, 540), null);
 			
-			Image img = Image.getInstance(FinanceChart.createBarGraph(chartName, revenues, 500, 500), null);
 			
 			paragraph.add(img);
-			
+			document.add(infoParagraph);
 			document.add(paragraph);
+			
 			document.close();
-
 			writer.close();
 		}
 		catch (Exception e){
@@ -113,49 +111,26 @@ public class PDFGenerator {
 						true  // block until drawing is done
 						);
 			}
+			pdffile.stop(pdffile.getNumPages()-1);
 		}
 		catch(IOException e) {
 			e.printStackTrace();
 		}
 
+		System.gc();
+		file.delete();
+		
 		int spacing = 5;
 		BufferedImage img = new BufferedImage(rect.width, (rect.height+spacing)*numPages-spacing, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = img.createGraphics();
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
-		System.out.println(img.getWidth());
 		for(int i=0; i<numPages; i++) {
 			g.drawImage(pages[i], 0, i*(rect.height+spacing), rect.width, rect.height, null);
 		}
 		g.dispose();
-
+		
 		return img;
 
-	}
-
-	private static BufferedImage generateGraphImg(Revenue[] revenues, String chartName) {
-		final DefaultXYDataset dataset = new DefaultXYDataset(); 
-
-		double[][] data = new double[2][revenues.length];
-		double barWidth = 500.0/revenues.length;
-		double x = 0;
-
-		int index = 0;
-		for(Revenue r : revenues) {
-			data[0][index] = x;
-			x+=barWidth;
-			data[1][index] = r.getTurnover();
-
-			index++;
-		}
-
-		dataset.addSeries(new Integer(1), data);
-
-		final XYBarDataset ds = new XYBarDataset(dataset, (500.0/revenues.length));
-
-		JFreeChart chart = ChartFactory.createXYBarChart(chartName, "Month", false, "Revenue", ds);
-		chart.removeLegend();
-
-		return chart.createBufferedImage(500, 500);
 	}
 }

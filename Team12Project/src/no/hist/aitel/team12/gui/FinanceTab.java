@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.Date;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
@@ -24,6 +23,7 @@ import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import no.hist.aitel.team12.app.DataBuffer;
 import no.hist.aitel.team12.app.PDFGenerator;
 import no.hist.aitel.team12.app.Revenue;
 import no.hist.aitel.team12.app.UserType;
@@ -35,13 +35,15 @@ public class FinanceTab extends SSSTab {
 
 	private static final long serialVersionUID = 2799861967861410870L;
 
+	private JLabel info;
+	
 	private JPanel sidebar = new JPanel();
 
 	private JLabel pdfLabel = new JLabel();
 
 	private JScrollPane pdfScroll; 
 
-	private  JPanel pdfView;
+	private JPanel pdfView;
 
 	private MonthPicker regRevDate;
 
@@ -54,6 +56,10 @@ public class FinanceTab extends SSSTab {
 	private JButton regButton, showButton, saveButton;
 
 	private int businessID;
+	
+	private String businessName = null;
+	
+	private String businessAddress = null;
 	
 	public FinanceTab(String username, int userID, UserType userType){
 		
@@ -71,7 +77,7 @@ public class FinanceTab extends SSSTab {
 
 		// Selection View
 		// Row 1
-		JLabel info = new JLabel(Text.getString("storeTxt")+Text.getString("cntrTxt"));
+		info = new JLabel();
 		sidebar.add(info);
 
 		sidebar.add(new JLabel());
@@ -198,17 +204,15 @@ public class FinanceTab extends SSSTab {
 
 								Database db = DatabaseFactory.getDatabase();
 								
-								System.out.println(
-										pdfFromDate.getSelectedDate()+"\n"+
-										pdfToDate.getSelectedDate()+"\n");
-								
 								Revenue[] rs = db.getRevenue(
 										businessID,
 										new java.sql.Date(pdfFromDate.getSelectedDate().getTime()),
 										new java.sql.Date(pdfToDate.getSelectedDate().getTime())
 										);
 
-								PDFGenerator.generatePDF("budgetdoc.pdf", rs, "Revenues:");
+								PDFGenerator.generatePDF(
+										"budgetdoc.pdf", rs, Text.getString("rev")+":",
+										businessName+"\n"+businessAddress);
 								Image img = PDFGenerator.showPDF();
 								pdfLabel.setIcon(new ImageIcon(img));
 								pdfLabel.repaint();
@@ -268,24 +272,35 @@ public class FinanceTab extends SSSTab {
 		int result = chooser.showSaveDialog(null);
 
 		if (result == JFileChooser.APPROVE_OPTION) {
-			Revenue[] rs = new Revenue[12];
-			for(int i=0; i<rs.length; i++) {
-				rs[i] = new Revenue(new Date(1000000000000L), i*500+1000);
-			}
+			Database db = DatabaseFactory.getDatabase();
+			
+			Revenue[] rs = db.getRevenue(
+					businessID,
+					new java.sql.Date(pdfFromDate.getSelectedDate().getTime()),
+					new java.sql.Date(pdfToDate.getSelectedDate().getTime())
+					);
 
-			PDFGenerator.generatePDF(chooser.getSelectedFile().getPath(), rs, "Chart");
 			File file = chooser.getSelectedFile();
-			String file_name = file.toString();
-			if (!file_name.endsWith(".pdf")){
-				file_name += ".pdf";
+			String filePath = file.getPath();
+			if (!filePath.endsWith(".pdf")){
+				filePath += ".pdf";
 			}
+			
+			PDFGenerator.generatePDF(
+					filePath, rs, Text.getString("rev")+":",
+					businessName+"\n"+businessAddress);
 		}
 	}
 
-
-
 	@Override
 	public void refresh() {
-
+		if(businessName == null) {
+			while(businessName == null) {
+				businessName = DataBuffer.getCentres()[0].getBusinessName();
+				businessAddress = DataBuffer.getCentres()[0].getAddress().toString();
+			}
+			
+			info.setText(businessName);
+		}
 	}
 }
