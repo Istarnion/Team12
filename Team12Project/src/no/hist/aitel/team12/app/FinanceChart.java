@@ -12,7 +12,7 @@ import no.hist.aitel.team12.util.Text;
 
 public class FinanceChart {
 	
-	private final static int margin = 30;
+	private final static int margin = 35;
 	
 	private final static long defaultHeight = 5000L;
 	
