@@ -103,7 +103,11 @@ public class PasswordInputField extends JPasswordField {
 			public void insertUpdate(DocumentEvent de) {
 				if(defaultShown && !justFilled) {
 					char[] carray = getPassword();
-					prepare(carray[0]);
+					String entry = "";
+					for(int i=0; i<de.getLength(); i++) {
+						entry += carray[i];
+					}
+					prepare(new String(entry));
 				}
 				justFilled = false;
 			}
@@ -146,7 +150,7 @@ public class PasswordInputField extends JPasswordField {
 		SwingUtilities.invokeLater(rnbl);
 	}
 
-	private void prepare(final char c) {
+	private void prepare(final String s) {
 		if (justCleared) return;
 		Runnable rnbl = new Runnable() {
 			@Override
@@ -155,7 +159,7 @@ public class PasswordInputField extends JPasswordField {
 				justCleared = true;
 				defaultShown = false;
 				setForeground(defaultColor);
-				setText(""+c);
+				setText(s);
 			}
 		};
 		SwingUtilities.invokeLater(rnbl);

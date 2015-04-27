@@ -200,7 +200,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE messageSender(
 message_id INTEGER NOT NULL,
-username VARCHAR(10) NOT NULL,
+username VARCHAR(30) NOT NULL,
 trashed BOOLEAN NOT NULL DEFAULT false,
 CONSTRAINT messageS_FK_message FOREIGN KEY (message_id) REFERENCES message (message_id),
 CONSTRAINT messageS_FK_actor FOREIGN KEY (username) REFERENCES user (username)
@@ -210,7 +210,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE messageReciever(
 message_id INTEGER NOT NULL,
-username VARCHAR(10) NOT NULL,
+username VARCHAR(30) NOT NULL,
 trashed BOOLEAN NOT NULL DEFAULT false,
 CONSTRAINT messageR_FK_message FOREIGN KEY (message_id) REFERENCES message (message_id),
 CONSTRAINT messageR_FK_actor FOREIGN KEY (username) REFERENCES user (username)

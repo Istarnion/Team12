@@ -97,7 +97,11 @@ public class InputField extends JTextField {
 			public void insertUpdate(DocumentEvent de) {
 				if(defaultShown && !justFilled) {
 					char[] carray = getText().toCharArray();
-					prepare(""+carray[0]);
+					String entry = "";
+					for(int i=0; i<de.getLength(); i++) {
+						entry += carray[i];
+					}
+					prepare(new String(entry));
 				}
 				justFilled = false;
 			}
