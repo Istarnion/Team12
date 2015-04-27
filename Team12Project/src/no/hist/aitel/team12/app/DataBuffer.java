@@ -70,7 +70,6 @@ public class DataBuffer {
 		if(userType == UserType.CUSTOMER_SERVICE) {
 			ticketBuffer = new Ticket[numBuffers][];
 		}
-		
 		run();
 	}
 	
