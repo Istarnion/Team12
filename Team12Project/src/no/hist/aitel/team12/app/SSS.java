@@ -42,11 +42,13 @@ public class SSS {
 	
 	SSSWindow sssWindow;
 	
+	SplashScreen splash;
+	
 	private static SSS sss;
 	
 	public SSS() {
 		// Splash Screen
-		SplashScreen splash = new SplashScreen();
+		splash = new SplashScreen();
 		splash.createSplash();
 		long timestamp = System.currentTimeMillis();
 		
@@ -65,7 +67,7 @@ public class SSS {
 		while(System.currentTimeMillis() - timestamp < MIN_SPLASH_TIME) {
 			Thread.yield();
 		}
-		splash.removeSplash();
+		splash.setSplashVisible(false);
 		
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
@@ -96,6 +98,8 @@ public class SSS {
 		boolean ok = PasswordManager.validatePasswordMatch(password, db.getPasswordHash(id));
 		
 		if(ok) {
+			splash.setSplashVisible(true);
+			
 			if(login != null) login.dispose();
 			UserType type = DatabaseFactory.getDatabase().getUserType(id);
 			DataBuffer.setup(2, 2, id, id, type);
@@ -107,21 +111,6 @@ public class SSS {
 	}
 	
 	private void setupWindow(int userId, String username) {
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
-				SplashScreen splash = new SplashScreen();
-				splash.createSplash();
-				
-				while(sssWindow == null || !sssWindow.isVisible()) {
-					Thread.yield();
-				}
-				
-				splash.removeSplash();
-			}
-		};
-		thread.start();
-		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -165,6 +154,7 @@ public class SSS {
 				}
 				
 				sssWindow.showWindow();
+				splash.removeSplash();
 			}
 		});
 	}
