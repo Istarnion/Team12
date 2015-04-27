@@ -19,6 +19,12 @@ package no.hist.aitel.team12.app;
 
 import no.hist.aitel.team12.util.Text;
 
+/**
+ * And enum type for handling the different usertypes
+ * 
+ * @author Team12
+ *
+ */
 public enum UserType {
 	SYS_ADMIN, 
 	CENTRE_MANAGER, 

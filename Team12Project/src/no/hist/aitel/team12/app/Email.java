@@ -52,6 +52,13 @@ public class Email {
 		sendEmail(message, toAddress, SUBJECT);
 	}
 	
+	/**
+	 * Sends a more arbitary email than <code>sendEmail(String, EmailAddress)</code> by using a custome subject
+	 * 
+	 * @param message
+	 * @param toAddress
+	 * @param subject
+	 */
 	public static void sendEmail(String message, EmailAddress toAddress, String subject) {
 		Properties props = System.getProperties();
 		props.put("mail.smtp.starttls.enable","true");

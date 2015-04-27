@@ -118,6 +118,11 @@ public class PasswordInputField extends JPasswordField {
 		});
 	}
 
+	/**
+	 * Changes the default text shown when this field is empty
+	 * 
+	 * @param text
+	 */
 	public void setDefaultText(String text) {
 		defaultText = text;
 		if(defaultShown) {

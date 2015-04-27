@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * FinanceChart.java Team 12, 27 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.app;
 
 import java.awt.BasicStroke;
@@ -9,7 +25,11 @@ import java.text.DecimalFormat;
 
 import no.hist.aitel.team12.util.Text;
 
-
+/**
+ * A static class providing a method to generate charts based on revenues
+ * @author Hallgeir
+ *
+ */
 public class FinanceChart {
 	
 	private final static int margin = 35;
@@ -26,6 +46,15 @@ public class FinanceChart {
 	
 	private final static DecimalFormat format = new DecimalFormat("0.#");
 	
+	/**
+	 * Creates a <code>BufferedImage</code> and draws a bar graph to it based on the incoming data
+	 * 
+	 * @param chartName	The name of the chart. This will be printed above the chart
+	 * @param revenues	The revenues we will base the graph on
+	 * @param width		The width of the resulting image
+	 * @param height	The height of the resulting image
+	 * @return An object of type <code>BufferedImage</code>
+	 */
 	public static BufferedImage createBarGraph(String chartName, Revenue[] revenues, int width, int height) {
 		
 		

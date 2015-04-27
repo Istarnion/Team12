@@ -46,6 +46,14 @@ import com.sun.pdfview.PDFPage;
 
 public class PDFGenerator {
 
+	/**
+	 * Creates and writes to disk a pdf file with a graph generated based on the given <code>Revenue[]</code>
+	 * 
+	 * @param path		The path noting where to save the file
+	 * @param revenues	The revenues from wich to generate the graph
+	 * @param chartName	The name of the chart
+	 * @param info		The info that should be added above the chart
+	 */
 	public static void generatePDF(String path, Revenue[] revenues, String chartName, String info){
 
 		Document document = new Document();
@@ -79,6 +87,14 @@ public class PDFGenerator {
 		}
 	}
 
+	/**
+	 * Reads the temporary budgetdoc.pdf, generates an image of it, and then deletes it.
+	 * This means that <code>generatePDF()</code> should be called right before this method, so that
+	 * we can be sure the file exists on disk.
+	 * The deletion ensures the filesystem remains clean
+	 * 
+	 * @return A <code>BufferedImage</code> containing the rendered PDF document
+	 */
 	public static java.awt.Image showPDF() {
 		File file = new File ("budgetdoc.pdf");
 		Rectangle rect = null;

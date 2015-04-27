@@ -1,8 +1,30 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Person.java Team 12, 27 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.app;
 
 import no.hist.aitel.team12.database.Database;
 import no.hist.aitel.team12.database.DatabaseFactory;
 
+/**
+ * A class containing the data of a Person, mirroring the table in the db
+ * 
+ * @author Team12
+ *
+ */
 public class Person {
 	
 	private int employeeNumber;
@@ -19,7 +41,17 @@ public class Person {
 	
 	private int salary;
 	
-	
+	/**
+	 * The constructor sets all datafields
+	 * 
+	 * @param employeeNumber	The unique ID of this person
+	 * @param firstName			The first name
+	 * @param lastName			The last name
+	 * @param address			The street address
+	 * @param email				The email address
+	 * @param telephone			The telephone number
+	 * @param salary			The salary
+	 */
 	public Person(
 			int employeeNumber, String firstName, 
 			String lastName, Address address, 
@@ -37,6 +69,7 @@ public class Person {
 
 	/**
 	 * Updates the data both in this object, and in the db
+	 * Note that this object is not affected unless the db action succeeds
 	 * 
 	 * @param firstname
 	 * @param lastname
@@ -45,7 +78,7 @@ public class Person {
 	 * @param email
 	 * @param telephone
 	 * @param salary
-	 * @return
+	 * @return True if we successfully updated the data
 	 */
 	public boolean updateData(
 			String firstname,	String lastname,

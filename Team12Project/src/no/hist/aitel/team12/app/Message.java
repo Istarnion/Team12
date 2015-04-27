@@ -24,13 +24,12 @@ import no.hist.aitel.team12.database.DatabaseFactory;
 
 
 /**
+ * This class holds the data for a message in the db
  * 
  * @author Gjermund
  * @version 1.0
  * 
  */
-
-
 public class Message {
 	
 	private final int messageId;
@@ -47,6 +46,17 @@ public class Message {
 	
 	private final Timestamp timestamp;
 	
+	/**
+	 * Constructor fills all fields
+	 * 
+	 * @param id			The ID of the message
+	 * @param reciever		The reciever of the message
+	 * @param sender		The sender
+	 * @param subject		The subject
+	 * @param content		The content
+	 * @param timestamp		The timestamp of when the message was sent
+	 * @param deleted		a flag indicating if this message is deleted
+	 */
 	public Message(int id, String reciever, String sender, String subject, String content, Timestamp timestamp, boolean deleted) {
 		this.messageId		= id;
 		this.reciever 		= reciever;
@@ -81,6 +91,13 @@ public class Message {
 		return deleted;
 	}
 
+	/**
+	 * Sets the deleted status of this message.
+	 * The object is not altered if the db push fails.
+	 * 
+	 * @param sender	If the message should be deleted for the sender or the reciever
+	 * @param username	The username of the 'owner' (either sender or reciever) of this message
+	 */
 	public void setDeleted(boolean sender, String username) {
 		Database db = DatabaseFactory.getDatabase();
 		String query = "UPDATE "+(sender?"messageSender":"messageReciever")+" SET trashed = True WHERE username = ? AND message_id = "+messageId;
@@ -107,6 +124,15 @@ public class Message {
 		return subject;
 	}
 
+	/**
+	 * Uploads a new message to the database
+	 * 
+	 * @param sender	The sender, must be a valid username
+	 * @param recievers	The reciever, must be a valid username
+	 * @param content	The content
+	 * @param subject	The subject
+	 * @return
+	 */
 	public static boolean sendMessage(String sender, String[] recievers, String content,
 			String subject) {
 		Database db = DatabaseFactory.getDatabase();

@@ -74,6 +74,15 @@ public class DataBuffer {
 		run();
 	}
 	
+	/**
+	 * Sets up the databuffer, setting up the singleton object
+	 * 
+	 * @param restTime		How long between each db pull the databuffer should rest. Min 0.5 sec
+	 * @param numBuffers	How many buffers we should use. Two is recomended
+	 * @param userID		The userID of the user logged in when we initialize the dataBuffer. This is used to determine wich users to fetch and so on
+	 * @param messageUserID Same as userID, but used to determine wich messages to fetch
+	 * @param userType		What type of user it is. Used to determine whether we should fetch tickets or not
+	 */
 	public static void setup(float restTime, int numBuffers, int userID, int messageUserID, UserType userType) {
 		dataBuffer = new DataBuffer(restTime, numBuffers, userID, messageUserID, userType);
 	}
@@ -190,6 +199,9 @@ public class DataBuffer {
 		}
 	}
 	
+	/**
+	 * Stops the databuffer, interrupting it's thread
+	 */
 	public void teardown() {
 		thread.interrupt();
 	}

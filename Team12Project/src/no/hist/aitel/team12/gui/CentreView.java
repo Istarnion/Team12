@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * CentreView.java Team 12, 27 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
@@ -5,10 +21,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import java.net.URL;
 
 import javax.swing.Box;
@@ -20,16 +34,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import no.hist.aitel.team12.app.MapGson;
+import no.hist.aitel.team12.app.ShoppingCentre;
+import no.hist.aitel.team12.util.Text;
+
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-
-import no.hist.aitel.team12.app.MapGson;
-import no.hist.aitel.team12.app.ShoppingCentre;
-import no.hist.aitel.team12.util.Text;
 
 public class CentreView extends JPanel {
 

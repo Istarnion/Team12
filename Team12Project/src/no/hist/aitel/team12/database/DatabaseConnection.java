@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.swing.JOptionPane;
+
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
 import no.hist.aitel.team12.app.EmailAddress;
@@ -36,15 +38,22 @@ public class DatabaseConnection implements Database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			connection = DriverManager.getConnection("jdbc:mysql://hist.tilfeldig.info/supershoppingsurfer?"
-					+ "user=team12&password=teamadmin15");
+			String url = JOptionPane.showInputDialog(null, "Please input database URL:", "localhost");
+			if(url == null) System.exit(0);
+			String username = JOptionPane.showInputDialog("Please input username");
+			if(username == null) System.exit(0);
+			String password = JOptionPane.showInputDialog("Please input password for user "+username);
+			if(password == null) System.exit(0);
+			
+			connection = DriverManager.getConnection("jdbc:mysql://"+url+"/supershoppingsurfer?"
+					+ "user="+username+"&password="+password);
 
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
 			ok = testConnection();
 		}
 		catch(SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			ok = false;
 		}
 		catch(ClassNotFoundException e) {
@@ -108,6 +117,7 @@ public class DatabaseConnection implements Database {
 			ok = true;
 		}
 		catch (SQLException e) {
+			System.out.println(e.getMessage());
 			ok = false;
 		}
 

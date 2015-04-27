@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * SSSWindow.java Team 12, 27 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.gui;
 
 import java.awt.Dimension;
@@ -87,10 +103,18 @@ public class SSSWindow extends JFrame {
 		add(tabbedPane);
 	}
 	
+	/**
+	 * Adds a new tab to the window
+	 * @param tabName	The name that shall be shown on the tab
+	 * @param tab		The tab to be added
+	 */
 	public void addTab(String tabName, SSSTab tab) {
 		tabbedPane.add("<html><body leftmargin=15 topmargin=8 marginwidth=15 marginheight=5>" + tabName + "</body></html>", tab);
 	}
 	
+	/**
+	 * Sets the window visible
+	 */
 	public void showWindow() {
 		pack();
 		this.setLocationRelativeTo(null);

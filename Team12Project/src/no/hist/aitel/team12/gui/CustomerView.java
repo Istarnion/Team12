@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * CustomerView.java Team 12, 27 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.gui;
 
 import java.awt.BorderLayout;
@@ -17,7 +33,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -38,6 +53,13 @@ import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 import no.hist.aitel.team12.util.Text;
 
+/**
+ * This is the main class for the customer view part of the SSS system
+ * This class handles the flow of this application, and sets up the main GUI
+ * 
+ * @author Hallgeir
+ *
+ */
 public class CustomerView {
 
 	private ShoppingCentre [] centers;
@@ -92,6 +114,9 @@ public class CustomerView {
 	
 	private CustomerCSView csView;
 	
+	/**
+	 * The constructor creates and sets up the GUI
+	 */
 	public CustomerView(){
 		super();
 
@@ -120,8 +145,6 @@ public class CustomerView {
 		topbar.add(loginPanel,BorderLayout.EAST);
 		topbar.setMaximumSize(new Dimension(topbar.getMaximumSize().width, 100));
 
-		System.out.println("Topbar done");
-
 		// SEARCH
 
 		search.setLayout(new GridLayout(1,5));
@@ -145,8 +168,6 @@ public class CustomerView {
 		while(centers == null) {
 			centers = Db.getShoppingCentres(1);
 		}
-
-		System.out.println("Search panel done");
 
 		// VIEW
 		cardLayout = new CardLayout();
@@ -201,8 +222,6 @@ public class CustomerView {
 		basePanel.add(topbar);
 		basePanel.add(search);
 		basePanel.add(view);
-
-		System.out.println("View panel done");
 
 		SearchListener fieldListener = new SearchListener();
 		shopNameSearch.addKeyListener(fieldListener);
@@ -299,11 +318,20 @@ public class CustomerView {
 		t.start();
 	}
 
+	/**
+	 * Flips the GUI to show the customer service view
+	 * 
+	 * @param centreID		The ID of the centre we will show the GUI for
+	 * @param centreName	The name of the centre, so the CS view can display it without looking it up from the db
+	 */
 	public void gotoCustomerCSView(int centreID, String centreName) {
 		csView.updateView(centreID, centreName);
 		bigCardLayout.show(mainPanel, "csView");
 	}
 
+	/**
+	 * Flips the GUI to show the main view
+	 */
 	public void gotoMainView() {
 		bigCardLayout.show(mainPanel, "mainView");
 	}
@@ -334,22 +362,21 @@ public class CustomerView {
 		}
 	}
 
+	/**
+	 * The main method sets up the database connection, and initializes the window
+	 * @param args No command line arguments are used in this application
+	 */
 	public static void main (String[]args ){
 		// Splash Screen
 		SplashScreen splash = new SplashScreen();
 		splash.createSplash();
 		long timestamp = System.currentTimeMillis();
 
-		if(!DatabaseFactory.setup()) {
-			JOptionPane.showMessageDialog(
-					null,
-					"Failed connecting to the database.\nPlease contact system administrator.",
-					"Connection failed",
-					JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
+		if(DatabaseFactory.setup()) {
+			System.out.println("Everything went nicely with the database connection.");
 		}
 		else {
-			System.out.println("Everything went nicely with the database connection.");
+			SSS.exitWithError("Failed connecting to the database.\nPlease contact system administrator.");
 		}
 
 		while(System.currentTimeMillis() - timestamp < SSS.MIN_SPLASH_TIME) {
@@ -358,20 +385,21 @@ public class CustomerView {
 
 		try {
 			UIManager.setLookAndFeel("com.jtattoo.plaf.hifi.HiFiLookAndFeel");
-			// Set System L&F
-			//					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception ex) {
-			System.out.println("Failed setting System laf. Reverting to Java defult.");
+			System.out.println("Failed setting JTattoo laf. Reverting to System defult.");
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
+			catch(Exception e) {
+				System.out.println("Failed setting System laf. Reverting to Java defult.");
+			}
 		}
 
 		SSSWindow frame = new SSSWindow();
-		System.out.println("SSSWindow added");
 		CustomerView cv = new CustomerView();
 		frame.add(cv.mainPanel);
-		System.out.println("tab added to window");
 		frame.showWindow();
-		System.out.println("Visible");
 		
 		splash.removeSplash();
 	}

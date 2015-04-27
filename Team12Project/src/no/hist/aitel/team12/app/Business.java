@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Business.java Team 12, 27 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.app;
 
 import java.util.ArrayList;
@@ -9,6 +25,12 @@ import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.DoubleMetaphoneUtils;
 import no.hist.aitel.team12.util.Text;
 
+/**
+ * This is the super class for both Establishment and ShoppingCentre.
+ * It holds all the data that is common for those two classes, and mirrors the Business table in the db
+ * 
+ * @author Hallgeir
+ */
 public class Business {
 
 	public final int businessId;
@@ -31,7 +53,19 @@ public class Business {
 
 	protected Database db;
 
-
+	/**
+	 * The constructor simply sets all datapoints
+	 * 
+	 * @param businessId	The ID of this business
+	 * @param businessName	The name of this business
+	 * @param email			The email address to this business
+	 * @param telephone		The telephone number of this business
+	 * @param openingHours	The opening hours of this business
+	 * @param description	The textual description of this business
+	 * @param address		The street address of this business
+	 * @param revenue		An ArrayList containing earlier revenues of this business
+	 * @param ownerName		The name of the owner of this business
+	 */
 	public Business(
 			int businessId, String businessName,
 			EmailAddress email, int telephone,
@@ -71,6 +105,13 @@ public class Business {
 		return email;
 	}
 
+	/**
+	 * Sets the email address of this business, updating the info in the db.
+	 * Note that the info in the object will not be changed unless the update in the db succeeds.
+	 * 
+	 * @param email	The new email address
+	 * @return	True if the update succeeded
+	 */
 	public boolean setEmail(String email) {
 		if(EmailAddress.isValidEmailAddress(email)) {
 			if(db.executePreparedStatement("UPDATE business SET email = ? WHERE business_id = " + this.businessId, email)) {
@@ -89,6 +130,13 @@ public class Business {
 		return telephone;
 	}
 
+	/**
+	 * Updates the telephone number both in the object and the db.
+	 * Neither will be altered if we fail pushing the data to the db
+	 * 
+	 * @param telephone The new telephone number
+	 * @return True if the update succeeded
+	 */
 	public boolean setTelephone(String telephone) {
 		try {
 			int parsedTlf = Integer.parseInt(telephone);
@@ -110,6 +158,13 @@ public class Business {
 		return openingHours;
 	}
 
+	/**
+	 * Sets the opening hours of the business both in this object and in the db.
+	 * The object is not updated unless the db update is successful
+	 * 
+	 * @param openingHours The new opening hours
+	 * @return True if the db update succeeded
+	 */
 	public boolean setOpeningHours(String openingHours) {
 		int hour1, hour2, hour3, hour4;
 		try {
@@ -143,6 +198,12 @@ public class Business {
 		return description;
 	}
 
+	/**
+	 * Sets the description both in this object and in the database.
+	 * The objects state is not altered unless the db update is successful 
+	 * @param description The new textual description. Max 1000 characters
+	 * @return True if the db update was successful
+	 */
 	public boolean setDescription(String description) {
 		if(db.executePreparedStatement("UPDATE business SET text_description = ? WHERE business_id = " + this.businessId, description)) {
 			this.description = description;
@@ -155,6 +216,13 @@ public class Business {
 		return address;
 	}
 
+	/**
+	 * Sets the address of this object, and updates the db.
+	 * The state of this object is not altered unless the db update is successful
+	 * 
+	 * @param address The new Address
+	 * @return True if the update is successful
+	 */
 	public boolean setAddress(String address) {
 		if(db.executePreparedStatement("UPDATE business SET address = ? WHERE business_id = " + this.businessId, address)) {
 			this.address.setAddress(address);
@@ -163,6 +231,14 @@ public class Business {
 		return false;
 	}
 
+	/**
+	 * Updates the zipcode in this object and the db.
+	 * The state of this object is not altered unless the db update is successful.
+	 * This method also checks if the zipcode is valid
+	 * 
+	 * @param zipcode The new zipcode
+	 * @return True if the update was successful
+	 */
 	public boolean setZipcode(String zipcode) {
 		int parsedZip = 0;
 		try {

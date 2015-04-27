@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * ShoppingCentre.java Team 12, 27 Apr 2015
+ *******************************************************************************/
 package no.hist.aitel.team12.app;
 
 import java.util.ArrayList;
@@ -10,6 +26,12 @@ import no.hist.aitel.team12.database.DatabaseFactory;
 import no.hist.aitel.team12.util.PasswordManager;
 import no.hist.aitel.team12.util.Text;
 
+/**
+ * 
+ * Entity class for the shoppingcentre table in the db
+ * 
+ * @author Hallgeir
+ */
 public class ShoppingCentre extends Business {
 
 	public final int centreId;
@@ -49,6 +71,12 @@ public class ShoppingCentre extends Business {
 		return parkingSpaces;
 	}
 
+	/**
+	 * Updates the number of parking spaces for this centre both for this object, and in the db.
+	 * If the db push fails, the object is not altered
+	 * @param parkingSpaces
+	 * @return True if the update succeeds
+	 */
 	public boolean setParkingSpaces(String parkingSpaces) {
 		int parsedInt = 0;
 		try {
@@ -79,6 +107,10 @@ public class ShoppingCentre extends Business {
 		numBuildings = buildings.length;
 	}
 
+	/**
+	 * Adds a building, and grows the array of buildings as needed. The array doubles in size every time
+	 * @param b
+	 */
 	public void addBuilding(Building b) {
 		if(buildings == null) buildings = new Building[2];
 		if(numBuildings == buildings.length) {
@@ -98,6 +130,11 @@ public class ShoppingCentre extends Business {
 	}
 	
 
+	/**
+	 * Retrieves all shopping centres, fully populated from the database.
+	 * This method simply calls DataBuffer.getCentres() internally
+	 * @return A <code>ShoppingCentre[]</code> containin all centres
+	 */
 	public static ShoppingCentre[] getPopulatedShoppingCentres() {
 		ShoppingCentre[] centres = DataBuffer.getCentres();		
 		return centres;
@@ -108,6 +145,10 @@ public class ShoppingCentre extends Business {
 		return super.toString();
 	}
 
+	/**
+	 * Gets the area of this shopping centre, which is equal to the sum of all its buildings
+	 * @return
+	 */
 	public int getArea() {
 		int areaSum = 0;
 		if(buildings == null) return areaSum;
@@ -125,6 +166,23 @@ public class ShoppingCentre extends Business {
 		this.personnel = personnel;
 	}
 	
+	/**
+	 * Creates a centre and pushes the data to the db
+	 * 
+	 * @param firstname
+	 * @param lastname
+	 * @param username
+	 * @param password
+	 * @param email
+	 * @param personalAddress
+	 * @param personalZip
+	 * @param telephone
+	 * @param salary
+	 * @param centreName
+	 * @param centreAddress
+	 * @param centreZip
+	 * @return True if the db insert succeeds
+	 */
 	public static boolean createCentre(
 			String firstname, 		String lastname,
 			String username, 		String password,
@@ -142,11 +200,19 @@ public class ShoppingCentre extends Business {
 				salary,				centreName,
 				centreAddress,		centreZip);
 	}
+	
+	/**
+	 * @return The number of shopping centres in the db
+	 */
 	public static int getNumberOfShoppingCentres() {
 		Database db = DatabaseFactory.getDatabase();
 		return db.getNumberOfShoppingCentres();
 	}
 	
+	/**
+	 * 
+	 * @return A string containing map info about the location of this centre based on its address
+	 */
 	public String getMapString() {
 		return super.getBusinessName().replaceAll(" ", "%20") 
 		+ "%20" + super.getAddress().getDistrict().replaceAll(" ", "%20");

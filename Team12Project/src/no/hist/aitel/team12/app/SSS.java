@@ -34,6 +34,13 @@ import no.hist.aitel.team12.gui.UserTab;
 import no.hist.aitel.team12.util.PasswordManager;
 import no.hist.aitel.team12.util.Text;
 
+/**
+ * This is the main class of the SSS application. It handles the main system flow, mainly startup and shutdown.
+ * 
+ * 
+ * @author Hallgeir
+ *
+ */
 public class SSS {
 
 	public final static long MIN_SPLASH_TIME = 1500L;	// How long, minimum, the splash screen will be shown.
@@ -46,6 +53,10 @@ public class SSS {
 	
 	private static SSS sss;
 	
+	/**
+	 * The constructor first shows the splash screen, then attempts to connect to the database.
+	 * This is done in a safe way, so if the connection fails, we will exit cleanly with an error message.
+	 */
 	public SSS() {
 		// Splash Screen
 		splash = new SplashScreen();
@@ -53,12 +64,7 @@ public class SSS {
 		long timestamp = System.currentTimeMillis();
 		
 		if(!DatabaseFactory.setup()) {
-			JOptionPane.showMessageDialog(
-					null,
-					"Failed connecting to the database.\nPlease contact system administrator.",
-					"Connection failed",
-					JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
+			exitWithError("Failed to connect to the Database.\nPlease contact system administrator.");
 		}
 		else {
 			System.out.println("Everything went nicely with the database connection.");
@@ -90,6 +96,15 @@ public class SSS {
 		new SSS();
 	}
 	
+	/**
+	 * Makes an attempt to log in as the user indicated by the provided username.
+	 * For security reasons, the password should actually be handled as a char[],
+	 * but a String was chosen for this application for speed of development.
+	 * 
+	 * @param username	The username of the user attempting to log in
+	 * @param password	The password of the user
+	 * @return True if the username and password match. This is needed for the login window to know how it should react
+	 */
 	public boolean login(String username, String password) {
 		Database db = DatabaseFactory.getDatabase();
 		
@@ -110,6 +125,16 @@ public class SSS {
 		return ok;
 	}
 	
+	/**
+	 * Sets up the main window, creating the neccesary tabs for the user in question.
+	 * For instance, a system admin will be given tabs for overview and editing, managing of users,
+	 * his/hers message system, and a tab for executing arbitary SQL towards the database.
+	 * Naturally, a customer service employee should not be given those oppurtunities, but is instead
+	 * given a tab to respond to support tickets from customers, in addition to their message system.
+	 * 
+	 * @param userId	The employee number of the user trying to log in
+	 * @param username	The textual username of the user
+	 */
 	private void setupWindow(int userId, String username) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
