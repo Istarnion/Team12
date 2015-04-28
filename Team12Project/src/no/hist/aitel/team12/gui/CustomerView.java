@@ -25,10 +25,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -114,6 +116,9 @@ public class CustomerView {
 	
 	private CustomerCSView csView;
 	
+	private ImageIcon logoIcon, nameIcon;
+
+	
 	/**
 	 * The constructor creates and sets up the GUI
 	 */
@@ -130,11 +135,18 @@ public class CustomerView {
 		topbar.setLayout(new BorderLayout());
 		topbar.setPreferredSize(new Dimension((int)topbar.getPreferredSize().getWidth(),100));
 		logo = new JLabel();
-		ImageIcon logoIcon = new ImageIcon("Resources/images/logoSmall.png");
+		try {
+			logoIcon = new ImageIcon(ImageIO.read(getClass().getResource("/images/logoSmall.png")));
+			nameIcon = new ImageIcon(ImageIO.read(getClass().getResource("/images/appNameVert.png")));
+
+		} catch (IOException e1) {
+			logoIcon = null;
+			nameIcon = null;
+			e1.printStackTrace();
+		}
 		logo.setIcon(logoIcon);
 		topbar.add(logo,BorderLayout.WEST);
 		appName = new JLabel();
-		ImageIcon nameIcon = new ImageIcon("Resources/images/appNameVert.png");
 		appName.setIcon(nameIcon);
 		topbar.add(appName, BorderLayout.CENTER);
 
