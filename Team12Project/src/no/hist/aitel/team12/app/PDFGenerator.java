@@ -27,6 +27,8 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import javax.imageio.ImageIO;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -64,7 +66,7 @@ public class PDFGenerator {
 
 			document.open();
 			//Watermark
-			Image image = Image.getInstance("Resources/images/watermark.png");
+			Image image = Image.getInstance(ImageIO.read(new PDFGenerator().getClass().getResource("/images/watermark.png")), null, false);
 			image.scaleToFit(PageSize.A4);
 			document.add(image);
 			
