@@ -25,7 +25,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +39,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -379,6 +384,25 @@ public class CustomerView {
 	 * @param args No command line arguments are used in this application
 	 */
 	public static void main (String[]args ){
+		File loginInfoFile = new File("login.ser");
+		if(!loginInfoFile.isFile()) {
+			String[] loginInfo = new String[3];
+			loginInfo[0] = JOptionPane.showInputDialog(null, "Please input the database URL:", "localhost");
+			if(loginInfo[0] == null) System.exit(0);
+			loginInfo[1] = JOptionPane.showInputDialog("Please input the username for "+loginInfo[0]);
+			if(loginInfo[1] == null) System.exit(0);
+			loginInfo[2] = JOptionPane.showInputDialog("Please input the password for "+loginInfo[1]);
+			if(loginInfo[2] == null) System.exit(0);
+			
+			try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(loginInfoFile))) {
+				oos.writeObject(loginInfo);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		// Splash Screen
 		SplashScreen splash = new SplashScreen();
 		splash.createSplash();

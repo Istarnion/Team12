@@ -1,1 +1,3 @@
 Team12Project/dist/budgetdoc.pdf
+*.ser
+/budgetdoc.pdf

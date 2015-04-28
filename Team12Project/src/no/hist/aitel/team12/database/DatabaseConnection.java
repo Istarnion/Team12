@@ -16,6 +16,11 @@
  *******************************************************************************/
 package no.hist.aitel.team12.database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -24,8 +29,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import javax.swing.JOptionPane;
 
 import no.hist.aitel.team12.app.Address;
 import no.hist.aitel.team12.app.Building;
@@ -54,16 +57,29 @@ public class DatabaseConnection implements Database {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			String url = JOptionPane.showInputDialog(null, "Please input database URL:", "localhost");
-			if(url == null) System.exit(0);
-			String username = JOptionPane.showInputDialog("Please input username");
-			if(username == null) System.exit(0);
-			String password = JOptionPane.showInputDialog("Please input password for user "+username);
-			if(password == null) System.exit(0);
+			File inputInfoFile = new File("login.ser");
+			if(!inputInfoFile.isFile()) {
+				System.out.println("Could not find the login info file!");
+				System.exit(1);
+			}
 			
-			connection = DriverManager.getConnection("jdbc:mysql://"+url+"/supershoppingsurfer?"
-					+ "user="+username+"&password="+password);
-
+			String[] loginInfo = null;
+			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputInfoFile))) {
+				loginInfo = (String[])ois.readObject();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			try {
+				connection = DriverManager.getConnection("jdbc:mysql://"+loginInfo[0]+"/supershoppingsurfer?"
+						+ "user="+loginInfo[1]+"&password="+loginInfo[2]);
+			}
+			catch(SQLException ex) {
+				inputInfoFile.delete();
+				System.exit(0);
+			}
 			connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
 			ok = testConnection();
